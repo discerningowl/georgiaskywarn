@@ -138,7 +138,9 @@
   <script>
     (function () {
       const btn = document.querySelector('.nav-toggle');
+      if (!btn) return; // Guard clause
       const list = document.getElementById(btn.getAttribute('aria-controls'));
+      if (!list) return; // Additional safety
 
       btn.addEventListener('click', () => {
         const expanded = btn.getAttribute('aria-expanded') === 'true';

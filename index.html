@@ -63,7 +63,7 @@
 			<strong>This section only shows <em><strong>WARNINGS</strong></em> for the NWS Atlanta area of responsibility, <a href="alerts.html"><strong>view all GA ALERTS</strong></a>.</strong>
 			</p>
 		</aside>
-        <p id="alerts-loading" class="center">Loading active alerts...</p>
+        <div id="alerts-loading" class="skeleton-loader" aria-label="Loading active alerts"></div>
         <div id="alerts-container"></div>
       </div>
     </section>
@@ -747,7 +747,9 @@
   <script>
     (function () {
       const btn = document.querySelector('.nav-toggle');
+      if (!btn) return; // Guard clause
       const list = document.getElementById(btn.getAttribute('aria-controls'));
+      if (!list) return; // Additional safety
 
       btn.addEventListener('click', () => {
         const expanded = btn.getAttribute('aria-expanded') === 'true';
@@ -784,18 +786,36 @@
 
     const setCache = data => localStorage.setItem(CACHE_KEY, JSON.stringify({ data, ts: Date.now() }));
 
-    const fetchAlerts = async () => {
+    const fetchAlerts = async (retries = 3) => {
       const cached = getCache();
       if (cached) return cached;
 
-      const url = `https://api.weather.gov/alerts/active?zone=${FFC_ZONES}`;
-      const resp = await fetch(url, { headers: { 'User-Agent': USER_AGENT } });
+      for (let i = 0; i < retries; i++) {
+        try {
+          const url = `https://api.weather.gov/alerts/active?zone=${FFC_ZONES}`;
+          const resp = await fetch(url, {
+            headers: { 'User-Agent': USER_AGENT },
+            signal: AbortSignal.timeout(10000) // 10 second timeout
+          });
 
-      if (!resp.ok) throw new Error(`NWS API error: ${resp.status}`);
+          if (resp.status === 503 || resp.status === 429) {
+            // Service unavailable or rate limited - retry
+            if (i < retries - 1) {
+              await new Promise(resolve => setTimeout(resolve, 2000 * (i + 1)));
+              continue;
+            }
+          }
 
-      const json = await resp.json();
-      setCache(json);
-      return json;
+          if (!resp.ok) throw new Error(`NWS API error: ${resp.status}`);
+
+          const json = await resp.json();
+          setCache(json);
+          return json;
+        } catch (err) {
+          if (i === retries - 1) throw err; // Last retry failed
+          await new Promise(resolve => setTimeout(resolve, 2000 * (i + 1)));
+        }
+      }
     };
 
     const render = data => {
@@ -831,14 +851,31 @@
       const data = await fetchAlerts();
       hide(loading);
       show(container, render(data));
+
+      // Background refresh every 5 minutes (respects cache)
+      setInterval(async () => {
+        try {
+          const freshData = await fetchAlerts();
+          show(container, render(freshData));
+        } catch (err) {
+          console.error('Background refresh failed:', err);
+          // Don't clear existing alerts - keep showing cached data
+        }
+      }, 5 * 60 * 1000);
     } catch (e) {
       hide(loading);
-      show(container, `<p style="color:var(--accent-red);text-align:center;">Error: ${e.message}</p>`);
-      console.error(e);
+      const errorMsg = `
+        <div class="callout warning">
+          <p class="center">
+            <strong>Unable to load alerts at this time.</strong><br>
+            The National Weather Service API may be temporarily unavailable.<br>
+            Please check <a href="https://www.weather.gov/ffc/" target="_blank" rel="noopener noreferrer">NWS Atlanta</a> directly for current alerts.
+          </p>
+        </div>
+      `;
+      show(container, errorMsg);
+      console.error('Alert fetch error:', e);
     }
-
-    // Refresh every 10 minutes
-    setTimeout(() => location.reload(), 10 * 60 * 1000);
   })();
 </script>
   </body>
