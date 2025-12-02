@@ -1,0 +1,194 @@
+<!--
+  ──────────────────────────────────────────────────────────────
+  File:   alerts.html
+  Author: Jack Parks (KQ4JP) <kq4jp&#64;pm.me>
+  Purpose: Dedicated page for Active Watches & Warnings from NWS Atlanta (FFC).
+           Maintains consistent look and feel with index.html using shared stylesheet.
+  Change-log:
+    • 2025-11-09 – Extracted alerts section and script from index.html.
+  ──────────────────────────────────────────────────────────────
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Metadata for character encoding and responsive viewport -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Page title -->
+  <title>Georgia SKYWARN - Active Alerts</title>
+
+  <!-- External shared stylesheet (relative URL) -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Basic favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  
+</head>
+
+<body>
+  <!-- Site header with title (ARIA landmark) -->
+  <header class="site-header" role="banner" id="topheader">
+    <h1 class="site-title">NWS Atlanta Alerts</h1>
+    <h2 class="site-subtitle">Active Alerts for the NWS Atlanta Area</h2>
+  </header>
+
+  <!-- Navigation menu with mobile toggle (ARIA attributes for accessibility) -->
+  <nav class="site-nav" role="navigation" aria-label="Site navigation">
+    <button class="nav-toggle" aria-controls="nav-list"
+            aria-expanded="false" aria-label="Toggle menu">☰</button>
+    <ul id="nav-list" class="nav-list">
+      <li><a href="index.html">← Back to Georgia SKYWARN</a></li>
+      <li><a href="index.html#nwscard">NWS Resources</a></li>
+      <li><a href="index.html#SKYWARNcard">SKYWARN Information</a></li>
+      <li><a href="index.html#submitcard">Submit Reports</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main content area (ARIA landmark) -->
+  <main class="site-main" role="main">
+
+    <!-- Active Alerts Section (added based on script reference) -->
+    <section class="card alert-card" id="alertscard">
+      <header class="card-header card-header--red">
+        <h2 class="card-title">Active Area Watches & Warnings & Alerts (NWS Atlanta - FFC)</h2>
+      </header>
+      <div class="card-body">
+        <aside class="callout warning">
+        	<p class="center">
+        	<strong>Warnings</strong> will be red, <strong>Watches</strong> are in orange, and <strong>Alerts</strong> are in teal.
+        	</p>
+        </aside>
+        <p id="alerts-loading" class="center">Loading active alerts...</p>
+        <div id="alerts-container"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Site footer - calls on footer.html via script-->
+  <div id="footer-placeholder"></div>
+
+  <!-- Minimal vanilla JS for unified site footer.html --> 
+  <script>
+    (function () {
+      const placeholder = document.getElementById('footer-placeholder');
+      if (!placeholder) return;
+
+      fetch('footer.html')
+        .then(r => {
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          return r.text();
+        })
+        .then(html => {
+          placeholder.innerHTML = html;
+        })
+        .catch(err => {
+          console.error('Failed to load footer:', err);
+          placeholder.innerHTML = '<p>Footer could not be loaded.</p>';
+        });
+    })();
+  </script>
+
+  <!-- Minimal vanilla JS for mobile navigation drawer (IIFE to avoid globals) -->
+  <script>
+    (function () {
+      const btn = document.querySelector('.nav-toggle');
+      const list = document.getElementById(btn.getAttribute('aria-controls'));
+
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        list.classList.toggle('open');
+      });
+    })();
+  </script>
+
+  <!-- Smooth scroll for anchor links -->
+
+  <!-- NWS Alerts script - All FFC Watches & Warnings (Red=Warning, Orange=Watch) -->
+  <script>
+    (async () => {
+      const container = document.getElementById('alerts-container');
+      const loading = document.getElementById('alerts-loading');
+      const USER_AGENT = 'GeorgiaSKYWARN-Site (kq4jp@pm.me)';
+      const CACHE_KEY = 'ffc-all-watches-warnings';
+      const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+  
+      // Exact FFC zones: GAZ001 to GAZ118
+      const FFC_ZONES = Array.from({ length: 118 }, (_, i) => 
+        `GAZ${String(i + 1).padStart(3, '0')}`
+      ).join(',');
+  
+      const hide = el => el.style.display = 'none';
+      const show = (el, html = '') => { el.innerHTML = html; el.style.display = 'block'; };
+  
+      const getCache = () => {
+        const c = localStorage.getItem(CACHE_KEY);
+        if (!c) return null;
+        const { data, ts } = JSON.parse(c);
+        return Date.now() - ts <= CACHE_TTL ? data : null;
+      };
+  
+      const setCache = data => localStorage.setItem(CACHE_KEY, JSON.stringify({ data, ts: Date.now() }));
+  
+      const fetchAlerts = async () => {
+        const cached = getCache();
+        if (cached) return cached;
+  
+        const url = `https://api.weather.gov/alerts/active?zone=${FFC_ZONES}`;
+        const resp = await fetch(url, { headers: { 'User-Agent': USER_AGENT } });
+  
+        if (!resp.ok) throw new Error(`NWS API error: ${resp.status}`);
+  
+        const json = await resp.json();
+        setCache(json);
+        return json;
+      };
+  
+      const render = data => {
+        const features = (data.features || []).filter(f => {
+          const p = f.properties;
+          // Use 'senderName' to identify FFC-issued alerts
+          return p.senderName && p.senderName.includes('NWS Peachtree City');
+        });
+  
+        if (features.length === 0) {
+          return `<p class="no-alerts center"><strong>No active watches or warnings in NWS Atlanta (FFC) area.</strong></p>`;
+        }
+  
+        return features.map(f => {
+          const p = f.properties;
+          const isWarning = p.event?.toLowerCase().includes('warning');
+          const isWatch = p.event?.toLowerCase().includes('watch');
+          const type = isWarning ? 'WARNING' : isWatch ? 'WATCH' : 'ALERT';
+          const colorClass = isWarning ? 'alert-warning' : isWatch ? 'alert-watch' : 'alert-other';
+  
+          const desc = (p.description || '').replace(/\n/g, '<br>');
+          const instr = (p.instruction || '').replace(/\n/g, '<br>');
+  
+          return `
+            <div class="alert-item ${colorClass}">
+              <div class="alert-header">${p.headline || p.event} – <strong>${type}</strong></div>
+              <div class="alert-description">${desc}</div>
+              ${instr ? `<hr><div class="alert-description"><strong>Instructions:</strong> ${instr}</div>` : ''}
+              <small><strong>Areas:</strong> ${p.areaDesc} | <strong>Expires:</strong> ${new Date(p.expires).toLocaleString()}</small>
+            </div>`;
+        }).join('');
+      };
+  
+      try {
+        const data = await fetchAlerts();
+        hide(loading);
+        show(container, render(data));
+      } catch (e) {
+        hide(loading);
+        show(container, `<p style="color:var(--accent-red);text-align:center;">Error: ${e.message}</p>`);
+        console.error(e);
+      }
+  
+      // Refresh every 10 minutes
+      setTimeout(() => location.reload(), 10 * 60 * 1000);
+    })();
+  </script>
+</body>
+</html>

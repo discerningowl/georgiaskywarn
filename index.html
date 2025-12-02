@@ -1,0 +1,845 @@
+<!--
+  ──────────────────────────────────────────────────────────────
+  File:   index.html
+  Author: Jack Parks (KQ4JP) <kq4jp&#64;pm.me>
+  Purpose: Main page for Georgia SKYWARN, focusing on the linked repeater system and 
+  		   reporting weather events for severe weather threats in North and Central Georgia.
+  Change‑log:
+    • 2025‑11‑05 – Semantic layout, shared stylesheet, mobile nav, minimal JS for drawer.
+  ──────────────────────────────────────────────────────────────
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Metadata for character encoding and responsive viewport -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Page title -->
+  <title>Georgia SKYWARN</title>
+
+  <!-- External shared stylesheet (relative URL) -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Basic favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  
+</head>
+
+<body>
+  <!-- Site header with title (ARIA landmark) -->
+  <header class="site-header" role="banner" id="topheader">
+    <h1 class="site-title">Georgia SKYWARN</h1>
+    <h2 class="site-subtitle">Linked Repeater System for Amateur Radio Spotters</h2>
+  </header>
+
+  <!-- Navigation menu with mobile toggle (ARIA attributes for accessibility) -->
+  <nav role="navigation" aria-label="Site navigation">
+    <button class="nav-toggle" aria-controls="nav-list"
+            aria-expanded="false" aria-label="Toggle menu">☰</button>
+    <ul id="nav-list" class="nav-list">
+      <li><a href="#nwscard">NWS Resources</a></li>
+      <li><a href="#SKYWARNcard">SKYWARN Information</a></li>
+      <li><a href="#reportcard">Reporting Requirements</a></li>
+      <li><a href="#submitcard">Submit Reports</a></li>
+      <li><a href="#repeater-table">Linked Repeaters</a></li>
+      <li><a href="#nonlinkcard">Non‑linked Repeaters</a></li>
+      <li><a href="#contactcard">Contacts</a></li>
+      <li><a href="alerts.html" class="nav-btn-alert">All GA Alerts Page</a></li>
+      <li><a href="wx4ptc.html" class="nav-btn-link">WX4PTC Page</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main content area (ARIA landmark) -->
+  <main class="site-main" role="main">
+
+    <!-- Active Alerts Section (added based on script reference) -->
+    <section class="card alert-card" id="alertscard">
+      <header class="card-header card-header--red">
+        <h2 class="card-title">Active Area Warnings (NWS Atlanta - FFC)</h2>
+      </header>
+      <div class="card-body">
+		<aside class="callout warning">
+			<p class="center">
+			<strong>This section only shows <em><strong>WARNINGS</strong></em> for the NWS Atlanta area of responsibility, <a href="alerts.html"><strong>view all GA ALERTS</strong></a>.</strong>
+			</p>
+		</aside>
+        <p id="alerts-loading" class="center">Loading active alerts...</p>
+        <div id="alerts-container"></div>
+      </div>
+    </section>
+
+<!-- ==== NWS RESOURCES CARD ==== -->
+<section class="card" id="nwscard">
+  <header class="card-header">
+    <h2 class="card-title"><span>National Weather Service Resources</span></h2>
+  </header>
+  <div class="card-body">
+    <div class="nws-resources-grid">
+      <!-- Logo Column -->
+      <div class="nws-logo-col">
+        <a href="https://www.weather.gov/ffc/" target="_blank">
+          <img src="nws.gif" alt="NWS Logo">
+        </a>
+      </div>
+      <!-- Resources Links Column -->
+      <div class="nws-links-col">
+        <ul class="nws-resource-list">
+          <li><strong><a href="https://www.weather.gov/ffc/SKYWARNsched" target="_blank">Current SKYWARN Class Schedule</a></strong></li>
+          <li><strong><a href="https://www.weather.gov/media/ffc/Education_Outreach/spotterhandout_Updated.pdf" target="_blank">Spotter Quick Reference Handout</a></strong></li>
+          <li><strong><a href="https://www.weather.gov/media/owlie/SGJune6-11.pdf" target="_blank">Spotter Guidebook</a><br>The definitive spotter guide</strong></li>
+          <li><strong><a href="https://www.weather.gov/ffc/strmsubm1" target="_blank">Submit A Storm Report</a><br>via NWS Website</strong></li>
+        </ul>
+      </div>
+      <!-- Social Links Column -->
+      <div class="nws-social-col">
+        <ul class="nws-resource-list">
+          <li><strong>Website: <a href="https://www.weather.gov/ffc/" target="_blank">National Weather Service Atlanta</a></strong></li>
+          <li><strong>Facebook: <a href="https://www.facebook.com/NWSAtlanta" target="_blank">US National Weather Service Peachtree City</a></strong></li>
+          <li><strong>X (formerly Twitter): <a href="https://x.com/NWSAtlanta" target="_blank">NWSAtlanta</a></strong></li>
+          <li><strong>YouTube: <a href="https://www.youtube.com/@NWSPeachtreeCity" target="_blank">NWSPEACHTREECITY</a></strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- SKYWARN Information Card -->
+    <section class="card SKYWARN-card" id="SKYWARNcard">
+      <header class="card-header">
+        <h2 class="card-title">SKYWARN Information</h2>
+      </header>
+              <div class="card-body">
+              	<aside class="callout warning">
+              		<p class="center">
+                      <strong>Upon request by NWS Atlanta warnings coordinator, <a href="wx4ptc.html"><strong>WX4PTC</strong></a> will be stood up as a net control station to take storm reports over Georgia Linked Repeater net. We will coordinate with repeater owners if activation is required.</strong>
+                	</p>
+      			</aside>
+      			<aside class="callout">
+      				<p>
+                      	<strong>It’s advisable to first bring severe weather reports to your local SKYWARN network if possible. </strong>From there, the local SKYWARN networks should establish some sort of "liaison" between the STATE network listed below and their local network. Regardless, reports should be sent to the NCS at the NWS as soon as possible. This setup will help manage congestion during severe weather outbreaks and ensure that severe reports are prioritized over non-severe reports.
+      				</p>
+      			</aside>
+      			<aside class="callout success">
+      			   <p>
+      			     SKYWARN is a volunteer program run by the National Weather Service that trains everyday citizens to spot and report severe weather—such as tornadoes, large hail, damaging winds, and flash floods—to emergency managers and meteorologists in real time. By joining SKYWARN, people become part of a community‑based early‑warning network that helps authorities issue timely alerts, ultimately saving lives and property.
+      			   </p>
+      			</aside>
+      			<section class="spotter-resources">
+      			  <h3 class="section-title center">Spotter Resources</h3>
+      			
+      			  <!-- ==== MAP BUTTONS ==== -->
+      			  <div class="resource-pair">
+      			    <div class="resources-button">
+      			      <a href="https://arcg.is/XrrLP"
+      			         class="btn btn-indigo map-link desktop-only"
+      			         target="_blank">
+      			        NWSChat 2.0 Companion Map
+      			      </a>
+      			    </div>
+      			    <div class="resources-text desktop-only">
+      			      <p>
+      			        This map includes NOAA/NWS weather feeds - active watches and warnings, and weather radar. <br>
+      			        <em>This map is hidden on mobile devices. It is recommended to view using desktop computers & laptops only!</em><br>
+      			        <small>NWSChat 2.0 Companion Map is developed and hosted by Brian Haren, W8BYH, in support of ARES, EMCOMM and AUXCOMM 
+      			        operations in the southeastern region of the United States.</small>
+      			      </p>
+      			    </div>
+      			  </div>
+      			
+      			  <!-- ==== NWS SKYWARN ==== -->
+      			  <div class="resource-pair">
+      			    <div class="resources-button">
+      			      <a href="https://www.weather.gov/ffc/SKYWARN"
+      			         class="btn btn-yellow" target="_blank">
+      			         NWS SKYWARN Page
+      			      </a>
+      			    </div>
+      			
+      			    <div class="resources-text">
+      			      <p>This is the official NWS Atlanta SKYWARN page.</p>
+      			    </div>
+      			  </div>
+      			
+      			  <!-- ==== WX4PTC ==== -->
+      			  <div class="resource-pair">
+      			    <div class="resources-button">
+      			      <a href="wx4ptc.html"
+      			         class="btn btn-indigo">
+      			        WX4PTC Page
+      			      </a>
+      			    </div>
+      			
+      			    <div class="resources-text">
+      			      <p> <a href="wx4ptc.html"><strong>WX4PTC</strong></a> is the amateur‑radio call sign assigned to the National Weather Service office 
+      			      in Peachtree City, Georgia. This office serves the Atlanta metropolitan area as well as northern and central 
+      			      Georgia. The NWS runs a ham‑radio station from its forecast office under this call sign so it can coordinate 
+      			      SKYWARN severe‑weather reporting nets.</p>
+      			    </div>
+      			  </div>
+      			  
+      			  <!-- ==== NWS ATL Radar ==== -->
+      			  <div class="resource-pair">
+      			    <div class="resources-button">
+      			      <a href="https://radar.weather.gov/station/kffc"
+      			         class="btn btn-yellow" target="_blank">
+      			        NWS Atlanta Radar
+      			      </a>
+      			    </div>
+      			
+      			    <div class="resources-text">
+      			      <p> This takes you to the Nation Weather Service radar map.</p>
+      			    </div>
+      			  </div>
+      			  
+      			  <!-- ==== Repeater Map ==== -->
+      			  <div class="resource-pair">
+      			    <div class="resources-button">
+      			      <a href="https://arcg.is/0Lfvfb1"
+      			         class="btn btn-indigo" target="_blank">
+      			        Linked Repeater Systems Map
+      			      </a>
+      			    </div>
+      			
+      			    <div class="resources-text">
+      			      <p>
+      			          The GA SKYWARN Linked Repeater Systems map brings together repeaters that are part of the Southeast 
+      			          Linked Repeater Network, the Peach State Intertie and the Cherry Blossom Intertie. The map also includes 
+      			          NOAA/NWS weather feeds - active watches and warnings, and weather radar. <br>
+      			          <em>Please note that the weather data feeds are turned off by default, and must be activated by the user.<br> 
+      			          This map works well on all platforms - desktop computers, laptops, tablets and smartphones.</em>
+                      </p>
+      			    </div>
+      			  </div>
+      			  
+      			</section>
+    </section>
+
+    <!-- SKYWARN Reporting Card -->
+    <!-- ==== WHAT TO REPORT CARD ==== -->
+    <section class="card report-card" id="reportcard">
+      <header class="card-header">
+        <h2 class="card-title">
+          <span class="phone-icon">Reporting Requirements</span>
+        </h2>
+      </header>
+    
+      <div class="card-body">
+        <div class="report-grid">
+          <!-- LEFT: What to Include -->
+          <div class="include-col">
+            <h3 class="include-title">Please Include:</h3>
+            <ul class="include-list">
+              <li>Name</li>
+              <li>Callsign (or phone number)</li>
+              <li><em>Keep your report brief</em></li>
+              <li>Identify yourself as a trained spotter</li>
+              <li>Tell us what you saw</li>
+              <li>Provide your exact location or cross streets</li>
+              <li>Give the event’s time</li>
+            </ul>
+            <br>
+            <aside class="callout">
+            	<a href="https://www.weather.gov/spotterguide/reports" target="_blank"><h3 class="center">Detailed Reporting Guide</h3></a><br>
+            </aside>
+          </div>
+   
+          <!-- RIGHT: What to Report (Table) -->
+          <div class="report-col">
+            <h3 class="report-title">What to Report:</h3>
+            <div class="report-items">
+              <div class="report-item tornado">
+                <strong>Tornadoes / Funnel Clouds / Wall Clouds</strong>
+                <p>Organized, persistent rotation</p>
+              </div>
+              <div class="report-item hail">
+                <strong>Hail</strong>
+                <p>
+                	Report the size of the largest stone and any damage. To estimate size, compare hail 
+                	to well known objects such as coins or balls, but not to marbles, or measure the 
+                	hail with a ruler.
+                </p>
+              </div>
+              <div class="report-item wind">
+                <strong>Damaging Winds</strong>
+                <p>Estimated or measured wind speeds of 50 mph or greater<br>Large branches, trees, powerlines, or signs blown down<br>Roof or structure damage</p>
+              </div>
+              <div class="report-item flood">
+                <strong>Flooding</strong>
+                <p>
+				 	Report flooded roadways, rivers and streams, giving approximate water depth.<br>
+				  	Does the flooding consist of standing water or is it flowing?<br>
+					Is the water level continuing to rise, staying steady or falling?<br>
+					Is the flooding occurring in a known flood prone area?<br>
+					Any damage from the flooding or mud slides?
+                </p>
+              </div>
+              <div class="report-item winter">
+                <strong>Winter Weather</strong>
+                <p>Any ice/snow accumulation</p>
+              </div>
+              <div class="report-item lightning">
+                <strong>Lightning</strong>
+                <p>Injuries or damage caused</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Submit Reports Card -->
+    <section class="card" id="submitcard">
+      <header class="card-header">
+        <h2 class="card-title">Submit Reports</h2>
+      </header>
+      <div class="card-body">
+            <h3 class="center"><strong>It’s advisable to first bring severe weather reports to your local SKYWARN network if possible.</strong></h3>
+            <h4 class="center">The NWS forecast office operates under the <a href="wx4ptc.html"><strong>WX4PTC</strong></a> call sign so it can coordinate SKYWARN severe‑weather reporting nets</h4>
+        <p class="center">
+            I cannot stress the following point enough. Ham radio is a hobby and is of great service to public services 
+            such as the <a href="https://www.weather.gov/atlanta" target="_blank">National Weather Service</a>.<br>
+            Remember if you have a severe weather report and cannot get it in by the above means.....
+            <strong style="color: red;">
+    			CALL ON THE PHONE! Others down the road may benefit.
+			</strong>
+        </p>
+      </div>
+      <div class="action-buttons">
+        <a href="https://www.weather.gov/ffc/SubmitStormReport" class="btn btn-red" target="_blank">
+          Submit Storm Reports
+          <small>via NWS website</small>
+        </a>
+        <a href="tel:8667634466" class="btn btn-red">
+          866-763-4466
+          <small>Severe Weather Only</small>
+        </a>
+        <a href="tel:7704861133" class="btn btn-red">
+          770-486-1133
+          <small>Main Office</small>
+        </a>
+      </div>        
+      <p class="center">
+        You may connect to ECHOLINK node <strong><em>KK4GQ-R</em></strong> to reach <strong>WX4PTC</strong>. 
+        This is connected to the repeater <strong>145.210- (131.8) in Fayetteville,GA</strong>.<br>
+        <em>Echolink is on full time unless technical difficulties require the control ops to turn it off.</em>
+      </p>
+      </div>
+    </section>
+    
+    <!-- Linked Repeaters Table Card -->
+    <section class="card table-card" id="repeater-table">
+      <header class="card-header card-header--blue">
+        <h2 class="card-title">Georgia SKYWARN Linked Repeater System</h2>
+      </header>
+      <div class="card-body">
+      	<aside class="callout note">
+        	<p class="net-info center">
+         		Many of these repeaters are part of the <strong><a href="https://www.selinkedrepeater.net/" target="_blank">Southeastern Linked Repeater Net</a></strong>, which meets
+          		<strong>every Wednesday at 9 pm Eastern</strong>. It’s one of the largest RF-linked nets in the southeast
+          		and has been on the air since <strong>1993</strong>.
+        	</p>
+        </aside>	
+        <div class="table-wrapper">
+            <table class="repeater-table">
+                <thead>
+                    <tr>
+                        <th class="center"><em><strong>Location</strong></em></th>
+                        <th class="center"><em><strong>Frequency</strong></em></th>
+                        <th class="center"><em><strong>Notes</strong></em></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Pinned top entries (Fayetteville, Tyrone, Peachtree City) -->
+                    <tr>
+                        <td><a href="https://photos.app.goo.gl/EJB6ns91tw4oNkup6" target="_blank">Fayetteville</a></td>
+                        <td class="freq">444.600+ (77.0 Hz)</td>
+                        <td>
+                        	Hub and net control repeater. Emergency Power. Good south metro coverage and down into Cowetta, 
+                        	Fayette, Henry, Spalding, and Pike Counties. Mobile coverage into parts of north metro Atlanta 
+                        	as well. Generator and large UPS battery backup on site.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.kk4gq.org" target="_blank">Fayetteville</a></td>
+                        <td class="freq">145.210- (131.8 Hz)</td>
+                        <td>
+                        	Hardwired to 444.600+ repeater controller. Good south metro Atlanta coverage. 
+                        	Same site as 444.600. Battery backup on site.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=508" target="_blank">Tyrone</a></td>
+                        <td class="freq">444.675+ (77.0 Hz)</td>
+                        <td>
+                        	Backup Hub and net control / remote base repeater. Emergency Power. South metro coverage. 
+                        	Battery backup at site. Also site of AB4KN-2 APRS digi. Linked to 444.600 via 220m Hz link.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://photos.app.goo.gl/Jvmp4e4xPQx9aAjU8" target="_blank">Peachtree City</a></td>
+                        <td class="freq">442.500+ (77.0 Hz)</td>
+                        <td>
+                        	Backup remote base repeater. Covers Fayette, Cowetta, Spalding and parts of Pike Counties. 
+                        	Some coverage into the southern metro Atlanta area. This repeater is also the NCS repeater 
+                        	for all public events in PTC where extra communications are requested.
+                        </td>
+                    </tr>
+                  
+                    <!-- Remaining entries sorted alphabetically by location -->
+                    <tr>
+                        <td><a href="https://www.w4doc.org" target="_blank">Atlanta</a></td>
+                        <td class="freq">146.820- (146.2 Hz)</td>
+                        <td>Atlanta Radio Club Repeater Good metro coverage. Links to 444.675+ or 444.600 repeaters.</td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=KC4JNN" target="_blank">Biskey Mtn</a></td>
+                        <td class="freq">53.050- (100.0 Hz)<br>224.160- (100.0 Hz)<br>443.500+ (100.0 Hz)</td>
+                        <td>Jasper • Biskey Mtn • Pickens County • Georgia Remote Base. Autopatch. Emergency power equipped </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=12976" target="_blank">Bollingbroke</a></td>
+                        <td class="freq">146.835- (77.0 Hz)</td>
+                        <td>
+                         Covers Monroe and surrounding counties. Range north of Forsyth to McDonough area.<br>
+                         Part of the <a rel="nofollow" target="_blank" href="http://www.peachstateintertie.com">Peach State Intertie</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=86" target="_blank">Cedar Grove (Dublin)</a></td>
+                        <td class="freq">147.150+ (123.0 Hz)</td>
+                        <td>
+                         Covers Laurens and surrounding counties.<br>
+                         Part of the <a href="http://www.peachstateintertie.com" target="_blank">Peach State Intertie</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=79" target="_blank">Clermont</a></td>
+                        <td class="freq">145.310- (123.0 Hz)</td>
+                        <td>
+                         Located on Wauka Mtn. Links to W4GTA 145.350. Located 1100 Ft. above average terrain with coverage of Hall,
+                         Dawson and White counties, and partial coverage of Jackson, Habersham and Gwinnett Counties. Generator backup on site,
+                         Allstar link connected.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23269" target="_blank">Cochran</a></td>
+                        <td class="freq">145.490- (77.0 Hz)</td>
+                        <td>
+                         Covers Bleckley and surrounding counties.<br>
+                         Part of the <a href="http://www.peachstateintertie.com" target="_blank">Peach State Intertie</a>.</td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23184" target="_blank">Commerce</a></td>
+                        <td class="freq">146.850- (131.8 Hz)</td>
+                        <td>
+						  Links to W4GTA 145.350. Covers Banks and Jackson Co with partial coverage in Madison, Clark and
+						  Barrow Counties. Generator backup on site, Allstar linked connected.<br>
+						  This repeater is linked full time to Wauka Mtn. Frequency 145.310- 123.0 Hz. with both repeaters providing though coverage in our area of Northeast Ga.)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=137" target="_blank">Concord</a></td>
+                        <td class="freq">145.390- (110.9 Hz)</td>
+                        <td>
+						  Links to 444.600+ repeater. Great coverage over South Metro Atlanta area.
+						  Mobile coverage in Fayette, Coweta, Henry, Spalding, Pike, Troup and other surrounding couties.
+						  AllStar node 46796. Node linked on demand.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://sites.google.com/site/wa4asirepeater/home" target="_blank">Covington</a></td>
+                        <td class="freq">146.925- (88.5 Hz)</td>
+                        <td>Links to 444.675+ repeater. Wide north Georgia coverage. Good repeater for east of Atlanta going out I-20 east.</td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=16822" target="_blank">Crawford County</a></td>
+                        <td class="freq">145.290- (82.5 Hz)</td>
+                        <td>
+						  Covers Peach and surrounding counties.<br>
+						  Part of the <a href="http://www.peachstateintertie.com" target="_blank">Peach State Intertie</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WD4LUQ" target="_blank">Dallas</a></td>
+                        <td class="freq">146.895+ (77.0 Hz)<br>224.880- (77.0 Hz)</td>
+                        <td>
+                         Links to 444.675+ or 444.600+ repeater. Coverage into the northwestern part of the state
+                         (Rome down to Carrolton and over to N. Atlanta), improved mobile coverage even in the south metro area.
+                         Battery backup at site.<br>224.880 has a fulltime link to 146.895+.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=120" target="_blank">Eastman</a></td>
+                        <td class="freq">145.210- (103.5 Hz)</td>
+                        <td>
+						  Covers Eastman over into Bleckley County (Including the city of Cochran).<br>
+						  Part of the <a href="http://www.peachstateintertie.com" target="_blank">Peach State Intertie</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Forsyth</td>
+                        <td class="freq">147.315+</td>
+                        <td>
+						  Covers Monroe, Jones and surrounding counties.<br>
+						  Part of the Cherry Blossom Intertie.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Griffin</td>
+                        <td class="freq">146.910- (88.5 Hz)</td>
+                        <td>Links to 444.600 repeater. Good south metro coverage.</td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25" target="_blank">Irwinton</a></td>
+                        <td class="freq">147.240+ (77.0 Hz)<br>444.925+ (77.0 Hz)<br>443.275+ (77.0 Hz)</td>
+                        <td>
+						  Wide coverage area. Counties include Jones, Twiggs, Wilkinson, and Washington.
+						  (Cities include Dublin, Gordon, McIntyre, Sandersville.<br>
+						  Part of the <a href="http://www.peachstateintertie.com" target="_blank">Peach State Intertie</a>.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=147" target="_blank">Jasper</a></td>
+                        <td class="freq">146.805+ (100.0 Hz)</td>
+                        <td>Links to 444.675+ repeater and 444.600+. Wide north Georgia coverage. Also covers Atlanta Metro area. Emergency Power with generator and battery backup on site.</td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=158" target="_blank">LaGrange</a></td>
+                        <td class="freq">147.330- (100.0 Hz)</td>
+                        <td>Links to 444.600+ Good coverage throughout the LaGrange and surrounding counties.</td>
+                    </tr>
+                    <tr>
+                        <td>Laurens County</td>
+                        <td class="freq">145.150-</td>
+                        <td>
+						  Covers East Dublin, Laurens and Truetlin counties.<br>
+						  Part of the Cherry Blossom Intertie.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=163" target="_blank">Lookout Mountain</a></td>
+                        <td class="freq">145.350- (100.0 Hz)</td>
+                        <td>
+						  Primary Coverage for Walker, Catoosa, Dade and Chattooga counties. Secondary Repeater is the W4ABZ 145.715- (67.0 Hz).
+						  Estimated Wide Area Coverage: Approximately 50 miles from Lookout Mountain, GA and Chattanooga, TN.
+						  Wide area coverage. 50 mi radius<br>
+						  <a href="https://tristatesarc.com/club/" target="_blank">Tri-States Amateur Radio Club</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WX4EMA" target="_blank">Macon</a></td>
+                        <td class="freq">147.015+ (88.5 Hz)<br>443.075+ (88.5 Hz)</td>
+                        <td>
+						  Covers Bibb and surrounding counties.<br>
+						  Part of the <a href="http://www.peachstateintertie.com" target="_blank">Peach State Intertie</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Macon</td>
+                        <td class="freq">443.200+</td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=166" target="_blank">Macon</a></td>
+                        <td class="freq">145.430- (88.5 Hz)</td>
+                        <td>
+						  Covers Bibb, Monroe, Jones and surrounding counties.<br>
+						  Part of the Cherry Blossom Intertie.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Milledgeville</td>
+                        <td class="freq">147.135+ (123.0 Hz)</td>
+                        <td>
+						  Covers Baldwin and surrounding counties.<br>
+						  Part of the <a href="http://www.peachstateintertie.com" target="_blank">Peach State Intertie</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=180" target="_blank">Montezuma</a></td>
+                        <td class="freq">146.640- (97.4 Hz)</td>
+                        <td>
+						  Covers Macon and surrounding counties.<br>
+						  Part of the <a href="http://www.peachstateintertie.com" target="_blank">Peach State Intertie</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=194" target="_blank">Pine Mountain</a></td>
+                        <td class="freq">145.190- (110.9 Hz)</td>
+                        <td>Links to 444.600+. Located in Warm Springs. Great coverage southwest of the metro area.</td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=10212" target="_blank">Rome</a></td>
+                        <td class="freq">443.200+ (100.0 Hz)</td>
+                        <td>Excellent Coverage in the Rome area on Mount Alto. Links to the Jasper 146.805+ (100.0 Hz) repeater for SKYWARN.</td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3862" target="_blank">Sawnee Mtn</a></td>
+                        <td class="freq">441.900+ (141.3 Hz)</td>
+                        <td>Links to 444.675+ repeater. Wide north Georgia coverage.</td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18622" target="_blank">Sun City</a></td>
+                        <td class="freq">443.600+ (110.9 Hz)</td>
+                        <td>Links to the KK4GQ Repeater (145.210+).</td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=219" target="_blank">Thomaston</a></td>
+                        <td class="freq">147.390+ (131.8 Hz)</td>
+                        <td>
+						  Links to 444.600+. Good coverage south of the metro area.<br>
+						  Is the hub for the <a href="http://www.peachstateintertie.com" target="_blank">Peach State Intertie</a> to connect to.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=234" target="_blank">Warm Springs</a></td>
+                        <td class="freq">146.985- (110.9 Hz)</td>
+                        <td>Links to Woodbury 443.800. AllStar node 473360. This is a full time node.</td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3139" target="_blank">Warner Robins</a></td>
+                        <td class="freq">146.850- (82.5 Hz)</td>
+                        <td>
+						  Covers Jones and Baldwin Counties (Including the cities of Gray and Milledgeville)<br>
+						  Part of the <a href="http://www.peachstateintertie.com" target="_blank">Peach State Intertie</a>. (This repeater is linked on a part time basis.)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5525" target="_blank">Warner Robins</a></td>
+                        <td class="freq">146.670- (82.5 Hz)<br>443.150+ (82.5 Hz)</td>
+                        <td>
+						  Covers Houston and surrounding counties.<br>
+						  Part of the <a href="http://www.peachstateintertie.com" target="_blank">Peach State Intertie</a>.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18030" target="_blank">Woodbury</a></td>
+                        <td class="freq">443.800+ (110.9 Hz)</td>
+                        <td>Links to 444.600 repeater. Allstar node of 48225. Node links when needed.</td>
+                    </tr>
+                </tbody>            </table>        
+      </div>
+        <p class="scroll-hint">← Scroll horizontally on mobile →</p>
+      </div>
+    </section>
+
+    <!-- Non-linked Repeaters Card -->
+    <section class="card table-card" id="nonlinkcard">
+      <header class="card-header card-header--blue">
+        <h2 class="card-title">Local SKYWARN Nets (Not-Linked)</h2>
+      </header>
+      <div class="card-body">
+        <div class="table-wrapper">
+          <table class="repeater-table">
+              <thead>
+                  <tr>
+                      <th class="center"><em><strong>Location</strong></em></th>
+                      <th class="center"><em><strong>Frequency</strong></em></th>
+                      <th class="center"><em><strong>Notes</strong></em></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td><a href="https://www.google.com/maps/preview?q=barrow+county+ga&amp;ie=UTF-8&amp;hq=&amp;hnear=0x88f452c3f822962f:0x4838b967f3ac74e5,Barrow+County,+GA&amp;gl=us&amp;ei=K_M7U7LhI6rSsATP64DYCA&amp;ved=0CIABELYD" target="_blank">Barrow County</a></td>
+                      <td class="freq">145.280- (110.9  Hz)</td>
+                      <td>Barrow Amateur Radio Club</td>
+                  </tr>
+                  <tr>
+                      <td><a href="https://www.google.com/maps/place/Butts+County/@33.3124094,-83.9655015,11z/data=!3m1!4b1!4m2!3m1!1s0x88f4145181fc2c57:0x6eaad207c326378c" target="_blank">Butts County</a></td>
+                      <td class="freq">147.285+ (131.8  Hz)</td>
+                      <td>WX4BCA repeater</td>
+                  </tr>
+                  <tr>
+                      <td><a href="https://www.google.com/maps/place/Carroll+County/@33.6189315,-85.0735819,11z/data=!3m1!4b1!4m2!3m1!1s0x88f4d1a9e11835b5:0xaa51cf66a234e730" target="_blank">Carroll County</a></td>
+                      <td class="freq">146.640- (131.8  Hz)</td>
+                      <td>Covers Douglas &amp; Carroll counties. Reports do come in from adjacent counties as well.</td>
+                  </tr>
+                  <tr>
+                      <td><a href="https://www.google.com/maps/place/Cherokee+County/@34.242944,-84.4584125,11z/data=!3m1!4b1!4m2!3m1!1s0x88f50ff083db2faf:0x1e94ba1d119f7d06" target="_blank">Cherokee County</a></td>
+                      <td class="freq">145.430- (107.2  Hz)</td>
+                      <td>Primary - Coverage – Cherokee, Pickens, Bartow, Cobb – NW Georgia with occasional check-in’s from TN, AL</td>
+                  </tr>
+                  <tr>
+                      <td><a href="https://www.google.com/maps/place/Cherokee+County/@34.242944,-84.4584125,11z/data=!3m1!4b1!4m2!3m1!1s0x88f50ff083db2faf:0x1e94ba1d119f7d06" target="_blank">Cherokee County</a></td>
+                      <td class="freq">145.270- (100.0  Hz)</td>
+                      <td>Secondary - Coverage – Cherokee, Pickens, Bartow, Cobb – NW Georgia with occasional check-in’s from TN, AL</td>
+                  </tr>
+                  <tr>
+                      <td><a href="https://www.google.com/maps/place/Coweta+County/@33.3514005,-84.7562004,11z/data=!3m1!4b1!4m2!3m1!1s0x88f4c6e84a90d781:0x5060d84a1f2bc220" target="_blank">Coweta County</a></td>
+                      <td class="freq">145.13- (156.7  Hz)</td>
+                      <td>Activated by EMA request</td>
+                  </tr>
+                  <tr>
+                      <td><a href="https://www.google.com/maps/place/Lamar+County/@33.121831,-84.140409,11z/data=!4m2!3m1!1s0x88f465f64c93765f:0x6a99eac07b5401c5" target="_blank">Lamar County</a></td>
+                      <td class="freq">147.225+</td>
+                      <td>
+                      	W8JI repeater is located just north of Barnesville.<br> 
+                      	<em>Normally operates with NO Uplink Tone, but will enable 123.0 Hz or 131.8 Hz Uplink Tone depending upon propagation conditions</em>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td><a href="https://www.google.com/maps/place/Paulding+County/@33.9286835,-84.886773,11z/data=!3m1!4b1!4m2!3m1!1s0x88f52701903803c3:0x10f625bf4e35d05" target="_blank">Paulding County</a></td>
+                      <td class="freq">146.955- (77.0  Hz)</td>
+                      <td>The repeater covers an area that includes most of Atlanta to the east and Cedartown to the west.</td>
+                  </tr>
+                  <tr>
+                      <td><a href="https://www.google.com/maps/preview?q=walton+county+ga&amp;ie=UTF-8&amp;hq=&amp;hnear=0x88f5c90d8e66bc73:0x7e69bf134b171e81,Walton+County,+GA&amp;gl=us&amp;ei=rxE-U6SfI5besASZ9IGQAg&amp;ved=0CIcBELYD" target="_blank">Walton County</a></td>
+                      <td class="freq">147.270+ (88.5  Hz)<br>442.050+ (88.5  Hz)</td>
+                      <td>Covers Walton and surrounding counties.</td>
+                  </tr>
+                  <tr>
+                      <td><a href="https://www.google.com/maps/place/White+County/@34.6524859,-83.7464674,11z/data=!3m1!4b1!4m2!3m1!1s0x885f464f6dba6c73:0x9dcf2a5724747fd7" target="_blank">White County</a></td>
+                      <td class="freq">146.910- (100.0  Hz)</td>
+                      <td>Activated by EMA / EOC requests or severe weather warnings.</td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
+        <p class="scroll-hint">← Scroll horizontally on mobile →</p>
+      </div>
+    </section>
+
+    <!-- Contacts Card -->
+    <section class="card" id="contactcard">
+      <header class="card-header card-header--green">
+        <h2 class="card-title">Contacts</h2>
+      </header>
+      <div class="card-body center">
+        <p>
+          <a href="https://www.weather.gov/ffc/" target="_blank">National Weather Service in Peachtree City</a><br>
+          <a href="mailto:kd4ydc@gmail.com">Robert Burton - KD4YDC - DEC ARES / NWS in Peachtree City, GA</a><br>
+          <a href="mailto:kn4yz@arrl.net">Lynn Bianco - KN4YZ - Fayette County EC</a><br>
+          <a href="mailto:David.Nadler@noaa.gov">David Nadler - Warnings Coordinator at the National Weather Service in Peachtree City, GA.</a><br>
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- Site footer - calls on footer.html via script-->
+ <div id="footer-placeholder"></div>
+
+
+  <!-- Minimal vanilla JS for unified site footer.html --> 
+ <script>
+  (function () {
+    const placeholder = document.getElementById('footer-placeholder');
+    if (!placeholder) return;
+
+  fetch('footer.html')
+    .then(r => {
+ if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.text();
+      })
+      .then(html => {
+        placeholder.innerHTML = html;
+      })
+      .catch(err => {
+        console.error('Failed to load footer:', err);
+        placeholder.innerHTML = '<p>Footer could not be loaded.</p>';
+  });
+  })();
+</script>
+
+  <!-- Minimal vanilla JS for mobile navigation drawer (IIFE to avoid globals) -->
+  <script>
+    (function () {
+      const btn = document.querySelector('.nav-toggle');
+      const list = document.getElementById(btn.getAttribute('aria-controls'));
+
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        list.classList.toggle('open');
+      });
+    })();
+  </script>
+
+
+<!-- NWS Alerts script - Only WARNINGS (Red) for index.html -->
+<script>
+  (async () => {
+    const container = document.getElementById('alerts-container');
+    const loading   = document.getElementById('alerts-loading');
+    const USER_AGENT = 'GeorgiaSKYWARN-Site (kq4jp@pm.me)';
+    const CACHE_KEY  = 'ffc-all-watches-warnings';   // keep original cache key
+    const CACHE_TTL  = 5 * 60 * 1000;               // 5 minutes
+
+    // Exact FFC zones: GAZ001 to GAZ118
+    const FFC_ZONES = Array.from({ length: 118 }, (_, i) => 
+      `GAZ${String(i + 1).padStart(3, '0')}`
+    ).join(',');
+
+    const hide = el => el.style.display = 'none';
+    const show = (el, html = '') => { el.innerHTML = html; el.style.display = 'block'; };
+
+    const getCache = () => {
+      const c = localStorage.getItem(CACHE_KEY);
+      if (!c) return null;
+      const { data, ts } = JSON.parse(c);
+      return Date.now() - ts <= CACHE_TTL ? data : null;
+    };
+
+    const setCache = data => localStorage.setItem(CACHE_KEY, JSON.stringify({ data, ts: Date.now() }));
+
+    const fetchAlerts = async () => {
+      const cached = getCache();
+      if (cached) return cached;
+
+      const url = `https://api.weather.gov/alerts/active?zone=${FFC_ZONES}`;
+      const resp = await fetch(url, { headers: { 'User-Agent': USER_AGENT } });
+
+      if (!resp.ok) throw new Error(`NWS API error: ${resp.status}`);
+
+      const json = await resp.json();
+      setCache(json);
+      return json;
+    };
+
+    const render = data => {
+      const features = (data.features || []).filter(f => {
+        const p = f.properties;
+        // 1. Must be issued by NWS Peachtree City
+        // 2. Event name must contain "Warning" (case-insensitive)
+        return p.senderName?.includes('NWS Peachtree City') &&
+               p.event?.toLowerCase().includes('warning');
+      });
+
+      if (features.length === 0) {
+        return `<p class="no-alerts center"><strong>No active warnings in NWS Atlanta (FFC) area.</strong></p>`;
+      }
+
+      return features.map(f => {
+        const p = f.properties;
+        // Force warning styling (red) – ignore watch/other logic
+        const desc  = (p.description || '').replace(/\n/g, '<br>');
+        const instr = (p.instruction || '').replace(/\n/g, '<br>');
+
+        return `
+          <div class="alert-item alert-warning">
+            <div class="alert-header">${p.headline || p.event} – <strong>WARNING</strong></div>
+            <div class="alert-description">${desc}</div>
+            ${instr ? `<hr><div class="alert-description"><strong>Instructions:</strong> ${instr}</div>` : ''}
+            <small><strong>Areas:</strong> ${p.areaDesc} | <strong>Expires:</strong> ${new Date(p.expires).toLocaleString()}</small>
+          </div>`;
+        }).join('');
+    };
+
+    try {
+      const data = await fetchAlerts();
+      hide(loading);
+      show(container, render(data));
+    } catch (e) {
+      hide(loading);
+      show(container, `<p style="color:var(--accent-red);text-align:center;">Error: ${e.message}</p>`);
+      console.error(e);
+    }
+
+    // Refresh every 10 minutes
+    setTimeout(() => location.reload(), 10 * 60 * 1000);
+  })();
+</script>
+  </body>
+</html>

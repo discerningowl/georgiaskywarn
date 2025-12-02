@@ -1,0 +1,171 @@
+<!--
+  ──────────────────────────────────────────────────────────────
+  File:   wx4ptc.html
+  Author: Jack Parks (KQ4JP) <kq4jp&#64;pm.me>
+  Purpose: Dedicated page for the NWS‑Peachtree City amateur‑radio
+           station (WX4PTC) – activation process, net operation,
+           equipment overview, and links back to the main site.
+  Change‑log:
+    • 2025‑11‑05 – Semantic layout, shared stylesheet, mobile nav,
+      minimal JS for drawer.
+  ──────────────────────────────────────────────────────────────
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Metadata for character encoding and responsive viewport -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Page title -->
+  <title>WX4PTC – Georgia SKYWARN</title>
+
+  <!-- External shared stylesheet (relative URL from subdirectory) -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Basic favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  
+</head>
+
+<body>
+  <!-- Site header with title (ARIA landmark) -->
+  <header class="site-header" role="banner">
+    <h1 class="site-title">WX4PTC</h1>
+    <h2 class="site-subtitle">Amateur Radio Station at NWS Atlanta</h2>
+  </header>
+
+  <!-- Navigation menu with mobile toggle (ARIA attributes for accessibility) -->
+  <nav class="site-nav" role="navigation" aria-label="WX4PTC navigation">
+    <button class="nav-toggle" aria-controls="nav-list-wx"
+            aria-expanded="false" aria-label="Toggle menu">☰</button>
+    <ul id="nav-list-wx" class="nav-list">
+      <li><a href="index.html">← Back to Georgia SKYWARN</a></li>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#activation">Activation Process</a></li>
+      <li><a href="#net-flow">Trigger Flow</a></li>
+      <li><a href="#operation">Net Operation</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main content area (ARIA landmark) -->
+  <main class="site-main" role="main">
+
+    <!-- Overview section -->
+    <section id="overview" class="card">
+      <header class="card-header"><h2>Station Overview</h2></header>
+      <div class="card-body">
+        <p class="center">
+        	<strong>WX4PTC</strong> is the amateur‑radio call sign for the SKYWARN Net Control 
+        	station operated at the National Weather Service (NWS) Forecast Office in Peachtree City, Georgia. 
+        	This amateur radio station is equipped with dual-band VHF/UHF radios, and an HF transceiver to 
+        	facilitate statewide SKYWARN nets during severe weather 
+        	events. Additionally, the station utilizes three repeaters for net control operations, 
+        	including its primary hub repeater on 444.600 MHz with a +5 MHz offset and 77.0 Hz PL tone.
+        </p>
+        <p class="center">
+        	It serves as the primary liaison point between volunteer field spotters, local 
+        	SKYWARN networks, and the NWS forecasting team covering northern and central Georgia. The station 
+        	is staffed by volunteer ARES/SKYWARN operators upon activation by the NWS, ensuring real-time 
+        	relay of critical weather reports to meteorologists for timely warnings and forecasts.
+        </p>
+        <div class="action-buttons">
+        <a href="index.html" class="btn btn-blue">Go to Georgia SKYWARN</a>
+        <a href="alerts.html" class="btn btn-red">Go to ALL Active Alerts</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Activation process section -->
+    <section id="activation" class="card">
+      <header class="card-header card-header--red"><h2>Activation Process</h2></header>
+      <div class="card-body include-col">
+        <ul class="include-list">
+          <li>Severe weather (tornado, hail, damaging wind, flash flood) triggers the spotter network.</li>
+          <li>The NWS Warnings Coordinator contacts the WX4PTC Net Control Team.</li>
+          <li>Volunteer ARES/SKYWARN operators staff the WX4PTC station and open the net.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Trigger flow section -->
+    <section id="net-flow" class="card">
+      <header class="card-header card-header--green"><h2>Trigger Flow</h2></header>
+      <div class="card-body">
+        <ol class="include-list numbered">
+          <li>NWS issues a severe‑weather statement or warning requesting spotter activation.</li>
+          <li>NWS Warnings Coordinator activates WX4PTC team.</li>
+          <li>WX4PTC operates the SKYWARN net on the linked repeater system.</li>
+          <li>
+              Spotters submit report via radio on the SKYWARN linked repeater system, by phone 
+              (866‑763‑4466), or online form.
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Net operation section -->
+    <section id="operation" class="card">
+      <header class="card-header card-header--blue"><h2>How the Net Operates</h2></header>
+      <div class="card-body include-col">
+        <ul class="include-list">
+          <li>The SKYWARN net is a directed net. All traffic should go through net control.</li>
+          <li>Spotters check‑in on the Georgia SKYWARN linked repeaters.</li>
+          <li>Priority reports are relayed directly to the NWS Net Control
+            (NCS) at WX4PTC to avoid congestion.</li>
+          <li>If radio is unavailable, reports can be submitted by phone
+            or via the NWS online storm‑report form.</li>
+        </ul>
+      </div>
+    </section>
+    
+    <!-- Photo Archive -->
+    <section id="operation" class="card">
+      <header class="card-header card-header--blue"><h2>Photo Archive</h2></header>
+      <div class="card-body">
+        <div class="action-buttons">
+        <a href="photoarchive.html" class="btn btn-orange">Archived Station Photos</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Site footer - calls on footer.html via script-->
+ <div id="footer-placeholder"></div>
+
+
+  <!-- Minimal vanilla JS for unified site footer.html --> 
+ <script>
+  (function () {
+    const placeholder = document.getElementById('footer-placeholder');
+    if (!placeholder) return;
+
+  fetch('footer.html')
+    .then(r => {
+ if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.text();
+      })
+      .then(html => {
+        placeholder.innerHTML = html;
+      })
+      .catch(err => {
+        console.error('Failed to load footer:', err);
+        placeholder.innerHTML = '<p>Footer could not be loaded.</p>';
+  });
+  })();
+</script>
+  <!-- Minimal vanilla JS for mobile navigation drawer (IIFE to avoid globals) -->
+  <script>
+    (function () {
+      const btn = document.querySelector('.nav-toggle');
+      const list = document.getElementById(btn.getAttribute('aria-controls'));
+
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        list.classList.toggle('open');
+      });
+    })();
+  </script>
+</body>
+</html>

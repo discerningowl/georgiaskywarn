@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Metadata for character encoding and responsive viewport -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Page title -->
+  <title>About Georgia SKYWARN</title>
+
+  <!-- External shared stylesheet (relative URL) -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Basic favicon -->
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  
+</head>
+
+<body>
+  <!-- Site header with title (ARIA landmark) -->
+  <header class="site-header" role="banner" id="topheader">
+    <h1 class="site-title">About Georgia SKYWARN</h1>
+    <h2 class="site-subtitle">Site Information and Structure</h2>
+  </header>
+
+  <!-- Navigation menu with mobile toggle (ARIA attributes for accessibility) -->
+  <nav class="site-nav" role="navigation" aria-label="Site navigation">
+    <button class="nav-toggle" aria-controls="nav-list"
+            aria-expanded="false" aria-label="Toggle menu">☰</button>
+    <ul id="nav-list" class="nav-list">
+      <li><a href="index.html">← Back to Georgia SKYWARN</a></li>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#structure">Site Structure</a></li>
+      <li><a href="alerts.html" class="nav-btn-alert">All GA Alerts Page</a></li>
+      <li><a href="wx4ptc.html" class="nav-btn-link">WX4PTC Page</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main content area (ARIA landmark) -->
+  <main class="site-main" role="main">
+
+    <!-- Overview section -->
+    <section id="overview" class="card">
+      <header class="card-header"><h2>About This Site</h2></header>
+      <div class="card-body">
+        <p class="center">
+          The georgiaSKYWARN.com website provides resources for the Georgia SKYWARN linked repeater 
+          system, focusing on severe weather reporting for North and Central Georgia. It includes 
+          information on NWS resources, SKYWARN operations, active alerts, and the WX4PTC amateur 
+          radio station at NWS Peachtree City.
+        </p>
+        <p class="center">
+          The site is maintained by Jack Parks (KQ4JP) and uses a shared stylesheet for consistent 
+          design across pages. All pages are mobile-responsive and accessible. Light and Dark modes are supported.
+        </p>
+        <div class="action-buttons">
+          <a href="index.html" class="btn btn-blue">Georgia SKYWARN Home</a>
+          <a href="alerts.html" class="btn btn-red">Alerts Page</a>
+          <a href="wx4ptc.html" class="btn btn-indigo">WX4PTC Page</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Site Structure section with basic drawing -->
+    <section id="structure" class="card">
+      <header class="card-header card-header--green"><h2>Site Structure</h2></header>
+      <div class="card-body">
+        <p class="center">Below is a basic diagram of the site's structure, showing the main pages and their relationships.</p>
+        <div class="about-diagram-wrapper">
+		<pre class="about-diagram">
+                                +-------------------+
+                                |     Home Page     |
+                                |   (index.html)    |
+                                +-------------------+
+                                          |
+              +----------------------- Links to --------------------+
+              |                           |                         |
+              v                           v                         v
+        +-------------------+   +-------------------+   +-------------------+
+        |   Alerts Page     |   |   WX4PTC Page     |   |   About Page      |
+        |  (alerts.html)    |   |  (wx4ptc.html)    |   |   (about.html)    |
+        +-------------------+   +-------------------+   +-------------------+
+                                         |
+                                         V
+                                +-------------------+
+                                |   Photo Archive   |
+                                |(photoarchive.html)|
+                                +-------------------+
+		</pre>
+		</div>
+        <p class="center">All pages share the same navigation menu, header style, and footer. The site uses minimal JavaScript for mobile navigation and footer loading.</p>
+      </div>
+    </section>
+
+    <!-- Forecast Area section -->
+    <section id="forecastarea" class="card">
+      <header class="card-header"><h2>Service Area of NWS Atlanta</h2></header>
+      <div class="card-body">
+        <p class="center">
+          NWS Atlanta issues severe weather warnings (i.e. Tornado Warnings, Flash Flood Warnings, etc.) 
+          for 96 counties in northern and central Georgia. We call this our "CWA" or County Warning Area.
+		</p>
+		<div class="about-diagram">
+		  <a href="https://www.weather.gov/ffc/cwa" target="_blank">
+          <img src="ganwsareacoverage.png" alt="NWS CWA">
+        </a>
+		</div>
+		<img>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Site footer - calls on footer.html via script-->
+  <div id="footer-placeholder"></div>
+
+  <!-- Minimal vanilla JS for unified site footer.html --> 
+  <script>
+    (function () {
+      const placeholder = document.getElementById('footer-placeholder');
+      if (!placeholder) return;
+
+      fetch('footer.html')
+        .then(r => {
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          return r.text();
+        })
+        .then(html => {
+          placeholder.innerHTML = html;
+        })
+        .catch(err => {
+          console.error('Failed to load footer:', err);
+          placeholder.innerHTML = '<p>Footer could not be loaded.</p>';
+        });
+    })();
+  </script>
+
+  <!-- Minimal vanilla JS for mobile navigation drawer (IIFE to avoid globals) -->
+  <script>
+    (function () {
+      const btn = document.querySelector('.nav-toggle');
+      const list = document.getElementById(btn.getAttribute('aria-controls'));
+
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        list.classList.toggle('open');
+      });
+    })();
+  </script>
+
+</body>
+</html>

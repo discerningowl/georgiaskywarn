@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WX4PTC Station Photo Archive</title>
+
+  <!-- Shared stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+  <!-- ====================== HEADER ====================== -->
+  <header class="site-header" role="banner" id="topheader">
+    <h1 class="site-title">WX4PTC Station Photo Archive</h1>
+    <h2 class="site-subtitle">A Walk Through Time</h2>
+  </header>
+
+  <!-- ====================== NAVIGATION ====================== -->
+  <nav class="site-nav" role="navigation" aria-label="Site navigation">
+    <button class="nav-toggle" aria-controls="nav-list"
+            aria-expanded="false" aria-label="Toggle menu">☰</button>
+    <ul id="nav-list" class="nav-list">
+      <li><a href="index.html">← Georgia SKYWARN Home</a></li>
+      <li><a href="about.html">About the Site</a></li>
+      <li><a href="alerts.html" class="nav-btn-alert">All GA Alerts</a></li>
+      <li><a href="wx4ptc.html" class="nav-btn-link">WX4PTC Page</a></li>
+    </ul>
+  </nav>
+
+  <!-- ====================== MAIN CONTENT ====================== -->
+  <main class="site-main" role="main">
+
+    <!-- Intro card -->
+    <section class="card">
+      <header class="card-header card-header--indigo"><h2>Station Photo Gallery (circa 2002)</h2></header>
+      <div class="card-body">
+        <p class="center">
+          A visual tour of the WX4PTC amateur radio station at NWS Peachtree City.  
+          All equipment, operating positions, antennas and grounding are shown below.
+        </p>
+      </div>
+    </section>
+
+    <!-- Photo grid – uses .report-grid (2-column on ≥640px) -->
+    <section class="report-grid">
+
+      <!-- ==== Photo 1 ==== -->
+      <figure class="card">
+        <img src="archive/WX4PTC1.jpg" alt="Operating position for WX4PTC" loading="lazy" class="card-img">
+        <figcaption class="card-body">
+          <strong>Operating position</strong> – the main console for the WX4PTC station.
+        </figcaption>
+      </figure>
+
+      <!-- ==== Photo 2 ==== -->
+      <figure class="card">
+        <img src="archive/WX4PTC2.jpg" alt="Dual-monitor system with radar, EMWIN and APRS" loading="lazy" class="card-img">
+        <figcaption class="card-body">
+          <strong>Dual-monitor system</strong> – radar on the left, EMWIN in the centre, APRS on the right.  
+          Jack boxes under the table let each operator plug in a Heil boom headset.
+        </figcaption>
+      </figure>
+
+      <!-- ==== Photo 3 ==== -->
+      <figure class="card">
+        <img src="archive/WX4PTC4.jpg" alt="Main operating position (Radio A) with Icom IC207 and mixer" loading="lazy" class="card-img">
+        <figcaption class="card-body">
+          <strong>Radio A – Icom IC207</strong> – the mixer combines audio from all three positions so any operator can listen to any radio.
+        </figcaption>
+      </figure>
+
+      <!-- ==== Photo 4 ==== -->
+      <figure class="card">
+        <img src="archive/WX4PTC5.jpg" alt="Radio B (Kenwood TS570SG) and Radio C (Icom IC207)" loading="lazy" class="card-img">
+        <figcaption class="card-body">
+          <strong>Radio B &amp; C</strong> – Kenwood TS570SG (75 m / 40 m ARES) and another Icom IC207.
+        </figcaption>
+      </figure>
+
+      <!-- ==== Photo 5 ==== -->
+      <figure class="card">
+        <img src="archive/WX4PTC7.jpg" alt="Packet/APRS station with PacComm TNC and Icom IC2000H" loading="lazy" class="card-img">
+        <figcaption class="card-body">
+          <strong>Packet / APRS station</strong> – PacComm TNC + Icom IC2000H.
+        </figcaption>
+      </figure>
+
+      <!-- ==== Photo 6 ==== -->
+      <figure class="card">
+        <img src="archive/WX4PTC6.jpg" alt="Monitor switch for meteorologist audio feed" loading="lazy" class="card-img">
+        <figcaption class="card-body">
+          <strong>Monitor switch</strong> – routes audio from any radio to the meteorologist’s desk.
+        </figcaption>
+      </figure>
+
+      <!-- ==== Photo 7 ==== -->
+      <figure class="card">
+        <img src="archive/WX4PTC3.jpg" alt="WX4PTC antenna array on 40 ft Rohn 45 tower" loading="lazy" class="card-img">
+        <figcaption class="card-body">
+          <strong>Antenna array</strong> – Cushcraft 10-el 2 m beam, two Diamond X-50 dual-banders, Alpha Delta 10-80 m dipole, and a spare Hustler G-7 (currently under repair) on a 40 ft Rohn 45 tower.
+        </figcaption>
+      </figure>
+
+      <!-- ==== Photo 8 ==== -->
+      <figure class="card">
+        <img src="archive/WX4PTC8.jpg" alt="Main grounding buss bar at tower base" loading="lazy" class="card-img">
+        <figcaption class="card-body">
+          <strong>Grounding buss bar</strong> – enclosed box with three 16 ft ground rods for the tower plus a dedicated 10 ft rod.
+        </figcaption>
+      </figure>
+
+    </section>
+
+
+  </main>
+
+  <!-- ====================== FOOTER PLACEHOLDER ====================== -->
+  <div id="footer-placeholder"></div>
+
+  <!-- ====================== SCRIPTS ====================== -->
+  <!-- Footer loader (identical to about.html) -->
+  <script>
+    (function () {
+      const placeholder = document.getElementById('footer-placeholder');
+      if (!placeholder) return;
+      fetch('footer.html')
+        .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text(); })
+        .then(html => { placeholder.innerHTML = html; })
+        .catch(err => {
+          console.error('Failed to load footer:', err);
+          placeholder.innerHTML = '<p>Footer could not be loaded.</p>';
+        });
+    })();
+  </script>
+
+  <!-- Mobile nav toggle (identical to about.html) -->
+  <script>
+    (function () {
+      const btn = document.querySelector('.nav-toggle');
+      const list = document.getElementById(btn.getAttribute('aria-controls'));
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+        list.classList.toggle('open');
+      });
+    })();
+  </script>
+</body>
+</html>

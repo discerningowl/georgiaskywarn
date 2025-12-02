@@ -1,0 +1,1070 @@
+/* ==========================================================================
+   style.css – shared design for Georgia Skywarn & WX4PTC pages
+   Author: Jack Parks (KQ4JP) <kq4jp@pm.me>
+   Purpose: Unified, accessible, responsive design system using CSS Grid/Flexbox.
+            Supports light/dark mode, mobile-first layout, and semantic styling.
+   Change-log:
+     • 2025-11-05 – Full refactor: mobile-first, Grid/Flexbox, ARIA-ready,
+       reduced specificity, removed unused legacy styles.
+     • 2025-11-05 – Merged "What to Report" grid (no table), NWS resources grid,
+       improved .include-list, added --event-bg.
+     • 2025-11-07 – CLEANUP: Fixed card headers & buttons, removed dead code,
+       consolidated media queries, introduced --btn-bg variable, ensured
+       scroll-hint visibility in dark mode.
+     • 2025-11-07 – Added styles for NWS resources grid to fix messed up columns:
+       3-column desktop layout (logo + links + social), stacks on mobile,
+       with proper alignment and spacing.
+   ========================================================================== */
+
+/* ---------- CSS Custom Properties (Light / Dark) ---------- */
+:root {
+  /* Light mode defaults */
+  --bg-body: #f8f9fa;
+  --text-primary: #1a1a1a;
+  --text-secondary: #444;
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --card-border: rgba(0, 0, 0, 0.1);
+  --accent-blue: #0066cc;
+  --accent-blue-dark: #005cb8;
+  --accent-red: #e63946;
+  --accent-red-dark: #cf333e;
+  --accent-green: #4ad38e;
+  --accent-green-dark: #42ba7f;
+  --accent-indigo: #5C6BC0;
+  --accent-indigo-dark: #90CAF9;
+  --accent-orange: #FF9800;
+  --accent-orange-dark: #FFB74D;
+  --accent-yellow: #FFC107;
+  --accent-yellow-dark: #E0A800;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --glow: 0 0 15px rgba(0, 102, 204, 0.2);
+  --header-gradient: linear-gradient(135deg, #001f3f 0%, #003366 100%);
+  --header-gradient-red: linear-gradient(135deg, #FB2C36 0%, #FF6467 100%);
+  --header-gradient-green: linear-gradient(135deg, #116045 0%, #075F5A 100%);
+  --header-gradient-blue: linear-gradient(135deg, #0066cc 0%, #005cb8 100%);
+  --header-gradient-th: linear-gradient(135deg, #111140 0%, #112840 100%);
+  --title-grad-start: #99ACAF;
+  --title-grad-end: #99A1AF;
+  --title-solid: #381aff;
+  --radius: 20px;
+  --transition: all 0.3s ease;
+  --alert-warning-bg: #ffe6e6;
+  --alert-watch-bg: #fff4e6;
+  --alert-other-bg: #e6f7f5;
+  --alert-header-color: #333;
+  --alert-desc-color: var(--text-secondary);
+  --nav-btn-bg: #ffffff;
+  --nav-btn-color: #1a1a1a;
+  --nav-btn-border: rgba(0, 0, 0, 0.1);
+  --nav-btn-bg-hover: rgba(0, 102, 204, 0.15);
+  --nav-btn-color-hover: #005cb8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-body: #0f172a;
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --card-bg: rgba(15, 23, 42, 0.85);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --accent-blue: #60a5fa;
+    --accent-blue-dark: #5495e1;
+    --accent-red: #f87171;
+    --accent-red-dark: #df6565;
+    --accent-green: #4ad38e;
+    --accent-green-dark: #42ba7f;
+    --accent-indigo: #5C6BC0;
+    --accent-indigo-dark: #90CAF9;
+    --accent-orange: #FF9800;
+    --accent-orange-dark: #FFB74D;
+    --accent-yellow: #FFC107;
+    --accent-yellow-dark: #E0A800;
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --glow: 0 0 20px rgba(96, 165, 250, 0.3);
+    --header-gradient: linear-gradient(135deg, #0a3d62 0%, #1e40af 100%);
+    --header-gradient-red: linear-gradient(135deg, #FB2C36 0%, #FF6467 100%);
+    --header-gradient-green: linear-gradient(135deg, #116045 0%, #075F5A 100%);
+    --header-gradient-blue: linear-gradient(135deg, #0066cc 0%, #005cb8 100%);
+    --header-gradient-th: linear-gradient(135deg, #18185D 0%, #112840 100%);
+    --title-grad-start: #99ACAF;
+    --title-grad-end: #99A1AF;
+    --title-solid: #7a5fff;
+ /* --   --alert-warning-bg: #ffe6e6; - maybe delete -- */
+	--alert-warning-bg: rgba(230, 57, 70, 0.25); /* Muted red with transparency */
+	--alert-watch-bg: rgba(244, 162, 97, 0.25); /* Muted orange with transparency */
+	--alert-other-bg: rgba(42, 157, 143, 0.25); /* Muted teal with transparency */
+	--alert-header-color: #fff;
+	--alert-desc-color: #d1d5db; /* Light gray for readability */
+	--nav-btn-bg: rgba(15, 23, 42, 0.9);
+    --nav-btn-color: #e2e8f0;
+    --nav-btn-border: rgba(255, 255, 255, 0.1);
+    --nav-btn-bg-hover: rgba(96, 165, 250, 0.2);
+    --nav-btn-color-hover: #60a5fa;
+	}
+	.alert-item {
+	    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.1); /* Inner glow for depth in dark mode */
+	  }
+}
+
+/* ---------- Global Reset & Base ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--bg-body);
+  padding: 1rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Typography ---------- */
+h1, h2, h3, h4, h5, h6 {
+  margin: 1.5rem 0 1rem;
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+h1 { font-size: clamp(2rem, 6vw, 3.5rem); }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.4rem; }
+
+p, li, td, th {
+  margin-bottom: 0.8rem;
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+a {
+  color: var(--accent-blue);
+  text-decoration: underline;
+  word-break: break-word;
+  transition: var(--transition);
+}
+
+a:hover, a:focus {
+  color: var(--accent-blue-dark);
+  outline: none;
+}
+
+.center { text-align: center; }
+
+/* ==========================================================================
+   ORIGINAL HEADER – SMALLER, CENTERED, CLEAN
+   ========================================================================== */
+
+.site-header {
+  text-align: center;
+  margin: 1rem 0 1.5rem;
+  padding: 1rem;
+  min-height: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--header-gradient);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.site-title {
+  font-weight: 800;
+  font-size: clamp(2rem, 7vw, 4.5rem);
+  line-height: 1.1;
+  margin: 0 0 0.5rem;
+  background: linear-gradient(135deg, var(--title-grad-start), var(--title-grad-end));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  letter-spacing: -1px;
+}
+
+.site-subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: white;
+  margin: 0;
+  opacity: 0.9;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+
+
+/* ==========================================================================
+   SITE NAVIGATION – MOBILE TOGGLE
+   ========================================================================== */
+
+.nav-toggle {
+  display: none;
+  background: var(--accent-blue);
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0;
+}
+
+.nav-list a {
+  display: block;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  background: var(--nav-btn-bg, var(--card-bg));
+  color: var(--nav-btn-color, var(--text-primary));
+  border: 1px solid var(--nav-btn-border, var(--card-border));
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  text-align: center;
+}
+
+.nav-list a:hover,
+.nav-list a:focus {
+  background: var(--nav-btn-bg-hover, rgba(0, 102, 204, 0.15));
+  color: var(--nav-btn-color-hover, var(--accent-blue-dark));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.nav-btn-alert {
+  --nav-btn-bg: #e63946;
+  --nav-btn-color: white;
+  --nav-btn-bg-hover: #c62828;
+}
+
+.nav-btn-link {
+  --nav-btn-bg: #4da6ff;
+  --nav-btn-color: white;
+  --nav-btn-bg-hover: #003366;
+}
+
+/* ==========================================================================
+   CALLOUT – <aside class="callout"> for tips, warnings, notes
+   ========================================================================== */
+
+.callout {
+  background: var(--card-bg);
+  border-left: 6px solid var(--accent-blue);
+  border-right: 6px solid var(--accent-blue);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.callout:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.callout::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, transparent, rgba(0, 102, 204, 0.05));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.callout:hover::before {
+  opacity: 1;
+}
+
+.callout::after {
+  content: "";
+  position: absolute;
+  top: 0.75rem; right: 1rem;
+  font-size: 1.8rem;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+/* Variants – only change left border */
+.callout.tip       { border-left-color: var(--accent-green); border-right-color: var(--accent-green); }
+.callout.warning   { border-left-color: var(--accent-red); border-right-color: var(--accent-red);   }
+.callout.note      { border-left-color: #9c27b0; border-right-color: #9c27b0;  }
+.callout.success   { border-left-color: #4caf50; border-right-color: #4caf50;   }
+
+@media (prefers-color-scheme: dark) {
+  .callout { background: rgba(15, 23, 42, 0.9); }
+}
+
+/* ---------- Card Component (Reusable) ---------- */
+.card {
+  background: var(--card-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow), var(--glow);
+  transition: var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Shared header core – applies to every card header */
+.card-header {
+  padding: 1rem 1.5rem;
+  text-align: center;
+  background: var(--header-gradient);   /* default */
+}
+
+/* Header title – keep one rule */
+.card-header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Color modifiers – only the background changes */
+/* -------------------------------------------------
+   Card header – base + color modifiers (BEM style)
+   .card-header         → base
+   .card-header--red    → red background
+   .card-header--green  → green background
+   .card-header--blue   → blue background
+   ------------------------------------------------- */
+.card-header--red    { background: var(--header-gradient-red); }
+.card-header--green  { background: var(--header-gradient-green); }
+.card-header--blue   { background: var(--header-gradient-blue); }
+
+.card-img {
+  width: 100%;
+  height: auto;
+  max-height: 70vh;           /* prevent huge images on tall screens */
+  display: block;
+  margin: 0 auto;             /* horizontal center */
+  border-radius: var(--radius) var(--radius) 0 0;
+  object-fit: contain;        /* show full image, no cropping */
+  background: var(--card-bg); /* fallback bg if image has transparency */
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  --btn-bg: var(--accent-blue);   /* default colour */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .8rem 1.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #fff;
+  background: var(--btn-bg);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn:hover,
+.btn:focus {
+  background: color-mix(in srgb, var(--btn-bg) 80%, #000);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+}
+
+/* colour modifiers – just change the variable */
+.btn-blue    { --btn-bg: var(--accent-blue); }
+.btn-red     { --btn-bg: var(--accent-red); }
+.btn-green   { --btn-bg: var(--accent-green); }
+.btn-indigo  { --btn-bg: var(--accent-indigo); }
+.btn-orange  { --btn-bg: var(--accent-orange); }
+.btn-yellow  { --btn-bg: var(--accent-yellow); color: #000;}
+
+/* ==========================================================================
+   REPEATER TABLES – UNIFORM, RESPONSIVE, BEAUTIFUL
+   ========================================================================== */
+
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1rem 0;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.repeater-table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  background: var(--card-bg);
+}
+
+.repeater-table th {
+  background: var(--header-gradient-th);
+  color: white;
+  font-weight: 700;
+  text-align: left;
+  padding: 0.9rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.repeater-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--card-border);
+  vertical-align: top;
+  transition: background 0.2s ease;
+}
+
+.repeater-table tbody tr:hover {
+  background: rgba(0, 102, 204, 0.08);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Zebra striping */
+.repeater-table tbody tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+/* Pinned (important) rows */
+.repeater-table tr.pinned {
+  background: rgba(76, 175, 80, 0.1);
+  font-weight: 600;
+}
+.repeater-table tr.pinned td {
+  border-top: 3px solid #4caf50;
+}
+
+/* Frequency column */
+.repeater-table .freq {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  color: var(--accent-blue);
+  white-space: nowrap;
+}
+
+/* Links */
+.repeater-table a {
+  color: var(--accent-blue);
+  text-decoration: underline;
+  font-weight: 600;
+}
+.repeater-table a:hover {
+  color: var(--accent-blue-dark);
+}
+.repeater-table tbody tr td:first-child strong {
+    /* example: change colour or weight */
+    color: var(--accent-blue);
+    font-weight: 700;   
+}
+
+/* Scroll hint */
+.scroll-hint {
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  text-align: center;
+  margin: 0.5rem 0 0;
+  font-style: italic;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .repeater-table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .repeater-table tr.pinned {
+    background: rgba(76, 175, 80, 0.2);
+  }
+}
+
+/* Color coding: Red = Warning, Orange = Watch */
+
+/* Base enhancements for the alert card */
+.alert-card {
+  box-shadow: var(--shadow), 0 0 20px rgba(0, 0, 0, 0.15); /* Stronger shadow for more pop */
+  border: 1px solid var(--card-border); /* Subtle outline */
+  transition: var(--transition);
+}
+
+.alert-card:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2), var(--glow); /* Enhanced hover for visibility */
+}
+
+.alert-item {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 6px;
+  border-left: 6px solid;
+  background-color: #f9f9f9;
+  font-size: 0.95rem;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.alert-warning {
+  border-left-color: #e63946; /* Red */
+  background-color: var(--alert-warning-bg);
+}
+
+.alert-watch {
+  border-left-color: #f4a261; /* Orange */
+  background-color: var(--alert-watch-bg);
+}
+
+.alert-other {
+  border-left-color: #2a9d8f; /* Teal fallback */
+  background-color: var(--alert-other-bg);
+}
+
+.alert-header {
+  color: var(--alert-header-color);
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.alert-description {
+  color: var(--alert-desc-color);
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+/* No alerts message – ensure visibility */
+.no-alerts {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   WHAT TO REPORT – MOBILE-FIRST GRID (NO TABLE)
+   ========================================================================== */
+.report-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .report-grid {
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+  }
+}
+
+/* Left Column – What to Include */
+.include-col {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.include-title,
+.report-title {
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Right Column – What to Report */
+.report-col {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.report-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.report-item {
+  background: rgba(255, 255, 255, 0.1);
+  border-left: 4px solid;
+  padding: 0.75rem 1rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  transition: var(--transition);
+}
+
+.report-item:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.report-item strong {
+  display: block;
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.report-item p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.report-item small {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+/* Color-coded left border */
+.report-item.tornado   { border-left-color: #d32f2f; }
+.report-item.hail      { border-left-color: #f57c00; }
+.report-item.wind      { border-left-color: #fbc02d; }
+.report-item.flood     { border-left-color: #1976d2; }
+.report-item.winter    { border-left-color: #5e35b1; }
+.report-item.lightning { border-left-color: #7cb342; }
+
+/* ==========================================================================
+   NWS RESOURCES – 3-COLUMN GRID (Logo + Links + Social)
+   ========================================================================== */
+
+.nws-resources-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+/* -------------------------------------------------
+   NWS Resources – three equal‑width columns (Flexbox)
+   ------------------------------------------------- */
+
+/* Mobile – keep the original single‑column grid */
+.nws-resources-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;   /* one column on <768 px */
+}
+
+/* Desktop – three columns, each 1/3 of the width */
+@media (min-width: 768px) {
+  .nws-resources-grid {
+    display: flex;               /* switch to flexbox */
+    gap: 1.5rem;                /* same spacing as before */
+    align-items: flex-start;     /* top‑align the columns */
+  }
+
+  /* ---- EVERY column gets the same flex share ---- */
+  .nws-logo-col,
+  .nws-links-col,
+  .nws-social-col {
+    flex: 1 1 0;                 /* grow & shrink equally, start at 0 */
+    min-width: 0;                /* allow content to shrink below its intrinsic width */
+  }
+
+  /* ---- Logo image – fill its column while preserving aspect ratio ---- */
+  .nws-logo-col img {
+    width: 50%;                 /* stretch to column width */
+    height: auto;                /* keep original aspect ratio */
+    display: block;
+    margin: 0 auto;             /* centre horizontally inside the column */
+    max-width: 180px;
+  }
+
+  /* ---- Clean up list spacing so the two text columns line up ---- */
+  .nws-resource-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .nws-resource-list li {
+    margin-bottom: 0.8rem;       /* consistent vertical rhythm */
+  }
+}
+/* -------------------------------------------------
+   Green check‑boxes for the “Please Include” list
+   ------------------------------------------------- */
+
+/* 1️⃣ Target the specific list – keeps the rule scoped */
+.include-col .include-list {
+  list-style: none;               /* remove the default bullet */
+  margin: 0;
+  padding: 0;
+}
+
+/* 2️⃣ Create the check‑box using ::before */
+.include-col .include-list li {
+  position: relative;             /* needed for absolute positioning of ::before */
+  padding-left: 2rem;             /* space for the box + icon */
+  margin-bottom: 0.6rem;          /* vertical rhythm */
+}
+
+/* 3️⃣ The actual square + check */
+.include-col .include-list li::before {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+.include-col .include-list li::after {
+  content: "\2714"; /* Checkmark */
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+  color: #4caf50;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+/* Optional: give ordered lists the same left‑padding as the UL version */
+.numbered {
+  counter-reset: item;
+  pading-left: 2rem;       /* same space you gave the UL */
+}
+.numbered li {
+  display: block;
+  position: relative;
+  margin-bottom: 0.6rem;
+}
+.numbered li::before {
+  content: counter(item) ". ";
+  counter-increment: item;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  border-radius: 2px;
+  font-weight: bold;
+  color: var(--accent-blue);
+}
+
+/* -------------------------------------------------
+   OPTIONAL: hover/focus styling (makes it feel interactive)
+   ------------------------------------------------- */
+.include-col .include-list li:hover::before {
+  background-color: #e6f9ea;   /* very light green when you hover */
+}
+
+/* ==========================================================================
+   SYSTEM ACTIONS – SCALABLE, RESPONSIVE BUTTONS
+   ========================================================================== */
+
+.system-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0;
+  padding: 0 1rem;
+}
+
+/* Base button – let it grow with content */
+.system-actions .btn {
+  min-width: auto;
+  width: auto;
+  max-width: 100%;
+  padding: 0.9rem 1.5rem;
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  line-height: 1.4;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Device label – smaller, subtle */
+.system-actions .device-label {
+  display: block;
+  font-size: 0.75rem;
+  opacity: 0.8;
+  margin-top: 0.25rem;
+}
+
+/* ==========================================================================
+   ACTION BUTTONS – HORIZONTAL GROUP (Responsive)
+   ========================================================================== */
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin: 1.5rem 0;
+  padding: 0 1rem;
+}
+
+.action-buttons .btn {
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+  padding: 0.9rem 1.2rem;
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  text-align: center;
+  white-space: normal;
+}
+
+.action-buttons small {
+  display: block;
+  font-size: 0.75rem;
+  opacity: 0.9;
+  margin-top: 0.25rem;
+}
+
+/* Mobile: Stack vertically */
+@media (max-width: 767px) {
+  .action-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  .action-buttons .btn {
+    width: 100%;
+    max-width: 340px;
+  }
+  .site-header {
+    min-height: 25vh;
+    padding: 1rem;
+  }
+  .map-desktop { display: none; }
+  .map-mobile   { display: inline-flex; }
+}
+
+
+/* -------------------------------------------------
+   RESPONSIVE VISIBILITY (mobile vs desktop)
+   ------------------------------------------------- */
+.map-mobile { display: none; }
+
+@media (min-width: 768px) {
+  .map-desktop { display: inline-flex; }
+}
+
+
+/* ==========================================================================
+   RESPONSIVE MAP BUTTONS – Show only one per device
+   ========================================================================== */
+
+.map-link {
+  width: 100%;
+  max-width: 580px;
+  margin: 0.5rem auto;
+  text-align: center;
+}
+
+/* DEFAULT: hide the mobile button */
+.map-mobile { display: none; }
+
+/* DESKTOP (>=768px) */
+@media (min-width: 768px) {
+  .map-desktop { display: inline-flex; }
+}
+
+/* MOBILE (<768px) */
+@media (max-width: 767px) {
+  .map-mobile  { display: inline-flex; }
+}
+.device-label {
+  font-size: 0.7rem;
+  opacity: 0.6;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+/* ==========================================================================
+   SPOTTER RESOURCES – LEFT BUTTON, RIGHT TEXT (Responsive)
+   ========================================================================== */
+
+.spotter-resources {
+  margin: 2rem 0;
+}
+
+.section-title {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+/* Each pair: Button (left) + Text (right) */
+.resource-pair {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+  align-items: center;
+}
+
+/* Button Column */
+.resources-button {
+  flex: 1;
+  min-width: 260px;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.resources-button .btn {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  white-space: normal;
+  text-align: center;
+}
+
+.resources-button .device-label {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+/* Text Column */
+.resources-text {
+  flex: 2;
+  min-width: 300px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+.site-footer {
+  display: flex;
+  flex-direction: column;      /* stack the <p> elements vertically */
+  align-items: center;         /* <-- horizontally centre everything */
+  justify-content: center;     /* optional – centre vertically within its own height */
+  padding: 1rem 0;
+}
+
+/* ==========================================================================
+   ABOUT DIAGRAM – Clean, responsive, monospace, card-integrated
+   ========================================================================== */
+.about-diagram-wrapper {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  display: flex;
+  justify-content: center;   /* horizontal centering */
+  align-items: center; 
+}
+
+.about-diagram {
+  display: block;
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 0 auto;
+  white-space: pre;
+  min-width: 500px;           /* prevents squishing */
+  overflow-x: auto;
+}
+
+/* -------------------------------------------------
+   RESPONSIVE: Stack on Mobile
+   ------------------------------------------------- */
+@media (max-width: 767px) {
+  .resource-pair {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .resources-button,
+  .resources-text {
+    max-width: 100%;
+  }
+
+  .resources-button .btn {
+    max-width: 340px;
+    margin: 0 auto;
+  }
+}
+
+/* Desktop: Side-by-side */
+@media (min-width: 768px) {
+  .resource-pair {
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .resources-button {
+    margin-right: 1rem;
+  }
+}
+
+/* Show only on desktop – hide on mobile */
+.desktop-only { display: inline-flex; }
+@media (max-width: 767px) {
+  .desktop-only { display: none; }
+}
+
+/* ---------- Mobile navigation (single block) ---------- */
+@media (max-width: 768px) {
+  .nav-toggle { display: block; }
+  .nav-list   { display: none; flex-direction: column; width: 100%; margin-top: .5rem; }
+  .nav-list.open { display: flex; }
+  .nav-list a { width: 100%; text-align: center; }
+  .btn { width: 100%; max-width: 280px; }
+  .site-main { padding: 0 .5rem; }
+}
+
+@media (max-width: 480px) {
+  body { padding: .5rem; }
+  h1   { font-size: 2rem; }
+  h2   { font-size: 1.5rem; }
+  .card-header h2 { font-size: 1.2rem; }
+}
+
+/* ---------- Map button visibility (single block) ---------- */
+.map-mobile { display: none; }
+@media (min-width: 768px) { .map-desktop { display: inline-flex; } }
+@media (max-width: 767px)  { .map-mobile  { display: inline-flex; } .map-desktop { display: none; } }
+
+@media (max-width: 767px) {
+  .system-actions .btn { width: 100%; max-width: 340px; }
+}
