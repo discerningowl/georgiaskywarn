@@ -34,11 +34,32 @@ georgiaskywarn/
     └── ReadMe.md           # Explains external link preservation
 ```
 
+### ⚠️ CRITICAL: Directory Structure Requirements
+
+**The directory structure MUST remain similar to its existing layout. This is a hard requirement.**
+
+**DO NOT**:
+- ❌ Move HTML files into subdirectories (e.g., `pages/`, `src/`, `public/`)
+- ❌ Create new directories for organization (e.g., `css/`, `js/`, `images/`)
+- ❌ Rename existing directories (`archive/`, `www/`, `wx4ptc/`)
+- ❌ Change file locations or create nested structures
+- ❌ Move `style.css` or `footer.html` from the root directory
+- ❌ Reorganize image files into an `assets/` or `images/` folder
+
+**WHY**: The flat directory structure is required for:
+1. **External links** - Many external websites and references link directly to files at their current paths
+2. **Legacy redirects** - The `wx4ptc/` and `www/` directories handle old URLs that are still in use
+3. **Simplicity** - Static hosting and deployment depend on the current flat structure
+4. **Relative paths** - All CSS, JavaScript, and HTML use relative paths based on the flat structure
+
 ### Important Notes
 
-1. **DO NOT REMOVE** the `wx4ptc/` directory - it contains redirect scripts for external links
-2. All HTML pages share the same `style.css` stylesheet
-3. Footer is loaded dynamically via JavaScript from `footer.html`
+1. **DO NOT REMOVE** the `wx4ptc/` directory - it contains redirect scripts for external links that are referenced by NWS and other official sources
+2. **DO NOT REMOVE** the `www/` directory - legacy redirect for old bookmarks
+3. All HTML pages MUST remain in the root directory
+4. All HTML pages share the same `style.css` stylesheet (root level)
+5. Footer is loaded dynamically via JavaScript from `footer.html` (root level)
+6. Images and assets MUST remain in the root directory (flat structure)
 
 ---
 
@@ -242,6 +263,25 @@ fetch(url, { headers: { 'User-Agent': USER_AGENT } });
 
 ## Key Conventions for AI Assistants
 
+### 0. ⚠️ CRITICAL: Directory Structure (READ THIS FIRST)
+
+**MOST IMPORTANT RULE**: The directory structure MUST remain flat and unchanged.
+
+**ABSOLUTELY FORBIDDEN**:
+- ❌ Creating subdirectories (`pages/`, `css/`, `js/`, `images/`, `assets/`, `src/`, `public/`, etc.)
+- ❌ Moving any files from the root directory to subdirectories
+- ❌ Reorganizing files into a "better" structure
+- ❌ Renaming or removing `archive/`, `www/`, or `wx4ptc/` directories
+- ❌ Moving `style.css`, `footer.html`, or any `.html` files from root
+
+**WHY THIS MATTERS**:
+- External websites (NWS, RepeaterBook, ham radio forums) link to specific file paths
+- The `wx4ptc/` directory handles legacy redirects that CANNOT be broken
+- Static hosting configuration depends on the flat structure
+- Relative paths in HTML/CSS/JS are based on current structure
+
+**IF YOU'RE TEMPTED TO "ORGANIZE" THE STRUCTURE - DON'T. This is not negotiable.**
+
 ### 1. File Modifications
 
 **DO**:
@@ -250,11 +290,14 @@ fetch(url, { headers: { 'User-Agent': USER_AGENT } });
 - Preserve existing comments and changelog entries
 - Add changelog entries when making significant changes
 - Keep HTML attribute order: `class`, `id`, `role`, `aria-*`, `href`/`src`, `target`
+- Keep all HTML files in the root directory
+- Keep all images and assets in the root directory
 
 **DON'T**:
 - Create new CSS files (use `style.css`)
 - Create new JavaScript files (use inline `<script>` tags)
-- Remove or modify the `wx4ptc/` directory
+- Remove or modify the `wx4ptc/` or `www/` directories
+- Move files into subdirectories
 - Change the cache key names (breaks existing user caches)
 - Remove ARIA attributes or semantic HTML
 
@@ -589,6 +632,13 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2025-12-02
+- **CRITICAL UPDATE**: Added explicit directory structure requirements throughout documentation
+- Emphasized that flat directory structure MUST be maintained (no subdirectories)
+- Added warnings about external links dependency on current file paths
+- Updated "Common Pitfalls to Avoid" to prioritize structure preservation
+- Created comprehensive CLAUDE.md file for AI assistant guidance
+
 ### 2025-11-09
 - Extracted alerts section into dedicated page (`alerts.html`)
 - Created separate warning-only filter for `index.html`
@@ -610,17 +660,22 @@ refactor: Simplify alert filtering logic
 
 ### Before Making Changes
 
-1. Read this entire CLAUDE.md file
-2. Understand the mobile-first CSS approach
-3. Review existing code patterns (IIFE, BEM, semantic HTML)
-4. Test in multiple viewports (mobile, tablet, desktop)
-5. Verify light and dark modes
+1. **READ THE DIRECTORY STRUCTURE REQUIREMENTS** (Section 0 in Key Conventions)
+2. Read this entire CLAUDE.md file
+3. Verify you will NOT move, rename, or reorganize any files or directories
+4. Understand the mobile-first CSS approach
+5. Review existing code patterns (IIFE, BEM, semantic HTML)
+6. Test in multiple viewports (mobile, tablet, desktop)
+7. Verify light and dark modes
 
 ### Common Pitfalls to Avoid
 
+- ❌ **MOST IMPORTANT**: Don't reorganize directory structure or create subdirectories
+- ❌ Don't move HTML files into folders (pages/, src/, etc.)
+- ❌ Don't create css/, js/, images/, or assets/ directories
+- ❌ Don't remove or rename the `wx4ptc/` or `www/` directories
 - ❌ Don't add external libraries (jQuery, Bootstrap, etc.)
 - ❌ Don't create new CSS/JS files (use existing ones)
-- ❌ Don't remove the `wx4ptc/` directory
 - ❌ Don't hardcode colors (use CSS custom properties)
 - ❌ Don't skip ARIA attributes
 - ❌ Don't break mobile responsiveness
