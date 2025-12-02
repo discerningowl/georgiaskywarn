@@ -7,6 +7,27 @@
   <!-- Page title -->
   <title>About Georgia SKYWARN</title>
 
+  <!-- Meta description for SEO -->
+  <meta name="description" content="About the Georgia SKYWARN website - site structure, NWS service area, and information about the amateur radio weather spotter network in North and Central Georgia.">
+  <meta name="keywords" content="Georgia SKYWARN, about, site information, NWS Atlanta, amateur radio, weather spotters">
+  <meta name="author" content="Jack Parks (KQ4JP)">
+
+  <!-- Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"> 
+  <!-- Open Graph meta tags -->
+  <meta property="og:title" content="About Georgia SKYWARN">
+  <meta property="og:description" content="Information about the Georgia SKYWARN amateur radio weather spotter network and website structure.">
+  <meta property="og:image" content="https://georgiaskywarn.com/ganwsareacoverage.png">
+  <meta property="og:url" content="https://georgiaskywarn.com/about.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Georgia SKYWARN">
+
+  <!-- Twitter Card meta tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="About Georgia SKYWARN">
+  <meta name="twitter:description" content="Information about the Georgia SKYWARN amateur radio weather spotter network.">
+  <meta name="twitter:image" content="https://georgiaskywarn.com/ganwsareacoverage.png">
+
   <!-- External shared stylesheet (relative URL) -->
   <link rel="stylesheet" href="style.css">
   
@@ -100,7 +121,7 @@
           for 96 counties in northern and central Georgia. We call this our "CWA" or County Warning Area.
 		</p>
 		<div class="about-diagram">
-		  <a href="https://www.weather.gov/ffc/cwa" target="_blank">
+		  <a href="https://www.weather.gov/ffc/cwa" target="_blank" rel="noopener noreferrer">
           <img src="ganwsareacoverage.png" alt="NWS CWA">
         </a>
 		</div>
@@ -138,7 +159,9 @@
   <script>
     (function () {
       const btn = document.querySelector('.nav-toggle');
+      if (!btn) return; // Guard clause
       const list = document.getElementById(btn.getAttribute('aria-controls'));
+      if (!list) return; // Additional safety
 
       btn.addEventListener('click', () => {
         const expanded = btn.getAttribute('aria-expanded') === 'true';

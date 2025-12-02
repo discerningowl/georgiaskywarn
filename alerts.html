@@ -1,7 +1,7 @@
 <!--
   ──────────────────────────────────────────────────────────────
   File:   alerts.html
-  Author: Jack Parks (KQ4JP) <kq4jp&#64;pm.me>
+  Author: Jack Parks (KQ4JP) <kq4jp@pm.me>
   Purpose: Dedicated page for Active Watches & Warnings from NWS Atlanta (FFC).
            Maintains consistent look and feel with index.html using shared stylesheet.
   Change-log:
@@ -14,15 +14,42 @@
   <!-- Metadata for character encoding and responsive viewport -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <!-- Page title -->
-  <title>Georgia SKYWARN - Active Alerts</title>
+  <title>Georgia SKYWARN - Active Weather Alerts</title>
+
+  <!-- Meta description for SEO -->
+  <meta name="description" content="Real-time severe weather alerts, warnings, and watches for North and Central Georgia from NWS Peachtree City. Monitor active tornado, thunderstorm, flood, and winter weather alerts.">
+  <meta name="keywords" content="Georgia weather alerts, NWS warnings, severe weather, tornado warning, flood watch, SKYWARN alerts, NWS Peachtree City">
+  <meta name="author" content="Jack Parks (KQ4JP)">
+
+  <!-- Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://api.weather.gov; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+
+  <!-- DNS prefetch and preconnect for NWS API -->
+  <link rel="preconnect" href="https://api.weather.gov">
+  <link rel="dns-prefetch" href="https://api.weather.gov">
+
+  <!-- Open Graph meta tags for social media -->
+  <meta property="og:title" content="Georgia SKYWARN - Active Weather Alerts">
+  <meta property="og:description" content="Real-time severe weather alerts, warnings, and watches for North and Central Georgia from NWS Peachtree City.">
+  <meta property="og:image" content="https://georgiaskywarn.com/nws.gif">
+  <meta property="og:url" content="https://georgiaskywarn.com/alerts.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Georgia SKYWARN">
+
+  <!-- Twitter Card meta tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Georgia SKYWARN - Active Weather Alerts">
+  <meta name="twitter:description" content="Real-time severe weather alerts from NWS Peachtree City for North and Central Georgia.">
+  <meta name="twitter:image" content="https://georgiaskywarn.com/nws.gif">
 
   <!-- External shared stylesheet (relative URL) -->
   <link rel="stylesheet" href="style.css">
-  
+
   <!-- Basic favicon -->
   <link rel="icon" href="favicon.ico" type="image/x-icon">
-  
+
 </head>
 
 <body>
@@ -58,7 +85,7 @@
         	<strong>Warnings</strong> will be red, <strong>Watches</strong> are in orange, and <strong>Alerts</strong> are in teal.
         	</p>
         </aside>
-        <p id="alerts-loading" class="center">Loading active alerts...</p>
+        <div id="alerts-loading" class="skeleton-loader" aria-label="Loading active alerts"></div>
         <div id="alerts-container"></div>
       </div>
     </section>
@@ -93,7 +120,9 @@
   <script>
     (function () {
       const btn = document.querySelector('.nav-toggle');
+      if (!btn) return; // Guard clause
       const list = document.getElementById(btn.getAttribute('aria-controls'));
+      if (!list) return; // Additional safety
 
       btn.addEventListener('click', () => {
         const expanded = btn.getAttribute('aria-expanded') === 'true';
@@ -131,18 +160,36 @@
   
       const setCache = data => localStorage.setItem(CACHE_KEY, JSON.stringify({ data, ts: Date.now() }));
   
-      const fetchAlerts = async () => {
+      const fetchAlerts = async (retries = 3) => {
         const cached = getCache();
         if (cached) return cached;
-  
-        const url = `https://api.weather.gov/alerts/active?zone=${FFC_ZONES}`;
-        const resp = await fetch(url, { headers: { 'User-Agent': USER_AGENT } });
-  
-        if (!resp.ok) throw new Error(`NWS API error: ${resp.status}`);
-  
-        const json = await resp.json();
-        setCache(json);
-        return json;
+
+        for (let i = 0; i < retries; i++) {
+          try {
+            const url = `https://api.weather.gov/alerts/active?zone=${FFC_ZONES}`;
+            const resp = await fetch(url, {
+              headers: { 'User-Agent': USER_AGENT },
+              signal: AbortSignal.timeout(10000) // 10 second timeout
+            });
+
+            if (resp.status === 503 || resp.status === 429) {
+              // Service unavailable or rate limited - retry
+              if (i < retries - 1) {
+                await new Promise(resolve => setTimeout(resolve, 2000 * (i + 1)));
+                continue;
+              }
+            }
+
+            if (!resp.ok) throw new Error(`NWS API error: ${resp.status}`);
+
+            const json = await resp.json();
+            setCache(json);
+            return json;
+          } catch (err) {
+            if (i === retries - 1) throw err; // Last retry failed
+            await new Promise(resolve => setTimeout(resolve, 2000 * (i + 1)));
+          }
+        }
       };
   
       const render = data => {
@@ -180,14 +227,31 @@
         const data = await fetchAlerts();
         hide(loading);
         show(container, render(data));
+
+        // Background refresh every 5 minutes (respects cache)
+        setInterval(async () => {
+          try {
+            const freshData = await fetchAlerts();
+            show(container, render(freshData));
+          } catch (err) {
+            console.error('Background refresh failed:', err);
+            // Don't clear existing alerts - keep showing cached data
+          }
+        }, 5 * 60 * 1000);
       } catch (e) {
         hide(loading);
-        show(container, `<p style="color:var(--accent-red);text-align:center;">Error: ${e.message}</p>`);
-        console.error(e);
+        const errorMsg = `
+          <div class="callout warning">
+            <p class="center">
+              <strong>Unable to load alerts at this time.</strong><br>
+              The National Weather Service API may be temporarily unavailable.<br>
+              Please check <a href="https://www.weather.gov/ffc/" target="_blank" rel="noopener noreferrer">NWS Atlanta</a> directly for current alerts.
+            </p>
+          </div>
+        `;
+        show(container, errorMsg);
+        console.error('Alert fetch error:', e);
       }
-  
-      // Refresh every 10 minutes
-      setTimeout(() => location.reload(), 10 * 60 * 1000);
     })();
   </script>
 </body>

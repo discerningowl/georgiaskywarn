@@ -3,7 +3,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WX4PTC Station Photo Archive</title>
+
+  <!-- Page title -->
+  <title>WX4PTC Station Photo Archive - Historical Equipment Photos</title>
+
+  <!-- Meta description for SEO -->
+  <meta name="description" content="Historical photo archive of the WX4PTC amateur radio station at NWS Peachtree City (circa 2002). View operating positions, antenna arrays, and station equipment.">
+  <meta name="keywords" content="WX4PTC photos, amateur radio station, NWS Peachtree City, radio equipment, antenna, ham radio station">
+  <meta name="author" content="Jack Parks (KQ4JP)">
+
+  <!-- Content Security Policy -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+
+  <!-- Open Graph meta tags -->
+  <meta property="og:title" content="WX4PTC Station Photo Archive">
+  <meta property="og:description" content="Historical photos of the WX4PTC amateur radio station at NWS Peachtree City.">
+  <meta property="og:image" content="https://georgiaskywarn.com/archive/WX4PTC1.jpg">
+  <meta property="og:url" content="https://georgiaskywarn.com/photoarchive.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Georgia SKYWARN">
+
+  <!-- Twitter Card meta tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="WX4PTC Station Photo Archive">
+  <meta name="twitter:description" content="Historical photos of the WX4PTC amateur radio station at NWS Peachtree City.">
+  <meta name="twitter:image" content="https://georgiaskywarn.com/archive/WX4PTC1.jpg">
 
   <!-- Shared stylesheet -->
   <link rel="stylesheet" href="style.css">
@@ -139,7 +163,10 @@
   <script>
     (function () {
       const btn = document.querySelector('.nav-toggle');
+      if (!btn) return; // Guard clause
       const list = document.getElementById(btn.getAttribute('aria-controls'));
+      if (!list) return; // Additional safety
+
       btn.addEventListener('click', () => {
         const expanded = btn.getAttribute('aria-expanded') === 'true';
         btn.setAttribute('aria-expanded', String(!expanded));
