@@ -15,8 +15,10 @@ The **Georgia SKYWARN** website (`georgiaskywarn.com`) is a static HTML/CSS webs
 
 ```
 georgiaskywarn/
-├── index.html              # Main landing page with repeater info and resources
+├── index.html              # Main landing page with SKYWARN info and active warnings
 ├── alerts.html             # Dedicated page for all NWS Atlanta weather alerts
+├── repeaters.html          # Dedicated page for linked and non-linked repeaters
+├── nwsffclinks.html        # Useful NWS links and resources page
 ├── wx4ptc.html             # Information about WX4PTC station
 ├── about.html              # Site structure and overview
 ├── photoarchive.html       # Photo archive of WX4PTC station
@@ -68,6 +70,10 @@ georgiaskywarn/
 ### index.html (Main Page)
 **Purpose**: Primary entry point with comprehensive SKYWARN information
 
+**Navigation**:
+- **Site-nav**: Links to other pages (alerts, repeaters, wx4ptc, nwsffclinks, about)
+- **Page-nav**: Internal page links (NWS Resources, SKYWARN Info, Reporting, Submit Reports, Repeaters, Contacts)
+
 **Key Sections**:
 - Active Alerts (NWS Atlanta WARNINGS only - red card)
 - NWS Resources (3-column grid: logo, links, social)
@@ -83,27 +89,70 @@ georgiaskywarn/
 - Filters for NWS Peachtree City (FFC) warnings only
 - 5-minute cache in localStorage
 - Auto-refresh every 10 minutes
+- Dual navigation toggle handlers for site-nav and page-nav
 
 ### alerts.html
 **Purpose**: Dedicated page showing ALL alerts (warnings, watches, and advisories)
+
+**Navigation**:
+- **Site-nav only**: Links to other pages (back to index, repeaters, wx4ptc, nwsffclinks, about)
+- **No page-nav**: Single-purpose page with no internal sections
 
 **Key Differences from index.html**:
 - Shows warnings (red), watches (orange), and other alerts (teal)
 - No filtering - displays all alert types from NWS Atlanta
 - Same caching and refresh logic as index.html
 
+### repeaters.html
+**Purpose**: Dedicated page for SKYWARN repeater information
+
+**Navigation**:
+- **Site-nav**: Links to other pages (back to index, alerts, wx4ptc, nwsffclinks, about)
+- **Page-nav**: Links to page sections (Linked Repeaters, Non-Linked Repeaters)
+
+**Contains**:
+- Complete linked repeater table (primary SKYWARN network)
+- Non-linked repeaters table (local SKYWARN nets)
+- Coverage notes and emergency power information
+
+### nwsffclinks.html
+**Purpose**: Comprehensive list of useful NWS and weather-related links
+
+**Navigation**:
+- **Site-nav**: Links to other pages (back to index, alerts, repeaters, wx4ptc, about)
+- **Page-nav**: Links to page sections (Core Resources, Decision Support, River/Flood Info, Specialized Weather, National Centers)
+
+**Contains**:
+- Core NWS Atlanta resources
+- Decision support tools
+- River and flooding information
+- Specialized weather information (fire, winter, aviation)
+- National weather centers
+
 ### wx4ptc.html
 **Purpose**: Information about the NWS Peachtree City amateur radio station
+
+**Navigation**:
+- **Site-nav**: Links to other pages (back to index, alerts, repeaters, nwsffclinks, about)
+- **Page-nav**: Links to page sections (varies by content)
 
 **Contains**: Station details, equipment information, operations
 
 ### about.html
 **Purpose**: Meta information about the website structure
 
+**Navigation**:
+- **Site-nav**: Links to other pages (back to index, alerts, repeaters, wx4ptc, nwsffclinks)
+- **Page-nav**: Links to page sections (varies by content)
+
 **Contains**: Site overview, structure diagram, NWS service area map
 
 ### photoarchive.html
 **Purpose**: Historical photos of WX4PTC station
+
+**Navigation**:
+- **Site-nav**: Links to other pages
+- **Page-nav**: May vary depending on photo organization
 
 ---
 
@@ -151,12 +200,45 @@ georgiaskywarn/
    - `.btn` - Button component with color modifiers
    - `.repeater-table` - Styled tables for repeater info
    - `.alert-item` - Weather alert display cards
+   - `.site-nav` - Site-wide navigation container
+   - `.page-nav` - Page-specific navigation container
+   - `.nav-toggle` - Mobile hamburger menu button (styled differently for site-nav and page-nav)
+   - `.nav-list` - Navigation link list
+   - `.nav-btn-alert` - Red navigation button for alerts page
+   - `.nav-btn-link` - Blue navigation button for standard links
 
 4. **Accessibility**:
    - Semantic HTML5 landmarks (`<header>`, `<nav>`, `<main>`, `<footer>`)
    - ARIA attributes (`role`, `aria-controls`, `aria-expanded`, `aria-label`)
    - Focus states for keyboard navigation
    - High contrast ratios for text
+
+### Navigation System
+
+The site uses a **dual navigation system**:
+
+1. **Site Navigation (`.site-nav`)**:
+   - Purpose: Navigate between different pages of the site
+   - Mobile toggle: Blue hamburger button labeled "☰ SITE"
+   - Button styling: `background: var(--accent-blue)` with darker hover state
+   - Contains links to: alerts.html, repeaters.html, wx4ptc.html, nwsffclinks.html, about.html
+
+2. **Page Navigation (`.page-nav`)**:
+   - Purpose: Navigate to sections within the current page
+   - Mobile toggle: Green hamburger button labeled "☰ PAGE"
+   - Button styling: `background: var(--accent-green)` with darker hover state
+   - Contains anchor links to page sections (e.g., #nwscard, #SKYWARNcard, #reportcard)
+
+3. **Navigation Button Classes**:
+   - `.nav-btn-alert` - Red background (#e63946) for high-visibility alerts page links
+   - `.nav-btn-link` - Indigo/blue background (#5C6BC0) for standard navigation links
+   - Both include hover states with darker colors and smooth transitions
+
+4. **Mobile Behavior**:
+   - Hamburger buttons appear on mobile (<768px)
+   - Each navigation type has its own independent toggle
+   - JavaScript handles toggling `.open` class on `.nav-list`
+   - ARIA attributes: `aria-controls`, `aria-expanded`, `aria-label`
 
 ---
 
@@ -340,6 +422,8 @@ fetch(url, { headers: { 'User-Agent': USER_AGENT } });
 - Keep navigation structure consistent across pages
 - Use descriptive link text (not "click here")
 - Include `<meta name="viewport">` for mobile
+- Implement both `.site-nav` and `.page-nav` with correct IDs and aria-controls
+- Use proper navigation button classes (`.nav-btn-alert`, `.nav-btn-link`)
 
 **DON'T**:
 - Use `<div>` when semantic elements exist
@@ -347,6 +431,8 @@ fetch(url, { headers: { 'User-Agent': USER_AGENT } });
 - Break the navigation menu structure
 - Change the footer loading mechanism
 - Nest headings incorrectly (h1 → h2 → h3)
+- Mix up site-nav and page-nav IDs (must be `site-nav-list` and `page-nav-list`)
+- Forget to update site-nav on all pages when adding a new page
 
 ### 5. Content Updates
 
@@ -444,9 +530,55 @@ p.event?.toLowerCase().includes('watch')
 1. Copy an existing page structure (e.g., `about.html`)
 2. Update the `<title>` tag
 3. Update the `<h1>` and `<h2>` in the header
-4. Modify navigation links if needed
-5. Add the page to all navigation menus (`.nav-list`)
-6. Test footer loading and mobile navigation
+4. Determine if the page needs both site-nav and page-nav:
+   - **Site-nav**: Always required (links to other pages)
+   - **Page-nav**: Only if the page has multiple internal sections
+5. Add the new page to the site-nav on ALL other pages:
+   ```html
+   <li><a href="newpage.html" class="nav-btn-link">New Page</a></li>
+   ```
+6. If using page-nav, add internal section links:
+   ```html
+   <li><a href="#section1">Section 1</a></li>
+   <li><a href="#section2">Section 2</a></li>
+   ```
+7. Ensure hamburger button labels are correct:
+   - Site-nav: `aria-label="Toggle site menu"` with text "☰ SITE"
+   - Page-nav: `aria-label="Toggle page menu"` with text "☰ PAGE"
+8. Test footer loading and both navigation menus on mobile
+
+### Working with the Dual Navigation System
+
+**When to use Site-nav vs Page-nav**:
+- **Site-nav**: Use for links to other HTML pages (always present on every page)
+- **Page-nav**: Use for anchor links to sections within the current page (optional, only if page has multiple sections)
+
+**Styling navigation links**:
+- Use `.nav-btn-alert` for high-priority links (e.g., alerts page):
+  ```html
+  <a href="alerts.html" class="nav-btn-alert">All GA Alerts Page</a>
+  ```
+- Use `.nav-btn-link` for standard navigation links:
+  ```html
+  <a href="repeaters.html" class="nav-btn-link">SKYWARN Repeaters</a>
+  ```
+- Use no class for plain text links (e.g., "← Back to Georgia SKYWARN")
+
+**JavaScript for dual navigation**:
+- Pages with both navigations need to handle multiple toggles:
+  ```javascript
+  const btns = document.querySelectorAll('.nav-toggle');
+  btns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const targetId = this.getAttribute('aria-controls');
+      const menu = document.getElementById(targetId);
+      const isOpen = menu.classList.contains('open');
+      menu.classList.toggle('open');
+      this.setAttribute('aria-expanded', !isOpen);
+    });
+  });
+  ```
+- Pages with only site-nav can use simpler single-toggle handler
 
 ### Modifying the Alert Display Logic
 
@@ -512,7 +644,12 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes (in milliseconds)
 1. **Verify JavaScript** for `.nav-toggle` is present
 2. **Check CSS** for `.nav-list.open { display: flex; }`
 3. **Test mobile viewport** - must be `<768px` width
-4. **Ensure button has** `aria-controls="nav-list"`
+4. **Ensure button has correct** `aria-controls` attribute:
+   - Site-nav toggle: `aria-controls="site-nav-list"`
+   - Page-nav toggle: `aria-controls="page-nav-list"`
+5. **Verify IDs match**: The `<ul>` ID must match the button's `aria-controls` value
+6. **Check for multiple toggles**: Pages with both site-nav and page-nav need `querySelectorAll('.nav-toggle')` to handle both buttons
+7. **Verify button labels**: Site-nav should show "☰ SITE" and page-nav should show "☰ PAGE"
 
 ### Dark Mode Not Working
 
@@ -632,6 +769,22 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2025-12-05
+- **MAJOR UPDATE**: Implemented dual navigation system
+  - Added site-wide navigation (`.site-nav`) for page links - blue hamburger "☰ SITE"
+  - Added page-specific navigation (`.page-nav`) for section anchors - green hamburger "☰ PAGE"
+  - Differentiated mobile hamburger menus with color coding and text labels
+  - Added navigation button classes: `.nav-btn-alert` (red) and `.nav-btn-link` (blue)
+- **NEW PAGES**: Created dedicated pages for better content organization
+  - `repeaters.html` - Linked and non-linked SKYWARN repeaters
+  - `nwsffclinks.html` - Comprehensive NWS and weather resource links
+- **CSS ENHANCEMENTS**:
+  - Site-nav toggle: Blue background with hover effects
+  - Page-nav toggle: Green background with hover effects
+  - Navigation button styling with smooth transitions
+- **IMPROVED UX**: Mobile navigation now clearly distinguishes between site and page navigation
+- **DOCUMENTATION**: Updated CLAUDE.md to reflect dual navigation system and new site structure
+
 ### 2025-12-02
 - **CRITICAL UPDATE**: Added explicit directory structure requirements throughout documentation
 - Emphasized that flat directory structure MUST be maintained (no subdirectories)
@@ -681,6 +834,9 @@ refactor: Simplify alert filtering logic
 - ❌ Don't break mobile responsiveness
 - ❌ Don't change NWS API cache keys
 - ❌ Don't remove User-Agent headers
+- ❌ Don't confuse site-nav with page-nav (they serve different purposes)
+- ❌ Don't forget to update navigation on ALL pages when adding a new page
+- ❌ Don't use the wrong navigation button classes (.nav-btn-alert vs .nav-btn-link)
 
 ### When in Doubt
 
@@ -692,6 +848,6 @@ refactor: Simplify alert filtering logic
 
 ---
 
-**Last Updated**: 2025-12-02
+**Last Updated**: 2025-12-05
 **Maintained By**: Claude AI Assistant (based on codebase analysis)
 **For Questions**: Contact Jack Parks (KQ4JP) <kq4jp@pm.me>
