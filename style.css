@@ -1038,60 +1038,127 @@ a:hover, a:focus {
 .report-item.winter    { border-left-color: #5e35b1; }
 .report-item.lightning { border-left-color: #7cb342; }
 
+
 /* ==========================================================================
-   NWS RESOURCES – 3-COLUMN GRID (Logo + Links + Social)
+   NWS RESOURCES SECTION – Compact & Professional
    ========================================================================== */
 
 .nws-resources-grid {
   display: grid;
-  gap: 1.5rem;
+  gap: 2rem;
   grid-template-columns: 1fr;
+  align-items: start;
 }
 
-/* -------------------------------------------------
-   NWS Resources – three equal‑width columns (Flexbox)
-   ------------------------------------------------- */
-
-/* Mobile – keep the original single‑column grid */
-.nws-resources-grid {
-  display: grid;
-  gap: 1.5rem;
-  grid-template-columns: 1fr;   /* one column on <768 px */
+/* Logo Section */
+.nws-logo-section {
+  text-align: center;
+  padding: 1rem;
 }
 
-/* Desktop – three columns, each 1/3 of the width */
+.nws-logo-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.nws-logo-link:hover {
+  transform: scale(1.05);
+}
+
+.nws-logo {
+  width: 120px;
+  height: auto;
+  display: block;
+}
+
+.nws-logo-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent-blue);
+}
+
+/* Section Columns */
+.nws-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.nws-section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--card-border);
+}
+
+.nws-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nws-links li {
+  margin: 0;
+}
+
+.nws-links a {
+  display: block;
+  padding: 0.4rem 0;
+  color: var(--accent-blue);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: var(--transition);
+}
+
+.nws-links a:hover {
+  color: var(--accent-blue-dark);
+  transform: translateX(3px);
+}
+
+/* More Resources Section */
+.nws-more-resources {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--card-border);
+  text-align: center;
+}
+
+.nws-more-text {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin: 0 0 1rem 0;
+  font-weight: 500;
+}
+
+/* Desktop Layout */
 @media (min-width: 768px) {
   .nws-resources-grid {
-    display: flex;               /* switch to flexbox */
-    gap: 1.5rem;                /* same spacing as before */
-    align-items: flex-start;     /* top‑align the columns */
+    grid-template-columns: 150px 1fr 1fr;
+    gap: 2.5rem;
   }
 
-  /* ---- EVERY column gets the same flex share ---- */
-  .nws-logo-col,
-  .nws-links-col,
-  .nws-social-col {
-    flex: 1 1 0;                 /* grow & shrink equally, start at 0 */
-    min-width: 0;                /* allow content to shrink below its intrinsic width */
-  }
-
-  /* ---- Logo image – fill its column while preserving aspect ratio ---- */
-  .nws-logo-col img {
-    width: 50%;                 /* stretch to column width */
-    height: auto;                /* keep original aspect ratio */
-    display: block;
-    margin: 0 auto;             /* centre horizontally inside the column */
-    max-width: 180px;
-  }
-
-  /* ---- Clean up list spacing so the two text columns line up ---- */
-  .nws-resource-list {
-    margin: 0;
+  .nws-logo-section {
     padding: 0;
-    list-style: none;
   }
-  .nws-resource-list li {
-    margin-bottom: 0.8rem;       /* consistent vertical rhythm */
+
+  .nws-more-resources {
+    margin-top: 1rem;
+    padding-top: 1rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .nws-logo-link:hover {
+    opacity: 0.9;
   }
 }
 /* -------------------------------------------------
