@@ -72,6 +72,8 @@
       <li><a href="#activation">Activation Process</a></li>
       <li><a href="#net-flow">Trigger Flow</a></li>
       <li><a href="#operation">Net Operation</a></li>
+      <li><a href="repeaters.html">Repeaters</a></li>
+      <li><a href="alerts.html" class="nav-btn-alert">All GA Alerts Page</a></li>
     </ul>
   </nav>
 
@@ -197,5 +199,34 @@
       });
     })();
   </script>
+
+<!-- Back to Top Button -->
+<button class="back-to-top" aria-label="Back to top" title="Back to top">
+  ↑
+</button>
+
+<!-- Back to Top Button Script -->
+<script>
+  (function () {
+    const backToTopBtn = document.querySelector('.back-to-top');
+    if (!backToTopBtn) return;
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  })();
+</script>
+
 </body>
 </html>
