@@ -1054,6 +1054,9 @@ a:hover, a:focus {
 .nws-logo-section {
   text-align: center;
   padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .nws-logo-link {
@@ -1070,7 +1073,8 @@ a:hover, a:focus {
 }
 
 .nws-logo {
-  width: 120px;
+  width: 100%;
+  max-width: 180px;
   height: auto;
   display: block;
 }
@@ -1079,6 +1083,7 @@ a:hover, a:focus {
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--accent-blue);
+  white-space: nowrap;
 }
 
 /* Section Columns */
@@ -1139,20 +1144,58 @@ a:hover, a:focus {
   font-weight: 500;
 }
 
-/* Desktop Layout */
+/* Tablet Layout - 2 columns with logo on top */
+@media (min-width: 600px) and (max-width: 767px) {
+  .nws-resources-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .nws-logo-section {
+    grid-column: 1 / -1;
+    padding: 0.5rem 0 1rem 0;
+  }
+
+  .nws-logo {
+    max-width: 150px;
+  }
+}
+
+/* Desktop Layout - 3 equal columns */
 @media (min-width: 768px) {
   .nws-resources-grid {
-    grid-template-columns: 150px 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 2.5rem;
+    align-items: stretch;
   }
 
   .nws-logo-section {
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .nws-logo-link {
+    height: 100%;
+    justify-content: flex-start;
+    padding-top: 1rem;
+  }
+
+  .nws-logo {
+    max-width: 160px;
   }
 
   .nws-more-resources {
     margin-top: 1rem;
     padding-top: 1rem;
+  }
+}
+
+/* Larger desktop - slightly bigger logo */
+@media (min-width: 1200px) {
+  .nws-logo {
+    max-width: 180px;
   }
 }
 
