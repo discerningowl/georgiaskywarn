@@ -81,19 +81,40 @@
     <section id="overview" class="card">
       <header class="card-header"><h2>About This Site</h2></header>
       <div class="card-body">
+        <h3>Purpose & Mission</h3>
         <p class="center">
-          The Georgia SKYWARN website provides resources for and about the Georgia SKYWARN linked repeater 
-          system, focusing on severe weather reporting for 96 counties in North and Central Georgia. It includes 
-          information on NWS resources, SKYWARN operations, active alerts, and the WX4PTC amateur 
-          radio station at NWS Peachtree City.
+          The Georgia SKYWARN website serves as the central hub for the Georgia SKYWARN linked repeater
+          system, coordinating severe weather reporting across 96 counties in North and Central Georgia.
+          We provide real-time weather alerts, repeater information, reporting guidelines, and direct
+          coordination with the National Weather Service in Peachtree City (WX4PTC).
         </p>
+
+        <h3>Key Features</h3>
+        <ul class="links-list">
+          <li><strong>Real-Time Weather Alerts:</strong> Automatic updates every 10 minutes from the NWS API,
+          displaying active warnings on the homepage and comprehensive alerts on the dedicated alerts page.</li>
+
+          <li><strong>Dual Navigation System:</strong> Site-wide navigation (blue) for moving between pages
+          and page-specific navigation (green) for jumping to sections within a page.</li>
+
+          <li><strong>Repeater Directory:</strong> Complete listings of linked and non-linked SKYWARN repeaters
+          with frequencies, coverage areas, and emergency power information.</li>
+
+          <li><strong>Mobile-First Design:</strong> Fully responsive layout that works seamlessly on phones,
+          tablets, and desktop computers.</li>
+
+          <li><strong>Accessibility:</strong> WCAG 2.1 AA compliant with semantic HTML, ARIA labels, keyboard
+          navigation, and automatic light/dark mode support.</li>
+
+          <li><strong>NWS Resources:</strong> Direct links to weather tools, radar, forecasts, decision support
+          products, and coordination contacts.</li>
+        </ul>
+
+        <h3>Technical Details</h3>
         <p class="center">
-          The main page features a WARNINGS window that refreshes every 10 minutes for warnings in the NWS Atlanta area or responsibility.
-          For all warnings, watches and alerts, you can go to the <a href="alerts.html">alerts page</a>
-        </p>
-        <p class="center">
-          The site is maintained by Jack Parks (KQ4JP) and uses a shared stylesheet for consistent 
-          design across pages. All pages are mobile-responsive and accessible. Light and Dark modes are supported.
+          Built with clean HTML5, CSS3, and vanilla JavaScript—no external frameworks or dependencies.
+          The site uses localStorage caching for efficient API calls, secure CSP headers, and follows
+          mobile-first responsive design principles. Maintained by Jack Parks (KQ4JP).
         </p>
       </div>
     </section>
