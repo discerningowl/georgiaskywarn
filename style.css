@@ -378,6 +378,45 @@ a:hover, a:focus {
   padding: 1.5rem;
 }
 
+/* ---------- Links List Component ---------- */
+.links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.link-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.link-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.link-item .btn {
+  align-self: flex-start;
+  width: 100%;
+  max-width: 400px;
+}
+
+@media (min-width: 768px) {
+  .link-item {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .link-item .btn {
+    width: auto;
+    flex-shrink: 0;
+  }
+}
+
 /* ---------- Buttons ---------- */
 .btn {
   --btn-bg: var(--accent-blue);   /* default colour */
