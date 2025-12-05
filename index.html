@@ -160,110 +160,138 @@
       <header class="card-header">
         <h2 class="card-title">SKYWARN Information</h2>
       </header>
-              <div class="card-body">
-              	<aside class="callout warning">
-              		<p class="center">
-                      <strong>Upon request by NWS Atlanta warnings coordinator, <a href="wx4ptc.html"><strong>WX4PTC</strong></a> will be stood up as a net control station to take storm reports over Georgia Linked Repeater net. We will coordinate with repeater owners if activation is required.</strong>
-                	</p>
-      			</aside>
-      			<aside class="callout">
-      				<p>
-                      	<strong>It’s advisable to first bring severe weather reports to your local SKYWARN network if possible. </strong>From there, the local SKYWARN networks should establish some sort of "liaison" between the STATE network listed below and their local network. Regardless, reports should be sent to the NCS at the NWS as soon as possible. This setup will help manage congestion during severe weather outbreaks and ensure that severe reports are prioritized over non-severe reports.
-      				</p>
-      			</aside>
-      			<aside class="callout success">
-      			   <p>
-      			     SKYWARN is a volunteer program run by the National Weather Service that trains everyday citizens to spot and report severe weather—such as tornadoes, large hail, damaging winds, and flash floods—to emergency managers and meteorologists in real time. By joining SKYWARN, people become part of a community‑based early‑warning network that helps authorities issue timely alerts, ultimately saving lives and property.
-      			   </p>
-      			</aside>
-      			<section class="spotter-resources">
-      			  <h3 class="section-title center">Spotter Resources</h3>
-      			
-      			  <!-- ==== MAP BUTTONS ==== -->
-      			  <div class="resource-pair">
-      			    <div class="resources-button">
-      			      <a href="https://arcg.is/XrrLP"
-      			         class="btn btn-indigo map-link desktop-only"
-      			         target="_blank" rel="noopener noreferrer">
-      			        NWSChat 2.0 Companion Map
-      			      </a>
-      			    </div>
-      			    <div class="resources-text desktop-only">
-      			      <p>
-      			        This map includes NOAA/NWS weather feeds - active watches and warnings, and weather radar. <br>
-      			        <em>This map is hidden on mobile devices. It is recommended to view using desktop computers & laptops only!</em><br>
-      			        <small>NWSChat 2.0 Companion Map is developed and hosted by Brian Haren, W8BYH, in support of ARES, EMCOMM and AUXCOMM 
-      			        operations in the southeastern region of the United States.</small>
-      			      </p>
-      			    </div>
-      			  </div>
-      			
-      			  <!-- ==== NWS SKYWARN ==== -->
-      			  <div class="resource-pair">
-      			    <div class="resources-button">
-      			      <a href="https://www.weather.gov/ffc/SKYWARN"
-      			         class="btn btn-yellow" target="_blank" rel="noopener noreferrer">
-      			         NWS SKYWARN Page
-      			      </a>
-      			    </div>
-      			
-      			    <div class="resources-text">
-      			      <p>This is the official NWS Atlanta SKYWARN page.</p>
-      			    </div>
-      			  </div>
-      			
-      			  <!-- ==== WX4PTC ==== -->
-      			  <div class="resource-pair">
-      			    <div class="resources-button">
-      			      <a href="wx4ptc.html"
-      			         class="btn btn-indigo">
-      			        WX4PTC Page
-      			      </a>
-      			    </div>
-      			
-      			    <div class="resources-text">
-      			      <p> <a href="wx4ptc.html"><strong>WX4PTC</strong></a> is the amateur‑radio call sign assigned to the National Weather Service office 
-      			      in Peachtree City, Georgia. This office serves the Atlanta metropolitan area as well as northern and central 
-      			      Georgia. The NWS runs a ham‑radio station from its forecast office under this call sign so it can coordinate 
-      			      SKYWARN severe‑weather reporting nets.</p>
-      			    </div>
-      			  </div>
-      			  
-      			  <!-- ==== NWS ATL Radar ==== -->
-      			  <div class="resource-pair">
-      			    <div class="resources-button">
-      			      <a href="https://radar.weather.gov/station/kffc"
-      			         class="btn btn-yellow" target="_blank" rel="noopener noreferrer">
-      			        NWS Atlanta Radar
-      			      </a>
-      			    </div>
-      			
-      			    <div class="resources-text">
-      			      <p> This takes you to the Nation Weather Service radar map.</p>
-      			    </div>
-      			  </div>
-      			  
-      			  <!-- ==== Repeater Map ==== -->
-      			  <div class="resource-pair">
-      			    <div class="resources-button">
-      			      <a href="https://arcg.is/0Lfvfb1"
-      			         class="btn btn-indigo" target="_blank" rel="noopener noreferrer">
-      			        Linked Repeater Systems Map
-      			      </a>
-      			    </div>
-      			
-      			    <div class="resources-text">
-      			      <p>
-      			          The GA SKYWARN Linked Repeater Systems map brings together repeaters that are part of the Southeast 
-      			          Linked Repeater Network, the Peach State Intertie and the Cherry Blossom Intertie. The map also includes 
-      			          NOAA/NWS weather feeds - active watches and warnings, and weather radar. <br>
-      			          <em>Please note that the weather data feeds are turned off by default, and must be activated by the user.<br> 
-      			          This map works well on all platforms - desktop computers, laptops, tablets and smartphones.</em>
-                      </p>
-      			    </div>
-      			  </div>
-      			  
-      			</section>
+      <div class="card-body">
+
+        <!-- What is SKYWARN? -->
+        <div class="skywarn-intro">
+          <h3>What is SKYWARN?</h3>
+          <p>
+            SKYWARN is a volunteer program run by the National Weather Service that trains everyday
+            citizens to spot and report severe weather—such as tornadoes, large hail, damaging winds,
+            and flash floods—to emergency managers and meteorologists in real time. By joining SKYWARN,
+            people become part of a community-based early-warning network that helps authorities issue
+            timely alerts, ultimately saving lives and property.
+          </p>
+        </div>
+
+        <!-- Net Activation Notice -->
+        <aside class="callout warning">
+          <h4>Net Activation Protocol</h4>
+          <p>
+            Upon request by NWS Atlanta warnings coordinator,
+            <a href="wx4ptc.html"><strong>WX4PTC</strong></a> will be stood up as a net control station
+            to take storm reports over Georgia Linked Repeater net. We will coordinate with repeater
+            owners if activation is required.
+          </p>
+        </aside>
+
+        <!-- Reporting Best Practices -->
+        <aside class="callout">
+          <h4>Reporting Best Practices</h4>
+          <p>
+            <strong>It's advisable to first bring severe weather reports to your local SKYWARN network
+            if possible.</strong> From there, the local SKYWARN networks should establish a "liaison"
+            between the STATE network listed below and their local network. Regardless, reports should
+            be sent to the NCS at the NWS as soon as possible. This setup helps manage congestion during
+            severe weather outbreaks and ensures that severe reports are prioritized.
+          </p>
+        </aside>
+
+        <!-- Spotter Resources Section -->
+        <section class="spotter-resources">
+          <h3 class="section-title center">Spotter Resources</h3>
+
+          <div class="resource-grid">
+
+            <!-- NWSChat Map -->
+            <div class="resource-item desktop-only">
+              <div class="resource-icon">🗺️</div>
+              <div class="resource-content">
+                <h4 class="resource-title">NWSChat 2.0 Companion Map</h4>
+                <p class="resource-description">
+                  Interactive map with NOAA/NWS weather feeds, active watches and warnings, and weather radar.
+                  Recommended for desktop computers and laptops only.
+                </p>
+                <p class="resource-note">
+                  <small>Developed and hosted by Brian Haren, W8BYH, in support of ARES, EMCOMM and AUXCOMM
+                  operations in the southeastern region of the United States.</small>
+                </p>
+                <a href="https://arcg.is/XrrLP" class="btn btn-indigo" target="_blank" rel="noopener noreferrer">
+                  Open Map →
+                </a>
+              </div>
+            </div>
+
+            <!-- NWS SKYWARN Page -->
+            <div class="resource-item">
+              <div class="resource-icon">🌩️</div>
+              <div class="resource-content">
+                <h4 class="resource-title">NWS SKYWARN Page</h4>
+                <p class="resource-description">
+                  Official NWS Atlanta SKYWARN page with training schedules, spotter information, and program details.
+                </p>
+                <a href="https://www.weather.gov/ffc/SKYWARN" class="btn btn-yellow" target="_blank" rel="noopener noreferrer">
+                  Visit SKYWARN Page →
+                </a>
+              </div>
+            </div>
+
+            <!-- WX4PTC -->
+            <div class="resource-item">
+              <div class="resource-icon">📻</div>
+              <div class="resource-content">
+                <h4 class="resource-title">WX4PTC Station</h4>
+                <p class="resource-description">
+                  <strong>WX4PTC</strong> is the amateur-radio call sign assigned to the National Weather
+                  Service office in Peachtree City, Georgia. This office serves the Atlanta metropolitan
+                  area as well as northern and central Georgia. The NWS runs a ham-radio station from its
+                  forecast office under this call sign to coordinate SKYWARN severe-weather reporting nets.
+                </p>
+                <a href="wx4ptc.html" class="btn btn-indigo">
+                  Learn More →
+                </a>
+              </div>
+            </div>
+
+            <!-- Radar -->
+            <div class="resource-item">
+              <div class="resource-icon">📡</div>
+              <div class="resource-content">
+                <h4 class="resource-title">NWS Atlanta Radar</h4>
+                <p class="resource-description">
+                  Live weather radar from the National Weather Service KFFC radar site covering the
+                  Atlanta metropolitan area and surrounding regions.
+                </p>
+                <a href="https://radar.weather.gov/station/kffc" class="btn btn-yellow" target="_blank" rel="noopener noreferrer">
+                  View Radar →
+                </a>
+              </div>
+            </div>
+
+            <!-- Linked Repeater Map -->
+            <div class="resource-item">
+              <div class="resource-icon">🗺️</div>
+              <div class="resource-content">
+                <h4 class="resource-title">Linked Repeater Systems Map</h4>
+                <p class="resource-description">
+                  Interactive map showing repeaters that are part of the Southeast Linked Repeater Network,
+                  the Peach State Intertie, and the Cherry Blossom Intertie. Includes NOAA/NWS weather feeds,
+                  active watches and warnings, and weather radar.
+                </p>
+                <p class="resource-note">
+                  <small><em>Weather data feeds are turned off by default and must be activated by the user.
+                  Works well on all platforms—desktop, laptop, tablet, and smartphone.</em></small>
+                </p>
+                <a href="https://arcg.is/0Lfvfb1" class="btn btn-indigo" target="_blank" rel="noopener noreferrer">
+                  View Map →
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
     </section>
 
     <!-- SKYWARN Reporting Card -->
