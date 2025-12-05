@@ -57,6 +57,7 @@
       <li><a href="index.html">← Back to Georgia SKYWARN</a></li>
       <li><a href="#overview">Overview</a></li>
       <li><a href="#structure">Site Structure</a></li>
+      <li><a href="repeaters.html">Repeaters</a></li>
       <li><a href="alerts.html" class="nav-btn-alert">All GA Alerts Page</a></li>
       <li><a href="wx4ptc.html" class="nav-btn-link">WX4PTC Page</a></li>
     </ul>
@@ -99,19 +100,19 @@
                                 |   (index.html)    |
                                 +-------------------+
                                           |
-              +----------------------- Links to --------------------+
-              |                           |                         |
-              v                           v                         v
-        +-------------------+   +-------------------+   +-------------------+
-        |   Alerts Page     |   |   WX4PTC Page     |   |   About Page      |
-        |  (alerts.html)    |   |  (wx4ptc.html)    |   |   (about.html)    |
-        +-------------------+   +-------------------+   +-------------------+
-                                         |
-                                         V
-                                +-------------------+
-                                |   Photo Archive   |
-                                |(photoarchive.html)|
-                                +-------------------+
+              +----------- Links to -------+----------- Links to -----------+
+              |              |             |              |                 |
+              v              v             v              v                 v
+        +----------+  +----------+  +----------+  +----------+  +------------------+
+        | Alerts   |  | Repeaters|  | WX4PTC   |  | About    |  | NWS Useful Links |
+        | Page     |  | Page     |  | Page     |  | Page     |  | (nwsffclinks)    |
+        +----------+  +----------+  +----------+  +----------+  +------------------+
+                                          |
+                                          v
+                                   +-------------+
+                                   |    Photo    |
+                                   |   Archive   |
+                                   +-------------+
 		</pre>
 		</div>
         <p class="center">All pages share the same navigation menu, header style, and footer. The site uses minimal JavaScript for mobile navigation and footer loading.</p>
@@ -176,6 +177,34 @@
       });
     })();
   </script>
+
+<!-- Back to Top Button -->
+<button class="back-to-top" aria-label="Back to top" title="Back to top">
+  ↑
+</button>
+
+<!-- Back to Top Button Script -->
+<script>
+  (function () {
+    const backToTopBtn = document.querySelector('.back-to-top');
+    if (!backToTopBtn) return;
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.classList.add('visible');
+      } else {
+        backToTopBtn.classList.remove('visible');
+      }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  })();
+</script>
 
 </body>
 </html>
