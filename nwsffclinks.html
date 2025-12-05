@@ -69,11 +69,24 @@
     </ul>
   </nav>
 
+  <!-- Page navigation (white buttons) -->
+  <nav class="page-nav" role="navigation" aria-label="Page navigation">
+    <button class="nav-toggle" aria-controls="page-nav-list"
+            aria-expanded="false" aria-label="Toggle page menu">☰</button>
+    <ul id="page-nav-list" class="nav-list">
+      <li><a href="#core-resources">Core NWS</a></li>
+      <li><a href="#decision-support">Decision Support</a></li>
+      <li><a href="#river-flooding">River Info</a></li>
+      <li><a href="#specialized-weather">Specialized</a></li>
+      <li><a href="#national-centers">National Centers</a></li>
+    </ul>
+  </nav>
+
   <!-- Main content area (ARIA landmark) -->
   <main class="site-main" role="main">
 
     <!-- Core NWS Resources -->
-    <section class="card">
+    <section class="card" id="core-resources">
       <header class="card-header card-header--blue"><h2>Core NWS Atlanta Resources</h2></header>
       <div class="card-body">
         <div class="links-list">
@@ -111,7 +124,7 @@
     </section>
 
     <!-- Decision Support Tools -->
-    <section class="card">
+    <section class="card" id="decision-support">
       <header class="card-header card-header--indigo"><h2>Decision Support Tools</h2></header>
       <div class="card-body">
         <div class="links-list">
@@ -131,7 +144,7 @@
     </section>
 
     <!-- River and Flooding Information -->
-    <section class="card">
+    <section class="card" id="river-flooding">
       <header class="card-header card-header--blue"><h2>River &amp; Flooding Information</h2></header>
       <div class="card-body">
         <div class="links-list">
@@ -157,7 +170,7 @@
     </section>
 
     <!-- Specialized Weather -->
-    <section class="card">
+    <section class="card" id="specialized-weather">
       <header class="card-header card-header--orange"><h2>Specialized Weather Information</h2></header>
       <div class="card-body">
         <div class="links-list">
@@ -183,7 +196,7 @@
     </section>
 
     <!-- National Centers -->
-    <section class="card">
+    <section class="card" id="national-centers">
       <header class="card-header card-header--green"><h2>National Weather Centers</h2></header>
       <div class="card-body">
         <div class="links-list">
