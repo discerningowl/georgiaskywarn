@@ -67,11 +67,11 @@
     <button class="nav-toggle" aria-controls="site-nav-list"
             aria-expanded="false" aria-label="Toggle site menu">☰</button>
     <ul id="site-nav-list" class="nav-list">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="repeaters.html">Repeaters</a></li>
-      <li><a href="alerts.html" class="nav-btn-alert">Alerts</a></li>
-      <li><a href="nwsffclinks.html" class="nav-btn-green">Useful Links</a></li>
-      <li><a href="about.html">About</a></li>
+      <li><a href="index.html">← Back to Georgia SKYWARN</a></li>
+      <li><a href="alerts.html" class="nav-btn-alert">All GA Alerts Page</a></li>
+      <li><a href="repeaters.html" class="nav-btn-link">SKYWARN Repeaters</a></li>
+      <li><a href="nwsffclinks.html" class="nav-btn-link">Useful NWS Links</a></li>
+      <li><a href="about.html" class="nav-btn-link">About</a></li>
     </ul>
   </nav>
 
@@ -84,19 +84,6 @@
       <li><a href="#activation">Activation</a></li>
       <li><a href="#net-flow">Flow</a></li>
       <li><a href="#operation">Operation</a></li>
-  <!-- Navigation menu with mobile toggle (ARIA attributes for accessibility) -->
-  <nav class="site-nav" role="navigation" aria-label="WX4PTC navigation">
-    <button class="nav-toggle" aria-controls="nav-list-wx"
-            aria-expanded="false" aria-label="Toggle menu">☰</button>
-    <ul id="nav-list-wx" class="nav-list">
-      <li><a href="index.html">← Back to Georgia SKYWARN</a></li>
-      <li><a href="#overview">Overview</a></li>
-      <li><a href="#activation">Activation Process</a></li>
-      <li><a href="#net-flow">Trigger Flow</a></li>
-      <li><a href="#operation">Net Operation</a></li>
-      <li><a href="repeaters.html" class="nav-btn-link">SKYWARN Repeaters</a></li>
-      <li><a href="alerts.html" class="nav-btn-alert">All GA Alerts Page</a></li>
-    </ul>
   </nav>
 
   <!-- Main content area (ARIA landmark) -->
@@ -185,27 +172,27 @@
   <!-- Site footer - calls on footer.html via script-->
  <div id="footer-placeholder"></div>
 
-
   <!-- Minimal vanilla JS for unified site footer.html --> 
- <script>
-  (function () {
-    const placeholder = document.getElementById('footer-placeholder');
-    if (!placeholder) return;
+   <script>
+	(function () {
+	  const placeholder = document.getElementById('footer-placeholder');
+	  if (!placeholder) return;
+  
+	fetch('footer.html')
+	  .then(r => {
+   if (!r.ok) throw new Error(`HTTP ${r.status}`);
+		  return r.text();
+		})
+		.then(html => {
+		  placeholder.innerHTML = html;
+		})
+		.catch(err => {
+		  console.error('Failed to load footer:', err);
+		  placeholder.innerHTML = '<p>Footer could not be loaded.</p>';
+	});
+	})();
+  </script>
 
-  fetch('footer.html')
-    .then(r => {
- if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return r.text();
-      })
-      .then(html => {
-        placeholder.innerHTML = html;
-      })
-      .catch(err => {
-        console.error('Failed to load footer:', err);
-        placeholder.innerHTML = '<p>Footer could not be loaded.</p>';
-  });
-  })();
-</script>
   <!-- Minimal vanilla JS for mobile navigation drawer (IIFE to avoid globals) -->
   <script>
     (function () {
