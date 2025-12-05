@@ -49,17 +49,27 @@
     <h2 class="site-subtitle">Site Information and Structure</h2>
   </header>
 
-  <!-- Navigation menu with mobile toggle (ARIA attributes for accessibility) -->
+  <!-- Site-wide navigation (colored buttons) -->
   <nav class="site-nav" role="navigation" aria-label="Site navigation">
-    <button class="nav-toggle" aria-controls="nav-list"
-            aria-expanded="false" aria-label="Toggle menu">☰</button>
-    <ul id="nav-list" class="nav-list">
-      <li><a href="index.html">← Back to Georgia SKYWARN</a></li>
+    <button class="nav-toggle" aria-controls="site-nav-list"
+            aria-expanded="false" aria-label="Toggle site menu">☰</button>
+    <ul id="site-nav-list" class="nav-list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="repeaters.html">Repeaters</a></li>
+      <li><a href="alerts.html" class="nav-btn-alert">Alerts</a></li>
+      <li><a href="wx4ptc.html" class="nav-btn-link">WX4PTC</a></li>
+      <li><a href="nwsffclinks.html" class="nav-btn-green">Useful Links</a></li>
+    </ul>
+  </nav>
+
+  <!-- Page navigation (white buttons) -->
+  <nav class="page-nav" role="navigation" aria-label="Page navigation">
+    <button class="nav-toggle" aria-controls="page-nav-list"
+            aria-expanded="false" aria-label="Toggle page menu">☰</button>
+    <ul id="page-nav-list" class="nav-list">
       <li><a href="#overview">Overview</a></li>
       <li><a href="#structure">Site Structure</a></li>
-      <li><a href="repeaters.html">Repeaters</a></li>
-      <li><a href="alerts.html" class="nav-btn-alert">All GA Alerts Page</a></li>
-      <li><a href="wx4ptc.html" class="nav-btn-link">WX4PTC Page</a></li>
+      <li><a href="#forecastarea">Service Area</a></li>
     </ul>
   </nav>
 
@@ -165,15 +175,16 @@
   <!-- Minimal vanilla JS for mobile navigation drawer (IIFE to avoid globals) -->
   <script>
     (function () {
-      const btn = document.querySelector('.nav-toggle');
-      if (!btn) return; // Guard clause
-      const list = document.getElementById(btn.getAttribute('aria-controls'));
-      if (!list) return; // Additional safety
+      const btns = document.querySelectorAll('.nav-toggle');
+      btns.forEach(btn => {
+        const list = document.getElementById(btn.getAttribute('aria-controls'));
+        if (!list) return;
 
-      btn.addEventListener('click', () => {
-        const expanded = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', String(!expanded));
-        list.classList.toggle('open');
+        btn.addEventListener('click', () => {
+          const expanded = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', String(!expanded));
+          list.classList.toggle('open');
+        });
       });
     })();
   </script>
