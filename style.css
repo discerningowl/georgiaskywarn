@@ -380,8 +380,8 @@ a:hover, a:focus {
 
 /* ---------- Links List Component ---------- */
 .links-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 1.5rem;
 }
 
@@ -389,6 +389,7 @@ a:hover, a:focus {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  align-items: stretch;
 }
 
 .link-title {
@@ -396,24 +397,23 @@ a:hover, a:focus {
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-primary);
+  text-align: center;
 }
 
 .link-item .btn {
-  align-self: flex-start;
   width: 100%;
-  max-width: 400px;
+  text-align: center;
 }
 
 @media (min-width: 768px) {
-  .link-item {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+  .links-list {
+    grid-template-columns: repeat(2, 1fr);
   }
+}
 
-  .link-item .btn {
-    width: auto;
-    flex-shrink: 0;
+@media (min-width: 1024px) {
+  .links-list {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
