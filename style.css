@@ -223,10 +223,9 @@ a:hover, a:focus {
   border-bottom: 1px solid var(--card-border);
 }
 
-/* Mobile toggle button */
+/* Mobile toggle button - base styles */
 .nav-toggle {
   display: none;
-  background: var(--accent-blue);
   color: white;
   border: none;
   font-size: 1.5rem;
@@ -234,6 +233,32 @@ a:hover, a:focus {
   border-radius: 8px;
   cursor: pointer;
   transition: var(--transition);
+  font-weight: 600;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Site navigation toggle - blue */
+.site-nav .nav-toggle {
+  background: var(--accent-blue);
+}
+
+.site-nav .nav-toggle:hover {
+  background: var(--accent-blue-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+}
+
+/* Page navigation toggle - green */
+.page-nav .nav-toggle {
+  background: var(--accent-green);
+}
+
+.page-nav .nav-toggle:hover {
+  background: var(--accent-green-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 211, 142, 0.3);
 }
 
 /* Navigation list base styles */
