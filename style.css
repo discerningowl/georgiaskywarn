@@ -323,6 +323,17 @@ a:hover, a:focus {
   background: var(--accent-green-dark) !important;
 }
 
+.nav-btn-main {
+  background: var(--header-gradient) !important;
+  color: white !important;
+}
+
+.nav-btn-main:hover,
+.nav-btn-main:focus {
+  background: linear-gradient(135deg, #003366 0%, #004d99 100%) !important;
+  box-shadow: 0 4px 12px rgba(0, 51, 102, 0.3);
+}
+
 /* ==========================================================================
    CALLOUT – <aside class="callout"> for tips, warnings, notes
    ========================================================================== */
