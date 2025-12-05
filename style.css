@@ -203,9 +203,27 @@ a:hover, a:focus {
 
 
 /* ==========================================================================
-   SITE NAVIGATION – MOBILE TOGGLE
+   NAVIGATION – TWO-TIER SYSTEM
    ========================================================================== */
 
+/* Shared navigation container styles */
+.site-nav,
+.page-nav {
+  padding: 1rem 1.5rem;
+  margin-bottom: 0;
+}
+
+.site-nav {
+  background: var(--card-bg);
+  border-bottom: 2px solid var(--card-border);
+}
+
+.page-nav {
+  background: rgba(var(--card-bg), 0.5);
+  border-bottom: 1px solid var(--card-border);
+}
+
+/* Mobile toggle button */
 .nav-toggle {
   display: none;
   background: var(--accent-blue);
@@ -218,6 +236,7 @@ a:hover, a:focus {
   transition: var(--transition);
 }
 
+/* Navigation list base styles */
 .nav-list {
   list-style: none;
   display: flex;
@@ -225,9 +244,33 @@ a:hover, a:focus {
   justify-content: center;
   gap: 1rem;
   margin: 0;
+  padding: 0;
 }
 
-.nav-list a {
+/* Site-nav links - colored buttons */
+.site-nav .nav-list a {
+  display: block;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  background: var(--accent-blue);
+  color: white;
+  border: none;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  text-align: center;
+}
+
+.site-nav .nav-list a:hover,
+.site-nav .nav-list a:focus {
+  background: var(--accent-blue-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Page-nav links - white/neutral buttons */
+.page-nav .nav-list a {
   display: block;
   padding: 0.6rem 1rem;
   font-weight: 600;
@@ -241,24 +284,43 @@ a:hover, a:focus {
   text-align: center;
 }
 
-.nav-list a:hover,
-.nav-list a:focus {
+.page-nav .nav-list a:hover,
+.page-nav .nav-list a:focus {
   background: var(--nav-btn-bg-hover, rgba(0, 102, 204, 0.15));
   color: var(--nav-btn-color-hover, var(--accent-blue-dark));
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
+/* Colored button modifiers for site-nav */
 .nav-btn-alert {
-  --nav-btn-bg: #e63946;
-  --nav-btn-color: white;
-  --nav-btn-bg-hover: #c62828;
+  background: #e63946 !important;
+  color: white !important;
+}
+
+.nav-btn-alert:hover,
+.nav-btn-alert:focus {
+  background: #c62828 !important;
 }
 
 .nav-btn-link {
-  --nav-btn-bg: #4da6ff;
-  --nav-btn-color: white;
-  --nav-btn-bg-hover: #003366;
+  background: #5C6BC0 !important;
+  color: white !important;
+}
+
+.nav-btn-link:hover,
+.nav-btn-link:focus {
+  background: #3f51b5 !important;
+}
+
+.nav-btn-green {
+  background: var(--accent-green) !important;
+  color: white !important;
+}
+
+.nav-btn-green:hover,
+.nav-btn-green:focus {
+  background: var(--accent-green-dark) !important;
 }
 
 /* ==========================================================================
