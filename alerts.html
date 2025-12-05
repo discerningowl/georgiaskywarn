@@ -64,19 +64,20 @@
     <h2 class="site-subtitle">Active Alerts for the NWS Atlanta Area</h2>
   </header>
 
-  <!-- Navigation menu with mobile toggle (ARIA attributes for accessibility) -->
+  <!-- Site-wide navigation (colored buttons) -->
   <nav class="site-nav" role="navigation" aria-label="Site navigation">
-    <button class="nav-toggle" aria-controls="nav-list"
-            aria-expanded="false" aria-label="Toggle menu">☰</button>
-    <ul id="nav-list" class="nav-list">
-      <li><a href="index.html">← Back to Georgia SKYWARN</a></li>
-      <li><a href="index.html#nwscard">NWS Resources</a></li>
-      <li><a href="index.html#SKYWARNcard">SKYWARN Information</a></li>
+    <button class="nav-toggle" aria-controls="site-nav-list"
+            aria-expanded="false" aria-label="Toggle site menu">☰</button>
+    <ul id="site-nav-list" class="nav-list">
+      <li><a href="index.html">Home</a></li>
       <li><a href="repeaters.html">Repeaters</a></li>
-      <li><a href="index.html#submitcard">Submit Reports</a></li>
-      <li><a href="wx4ptc.html">WX4PTC Page</a></li>
+      <li><a href="wx4ptc.html" class="nav-btn-link">WX4PTC</a></li>
+      <li><a href="nwsffclinks.html" class="nav-btn-green">Useful Links</a></li>
+      <li><a href="about.html">About</a></li>
     </ul>
   </nav>
+
+  <!-- Page navigation not needed for alerts page - it's single purpose -->
 
   <!-- Main content area (ARIA landmark) -->
   <main class="site-main" role="main">
