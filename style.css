@@ -666,6 +666,122 @@ a:hover, a:focus {
   }
 }
 
+/* ---------- SKYWARN Information Styles ---------- */
+.skywarn-intro {
+  margin-bottom: 2rem;
+}
+
+.skywarn-intro h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.skywarn-intro p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.callout h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+/* ---------- Resource Grid Component ---------- */
+.resource-grid {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.resource-item {
+  display: flex;
+  gap: 1.25rem;
+  padding: 1.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  transition: var(--transition);
+}
+
+.resource-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent-blue);
+  box-shadow: 0 6px 16px rgba(0, 102, 204, 0.15);
+  transform: translateY(-3px);
+}
+
+.resource-icon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(0, 102, 204, 0.1), rgba(0, 102, 204, 0.05));
+  border-radius: 50%;
+}
+
+.resource-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.resource-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.resource-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.resource-note {
+  margin: 0;
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+.resource-item .btn {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .resource-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .resource-item {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .resource-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 6px 16px rgba(0, 102, 204, 0.25);
+  }
+
+  .resource-icon {
+    background: linear-gradient(135deg, rgba(0, 102, 204, 0.2), rgba(0, 102, 204, 0.1));
+  }
+}
+
 /* ==========================================================================
    REPEATER TABLES – UNIFORM, RESPONSIVE, BEAUTIFUL
    ========================================================================== */
