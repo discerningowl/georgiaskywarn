@@ -1262,21 +1262,24 @@ a:hover, a:focus {
    Green check‑boxes for the "Please Include" list
    ------------------------------------------------- */
 
-/* 1️⃣ Target the specific list – keeps the rule scoped */
-.include-col .include-list {
+/* Target the specific list – keeps the rule scoped */
+.include-col .include-list,
+.report-include .include-list {
   list-style: none;               /* remove the default bullet */
   margin: 0;
   padding: 0;
 }
 
 /* List items with checkmarks */
-.include-col .include-list li {
+.include-col .include-list li,
+.report-include .include-list li {
   position: relative;             /* needed for absolute positioning of ::after */
   padding-left: 2rem;             /* space for the checkmark icon */
   margin-bottom: 0.6rem;          /* vertical rhythm */
 }
 
-.include-col .include-list li::after {
+.include-col .include-list li::after,
+.report-include .include-list li::after {
   content: "\2714"; /* Checkmark */
   position: absolute;
   left: 0;
