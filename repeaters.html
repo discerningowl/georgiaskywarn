@@ -59,26 +59,19 @@
   <main class="site-main" role="main">
 
     <!-- Search Bar -->
-    <section class="card search-card">
-      <header class="card-header card-header--indigo">
-        <h2 class="card-title">🔍 Search Repeaters</h2>
-      </header>
-      <div class="card-body">
-        <div class="search-container">
-          <input
-            type="search"
-            id="repeater-search"
-            class="search-input"
-            placeholder="Search by location, frequency, or notes..."
-            aria-label="Search repeaters by location, frequency, or notes"
-          >
-          <button id="clear-search" class="btn btn-blue search-clear" aria-label="Clear search">
-            Clear
-          </button>
-        </div>
-        <p class="search-results-count" id="search-results"></p>
-      </div>
-    </section>
+    <div class="search-container">
+      <input
+        type="search"
+        id="repeater-search"
+        class="search-input"
+        placeholder="🔍 Search by location, frequency, or notes..."
+        aria-label="Search repeaters by location, frequency, or notes"
+      >
+      <button id="clear-search" class="btn btn-blue search-clear" aria-label="Clear search">
+        Clear
+      </button>
+    </div>
+    <p class="search-results-count" id="search-results"></p>
 
     <!-- Linked Repeaters Table Card -->
     <section class="card table-card" id="repeater-table">
