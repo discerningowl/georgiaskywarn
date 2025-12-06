@@ -120,7 +120,8 @@
       <!-- Logo Column -->
       <div class="nws-logo-section">
         <a href="https://www.weather.gov/ffc/" target="_blank" rel="noopener noreferrer" class="nws-logo-link">
-          <img src="nws.gif" alt="NWS Atlanta Logo" class="nws-logo">
+          <img src="nws.gif" alt="NWS Atlanta Logo" class="nws-logo"
+               width="180" height="180" loading="lazy" decoding="async">
           <span class="nws-logo-text">NWS Peachtree City</span>
         </a>
       </div>
@@ -439,44 +440,6 @@
   <!-- Site footer - calls on footer.html via script-->
   <div id="footer-placeholder"></div>
 
-  <!-- Minimal vanilla JS for unified site footer.html --> 
- <script>
-  (function () {
-    const placeholder = document.getElementById('footer-placeholder');
-    if (!placeholder) return;
-
-  fetch('footer.html')
-    .then(r => {
- if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return r.text();
-      })
-      .then(html => {
-        placeholder.innerHTML = html;
-      })
-      .catch(err => {
-        console.error('Failed to load footer:', err);
-        placeholder.innerHTML = '<p>Footer could not be loaded.</p>';
-  });
-  })();
-</script>
-
-  <!-- Minimal vanilla JS for mobile navigation drawer (IIFE to avoid globals) -->
-  <script>
-    (function () {
-      const btns = document.querySelectorAll('.nav-toggle');
-      btns.forEach(btn => {
-        const list = document.getElementById(btn.getAttribute('aria-controls'));
-        if (!list) return;
-
-        btn.addEventListener('click', () => {
-          const expanded = btn.getAttribute('aria-expanded') === 'true';
-          btn.setAttribute('aria-expanded', String(!expanded));
-          list.classList.toggle('open');
-        });
-      });
-    })();
-  </script>
-
 
 <!-- NWS Alerts script - Only WARNINGS (Red) for index.html -->
 <script>
@@ -545,11 +508,25 @@
                p.event?.toLowerCase().includes('warning');
       });
 
+      const lastUpdate = new Date().toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+
+      const refreshIndicator = `
+        <div class="alert-refresh-indicator">
+          <span class="pulse"></span>
+          Auto-refreshing every 5 minutes
+        </div>
+        <p class="alert-timestamp">Last updated: ${lastUpdate}</p>
+      `;
+
       if (features.length === 0) {
-        return `<p class="no-alerts center"><strong>No active warnings in NWS Atlanta (FFC) area.</strong></p>`;
+        return refreshIndicator + `<p class="no-alerts center"><strong>No active warnings in NWS Atlanta (FFC) area.</strong></p>`;
       }
 
-      return features.map(f => {
+      return refreshIndicator + features.map(f => {
         const p = f.properties;
         // Force warning styling (red) – ignore watch/other logic
         const desc  = (p.description || '').replace(/\n/g, '<br>');
@@ -602,30 +579,8 @@
   ↑
 </button>
 
-<!-- Back to Top Button Script -->
-<script>
-  (function () {
-    const backToTopBtn = document.querySelector('.back-to-top');
-    if (!backToTopBtn) return;
-
-    // Show/hide button based on scroll position
-    window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 300) {
-        backToTopBtn.classList.add('visible');
-      } else {
-        backToTopBtn.classList.remove('visible');
-      }
-    });
-
-    // Scroll to top when clicked
-    backToTopBtn.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
-  })();
-</script>
+<!-- Consolidated JavaScript -->
+<script src="scripts.js"></script>
 
   </body>
 </html>
