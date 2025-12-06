@@ -151,66 +151,11 @@
   <!-- ====================== FOOTER PLACEHOLDER ====================== -->
   <div id="footer-placeholder"></div>
 
+  <!-- ====================== BACK TO TOP BUTTON ====================== -->
+  <button class="back-to-top" aria-label="Back to top" title="Back to top">↑</button>
+
   <!-- ====================== SCRIPTS ====================== -->
-  <!-- Footer loader (identical to about.html) -->
-  <script>
-    (function () {
-      const placeholder = document.getElementById('footer-placeholder');
-      if (!placeholder) return;
-      fetch('footer.html')
-        .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text(); })
-        .then(html => { placeholder.innerHTML = html; })
-        .catch(err => {
-          console.error('Failed to load footer:', err);
-          placeholder.innerHTML = '<p>Footer could not be loaded.</p>';
-        });
-    })();
-  </script>
-
-  <!-- Mobile nav toggle (identical to about.html) -->
-  <script>
-    (function () {
-      const btns = document.querySelectorAll('.nav-toggle');
-      btns.forEach(btn => {
-        const list = document.getElementById(btn.getAttribute('aria-controls'));
-        if (!list) return;
-
-        btn.addEventListener('click', () => {
-          const expanded = btn.getAttribute('aria-expanded') === 'true';
-          btn.setAttribute('aria-expanded', String(!expanded));
-          list.classList.toggle('open');
-        });
-      });
-    })();
-  </script>
-
-<!-- Back to Top Button -->
-<button class="back-to-top" aria-label="Back to top" title="Back to top">
-  ↑
-</button>
-
-<!-- Back to Top Button Script -->
-<script>
-  (function () {
-    const backToTopBtn = document.querySelector('.back-to-top');
-    if (!backToTopBtn) return;
-
-    window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 300) {
-        backToTopBtn.classList.add('visible');
-      } else {
-        backToTopBtn.classList.remove('visible');
-      }
-    });
-
-    backToTopBtn.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
-  })();
-</script>
+  <script src="scripts.js"></script>
 
 </body>
 </html>
