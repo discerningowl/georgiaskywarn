@@ -69,8 +69,9 @@
     <ul id="page-nav-list" class="nav-list">
       <li><a href="#overview">Overview</a></li>
       <li><a href="#contactcard">Contacts</a></li>
-      <li><a href="#structure">Site Structure</a></li>
       <li><a href="#forecastarea">Service Area</a></li>
+      <li><a href="#structure">Site Structure</a></li>
+
     </ul>
   </nav>
 
@@ -91,7 +92,7 @@
 
         <h3>Key Features</h3>
         <ul class="links-list">
-          <li><strong>Real-Time Weather Alerts:</strong> Automatic updates every 10 minutes from the NWS API,
+          <li><strong>Real-Time Weather Alerts:</strong> Automatic updates every 5 minutes from the NWS API,
           displaying active warnings on the homepage and comprehensive alerts on the dedicated alerts page.</li>
 
           <li><strong>Dual Navigation System:</strong> Site-wide navigation (colored buttons) for moving between pages
@@ -179,6 +180,23 @@
       </div>
     </section>
 
+    <!-- Forecast Area section -->
+    <section id="forecastarea" class="card">
+      <header class="card-header"><h2>Service Area of NWS Atlanta</h2></header>
+      <div class="card-body">
+        <p class="center">
+          NWS Atlanta issues severe weather warnings (i.e. Tornado Warnings, Flash Flood Warnings, etc.) 
+          for 96 counties in northern and central Georgia. We call this our "CWA" or County Warning Area.
+		</p>
+		<div class="about-diagram">
+		  <a href="https://www.weather.gov/ffc/cwa" target="_blank" rel="noopener noreferrer">
+          <img src="ganwsareacoverage.png" alt="NWS Atlanta County Warning Area Coverage Map"
+               loading="lazy" decoding="async">
+        </a>
+		</div>
+      </div>
+    </section>
+
     <!-- Site Structure section with basic drawing -->
     <section id="structure" class="card">
       <header class="card-header card-header--green"><h2>Site Structure</h2></header>
@@ -209,24 +227,7 @@
         <p class="center">All pages share the same navigation menu, header style, and footer. The site uses minimal JavaScript for mobile navigation and footer loading.</p>
       </div>
     </section>
-
-    <!-- Forecast Area section -->
-    <section id="forecastarea" class="card">
-      <header class="card-header"><h2>Service Area of NWS Atlanta</h2></header>
-      <div class="card-body">
-        <p class="center">
-          NWS Atlanta issues severe weather warnings (i.e. Tornado Warnings, Flash Flood Warnings, etc.) 
-          for 96 counties in northern and central Georgia. We call this our "CWA" or County Warning Area.
-		</p>
-		<div class="about-diagram">
-		  <a href="https://www.weather.gov/ffc/cwa" target="_blank" rel="noopener noreferrer">
-          <img src="ganwsareacoverage.png" alt="NWS Atlanta County Warning Area Coverage Map"
-               loading="lazy" decoding="async">
-        </a>
-		</div>
-      </div>
-    </section>
-
+    
   </main>
 
   <!-- Site footer - calls on footer.html via script-->

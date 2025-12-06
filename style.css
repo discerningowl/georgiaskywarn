@@ -1040,7 +1040,8 @@ a:hover, a:focus {
   padding: 0.75rem 1rem;
   background: rgba(0, 102, 204, 0.05);
   border-radius: 8px;
-  border-left: 4px solid var(--accent-blue);
+  border-left: 4px solid var(--accent-red);
+  border-right: 4px solid var(--accent-red);
 }
 
 .alert-status-text {
