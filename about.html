@@ -220,10 +220,10 @@
 		</p>
 		<div class="about-diagram">
 		  <a href="https://www.weather.gov/ffc/cwa" target="_blank" rel="noopener noreferrer">
-          <img src="ganwsareacoverage.png" alt="NWS CWA">
+          <img src="ganwsareacoverage.png" alt="NWS Atlanta County Warning Area Coverage Map"
+               loading="lazy" decoding="async">
         </a>
 		</div>
-		<img>
       </div>
     </section>
 
@@ -232,71 +232,13 @@
   <!-- Site footer - calls on footer.html via script-->
   <div id="footer-placeholder"></div>
 
-  <!-- Minimal vanilla JS for unified site footer.html --> 
-  <script>
-    (function () {
-      const placeholder = document.getElementById('footer-placeholder');
-      if (!placeholder) return;
-
-      fetch('footer.html')
-        .then(r => {
-          if (!r.ok) throw new Error(`HTTP ${r.status}`);
-          return r.text();
-        })
-        .then(html => {
-          placeholder.innerHTML = html;
-        })
-        .catch(err => {
-          console.error('Failed to load footer:', err);
-          placeholder.innerHTML = '<p>Footer could not be loaded.</p>';
-        });
-    })();
-  </script>
-
-  <!-- Minimal vanilla JS for mobile navigation drawer (IIFE to avoid globals) -->
-  <script>
-    (function () {
-      const btns = document.querySelectorAll('.nav-toggle');
-      btns.forEach(btn => {
-        const list = document.getElementById(btn.getAttribute('aria-controls'));
-        if (!list) return;
-
-        btn.addEventListener('click', () => {
-          const expanded = btn.getAttribute('aria-expanded') === 'true';
-          btn.setAttribute('aria-expanded', String(!expanded));
-          list.classList.toggle('open');
-        });
-      });
-    })();
-  </script>
-
 <!-- Back to Top Button -->
 <button class="back-to-top" aria-label="Back to top" title="Back to top">
   ↑
 </button>
 
-<!-- Back to Top Button Script -->
-<script>
-  (function () {
-    const backToTopBtn = document.querySelector('.back-to-top');
-    if (!backToTopBtn) return;
-
-    window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 300) {
-        backToTopBtn.classList.add('visible');
-      } else {
-        backToTopBtn.classList.remove('visible');
-      }
-    });
-
-    backToTopBtn.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
-  })();
-</script>
+<!-- Consolidated JavaScript -->
+<script src="scripts.js"></script>
 
 </body>
 </html>
