@@ -7,6 +7,7 @@
  *          - Dual navigation toggle (site-nav + page-nav)
  *          - Back-to-top button
  *          - NWS Alert fetching (consolidated from inline scripts)
+ *          - Repeater search functionality (repeaters.html)
  *          - Security hardening (XSS prevention, error handling)
  *          - Performance optimizations (debouncing, caching)
  * Change-log:
@@ -19,6 +20,10 @@
  *     - Debounced scroll events
  *     - Added interval cleanup on page unload
  *     - Consolidated alert fetching logic
+ *   • 2025-12-06 – Fixed repeater search functionality:
+ *     - Moved inline search script to external file (CSP compliance)
+ *     - Added repeater search and clear button functionality
+ *     - Includes Ctrl/Cmd+K keyboard shortcut for search focus
  * ──────────────────────────────────────────────────────────────
  */
 
@@ -377,6 +382,74 @@
   } else if (currentPage === 'alerts.html') {
     // Alerts page - all alerts
     initAlerts(false);
+  }
+
+  // ========================================================================
+  // REPEATER SEARCH FUNCTIONALITY (repeaters.html only)
+  // ========================================================================
+  if (currentPage === 'repeaters.html') {
+    const searchInput = document.getElementById('repeater-search');
+    const clearButton = document.getElementById('clear-search');
+    const resultsCount = document.getElementById('search-results');
+    const tables = document.querySelectorAll('.repeater-table tbody');
+
+    if (searchInput && tables.length) {
+      // Get all rows from both tables
+      const allRows = Array.from(tables).flatMap(tbody =>
+        Array.from(tbody.querySelectorAll('tr'))
+      );
+
+      function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        allRows.forEach(row => {
+          const text = row.textContent.toLowerCase();
+          const matches = text.includes(searchTerm);
+
+          if (matches) {
+            row.classList.remove('hidden');
+            visibleCount++;
+          } else {
+            row.classList.add('hidden');
+          }
+        });
+
+        // Update results count
+        if (searchTerm === '') {
+          resultsCount.textContent = '';
+        } else if (visibleCount === 0) {
+          resultsCount.textContent = '⚠️ No repeaters found matching your search.';
+          resultsCount.style.color = 'var(--accent-red)';
+        } else if (visibleCount === allRows.length) {
+          resultsCount.textContent = `✅ Showing all ${visibleCount} repeaters.`;
+          resultsCount.style.color = 'var(--text-secondary)';
+        } else {
+          resultsCount.textContent = `✅ Found ${visibleCount} of ${allRows.length} repeaters.`;
+          resultsCount.style.color = 'var(--accent-green)';
+        }
+      }
+
+      function clearSearch() {
+        searchInput.value = '';
+        performSearch();
+        searchInput.focus();
+      }
+
+      // Event listeners
+      searchInput.addEventListener('input', performSearch);
+      searchInput.addEventListener('search', performSearch); // Triggered by ESC or clear button in browser
+      clearButton.addEventListener('click', clearSearch);
+
+      // Keyboard shortcut: Ctrl/Cmd + K to focus search
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+          e.preventDefault();
+          searchInput.focus();
+          searchInput.select();
+        }
+      });
+    }
   }
 
   // ========================================================================
