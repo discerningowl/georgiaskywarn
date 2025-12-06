@@ -89,7 +89,6 @@
     --title-grad-start: #99ACAF;
     --title-grad-end: #99A1AF;
     --title-solid: #7a5fff;
- /* --   --alert-warning-bg: #ffe6e6; - maybe delete -- */
 	--alert-warning-bg: rgba(230, 57, 70, 0.25); /* Muted red with transparency */
 	--alert-watch-bg: rgba(244, 162, 97, 0.25); /* Muted orange with transparency */
 	--alert-other-bg: rgba(42, 157, 143, 0.25); /* Muted teal with transparency */
@@ -411,10 +410,6 @@ a:hover, a:focus {
 .callout.note      { border-left-color: #9c27b0; border-right-color: #9c27b0;  }
 .callout.success   { border-left-color: #4caf50; border-right-color: #4caf50;   }
 
-@media (prefers-color-scheme: dark) {
-  .callout { background: rgba(15, 23, 42, 0.9); }
-}
-
 /* ---------- Card Component (Reusable) ---------- */
 .card {
   background: var(--card-bg);
@@ -519,13 +514,6 @@ a:hover, a:focus {
 .link-url:focus {
   color: var(--accent-blue-dark);
   text-decoration: underline;
-}
-
-@media (min-width: 768px) {
-  .links-list {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2.5rem;
-  }
 }
 
 @media (min-width: 1024px) {
@@ -644,28 +632,6 @@ a:hover, a:focus {
   transform: translateX(3px);
 }
 
-@media (min-width: 768px) {
-  .contact-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .contact-item {
-    background: rgba(255, 255, 255, 0.03);
-  }
-
-  .contact-item:hover {
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
-  }
-
-  .contact-icon {
-    background: linear-gradient(135deg, rgba(0, 102, 204, 0.2), rgba(0, 102, 204, 0.1));
-  }
-}
-
 /* ---------- SKYWARN Information Styles ---------- */
 .skywarn-intro {
   margin-bottom: 2rem;
@@ -760,28 +726,6 @@ a:hover, a:focus {
   margin-top: 0.5rem;
 }
 
-@media (min-width: 768px) {
-  .resource-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2.5rem;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .resource-item {
-    background: rgba(255, 255, 255, 0.03);
-  }
-
-  .resource-item:hover {
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 6px 16px rgba(0, 102, 204, 0.25);
-  }
-
-  .resource-icon {
-    background: linear-gradient(135deg, rgba(0, 102, 204, 0.2), rgba(0, 102, 204, 0.1));
-  }
-}
-
 /* ==========================================================================
    REPEATER SEARCH – FILTER AND SEARCH FUNCTIONALITY
    ========================================================================== */
@@ -852,20 +796,6 @@ a:hover, a:focus {
   background: rgba(0, 0, 0, 0.02);
   border-radius: var(--radius);
   margin: 1rem 0;
-}
-
-@media (prefers-color-scheme: dark) {
-  .search-input {
-    background: rgba(255, 255, 255, 0.05);
-  }
-
-  .search-highlight {
-    background-color: rgba(255, 193, 7, 0.25);
-  }
-
-  .no-results-message {
-    background: rgba(255, 255, 255, 0.03);
-  }
 }
 
 /* ==========================================================================
@@ -959,16 +889,6 @@ a:hover, a:focus {
   text-align: center;
   margin: 0.5rem 0 0;
   font-style: italic;
-}
-
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-  .repeater-table tbody tr:nth-child(even) {
-    background: rgba(255, 255, 255, 0.03);
-  }
-  .repeater-table tr.pinned {
-    background: rgba(76, 175, 80, 0.2);
-  }
 }
 
 /* Color coding: Red = Warning, Orange = Watch */
@@ -1080,19 +1000,6 @@ a:hover, a:focus {
   animation: pulse 2s ease-in-out infinite;
 }
 
-/* Mobile: Stack status items */
-@media (max-width: 767px) {
-  .alert-status-bar {
-    flex-direction: column;
-    gap: 0.25rem;
-    text-align: center;
-  }
-
-  .alert-status-divider {
-    display: none;
-  }
-}
-
 @keyframes pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.5; transform: scale(1.2); }
@@ -1119,8 +1026,9 @@ a:hover, a:focus {
   }
 }
 
-/* Left Column – What to Include */
-.include-col {
+/* Report columns – unified styling for left and right columns */
+.include-col,
+.report-col {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: var(--radius);
@@ -1136,17 +1044,6 @@ a:hover, a:focus {
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-primary);
-}
-
-/* Right Column – What to Report */
-.report-col {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
-  padding: 1.25rem;
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
 }
 
 .report-items {
@@ -1318,37 +1215,6 @@ a:hover, a:focus {
   }
 }
 
-/* Desktop Layout - 3 equal columns */
-@media (min-width: 768px) {
-  .nws-resources-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
-    align-items: stretch;
-  }
-
-  .nws-logo-section {
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-
-  .nws-logo-link {
-    height: 100%;
-    justify-content: flex-start;
-    padding-top: 1rem;
-  }
-
-  .nws-logo {
-    max-width: 160px;
-  }
-
-  .nws-more-resources {
-    margin-top: 1rem;
-    padding-top: 1rem;
-  }
-}
-
 /* Larger desktop - slightly bigger logo */
 @media (min-width: 1200px) {
   .nws-logo {
@@ -1356,13 +1222,8 @@ a:hover, a:focus {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .nws-logo-link:hover {
-    opacity: 0.9;
-  }
-}
 /* -------------------------------------------------
-   Green check‑boxes for the “Please Include” list
+   Green check‑boxes for the "Please Include" list
    ------------------------------------------------- */
 
 /* 1️⃣ Target the specific list – keeps the rule scoped */
@@ -1495,35 +1356,6 @@ a:hover, a:focus {
   margin-top: 0.25rem;
 }
 
-/* Mobile: Stack vertically */
-@media (max-width: 767px) {
-  .action-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-  .action-buttons .btn {
-    width: 100%;
-    max-width: 340px;
-  }
-  .site-header {
-    min-height: 25vh;
-    padding: 1rem;
-  }
-  .map-desktop { display: none; }
-  .map-mobile   { display: inline-flex; }
-}
-
-
-/* -------------------------------------------------
-   RESPONSIVE VISIBILITY (mobile vs desktop)
-   ------------------------------------------------- */
-.map-mobile { display: none; }
-
-@media (min-width: 768px) {
-  .map-desktop { display: inline-flex; }
-}
-
-
 /* ==========================================================================
    RESPONSIVE MAP BUTTONS – Show only one per device
    ========================================================================== */
@@ -1535,18 +1367,6 @@ a:hover, a:focus {
   text-align: center;
 }
 
-/* DEFAULT: hide the mobile button */
-.map-mobile { display: none; }
-
-/* DESKTOP (>=768px) */
-@media (min-width: 768px) {
-  .map-desktop { display: inline-flex; }
-}
-
-/* MOBILE (<768px) */
-@media (max-width: 767px) {
-  .map-mobile  { display: inline-flex; }
-}
 .device-label {
   font-size: 0.7rem;
   opacity: 0.6;
@@ -1645,53 +1465,68 @@ a:hover, a:focus {
   overflow-x: auto;
 }
 
-/* -------------------------------------------------
-   RESPONSIVE: Stack on Mobile
-   ------------------------------------------------- */
-@media (max-width: 767px) {
-  .resource-pair {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .resources-button,
-  .resources-text {
-    max-width: 100%;
-  }
-
-  .resources-button .btn {
-    max-width: 340px;
-    margin: 0 auto;
-  }
-}
-
-/* Desktop: Side-by-side */
-@media (min-width: 768px) {
-  .resource-pair {
-    flex-direction: row;
-    justify-content: flex-start;
-    text-align: left;
-  }
-
-  .resources-button {
-    margin-right: 1rem;
-  }
-}
-
 /* Show only on desktop – hide on mobile */
 .desktop-only { display: inline-flex; }
-@media (max-width: 767px) {
-  .desktop-only { display: none; }
-}
+/* ---------- Map button visibility ---------- */
+.map-mobile { display: none; }
+@media (min-width: 768px) { .map-desktop { display: inline-flex; } }
+@media (max-width: 767px)  { .map-mobile  { display: inline-flex; } .map-desktop { display: none; } }
 
-/* ---------- Mobile navigation (single block) ---------- */
-@media (max-width: 768px) {
+/* ==========================================================================
+   MOBILE RESPONSIVE (<768px) - Consolidated
+   ========================================================================== */
+@media (max-width: 767px) {
+  /* Layout */
+  .site-main { padding: 0 .5rem; }
+  .desktop-only { display: none; }
+  .site-header {
+    min-height: 25vh;
+    padding: 1rem;
+  }
+
+  /* Navigation */
   .nav-toggle { display: block; }
   .nav-list   { display: none; flex-direction: column; width: 100%; margin-top: .5rem; }
   .nav-list.open { display: flex; }
   .nav-list a { width: 100%; text-align: center; }
+
+  /* Buttons */
   .btn { width: 100%; max-width: 280px; }
-  .site-main { padding: 0 .5rem; }
+  .system-actions .btn { width: 100%; max-width: 340px; }
+
+  /* Action buttons */
+  .action-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  .action-buttons .btn {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  /* Alert status bar */
+  .alert-status-bar {
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: center;
+  }
+  .alert-status-divider {
+    display: none;
+  }
+
+  /* Resource pairs */
+  .resource-pair {
+    flex-direction: column;
+    text-align: center;
+  }
+  .resources-button,
+  .resources-text {
+    max-width: 100%;
+  }
+  .resources-button .btn {
+    max-width: 340px;
+    margin: 0 auto;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1701,13 +1536,65 @@ a:hover, a:focus {
   .card-header h2 { font-size: 1.2rem; }
 }
 
-/* ---------- Map button visibility (single block) ---------- */
-.map-mobile { display: none; }
-@media (min-width: 768px) { .map-desktop { display: inline-flex; } }
-@media (max-width: 767px)  { .map-mobile  { display: inline-flex; } .map-desktop { display: none; } }
+/* ==========================================================================
+   DESKTOP/TABLET RESPONSIVE (≥768px) - Consolidated
+   ========================================================================== */
+@media (min-width: 768px) {
+  /* Grid layouts - 2 columns */
+  .links-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
 
-@media (max-width: 767px) {
-  .system-actions .btn { width: 100%; max-width: 340px; }
+  .contact-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .resource-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
+
+  /* NWS Resources - 3 columns */
+  .nws-resources-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    align-items: stretch;
+  }
+
+  .nws-logo-section {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .nws-logo-link {
+    height: 100%;
+    justify-content: flex-start;
+    padding-top: 1rem;
+  }
+
+  .nws-logo {
+    max-width: 160px;
+  }
+
+  .nws-more-resources {
+    margin-top: 1rem;
+    padding-top: 1rem;
+  }
+
+  /* Resource pairs */
+  .resource-pair {
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .resources-button {
+    margin-right: 1rem;
+  }
 }
 
 /* ==========================================================================
@@ -1732,7 +1619,64 @@ a:hover, a:focus {
   100% { background-position: -200% 0; }
 }
 
+/* ==========================================================================
+   DARK MODE - Consolidated
+   ========================================================================== */
 @media (prefers-color-scheme: dark) {
+  /* Callouts */
+  .callout {
+    background: rgba(15, 23, 42, 0.9);
+  }
+
+  /* Contact items */
+  .contact-item {
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .contact-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
+  }
+  .contact-icon {
+    background: linear-gradient(135deg, rgba(0, 102, 204, 0.2), rgba(0, 102, 204, 0.1));
+  }
+
+  /* Resource items */
+  .resource-item {
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .resource-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 6px 16px rgba(0, 102, 204, 0.25);
+  }
+  .resource-icon {
+    background: linear-gradient(135deg, rgba(0, 102, 204, 0.2), rgba(0, 102, 204, 0.1));
+  }
+
+  /* Search components */
+  .search-input {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .search-highlight {
+    background-color: rgba(255, 193, 7, 0.25);
+  }
+  .no-results-message {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  /* Repeater tables */
+  .repeater-table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .repeater-table tr.pinned {
+    background: rgba(76, 175, 80, 0.2);
+  }
+
+  /* NWS logo */
+  .nws-logo-link:hover {
+    opacity: 0.9;
+  }
+
+  /* Loading skeleton */
   .skeleton-loader {
     background: linear-gradient(
       90deg,
