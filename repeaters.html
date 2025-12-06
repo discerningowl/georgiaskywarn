@@ -75,6 +75,28 @@
   <!-- Main content area (ARIA landmark) -->
   <main class="site-main" role="main">
 
+    <!-- Search Bar -->
+    <section class="card search-card">
+      <header class="card-header card-header--indigo">
+        <h2 class="card-title">🔍 Search Repeaters</h2>
+      </header>
+      <div class="card-body">
+        <div class="search-container">
+          <input
+            type="search"
+            id="repeater-search"
+            class="search-input"
+            placeholder="Search by location, frequency, or notes..."
+            aria-label="Search repeaters by location, frequency, or notes"
+          >
+          <button id="clear-search" class="btn btn-blue search-clear" aria-label="Clear search">
+            Clear
+          </button>
+        </div>
+        <p class="search-results-count" id="search-results"></p>
+      </div>
+    </section>
+
     <!-- Linked Repeaters Table Card -->
     <section class="card table-card" id="repeater-table">
       <header class="card-header card-header--blue">
@@ -458,6 +480,77 @@
 <button class="back-to-top" aria-label="Back to top" title="Back to top">
   ↑
 </button>
+
+<!-- Repeater Search Functionality -->
+<script>
+  (function () {
+    'use strict';
+
+    const searchInput = document.getElementById('repeater-search');
+    const clearButton = document.getElementById('clear-search');
+    const resultsCount = document.getElementById('search-results');
+    const tables = document.querySelectorAll('.repeater-table tbody');
+
+    if (!searchInput || !tables.length) return;
+
+    // Get all rows from both tables
+    const allRows = Array.from(tables).flatMap(tbody =>
+      Array.from(tbody.querySelectorAll('tr'))
+    );
+
+    function performSearch() {
+      const searchTerm = searchInput.value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      allRows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        const matches = text.includes(searchTerm);
+
+        if (matches) {
+          row.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          row.classList.add('hidden');
+        }
+      });
+
+      // Update results count
+      if (searchTerm === '') {
+        resultsCount.textContent = '';
+      } else if (visibleCount === 0) {
+        resultsCount.textContent = '⚠️ No repeaters found matching your search.';
+        resultsCount.style.color = 'var(--accent-red)';
+      } else if (visibleCount === allRows.length) {
+        resultsCount.textContent = `✅ Showing all ${visibleCount} repeaters.`;
+        resultsCount.style.color = 'var(--text-secondary)';
+      } else {
+        resultsCount.textContent = `✅ Found ${visibleCount} of ${allRows.length} repeaters.`;
+        resultsCount.style.color = 'var(--accent-green)';
+      }
+    }
+
+    function clearSearch() {
+      searchInput.value = '';
+      performSearch();
+      searchInput.focus();
+    }
+
+    // Event listeners
+    searchInput.addEventListener('input', performSearch);
+    searchInput.addEventListener('search', performSearch); // Triggered by ESC or clear button in browser
+    clearButton.addEventListener('click', clearSearch);
+
+    // Keyboard shortcut: Ctrl/Cmd + K to focus search
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInput.focus();
+        searchInput.select();
+      }
+    });
+
+  })();
+</script>
 
 <!-- Consolidated JavaScript -->
 <script src="scripts.js"></script>

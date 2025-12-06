@@ -783,6 +783,92 @@ a:hover, a:focus {
 }
 
 /* ==========================================================================
+   REPEATER SEARCH – FILTER AND SEARCH FUNCTIONALITY
+   ========================================================================== */
+
+.search-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 250px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid var(--card-border);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  transition: var(--transition);
+  font-family: inherit;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.search-input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+.search-clear {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.search-results-count {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  text-align: center;
+}
+
+/* Highlight matching text in search results */
+.search-highlight {
+  background-color: rgba(255, 193, 7, 0.3);
+  font-weight: 600;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+/* Hidden row when filtered out */
+.repeater-table tbody tr.hidden {
+  display: none;
+}
+
+/* No results message */
+.no-results-message {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: var(--radius);
+  margin: 1rem 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .search-input {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .search-highlight {
+    background-color: rgba(255, 193, 7, 0.25);
+  }
+
+  .no-results-message {
+    background: rgba(255, 255, 255, 0.03);
+  }
+}
+
+/* ==========================================================================
    REPEATER TABLES – UNIFORM, RESPONSIVE, BEAUTIFUL
    ========================================================================== */
 
