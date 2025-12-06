@@ -16,24 +16,17 @@
   'use strict';
 
   // ========================================================================
-  // FOOTER LOADING – Fetch and inject footer.html
+  // FOOTER INJECTION – Direct HTML injection (no fetch required)
   // ========================================================================
   const footerPlaceholder = document.getElementById('footer-placeholder');
   if (footerPlaceholder) {
-    fetch('footer.html')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
-        }
-        return response.text();
-      })
-      .then(html => {
-        footerPlaceholder.innerHTML = html;
-      })
-      .catch(error => {
-        console.error('Failed to load footer:', error);
-        footerPlaceholder.innerHTML = '<p>Footer could not be loaded.</p>';
-      });
+    footerPlaceholder.innerHTML = `
+      <footer class="site-footer" role="contentinfo">
+        <p><a href="about.html">About Georgia SKYWARN</a></p>
+        <p>&copy; 2025 Georgia SKYWARN &middot; All Rights Reserved</p>
+        <p><a href="mailto:kq4jp&#64;pm&#46;me">Contact Webmaster - KQ4JP</a></p>
+      </footer>
+    `;
   }
 
   // ========================================================================
