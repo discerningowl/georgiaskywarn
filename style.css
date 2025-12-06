@@ -1027,35 +1027,70 @@ a:hover, a:focus {
   font-weight: 600;
 }
 
-/* Alert timestamp and refresh indicator */
-.alert-timestamp {
-  text-align: center;
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  margin-bottom: 1rem;
-  font-style: italic;
-}
-
-.alert-refresh-indicator {
+/* Alert status bar - combined info line */
+.alert-status-bar {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 0.5rem;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
   margin-bottom: 1rem;
-  padding: 0.5rem;
+  padding: 0.75rem 1rem;
   background: rgba(0, 102, 204, 0.05);
   border-radius: 8px;
+  border-left: 4px solid var(--accent-blue);
+}
+
+.alert-status-text {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.alert-status-text a {
+  color: var(--accent-blue);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.alert-status-divider {
+  color: var(--text-secondary);
+  opacity: 0.5;
+  font-weight: 300;
+}
+
+.alert-status-refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.alert-status-time {
+  font-style: italic;
+  font-weight: 500;
 }
 
 .pulse {
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   background: var(--accent-green);
   border-radius: 50%;
   animation: pulse 2s ease-in-out infinite;
+}
+
+/* Mobile: Stack status items */
+@media (max-width: 767px) {
+  .alert-status-bar {
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: center;
+  }
+
+  .alert-status-divider {
+    display: none;
+  }
 }
 
 @keyframes pulse {

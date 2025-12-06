@@ -87,11 +87,13 @@
         <h2 class="card-title">Active Area Watches & Warnings & Alerts (NWS Atlanta - FFC)</h2>
       </header>
       <div class="card-body">
-        <aside class="callout warning">
-        	<p class="center">
-        	<strong>Warnings</strong> will be red, <strong>Watches</strong> are in orange, and <strong>Alerts</strong> are in teal.
-        	</p>
-        </aside>
+        <div class="alert-status-bar">
+          <span class="alert-status-text">🔴 Warnings | 🟠 Watches | 🔵 Alerts</span>
+          <span class="alert-status-divider">•</span>
+          <span class="alert-status-refresh"><span class="pulse"></span> Auto-refresh: 5min</span>
+          <span class="alert-status-divider">•</span>
+          <span class="alert-status-time" id="alert-last-update">Loading...</span>
+        </div>
         <div id="alerts-loading" class="skeleton-loader" aria-label="Loading active alerts"></div>
         <div id="alerts-container"></div>
       </div>
@@ -160,6 +162,17 @@
         }
       };
   
+      const updateTimestamp = () => {
+        const timeElement = document.getElementById('alert-last-update');
+        if (timeElement) {
+          const now = new Date().toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+          timeElement.textContent = `Updated: ${now}`;
+        }
+      };
+
       const render = data => {
         const features = (data.features || []).filter(f => {
           const p = f.properties;
@@ -167,25 +180,14 @@
           return p.senderName && p.senderName.includes('NWS Peachtree City');
         });
 
-        const lastUpdate = new Date().toLocaleTimeString('en-US', {
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit'
-        });
-
-        const refreshIndicator = `
-          <div class="alert-refresh-indicator">
-            <span class="pulse"></span>
-            Auto-refreshing every 5 minutes
-          </div>
-          <p class="alert-timestamp">Last updated: ${lastUpdate}</p>
-        `;
+        // Update timestamp
+        updateTimestamp();
 
         if (features.length === 0) {
-          return refreshIndicator + `<p class="no-alerts center"><strong>No active watches or warnings in NWS Atlanta (FFC) area.</strong></p>`;
+          return `<p class="no-alerts center"><strong>No active watches or warnings in NWS Atlanta (FFC) area.</strong></p>`;
         }
-  
-        return refreshIndicator + features.map(f => {
+
+        return features.map(f => {
           const p = f.properties;
           const isWarning = p.event?.toLowerCase().includes('warning');
           const isWatch = p.event?.toLowerCase().includes('watch');
