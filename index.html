@@ -292,19 +292,16 @@
     </section>
 
     <!-- SKYWARN Reporting Card -->
-    <!-- ==== WHAT TO REPORT CARD ==== -->
     <section class="card report-card" id="reportcard">
       <header class="card-header">
-        <h2 class="card-title">
-          <span class="phone-icon">Reporting Requirements</span>
-        </h2>
+        <h2 class="card-title">Reporting Requirements</h2>
       </header>
-    
+
       <div class="card-body">
-        <div class="report-grid">
-          <!-- LEFT: What to Include -->
-          <div class="include-col">
-            <h3 class="include-title">Please Include:</h3>
+        <!-- Top row: Please Include + Detailed Guide (side by side) -->
+        <div class="report-top-row">
+          <div class="report-include">
+            <h3 class="report-section-title">Please Include:</h3>
             <ul class="include-list">
               <li>Name</li>
               <li>Callsign (or phone number)</li>
@@ -312,52 +309,46 @@
               <li>Identify yourself as a trained spotter</li>
               <li>Tell us what you saw</li>
               <li>Provide your exact location or cross streets</li>
-              <li>Give the event’s time</li>
+              <li>Give the event's time</li>
             </ul>
-            <br>
-            <aside class="callout">
-            	<a href="https://www.weather.gov/spotterguide/reports" target="_blank" rel="noopener noreferrer"><h3 class="center">Detailed Reporting Guide</h3></a><br>
-            </aside>
           </div>
-   
-          <!-- RIGHT: What to Report (Table) -->
-          <div class="report-col">
-            <h3 class="report-title">What to Report:</h3>
-            <div class="report-items">
-              <div class="report-item tornado">
-                <strong>Tornadoes / Funnel Clouds / Wall Clouds</strong>
-                <p>Organized, persistent rotation</p>
-              </div>
-              <div class="report-item hail">
-                <strong>Hail</strong>
-                <p>
-                	Report the size of the largest stone and any damage. To estimate size, compare hail 
-                	to well known objects such as coins or balls, but not to marbles, or measure the 
-                	hail with a ruler.
-                </p>
-              </div>
-              <div class="report-item wind">
-                <strong>Damaging Winds</strong>
-                <p>Estimated or measured wind speeds of 50 mph or greater<br>Large branches, trees, powerlines, or signs blown down<br>Roof or structure damage</p>
-              </div>
-              <div class="report-item flood">
-                <strong>Flooding</strong>
-                <p>
-				 	Report flooded roadways, rivers and streams, giving approximate water depth.<br>
-				  	Does the flooding consist of standing water or is it flowing?<br>
-					Is the water level continuing to rise, staying steady or falling?<br>
-					Is the flooding occurring in a known flood prone area?<br>
-					Any damage from the flooding or mud slides?
-                </p>
-              </div>
-              <div class="report-item winter">
-                <strong>Winter Weather</strong>
-                <p>Any ice/snow accumulation</p>
-              </div>
-              <div class="report-item lightning">
-                <strong>Lightning</strong>
-                <p>Injuries or damage caused</p>
-              </div>
+
+          <div class="report-guide">
+            <h3 class="report-section-title">Detailed Reporting Guide</h3>
+            <p>The NWS provides comprehensive guidelines for submitting accurate and useful weather reports.</p>
+            <a href="https://www.weather.gov/spotterguide/reports" class="btn btn-blue" target="_blank" rel="noopener noreferrer">
+              View Official Guide →
+            </a>
+          </div>
+        </div>
+
+        <!-- Bottom section: What to Report (full width) -->
+        <div class="report-what-section">
+          <h3 class="report-section-title">What to Report:</h3>
+          <div class="report-items-grid">
+            <div class="report-item tornado">
+              <strong>🌪️ Tornadoes / Funnel Clouds / Wall Clouds</strong>
+              <p>Organized, persistent rotation</p>
+            </div>
+            <div class="report-item hail">
+              <strong>🧊 Hail</strong>
+              <p>Report the size of the largest stone and any damage. Compare to coins or balls, or measure with a ruler.</p>
+            </div>
+            <div class="report-item wind">
+              <strong>💨 Damaging Winds</strong>
+              <p>Wind speeds ≥50 mph • Large branches/trees down • Roof or structure damage</p>
+            </div>
+            <div class="report-item flood">
+              <strong>🌊 Flooding</strong>
+              <p>Flooded roadways/rivers • Water depth • Standing or flowing • Rising/steady/falling • Known flood area • Damage</p>
+            </div>
+            <div class="report-item winter">
+              <strong>❄️ Winter Weather</strong>
+              <p>Any ice/snow accumulation</p>
+            </div>
+            <div class="report-item lightning">
+              <strong>⚡ Lightning</strong>
+              <p>Injuries or damage caused</p>
             </div>
           </div>
         </div>

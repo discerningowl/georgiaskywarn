@@ -1012,57 +1012,95 @@ a:hover, a:focus {
 }
 
 /* ==========================================================================
-   WHAT TO REPORT – MOBILE-FIRST GRID (NO TABLE)
+   REPORTING REQUIREMENTS – IMPROVED LAYOUT
    ========================================================================== */
-.report-grid {
+
+/* Top row: Please Include + Detailed Guide (side by side) */
+.report-top-row {
   display: grid;
   gap: 1.5rem;
   grid-template-columns: 1fr;
+  margin-bottom: 2rem;
 }
 
-@media (min-width: 640px) {
-  .report-grid {
+@media (min-width: 768px) {
+  .report-top-row {
     grid-template-columns: 1fr 1fr;
-    align-items: stretch;
   }
 }
 
-/* Report columns – unified styling for left and right columns */
-.include-col,
-.report-col {
-  background: var(--card-bg);
+.report-include,
+.report-guide {
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--card-border);
-  border-radius: var(--radius);
-  padding: 1.25rem;
-  box-shadow: var(--shadow);
-  display: flex;
-  flex-direction: column;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: var(--transition);
 }
 
-.include-title,
-.report-title {
-  margin-bottom: 0.75rem;
-  font-size: 1.25rem;
+.report-include:hover,
+.report-guide:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--accent-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.1);
+}
+
+.report-section-title {
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--text-primary);
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--accent-blue);
 }
 
-.report-items {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  flex: 1;
+.report-guide p {
+  margin: 0 0 1rem 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.report-guide .btn {
+  width: 100%;
+}
+
+/* Bottom section: What to Report (full width) */
+.report-what-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--card-border);
+}
+
+.report-items-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+  margin-top: 1rem;
+}
+
+@media (min-width: 640px) {
+  .report-items-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .report-items-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .report-item {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
   border-left: 4px solid;
-  padding: 0.75rem 1rem;
-  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1rem;
+  border-radius: 0 12px 12px 0;
   transition: var(--transition);
 }
 
 .report-item:hover {
+  background: rgba(255, 255, 255, 0.1);
   transform: translateX(4px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -1071,18 +1109,15 @@ a:hover, a:focus {
   display: block;
   font-size: 1rem;
   color: var(--text-primary);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
 }
 
 .report-item p {
   margin: 0;
   font-size: 0.9rem;
   color: var(--text-secondary);
-}
-
-.report-item small {
-  font-size: 0.8rem;
-  opacity: 0.8;
+  line-height: 1.5;
 }
 
 /* Color-coded left border */
