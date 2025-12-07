@@ -50,7 +50,7 @@
   --transition: all 0.3s ease;
   --alert-warning-bg: #ffe6e6;
   --alert-watch-bg: #fff4e6;
-  --alert-other-bg: #e6f7f5;
+  --alert-other-bg: #e3f2fd;
   --alert-header-color: #333;
   --alert-desc-color: var(--text-secondary);
   --nav-btn-bg: #ffffff;
@@ -91,7 +91,7 @@
     --title-solid: #7a5fff;
 	--alert-warning-bg: rgba(230, 57, 70, 0.25); /* Muted red with transparency */
 	--alert-watch-bg: rgba(244, 162, 97, 0.25); /* Muted orange with transparency */
-	--alert-other-bg: rgba(42, 157, 143, 0.25); /* Muted teal with transparency */
+	--alert-other-bg: rgba(96, 165, 250, 0.25); /* Muted blue with transparency */
 	--alert-header-color: #fff;
 	--alert-desc-color: #d1d5db; /* Light gray for readability */
 	--nav-btn-bg: rgba(15, 23, 42, 0.9);
@@ -925,7 +925,7 @@ a:hover, a:focus {
 }
 
 .alert-other {
-  border-left-color: #2a9d8f; /* Teal fallback */
+  border-left-color: #42a5f5; /* Blue */
   background-color: var(--alert-other-bg);
 }
 
