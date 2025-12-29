@@ -26,6 +26,11 @@
 </head>
 
 <body>
+  <!-- Theme Toggle Button -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark theme">
+    <span id="themeIcon">🌙</span>
+  </button>
+
   <!-- Site header with title (ARIA landmark) -->
   <header class="site-header" role="banner" id="topheader">
     <h1 class="site-title">Georgia SKYWARN Repeaters</h1>
@@ -63,15 +68,16 @@
       <input
         type="search"
         id="repeater-search"
-        class="search-input"
-        placeholder="🔍 Search by location, frequency, or notes..."
-        aria-label="Search repeaters by location, frequency, or notes"
+        placeholder="Search by location, frequency, or callsign..."
+        aria-label="Search repeaters"
       >
-      <button id="clear-search" class="btn btn-blue search-clear" aria-label="Clear search">
-        Clear
-      </button>
+      <button
+        class="search-clear"
+        id="clear-search"
+        aria-label="Clear search"
+      >×</button>
     </div>
-    <p class="search-results-count" id="search-results"></p>
+    <div id="search-results" aria-live="polite"></div>
 
     <!-- Linked Repeaters Table Card -->
     <section class="card table-card" id="repeater-table">

@@ -44,6 +44,127 @@
   let alertRefreshInterval = null;
 
   // ========================================================================
+  // THEME TOGGLE SYSTEM
+  // ========================================================================
+
+  /**
+   * Initializes theme toggle functionality
+   * Three-tier preference: Manual (localStorage) > System > Default (light)
+   */
+  function initThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const html = document.documentElement;
+
+    if (!themeToggle || !themeIcon) return; // Not on a page with theme toggle
+
+    // Determine initial theme: localStorage > system > default (light)
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+
+    html.setAttribute('data-theme', initialTheme);
+    updateIcon(initialTheme);
+
+    // Toggle handler
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateIcon(newTheme);
+    });
+
+    // Update icon based on theme
+    function updateIcon(theme) {
+      themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+      themeToggle.setAttribute('aria-label',
+        theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode');
+    }
+
+    // Listen for system preference changes (only if no manual override)
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('theme')) {
+        const newTheme = e.matches ? 'dark' : 'light';
+        html.setAttribute('data-theme', newTheme);
+        updateIcon(newTheme);
+      }
+    });
+  }
+
+  // Call on page load
+  initThemeToggle();
+
+  // ========================================================================
+  // MODAL SYSTEM FOR ALERT DETAILS
+  // ========================================================================
+
+  // Global alert data cache (for modal access)
+  let alertDataCache = [];
+
+  function openAlertModal(alertData) {
+    const modal = document.getElementById('alertModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+
+    if (!modal || !modalTitle || !modalBody) return;
+
+    const p = alertData.properties;
+
+    const content = `
+      <p><strong>${sanitizeHTML(p.event || 'Weather Alert')}</strong></p>
+      ${p.sent ? `<p><strong>Issued:</strong> ${new Date(p.sent).toLocaleString()}</p>` : ''}
+      ${p.expires ? `<p><strong>Expires:</strong> ${new Date(p.expires).toLocaleString()}</p>` : ''}
+      ${p.areaDesc ? `<p><strong>Areas:</strong> ${sanitizeHTML(p.areaDesc)}</p>` : ''}
+      ${p.description ? `<p><strong>Description:</strong><br>${sanitizeHTML(p.description)}</p>` : ''}
+      ${p.instruction ? `<p><strong>Instructions:</strong><br>${sanitizeHTML(p.instruction)}</p>` : ''}
+      <p style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-primary);">
+        <strong>Source:</strong> ${sanitizeHTML(p.senderName || 'NWS')}
+      </p>
+    `;
+
+    modalTitle.textContent = p.headline || p.event || 'Alert Details';
+    modalBody.innerHTML = content;
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('modalClose')?.focus();
+  }
+
+  function closeAlertModal() {
+    const modal = document.getElementById('alertModal');
+    if (!modal) return;
+
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function initModal() {
+    const modal = document.getElementById('alertModal');
+    if (!modal) return;
+
+    // Close modal when clicking backdrop
+    modal.addEventListener('click', (e) => {
+      if (e.target.id === 'alertModal') closeAlertModal();
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeAlertModal();
+      }
+    });
+
+    // Close button handler
+    const closeBtn = document.getElementById('modalClose');
+    if (closeBtn) closeBtn.addEventListener('click', closeAlertModal);
+  }
+
+  // Initialize modal on page load
+  initModal();
+
+  // ========================================================================
   // SECURITY: XSS SANITIZATION
   // ========================================================================
 
@@ -203,20 +324,25 @@
       return `<p class="no-alerts center"><strong>No active warnings in NWS Atlanta (FFC) area.</strong></p>`;
     }
 
-    return features.map(f => {
+    return features.map((f, index) => {
+      alertDataCache[index] = f; // Cache for modal access
       const p = f.properties;
       // Sanitize content to prevent XSS
       const desc = sanitizeHTML(p.description || '');
-      const instr = sanitizeHTML(p.instruction || '');
+      const shortDesc = desc.length > 200 ? desc.substring(0, 200) + '...' : desc;
       const headline = sanitizeHTML(p.headline || p.event);
       const areaDesc = sanitizeHTML(p.areaDesc);
 
       return `
-        <div class="alert-item alert-warning">
+        <div class="alert-item alert-warning"
+             data-alert-index="${index}"
+             role="button"
+             tabindex="0"
+             aria-label="Click for full alert details">
           <div class="alert-header">${headline} – <strong>WARNING</strong></div>
-          <div class="alert-description">${desc}</div>
-          ${instr ? `<hr><div class="alert-description"><strong>Instructions:</strong> ${instr}</div>` : ''}
+          <div class="alert-description">${shortDesc}</div>
           <small><strong>Areas:</strong> ${areaDesc} | <strong>Expires:</strong> ${new Date(p.expires).toLocaleString()}</small>
+          <div class="alert-more">Click for full details →</div>
         </div>`;
     }).join('');
   }
@@ -239,7 +365,8 @@
       return `<p class="no-alerts center"><strong>No active watches or warnings in NWS Atlanta (FFC) area.</strong></p>`;
     }
 
-    return features.map(f => {
+    return features.map((f, index) => {
+      alertDataCache[index] = f; // Cache for modal access
       const p = f.properties;
       const isWarning = p.event?.toLowerCase().includes('warning');
       const isWatch = p.event?.toLowerCase().includes('watch');
@@ -248,16 +375,20 @@
 
       // Sanitize content to prevent XSS
       const desc = sanitizeHTML(p.description || '');
-      const instr = sanitizeHTML(p.instruction || '');
+      const shortDesc = desc.length > 200 ? desc.substring(0, 200) + '...' : desc;
       const headline = sanitizeHTML(p.headline || p.event);
       const areaDesc = sanitizeHTML(p.areaDesc);
 
       return `
-        <div class="alert-item ${colorClass}">
+        <div class="alert-item ${colorClass}"
+             data-alert-index="${index}"
+             role="button"
+             tabindex="0"
+             aria-label="Click for full alert details">
           <div class="alert-header">${headline} – <strong>${type}</strong></div>
-          <div class="alert-description">${desc}</div>
-          ${instr ? `<hr><div class="alert-description"><strong>Instructions:</strong> ${instr}</div>` : ''}
+          <div class="alert-description">${shortDesc}</div>
           <small><strong>Areas:</strong> ${areaDesc} | <strong>Expires:</strong> ${new Date(p.expires).toLocaleString()}</small>
+          <div class="alert-more">Click for full details →</div>
         </div>`;
     }).join('');
   }
@@ -281,12 +412,17 @@
       const rendered = warningsOnly ? renderWarningsOnly(data) : renderAllAlerts(data);
       show(container, rendered);
 
+      // Attach click handlers for modal (CSP-compliant event delegation)
+      attachAlertClickHandlers();
+
       // Background refresh every 5 minutes (respects cache)
       alertRefreshInterval = setInterval(async () => {
         try {
           const freshData = await fetchAlerts();
           const rendered = warningsOnly ? renderWarningsOnly(freshData) : renderAllAlerts(freshData);
           show(container, rendered);
+          // Re-attach handlers after refresh (container innerHTML was replaced)
+          attachAlertClickHandlers();
         } catch (err) {
           console.error('Background refresh failed:', err);
           // Don't clear existing alerts - keep showing cached data
@@ -306,6 +442,38 @@
       show(container, errorMsg);
       console.error('Alert fetch error:', err);
     }
+  }
+
+  /**
+   * Attaches click handlers to alert items for modal display (CSP-compliant)
+   */
+  function attachAlertClickHandlers() {
+    const container = document.getElementById('alerts-container');
+    if (!container) return;
+
+    // Click handler
+    container.addEventListener('click', (e) => {
+      const alertItem = e.target.closest('.alert-item');
+      if (alertItem) {
+        const index = alertItem.getAttribute('data-alert-index');
+        if (alertDataCache[index]) {
+          openAlertModal(alertDataCache[index]);
+        }
+      }
+    });
+
+    // Keyboard handler (Enter key)
+    container.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const alertItem = e.target.closest('.alert-item');
+        if (alertItem) {
+          const index = alertItem.getAttribute('data-alert-index');
+          if (alertDataCache[index]) {
+            openAlertModal(alertDataCache[index]);
+          }
+        }
+      }
+    });
   }
 
   // ========================================================================
@@ -427,6 +595,11 @@
         } else {
           resultsCount.textContent = `✅ Found ${visibleCount} of ${allRows.length} repeaters.`;
           resultsCount.style.color = 'var(--accent-green)';
+        }
+
+        // Show/hide clear button based on search input
+        if (clearButton) {
+          clearButton.classList.toggle('visible', searchTerm.length > 0);
         }
       }
 

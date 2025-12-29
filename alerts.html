@@ -40,6 +40,11 @@
 </head>
 
 <body>
+  <!-- Theme Toggle Button -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark theme">
+    <span id="themeIcon">🌙</span>
+  </button>
+
   <!-- Site header with title (ARIA landmark) -->
   <header class="site-header" role="banner" id="topheader">
     <h1 class="site-title">NWS Atlanta Alerts</h1>
@@ -90,6 +95,17 @@
 <button class="back-to-top" aria-label="Back to top" title="Back to top">
   ↑
 </button>
+
+<!-- Modal for Alert Details -->
+<div class="modal-backdrop" id="alertModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modalTitle">Alert Details</h2>
+      <button class="modal-close" id="modalClose" aria-label="Close modal">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
 
 <!-- Consolidated JavaScript - includes alert fetching, navigation, footer, security fixes -->
 <script src="scripts.js?v=20251206"></script>

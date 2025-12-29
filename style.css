@@ -36,7 +36,26 @@
   --accent-orange-dark: #FFB74D;
   --accent-yellow: #FFC107;
   --accent-yellow-dark: #E0A800;
-  --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+  /* Enhanced shadow system - graduated levels */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.2);
+  --shadow: var(--shadow-md); /* Backward compatibility */
+
+  /* Additional backgrounds for layering */
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f3f4f6;
+
+  /* Border system */
+  --border-primary: #e2e8f0;
+  --border-secondary: #d1d5db;
+
+  /* Text variations */
+  --text-muted: #6b7280;
+
   --glow: 0 0 15px rgba(0, 102, 204, 0.2);
   --header-gradient: linear-gradient(135deg, #001f3f 0%, #003366 100%);
   --header-gradient-red: linear-gradient(135deg, #FB2C36 0%, #FF6467 100%);
@@ -61,7 +80,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg-body: #0f172a;
     --text-primary: #e2e8f0;
     --text-secondary: #94a3b8;
@@ -79,7 +98,26 @@
     --accent-orange-dark: #FFB74D;
     --accent-yellow: #FFC107;
     --accent-yellow-dark: #E0A800;
-    --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+    /* Enhanced shadows for dark mode */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.4);
+    --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.5);
+    --shadow: var(--shadow-md); /* Backward compatibility */
+
+    /* Additional backgrounds */
+    --bg-primary: #0f1419;
+    --bg-secondary: #1a1f2e;
+    --bg-tertiary: #22293a;
+
+    /* Borders */
+    --border-primary: rgba(255, 255, 255, 0.1);
+    --border-secondary: rgba(255, 255, 255, 0.08);
+
+    /* Text */
+    --text-muted: #6b7280;
+
     --glow: 0 0 20px rgba(96, 165, 250, 0.3);
     --header-gradient: linear-gradient(135deg, #0a3d62 0%, #1e40af 100%);
     --header-gradient-red: linear-gradient(135deg, #FB2C36 0%, #FF6467 100%);
@@ -103,6 +141,65 @@
 	.alert-item {
 	    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.1); /* Inner glow for depth in dark mode */
 	  }
+}
+
+/* ---------- Manual Theme Override (takes precedence over system preference) ---------- */
+html[data-theme="light"] {
+  --bg-body: #f8f9fa;
+  --text-primary: #1a1a1a;
+  --text-secondary: #444;
+  --card-bg: rgba(255, 255, 255, 0.9);
+  --card-border: rgba(0, 0, 0, 0.1);
+  --accent-blue: #0066cc;
+  --accent-blue-dark: #005cb8;
+  --accent-red: #e63946;
+  --accent-red-dark: #cf333e;
+  --accent-green: #4ad38e;
+  --accent-green-dark: #42ba7f;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.2);
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f3f4f6;
+  --border-primary: #e2e8f0;
+  --border-secondary: #d1d5db;
+  --text-muted: #6b7280;
+  --alert-warning-bg: #ffe6e6;
+  --alert-watch-bg: #fff4e6;
+  --alert-other-bg: #e3f2fd;
+  --alert-header-color: #333;
+  --alert-desc-color: var(--text-secondary);
+}
+
+html[data-theme="dark"] {
+  --bg-body: #0f172a;
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --card-bg: rgba(15, 23, 42, 0.85);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --accent-blue: #60a5fa;
+  --accent-blue-dark: #5495e1;
+  --accent-red: #f87171;
+  --accent-red-dark: #df6565;
+  --accent-green: #4ad38e;
+  --accent-green-dark: #42ba7f;
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.5);
+  --bg-primary: #0f1419;
+  --bg-secondary: #1a1f2e;
+  --bg-tertiary: #22293a;
+  --border-primary: rgba(255, 255, 255, 0.1);
+  --border-secondary: rgba(255, 255, 255, 0.08);
+  --text-muted: #6b7280;
+  --alert-warning-bg: rgba(230, 57, 70, 0.25);
+  --alert-watch-bg: rgba(244, 162, 97, 0.25);
+  --alert-other-bg: rgba(96, 165, 250, 0.25);
+  --alert-header-color: #fff;
+  --alert-desc-color: #d1d5db;
 }
 
 /* ---------- Global Reset & Base ---------- */
@@ -175,7 +272,7 @@ a:hover, a:focus {
   justify-content: center;
   background: var(--header-gradient);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-lg);
 }
 
 .site-title {
@@ -199,7 +296,222 @@ a:hover, a:focus {
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
+/* ==========================================================================
+   THEME TOGGLE BUTTON
+   ========================================================================== */
 
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 50px;
+  height: 50px;
+  background: var(--card-bg);
+  border: 2px solid var(--border-primary);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: var(--transition);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.theme-toggle:hover {
+  transform: rotate(20deg) scale(1.1);
+  box-shadow: var(--shadow-lg);
+}
+
+.theme-toggle:active {
+  transform: rotate(20deg) scale(0.95);
+}
+
+.theme-toggle:focus {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+}
+
+@media (max-width: 767px) {
+  .theme-toggle {
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+}
+
+/* ==========================================================================
+   MODAL SYSTEM
+   ========================================================================== */
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-backdrop.active {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  max-width: 42rem;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-xl);
+  animation: slideUp 0.3s ease;
+}
+
+.modal-header {
+  padding: 1.5rem;
+  background: var(--header-gradient-red);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
+}
+
+.modal-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.modal-body {
+  padding: 1.5rem;
+  color: var(--text-secondary);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
+   ENHANCED SEARCH BOX
+   ========================================================================== */
+
+.search-container {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.search-container input[type="text"],
+.search-container input[type="search"] {
+  width: 100%;
+  padding: 0.75rem 3rem 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid var(--border-primary);
+  border-radius: 12px;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  transition: var(--transition);
+  font-family: inherit;
+}
+
+.search-container input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.search-container::before {
+  content: "🔍";
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.search-clear {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--accent-red);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: var(--transition);
+  z-index: 2;
+}
+
+.search-clear.visible {
+  display: flex;
+}
+
+.search-clear:hover {
+  background: var(--accent-red-dark);
+  transform: translateY(-50%) scale(1.1);
+}
 
 /* ==========================================================================
    NAVIGATION – TWO-TIER SYSTEM
@@ -418,13 +730,13 @@ a:hover, a:focus {
   border: 1px solid var(--card-border);
   border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: var(--shadow), var(--glow);
+  box-shadow: var(--shadow-md), var(--glow);
   transition: var(--transition);
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-xl);
 }
 
 /* Shared header core – applies to every card header */
@@ -544,7 +856,12 @@ a:hover, a:focus {
   background: color-mix(in srgb, var(--btn-bg) 80%, #000);
   color: #000;  /* Black text on hover for all buttons */
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+  box-shadow: var(--shadow-md);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
 }
 
 /* colour modifiers – just change the variable */
@@ -912,6 +1229,27 @@ a:hover, a:focus {
   background-color: #f9f9f9;
   font-size: 0.95rem;
   animation: fadeIn 0.5s ease-in;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.alert-item:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-md);
+}
+
+.alert-more {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--accent-blue);
+  font-weight: 600;
+  text-align: right;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.alert-item:hover .alert-more {
+  opacity: 1;
 }
 
 .alert-warning {
@@ -1723,7 +2061,7 @@ a:hover, a:focus {
   border-radius: 50%;
   font-size: 1.5rem;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-lg);
   transition: var(--transition);
   opacity: 0;
   visibility: hidden;
@@ -1742,7 +2080,7 @@ a:hover, a:focus {
 .back-to-top:focus {
   background: var(--accent-blue-dark);
   transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-xl);
 }
 
 .back-to-top:active {
