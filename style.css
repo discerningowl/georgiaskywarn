@@ -314,7 +314,7 @@ a:hover, a:focus {
   border: 2px solid var(--border-primary);
   border-radius: 50%;
   cursor: pointer;
-  z-index: 999;
+  z-index: 1001;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -533,28 +533,37 @@ a:hover, a:focus {
   border-bottom: 2px solid var(--card-border);
 }
 
+/* Floating page navigation - sticky horizontal bar */
 .page-nav {
-  background: rgba(var(--card-bg), 0.5);
-  border-bottom: 1px solid var(--card-border);
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-primary);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 1px 3px var(--shadow-sm);
+  padding: 0.75rem 1.5rem;
 }
 
-/* Mobile toggle button - base styles */
+/* Mobile toggle button - refined compact style */
 .nav-toggle {
   display: none;
   color: white;
   border: none;
-  font-size: 1.5rem;
-  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.75rem;
   border-radius: 8px;
   cursor: pointer;
   transition: var(--transition);
   font-weight: 600;
-  gap: 0.5rem;
+  gap: 0.4rem;
   align-items: center;
   justify-content: center;
+  box-shadow: var(--shadow-sm);
 }
 
-/* Site navigation toggle - blue */
+/* Site navigation toggle - sleek blue */
 .site-nav .nav-toggle {
   background: var(--accent-blue);
 }
@@ -565,15 +574,9 @@ a:hover, a:focus {
   box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
 }
 
-/* Page navigation toggle - green */
+/* Page navigation - no toggle needed (always visible as sticky bar) */
 .page-nav .nav-toggle {
-  background: var(--accent-green);
-}
-
-.page-nav .nav-toggle:hover {
-  background: var(--accent-green-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(74, 211, 142, 0.3);
+  display: none !important;
 }
 
 /* Navigation list base styles */
@@ -587,19 +590,20 @@ a:hover, a:focus {
   padding: 0;
 }
 
-/* Site-nav links - colored buttons */
+/* Site-nav links - sleek colored buttons matching page-nav style */
 .site-nav .nav-list a {
   display: block;
-  padding: 0.6rem 1rem;
+  padding: 0.5rem 1rem;
   font-weight: 600;
   text-decoration: none;
   border-radius: 8px;
   background: var(--accent-blue);
   color: white;
   border: none;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm);
   transition: var(--transition);
   text-align: center;
+  font-size: 0.9rem;
 }
 
 .site-nav .nav-list a:hover,
@@ -609,19 +613,28 @@ a:hover, a:focus {
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
+/* Page-nav list - always visible horizontal layout */
+.page-nav .nav-list {
+  display: flex !important;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
 /* Page-nav links - white/neutral buttons */
 .page-nav .nav-list a {
   display: block;
-  padding: 0.6rem 1rem;
+  padding: 0.5rem 1rem;
   font-weight: 600;
   text-decoration: none;
   border-radius: 8px;
   background: var(--nav-btn-bg, var(--card-bg));
   color: var(--nav-btn-color, var(--text-primary));
   border: 1px solid var(--nav-btn-border, var(--card-border));
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm);
   transition: var(--transition);
   text-align: center;
+  font-size: 0.9rem;
 }
 
 .page-nav .nav-list a:hover,
@@ -856,29 +869,34 @@ a:hover, a:focus {
   }
 }
 
-/* ---------- Buttons ---------- */
+/* ---------- Content Buttons (refined to match nav buttons) ---------- */
 .btn {
-  --btn-bg: var(--accent-blue);   /* default colour */
+  --btn-bg: var(--accent-blue);
+  --btn-bg-hover: var(--accent-blue-dark);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: .5rem;
-  padding: .8rem 1.5rem;
+  padding: 0.5rem 1rem;
   font-weight: 600;
+  font-size: 0.9rem;
   text-decoration: none;
   color: #fff;
   background: var(--btn-bg);
+  border: none;
   border-radius: 8px;
   cursor: pointer;
+  box-shadow: var(--shadow-sm);
   transition: var(--transition);
+  text-align: center;
 }
 
 .btn:hover,
 .btn:focus {
-  background: color-mix(in srgb, var(--btn-bg) 80%, #000);
-  color: #000;  /* Black text on hover for all buttons */
+  background: var(--btn-bg-hover);
+  color: #fff;
   transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
 .btn:active {
@@ -886,13 +904,15 @@ a:hover, a:focus {
   box-shadow: var(--shadow-sm);
 }
 
-/* colour modifiers – just change the variable */
-.btn-blue    { --btn-bg: var(--accent-blue); }
-.btn-red     { --btn-bg: var(--accent-red); }
-.btn-green   { --btn-bg: var(--accent-green); }
-.btn-indigo  { --btn-bg: var(--accent-indigo); }
-.btn-orange  { --btn-bg: var(--accent-orange); }
-.btn-yellow  { --btn-bg: var(--accent-yellow); color: #000;}
+/* Color modifiers with hover variants */
+.btn-blue    { --btn-bg: var(--accent-blue); --btn-bg-hover: var(--accent-blue-dark); }
+.btn-red     { --btn-bg: var(--accent-red); --btn-bg-hover: var(--accent-red-dark); }
+.btn-green   { --btn-bg: var(--accent-green); --btn-bg-hover: var(--accent-green-dark); }
+.btn-indigo  { --btn-bg: var(--accent-indigo); --btn-bg-hover: var(--accent-indigo-dark); }
+.btn-orange  { --btn-bg: var(--accent-orange); --btn-bg-hover: var(--accent-orange-dark); }
+.btn-yellow  { --btn-bg: var(--accent-yellow); --btn-bg-hover: var(--accent-yellow-dark); color: #000;}
+.btn-yellow:hover,
+.btn-yellow:focus { color: #000; }
 
 /* ---------- Contact Grid Component ---------- */
 .contact-grid {
@@ -1913,14 +1933,36 @@ a:hover, a:focus {
   }
 
   /* Navigation */
-  .nav-toggle { display: block; }
-  .nav-list   { display: none; flex-direction: column; width: 100%; margin-top: .5rem; }
-  .nav-list.open { display: flex; }
-  .nav-list a { width: 100%; text-align: center; }
+  .site-nav .nav-toggle { display: block; }
+  .site-nav .nav-list   { display: none; flex-direction: column; width: 100%; margin-top: .5rem; }
+  .site-nav .nav-list.open { display: flex; }
+  .site-nav .nav-list a {
+    width: 100%;
+    text-align: center;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.75rem;
+  }
 
-  /* Buttons */
-  .btn { width: 100%; max-width: 280px; }
-  .system-actions .btn { width: 100%; max-width: 340px; }
+  /* Page nav - always visible, smaller on mobile */
+  .page-nav .nav-list {
+    gap: 0.5rem;
+  }
+  .page-nav .nav-list a {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.75rem;
+  }
+
+  /* Buttons - consistent sizing on mobile */
+  .btn {
+    width: 100%;
+    max-width: 280px;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.75rem;
+  }
+  .system-actions .btn {
+    width: 100%;
+    max-width: 340px;
+  }
 
   /* Action buttons */
   .action-buttons {
@@ -2048,70 +2090,72 @@ a:hover, a:focus {
 }
 
 /* ==========================================================================
-   DARK MODE - Consolidated
+   DARK MODE - Consolidated (respects manual theme toggle)
    ========================================================================== */
 @media (prefers-color-scheme: dark) {
-  /* Callouts */
-  .callout {
-    background: rgba(15, 23, 42, 0.9);
-  }
+  :root:not([data-theme="light"]) {
+    /* Callouts */
+    .callout {
+      background: rgba(15, 23, 42, 0.9);
+    }
 
-  /* Contact items */
-  .contact-item {
-    background: rgba(255, 255, 255, 0.03);
-  }
-  .contact-item:hover {
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
-  }
-  .contact-icon {
-    background: linear-gradient(135deg, rgba(0, 102, 204, 0.2), rgba(0, 102, 204, 0.1));
-  }
+    /* Contact items */
+    .contact-item {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .contact-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
+    }
+    .contact-icon {
+      background: linear-gradient(135deg, rgba(0, 102, 204, 0.2), rgba(0, 102, 204, 0.1));
+    }
 
-  /* Resource items */
-  .resource-item {
-    background: rgba(255, 255, 255, 0.03);
-  }
-  .resource-item:hover {
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 6px 16px rgba(0, 102, 204, 0.25);
-  }
-  .resource-icon {
-    background: linear-gradient(135deg, rgba(0, 102, 204, 0.2), rgba(0, 102, 204, 0.1));
-  }
+    /* Resource items */
+    .resource-item {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .resource-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 6px 16px rgba(0, 102, 204, 0.25);
+    }
+    .resource-icon {
+      background: linear-gradient(135deg, rgba(0, 102, 204, 0.2), rgba(0, 102, 204, 0.1));
+    }
 
-  /* Search components */
-  .search-input {
-    background: rgba(255, 255, 255, 0.05);
-  }
-  .search-highlight {
-    background-color: rgba(255, 193, 7, 0.25);
-  }
-  .no-results-message {
-    background: rgba(255, 255, 255, 0.03);
-  }
+    /* Search components */
+    .search-input {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .search-highlight {
+      background-color: rgba(255, 193, 7, 0.25);
+    }
+    .no-results-message {
+      background: rgba(255, 255, 255, 0.03);
+    }
 
-  /* Repeater tables */
-  .repeater-table tbody tr:nth-child(even) {
-    background: rgba(255, 255, 255, 0.03);
-  }
-  .repeater-table tr.pinned {
-    background: rgba(76, 175, 80, 0.2);
-  }
+    /* Repeater tables */
+    .repeater-table tbody tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .repeater-table tr.pinned {
+      background: rgba(76, 175, 80, 0.2);
+    }
 
-  /* NWS logo */
-  .nws-logo-link:hover {
-    opacity: 0.9;
-  }
+    /* NWS logo */
+    .nws-logo-link:hover {
+      opacity: 0.9;
+    }
 
-  /* Loading skeleton */
-  .skeleton-loader {
-    background: linear-gradient(
-      90deg,
-      rgba(100, 100, 100, 0.2) 25%,
-      rgba(100, 100, 100, 0.4) 50%,
-      rgba(100, 100, 100, 0.2) 75%
-    );
+    /* Loading skeleton */
+    .skeleton-loader {
+      background: linear-gradient(
+        90deg,
+        rgba(100, 100, 100, 0.2) 25%,
+        rgba(100, 100, 100, 0.4) 50%,
+        rgba(100, 100, 100, 0.2) 75%
+      );
+    }
   }
 }
 

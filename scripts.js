@@ -4,7 +4,8 @@
  * Author: Jack Parks (KQ4JP) <kq4jp@pm.me>
  * Purpose: Consolidated JavaScript for Georgia SKYWARN website
  *          - Footer loading
- *          - Dual navigation toggle (site-nav + page-nav)
+ *          - Site navigation toggle (site-nav hamburger menu on mobile)
+ *          - Page navigation (sticky horizontal bar, always visible)
  *          - Back-to-top button
  *          - NWS Alert fetching (consolidated from inline scripts)
  *          - Repeater search functionality (repeaters.html)
@@ -491,9 +492,9 @@
   }
 
   // ========================================================================
-  // DUAL NAVIGATION TOGGLE
+  // SITE NAVIGATION TOGGLE (page-nav is now sticky, always visible)
   // ========================================================================
-  const navToggles = document.querySelectorAll('.nav-toggle');
+  const navToggles = document.querySelectorAll('.site-nav .nav-toggle');
   navToggles.forEach(button => {
     const targetId = button.getAttribute('aria-controls');
     const menu = document.getElementById(targetId);

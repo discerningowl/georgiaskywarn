@@ -215,18 +215,21 @@ georgiaskywarn/
 
 ### Navigation System
 
-The site uses a **dual navigation system**:
+The site uses a **two-tier navigation system**:
 
 1. **Site Navigation (`.site-nav`)**:
    - Purpose: Navigate between different pages of the site
+   - Desktop: Horizontal button bar
    - Mobile toggle: Blue hamburger button labeled "☰ SITE"
    - Button styling: `background: var(--accent-blue)` with darker hover state
    - Contains links to: alerts.html, repeaters.html, wx4ptc.html, nwsffclinks.html, about.html
 
-2. **Page Navigation (`.page-nav`)**:
+2. **Page Navigation (`.page-nav`)** - **Sticky Floating Bar**:
    - Purpose: Navigate to sections within the current page
-   - Mobile toggle: Green hamburger button labeled "☰ PAGE"
-   - Button styling: `background: var(--accent-green)` with darker hover state
+   - **Always visible**: Sticky horizontal bar at top (`position: sticky`, `top: 0`, `z-index: 999`)
+   - **Glassmorphism effect**: `backdrop-filter: blur(10px)` with semi-transparent background
+   - **No toggle button**: Removed hamburger menu, now permanently visible on all screen sizes
+   - Responsive: Buttons wrap on smaller screens with reduced padding
    - Contains anchor links to page sections (e.g., #nwscard, #SKYWARNcard, #reportcard)
 
 3. **Navigation Button Classes**:
@@ -235,10 +238,10 @@ The site uses a **dual navigation system**:
    - Both include hover states with darker colors and smooth transitions
 
 4. **Mobile Behavior**:
-   - Hamburger buttons appear on mobile (<768px)
-   - Each navigation type has its own independent toggle
-   - JavaScript handles toggling `.open` class on `.nav-list`
-   - ARIA attributes: `aria-controls`, `aria-expanded`, `aria-label`
+   - **Site-nav**: Hamburger button appears on mobile (<768px), toggles menu visibility
+   - **Page-nav**: Always visible horizontal bar with wrapped buttons (no hamburger)
+   - JavaScript handles toggling `.open` class only for `.site-nav .nav-list`
+   - ARIA attributes: `aria-controls`, `aria-expanded`, `aria-label` (site-nav only)
 
 ---
 
@@ -537,21 +540,37 @@ p.event?.toLowerCase().includes('watch')
    ```html
    <li><a href="newpage.html" class="nav-btn-link">New Page</a></li>
    ```
-6. If using page-nav, add internal section links:
+6. If using page-nav, add internal section links (no toggle button needed):
    ```html
-   <li><a href="#section1">Section 1</a></li>
-   <li><a href="#section2">Section 2</a></li>
+   <nav class="page-nav" role="navigation" aria-label="Page navigation">
+     <ul id="page-nav-list" class="nav-list">
+       <li><a href="#section1">Section 1</a></li>
+       <li><a href="#section2">Section 2</a></li>
+     </ul>
+   </nav>
    ```
-7. Ensure hamburger button labels are correct:
+7. Ensure site-nav hamburger button label is correct:
    - Site-nav: `aria-label="Toggle site menu"` with text "☰ SITE"
-   - Page-nav: `aria-label="Toggle page menu"` with text "☰ PAGE"
-8. Test footer loading and both navigation menus on mobile
+8. Test footer loading and navigation on both desktop and mobile
 
-### Working with the Dual Navigation System
+### Working with the Navigation System
 
 **When to use Site-nav vs Page-nav**:
 - **Site-nav**: Use for links to other HTML pages (always present on every page)
 - **Page-nav**: Use for anchor links to sections within the current page (optional, only if page has multiple sections)
+
+**Page-nav Implementation**:
+- Page-nav is now a sticky horizontal bar (no toggle button needed)
+- Simply add the nav structure without the toggle button:
+  ```html
+  <!-- Page navigation (sticky horizontal bar) -->
+  <nav class="page-nav" role="navigation" aria-label="Page navigation">
+    <ul id="page-nav-list" class="nav-list">
+      <li><a href="#section1">Section 1</a></li>
+      <li><a href="#section2">Section 2</a></li>
+    </ul>
+  </nav>
+  ```
 
 **Styling navigation links**:
 - Use `.nav-btn-alert` for high-priority links (e.g., alerts page):
@@ -564,21 +583,18 @@ p.event?.toLowerCase().includes('watch')
   ```
 - Use no class for plain text links (e.g., "← Back to Georgia SKYWARN")
 
-**JavaScript for dual navigation**:
-- Pages with both navigations need to handle multiple toggles:
+**JavaScript for navigation**:
+- Only site-nav needs toggle handling (page-nav is always visible):
   ```javascript
-  const btns = document.querySelectorAll('.nav-toggle');
-  btns.forEach(btn => {
-    btn.addEventListener('click', function() {
-      const targetId = this.getAttribute('aria-controls');
+  const navToggles = document.querySelectorAll('.site-nav .nav-toggle');
+  navToggles.forEach(button => {
+    button.addEventListener('click', () => {
+      const targetId = button.getAttribute('aria-controls');
       const menu = document.getElementById(targetId);
-      const isOpen = menu.classList.contains('open');
       menu.classList.toggle('open');
-      this.setAttribute('aria-expanded', !isOpen);
     });
   });
   ```
-- Pages with only site-nav can use simpler single-toggle handler
 
 ### Modifying the Alert Display Logic
 
@@ -768,6 +784,31 @@ refactor: Simplify alert filtering logic
 ---
 
 ## Changelog
+
+### 2025-12-29
+- **MAJOR UPDATE**: Floating sticky page navigation (inspired by atlantahamradio.org)
+  - Converted page-nav from hamburger menu to sticky horizontal bar at top
+  - Added `position: sticky`, `backdrop-filter: blur(10px)` glassmorphism effect
+  - Page-nav now always visible, floating at top on all screen sizes
+  - Site-nav keeps hamburger menu on mobile (blue "☰ SITE" button)
+  - Removed page-nav toggle button and handlers from all pages
+- **BUTTON CONSISTENCY**: Unified all button styling across site
+  - Site-nav, page-nav, and content buttons now share consistent sizing
+  - All buttons: `padding: 0.5rem 1rem`, `font-size: 0.9rem`, `box-shadow: var(--shadow-sm)`
+  - Refined mobile hamburger: smaller, compact styling (0.85rem font, 0.4rem padding)
+  - Content buttons (`.btn`) refined to match nav button appearance
+  - Fixed button hover: keeps white text color, only background darkens
+  - Mobile: all buttons use `0.85rem font` and `0.4rem 0.75rem padding`
+- **THEME SYSTEM FIXES**:
+  - Fixed callouts retaining dark background when theme toggle set to light
+  - Updated dark mode media query to respect manual theme toggle: `:root:not([data-theme="light"])`
+  - Theme toggle z-index increased to 1001 (stays above page-nav at z-index 999)
+- **CONTENT ADDITIONS**:
+  - Added GEMA All Hazards Dashboard to nwsffclinks.html Specialized Weather section
+- **CSS ARCHITECTURE**:
+  - Updated navigation section comments to reflect sticky page-nav (no longer dual toggle)
+  - Removed page-nav toggle styles, added `.page-nav .nav-list` always-visible rules
+  - Updated `scripts.js` header comments: site-nav toggle only, page-nav sticky/always-visible
 
 ### 2025-12-05
 - **MAJOR UPDATE**: Implemented dual navigation system
