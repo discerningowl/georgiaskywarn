@@ -164,8 +164,8 @@
     "frequency": "147.315+",
     "tone": null,
     "tags": ["Cherry Blossom"],
-    "description": "Covers Monroe, Jones and surrounding counties.",
-    "url": null
+    "description": "Covers Monroe, Jones and surrounding counties. Links I-75 from Macon to Atlanta. Tone only required when needed.",
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=10907"
   },
   {
     "location": "Griffin",
@@ -235,8 +235,8 @@
     "location": "Macon",
     "frequency": "145.430-",
     "tone": "88.5 Hz",
-    "tags": ["Cherry Blossom"],
-    "description": "Covers Bibb, Monroe, Jones and surrounding counties.",
+    "tags": ["Hub", "Cherry Blossom"],
+    "description": "Hub for Cherry Blossom Intertie System. Covers Bibb, Jones, Houston, Twiggs, Baldwin, Moore, and Crawford Counties. 34 mi radius. Full-time linked to WB4JOE 145.370.",
     "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=166"
   },
   {
