@@ -559,19 +559,20 @@
     const searchInput = document.getElementById('repeater-search');
     const clearButton = document.getElementById('clear-search');
     const resultsCount = document.getElementById('search-results');
-    const tables = document.querySelectorAll('.repeater-table tbody');
 
-    if (searchInput && tables.length) {
-      // Get all rows from both tables
-      const allRows = Array.from(tables).flatMap(tbody =>
-        Array.from(tbody.querySelectorAll('tr'))
-      );
-
+    if (searchInput) {
       function performSearch() {
         const searchTerm = searchInput.value.toLowerCase().trim();
         let visibleCount = 0;
 
+        // Query rows dynamically to include JSON-loaded content and badges
+        const tables = document.querySelectorAll('.repeater-table tbody');
+        const allRows = Array.from(tables).flatMap(tbody =>
+          Array.from(tbody.querySelectorAll('tr'))
+        );
+
         allRows.forEach(row => {
+          // Get all text content including badges
           const text = row.textContent.toLowerCase();
           const matches = text.includes(searchTerm);
 
@@ -612,7 +613,9 @@
       // Event listeners
       searchInput.addEventListener('input', performSearch);
       searchInput.addEventListener('search', performSearch); // Triggered by ESC or clear button in browser
-      clearButton.addEventListener('click', clearSearch);
+      if (clearButton) {
+        clearButton.addEventListener('click', clearSearch);
+      }
 
       // Keyboard shortcut: Ctrl/Cmd + K to focus search
       document.addEventListener('keydown', (e) => {
@@ -623,6 +626,129 @@
         }
       });
     }
+  }
+
+  // ========================================================================
+  // REPEATER DATA RENDERING (JSON-based)
+  // ========================================================================
+
+  /**
+   * Fetches repeater data from JSON file
+   * @param {string} filename - JSON filename (linked-repeaters.json or nonlinked-repeaters.json)
+   * @returns {Promise<Array>} - Array of repeater objects
+   */
+  async function fetchRepeaterData(filename) {
+    try {
+      const response = await fetch(filename);
+      if (!response.ok) throw new Error(`Failed to load ${filename}`);
+      return await response.json();
+    } catch (error) {
+      console.error(`Error loading repeater data: ${error}`);
+      return [];
+    }
+  }
+
+  /**
+   * Renders a repeater table row with badges from tags array
+   * @param {Object} repeater - Repeater object from JSON
+   * @returns {string} - HTML table row
+   */
+  function renderRepeaterRow(repeater) {
+    const locationHTML = repeater.url
+      ? `<a href="${repeater.url}" target="_blank" rel="noopener noreferrer">${sanitizeHTML(repeater.location)}</a>`
+      : sanitizeHTML(repeater.location);
+
+    // Render badges from tags array - displayed below location
+    const badges = (repeater.tags && repeater.tags.length > 0)
+      ? '<div class="repeater-badges">' + repeater.tags.map(tag => {
+          const tagLower = tag.toLowerCase();
+          let badgeClass = 'badge';
+
+          if (tagLower === 'hub') badgeClass = 'badge-hub';
+          else if (tagLower === 'wx4ptc') badgeClass = 'badge-wx4ptc';
+          else if (tagLower === 'peach state') badgeClass = 'badge-peach-state';
+          else if (tagLower === 'cherry blossom') badgeClass = 'badge-cherry-blossom';
+
+          return `<span class="${badgeClass}">${sanitizeHTML(tag)}</span>`;
+        }).join('') + '</div>'
+      : '';
+
+    const toneText = repeater.tone ? ` (${repeater.tone})` : '';
+
+    return `
+      <tr>
+        <td><div>${locationHTML}</div>${badges}</td>
+        <td class="freq">${sanitizeHTML(repeater.frequency)}${toneText}</td>
+        <td>${sanitizeHTML(repeater.description)}</td>
+      </tr>`;
+  }
+
+  /**
+   * Renders hub repeaters only for index.html
+   */
+  async function renderHubRepeaters() {
+    const container = document.getElementById('hub-repeaters-tbody');
+    if (!container) return;
+
+    const repeaters = await fetchRepeaterData('linked-repeaters.json');
+    const hubs = repeaters.filter(r => r.tags && r.tags.includes('Hub'));
+
+    if (hubs.length === 0) {
+      container.innerHTML = '<tr><td colspan="3">No hub repeaters available.</td></tr>';
+      return;
+    }
+
+    container.innerHTML = hubs.map(r => renderRepeaterRow(r)).join('');
+  }
+
+  /**
+   * Renders all linked repeaters for repeaters.html
+   */
+  async function renderLinkedRepeaters() {
+    const container = document.getElementById('linked-repeaters-tbody');
+    if (!container) return;
+
+    const repeaters = await fetchRepeaterData('linked-repeaters.json');
+
+    if (repeaters.length === 0) {
+      container.innerHTML = '<tr><td colspan="3">No linked repeaters available.</td></tr>';
+      return;
+    }
+
+    container.innerHTML = repeaters.map(r => renderRepeaterRow(r)).join('');
+  }
+
+  /**
+   * Renders all non-linked repeaters for repeaters.html
+   */
+  async function renderNonLinkedRepeaters() {
+    const container = document.getElementById('nonlinked-repeaters-tbody');
+    if (!container) return;
+
+    const repeaters = await fetchRepeaterData('nonlinked-repeaters.json');
+
+    if (repeaters.length === 0) {
+      container.innerHTML = '<tr><td colspan="3">No non-linked repeaters available.</td></tr>';
+      return;
+    }
+
+    container.innerHTML = repeaters.map(r => renderRepeaterRow(r)).join('');
+  }
+
+  // Initialize repeater tables based on page
+  if (currentPage === 'index.html') {
+    renderHubRepeaters();
+  } else if (currentPage === 'repeaters.html') {
+    Promise.all([
+      renderLinkedRepeaters(),
+      renderNonLinkedRepeaters()
+    ]).then(() => {
+      // Re-initialize search after tables are loaded
+      const searchInput = document.getElementById('repeater-search');
+      if (searchInput) {
+        searchInput.dispatchEvent(new Event('input'));
+      }
+    });
   }
 
   // ========================================================================

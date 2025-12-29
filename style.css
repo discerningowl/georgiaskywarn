@@ -36,6 +36,8 @@
   --accent-orange-dark: #FFB74D;
   --accent-yellow: #FFC107;
   --accent-yellow-dark: #E0A800;
+  --accent-pink: #e91e63;
+  --accent-pink-dark: #f06292;
 
   /* Enhanced shadow system - graduated levels */
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -98,6 +100,8 @@
     --accent-orange-dark: #FFB74D;
     --accent-yellow: #FFC107;
     --accent-yellow-dark: #E0A800;
+    --accent-pink: #f06292;
+    --accent-pink-dark: #ec407a;
 
     /* Enhanced shadows for dark mode */
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -1113,6 +1117,53 @@ a:hover, a:focus {
   background: rgba(0, 0, 0, 0.02);
   border-radius: var(--radius);
   margin: 1rem 0;
+}
+
+/* ==========================================================================
+   REPEATER BADGE SYSTEM - Multi-tag support
+   ========================================================================== */
+
+/* Badge container - displays below location for all viewing modes */
+.repeater-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+/* Base badge styling - shared properties */
+.badge-hub,
+.badge-wx4ptc,
+.badge-peach-state,
+.badge-cherry-blossom {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+  color: white;
+  transition: var(--transition);
+}
+
+/* Hub badge - green (primary network hub) */
+.badge-hub {
+  background: var(--accent-green);
+}
+
+/* WX4PTC badge - red (official NWS station) */
+.badge-wx4ptc {
+  background: var(--accent-red);
+}
+
+/* Peach State Intertie - orange */
+.badge-peach-state {
+  background: var(--accent-orange);
+}
+
+/* Cherry Blossom Intertie - pink */
+.badge-cherry-blossom {
+  background: var(--accent-pink);
 }
 
 /* ==========================================================================
