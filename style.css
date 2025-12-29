@@ -36,8 +36,8 @@
   --accent-orange-dark: #FFB74D;
   --accent-yellow: #FFC107;
   --accent-yellow-dark: #E0A800;
-  --accent-pink: #e91e63;
-  --accent-pink-dark: #f06292;
+  --accent-pink: #ec4899;
+  --accent-pink-dark: #f472b6;
 
   /* Enhanced shadow system - graduated levels */
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
@@ -100,8 +100,8 @@
     --accent-orange-dark: #FFB74D;
     --accent-yellow: #FFC107;
     --accent-yellow-dark: #E0A800;
-    --accent-pink: #f06292;
-    --accent-pink-dark: #ec407a;
+    --accent-pink: #f9a8d4;
+    --accent-pink-dark: #fbcfe8;
 
     /* Enhanced shadows for dark mode */
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -798,6 +798,24 @@ a:hover, a:focus {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+/* Section subheaders for visual separation */
+.section-subheader {
+  margin: 1.5rem 0 1rem 0;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, rgba(0, 102, 204, 0.08), rgba(0, 102, 204, 0.12));
+  border-left: 4px solid var(--accent-blue);
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.025em;
+}
+
+.section-subheader:first-of-type {
+  margin-top: 0;
 }
 
 .link-title {
