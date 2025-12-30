@@ -319,18 +319,38 @@
              p.event?.toLowerCase().includes('warning');
     });
 
+    // Deduplicate alerts by unique ID only
+    // NWS API returns same alert multiple times for different zones
+    const uniqueFeatures = [];
+    const seenIds = new Set();
+
+    features.forEach(f => {
+      const p = f.properties;
+      const id = f.id || p?.id;
+
+      // Skip if we've seen this ID
+      if (id && seenIds.has(id)) {
+        return; // Duplicate by ID
+      }
+
+      // New unique alert
+      if (id) seenIds.add(id);
+      uniqueFeatures.push(f);
+    });
+
     updateTimestamp();
 
-    if (features.length === 0) {
+    if (uniqueFeatures.length === 0) {
       return `<p class="no-alerts center"><strong>No active warnings in NWS Atlanta (FFC) area.</strong></p>`;
     }
 
-    return features.map((f, index) => {
+    return uniqueFeatures.map((f, index) => {
       alertDataCache[index] = f; // Cache for modal access
       const p = f.properties;
-      // Sanitize content to prevent XSS
-      const desc = sanitizeHTML(p.description || '');
-      const shortDesc = desc.length > 200 ? desc.substring(0, 200) + '...' : desc;
+      // Truncate BEFORE sanitizing to avoid breaking HTML tags
+      const rawDesc = p.description || '';
+      const truncatedDesc = rawDesc.length > 200 ? rawDesc.substring(0, 200) + '...' : rawDesc;
+      const shortDesc = sanitizeHTML(truncatedDesc);
       const headline = sanitizeHTML(p.headline || p.event);
       const areaDesc = sanitizeHTML(p.areaDesc);
 
@@ -342,7 +362,9 @@
              aria-label="Click for full alert details">
           <div class="alert-header">${headline} – <strong>WARNING</strong></div>
           <div class="alert-description">${shortDesc}</div>
-          <small><strong>Areas:</strong> ${areaDesc} | <strong>Expires:</strong> ${new Date(p.expires).toLocaleString()}</small>
+          <div class="alert-meta">
+            <small><strong>Areas:</strong> ${areaDesc} | <strong>Expires:</strong> ${new Date(p.expires).toLocaleString()}</small>
+          </div>
           <div class="alert-more">Click for full details →</div>
         </div>`;
     }).join('');
@@ -360,13 +382,32 @@
       return p.senderName?.includes('NWS Peachtree City');
     });
 
+    // Deduplicate alerts by unique ID only
+    // NWS API returns same alert multiple times for different zones
+    const uniqueFeatures = [];
+    const seenIds = new Set();
+
+    features.forEach(f => {
+      const p = f.properties;
+      const id = f.id || p?.id;
+
+      // Skip if we've seen this ID
+      if (id && seenIds.has(id)) {
+        return; // Duplicate by ID
+      }
+
+      // New unique alert
+      if (id) seenIds.add(id);
+      uniqueFeatures.push(f);
+    });
+
     updateTimestamp();
 
-    if (features.length === 0) {
+    if (uniqueFeatures.length === 0) {
       return `<p class="no-alerts center"><strong>No active watches or warnings in NWS Atlanta (FFC) area.</strong></p>`;
     }
 
-    return features.map((f, index) => {
+    return uniqueFeatures.map((f, index) => {
       alertDataCache[index] = f; // Cache for modal access
       const p = f.properties;
       const isWarning = p.event?.toLowerCase().includes('warning');
@@ -374,9 +415,10 @@
       const type = isWarning ? 'WARNING' : isWatch ? 'WATCH' : 'ALERT';
       const colorClass = isWarning ? 'alert-warning' : isWatch ? 'alert-watch' : 'alert-other';
 
-      // Sanitize content to prevent XSS
-      const desc = sanitizeHTML(p.description || '');
-      const shortDesc = desc.length > 200 ? desc.substring(0, 200) + '...' : desc;
+      // Truncate BEFORE sanitizing to avoid breaking HTML tags
+      const rawDesc = p.description || '';
+      const truncatedDesc = rawDesc.length > 200 ? rawDesc.substring(0, 200) + '...' : rawDesc;
+      const shortDesc = sanitizeHTML(truncatedDesc);
       const headline = sanitizeHTML(p.headline || p.event);
       const areaDesc = sanitizeHTML(p.areaDesc);
 
@@ -388,7 +430,9 @@
              aria-label="Click for full alert details">
           <div class="alert-header">${headline} – <strong>${type}</strong></div>
           <div class="alert-description">${shortDesc}</div>
-          <small><strong>Areas:</strong> ${areaDesc} | <strong>Expires:</strong> ${new Date(p.expires).toLocaleString()}</small>
+          <div class="alert-meta">
+            <small><strong>Areas:</strong> ${areaDesc} | <strong>Expires:</strong> ${new Date(p.expires).toLocaleString()}</small>
+          </div>
           <div class="alert-more">Click for full details →</div>
         </div>`;
     }).join('');
@@ -446,14 +490,23 @@
   }
 
   /**
-   * Attaches click handlers to alert items for modal display (CSP-compliant)
+   * Click handler for alert items (defined once, reused via delegation)
    */
-  function attachAlertClickHandlers() {
-    const container = document.getElementById('alerts-container');
-    if (!container) return;
+  function handleAlertClick(e) {
+    const alertItem = e.target.closest('.alert-item');
+    if (alertItem) {
+      const index = alertItem.getAttribute('data-alert-index');
+      if (alertDataCache[index]) {
+        openAlertModal(alertDataCache[index]);
+      }
+    }
+  }
 
-    // Click handler
-    container.addEventListener('click', (e) => {
+  /**
+   * Keyboard handler for alert items
+   */
+  function handleAlertKeypress(e) {
+    if (e.key === 'Enter') {
       const alertItem = e.target.closest('.alert-item');
       if (alertItem) {
         const index = alertItem.getAttribute('data-alert-index');
@@ -461,20 +514,24 @@
           openAlertModal(alertDataCache[index]);
         }
       }
-    });
+    }
+  }
 
-    // Keyboard handler (Enter key)
-    container.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        const alertItem = e.target.closest('.alert-item');
-        if (alertItem) {
-          const index = alertItem.getAttribute('data-alert-index');
-          if (alertDataCache[index]) {
-            openAlertModal(alertDataCache[index]);
-          }
-        }
-      }
-    });
+  /**
+   * Attaches click handlers to alert items for modal display (CSP-compliant)
+   * Removes old listeners before adding new ones to prevent stacking
+   */
+  function attachAlertClickHandlers() {
+    const container = document.getElementById('alerts-container');
+    if (!container) return;
+
+    // Remove old listeners first (prevent duplicates on refresh)
+    container.removeEventListener('click', handleAlertClick);
+    container.removeEventListener('keypress', handleAlertKeypress);
+
+    // Add fresh listeners
+    container.addEventListener('click', handleAlertClick);
+    container.addEventListener('keypress', handleAlertKeypress);
   }
 
   // ========================================================================

@@ -530,6 +530,8 @@ a:hover, a:focus {
 
 .site-nav {
   background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-bottom: 2px solid var(--card-border);
 }
 
@@ -693,6 +695,8 @@ a:hover, a:focus {
 
 .callout {
   background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-left: 6px solid var(--accent-blue);
   border-right: 6px solid var(--accent-blue);
   border-radius: var(--radius);
@@ -1269,7 +1273,7 @@ a:hover, a:focus {
 .repeater-table .freq {
   font-family: 'Courier New', monospace;
   font-weight: 600;
-  color: var(--accent-blue);
+  color: var(--text-primary);
   white-space: nowrap;
 }
 
@@ -1310,7 +1314,17 @@ a:hover, a:focus {
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2), var(--glow); /* Enhanced hover for visibility */
 }
 
+/* Alert container - ensure proper layout */
+#alerts-container {
+  display: block;
+  width: 100%;
+  overflow: visible;
+  position: relative;
+}
+
 .alert-item {
+  display: block;
+  width: 100%;
   margin: 1rem 0;
   padding: 1rem;
   border-radius: 6px;
@@ -1320,6 +1334,8 @@ a:hover, a:focus {
   animation: fadeIn 0.5s ease-in;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  clear: both;
+  position: relative;
 }
 
 .alert-item:hover {
