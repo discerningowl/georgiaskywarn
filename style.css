@@ -361,12 +361,21 @@ a:hover, a:focus {
 #themeToggle,
 #themeToggleMobile {
   transition: var(--transition);
-  color: #e2e8f0;
+  color: #e2e8f0 !important; /* Ensure icons are always visible */
+}
+
+#themeToggle svg,
+#themeToggleMobile svg {
+  stroke: #e2e8f0; /* Explicit stroke color for sun/moon icons */
 }
 
 #themeToggle:hover {
   color: #60a5fa;
   transform: scale(1.1);
+}
+
+#themeToggle:hover svg {
+  stroke: #60a5fa;
 }
 
 /* Mobile hamburger button */
@@ -391,7 +400,9 @@ a:hover, a:focus {
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--bg-body);
+  background: rgba(15, 23, 42, 0.98); /* More opaque dark background */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 999;
   padding-top: 80px;
   opacity: 0;
@@ -409,16 +420,17 @@ a:hover, a:focus {
   transform: translateY(0);
 }
 
-.mobile-nav a {
-  color: var(--text-primary);
+.mobile-nav a,
+.mobile-nav button {
+  color: #ffffff; /* Always white text on dark mobile menu */
   text-decoration: none;
   font-size: 1.5rem;
   font-weight: 600;
   padding: 1.25rem 2rem;
   width: 100%;
   text-align: center;
-  background: var(--card-bg);
-  border-bottom: 1px solid var(--border-primary);
+  background: rgba(30, 41, 59, 0.6); /* Semi-transparent dark background */
+  border-bottom: 1px solid rgba(71, 85, 105, 0.5);
   transition: all 0.3s;
   min-height: 60px;
   display: flex;
@@ -427,9 +439,20 @@ a:hover, a:focus {
 }
 
 .mobile-nav a:hover,
-.mobile-nav a:active {
-  background: rgba(0, 102, 204, 0.15);
-  color: var(--accent-blue);
+.mobile-nav a:active,
+.mobile-nav button:hover,
+.mobile-nav button:active {
+  background: rgba(59, 130, 246, 0.25);
+  color: #60a5fa;
+}
+
+/* Ensure theme toggle icons in mobile menu are white */
+.mobile-nav button svg {
+  stroke: #ffffff;
+}
+
+.mobile-nav button:hover svg {
+  stroke: #60a5fa;
 }
 
 /* Responsive behavior */
@@ -766,7 +789,7 @@ a:hover, a:focus {
 
   /* Menu header - "Jump to Section" - same size as buttons */
   .page-nav .nav-list::before {
-    content: "⚡ Jump to Section";
+    content: "Jump to Section";
     display: block;
     width: 100%;
     max-width: 320px;
@@ -776,7 +799,7 @@ a:hover, a:focus {
     color: #fff;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    padding: 1.25rem 2.5rem; /* Same as buttons */
+    padding: 1.25rem 2.5rem 1.25rem 3.5rem; /* Extra left padding for icon */
     border-radius: 16px;
     background: linear-gradient(135deg, rgba(96, 165, 250, 0.25) 0%, rgba(59, 130, 246, 0.35) 100%);
     border: 2px solid rgba(96, 165, 250, 0.5);
@@ -784,6 +807,22 @@ a:hover, a:focus {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     margin-bottom: 1rem; /* Extra space below header */
+    position: relative;
+  }
+
+  /* Heroicon bolt icon as background */
+  .page-nav .nav-list::after {
+    content: "";
+    position: absolute;
+    left: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%23ffffff'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z' /%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   /* Show menu when active */
