@@ -546,6 +546,7 @@
             <div class="footer-section">
               <h4>Georgia SKYWARN</h4>
               <p>Linked repeater system for amateur radio weather spotters coordinating severe weather reporting with NWS Peachtree City across North and Central Georgia.</p>
+              <p>The WX4PTC team serves in direct coordination with the National Weather Service in Peachtree City, Georgia.</p>
               <p style="margin-top: 1rem;">Maintained by <strong>Jack Parks (KQ4JP)</strong></p>
             </div>
 
