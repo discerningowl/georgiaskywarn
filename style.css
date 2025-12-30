@@ -465,6 +465,8 @@ a:hover, a:focus {
   border: 2px solid var(--border-primary);
   border-radius: 12px;
   background: var(--card-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: var(--text-primary);
   transition: var(--transition);
   font-family: inherit;
@@ -1329,7 +1331,9 @@ a:hover, a:focus {
   padding: 1rem;
   border-radius: 6px;
   border-left: 6px solid;
-  background-color: #f9f9f9;
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   font-size: 0.95rem;
   animation: fadeIn 0.5s ease-in;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -2172,6 +2176,11 @@ a:hover, a:focus {
         rgba(100, 100, 100, 0.2) 75%
       );
     }
+
+    /* Back to top button */
+    .back-to-top {
+      background: rgba(96, 165, 250, 0.85);
+    }
   }
 }
 
@@ -2184,7 +2193,9 @@ a:hover, a:focus {
   right: 2rem;
   width: 50px;
   height: 50px;
-  background: var(--accent-blue);
+  background: rgba(0, 102, 204, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   color: #fff;
   border: none;
   border-radius: 50%;

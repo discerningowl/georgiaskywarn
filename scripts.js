@@ -742,24 +742,6 @@
   }
 
   /**
-   * Renders hub repeaters only for index.html
-   */
-  async function renderHubRepeaters() {
-    const container = document.getElementById('hub-repeaters-tbody');
-    if (!container) return;
-
-    const repeaters = await fetchRepeaterData('linked-repeaters.json');
-    const hubs = repeaters.filter(r => r.tags && r.tags.includes('Hub'));
-
-    if (hubs.length === 0) {
-      container.innerHTML = '<tr><td colspan="3">No hub repeaters available.</td></tr>';
-      return;
-    }
-
-    container.innerHTML = hubs.map(r => renderRepeaterRow(r)).join('');
-  }
-
-  /**
    * Renders all linked repeaters for repeaters.html
    */
   async function renderLinkedRepeaters() {
@@ -793,10 +775,8 @@
     container.innerHTML = repeaters.map(r => renderRepeaterRow(r)).join('');
   }
 
-  // Initialize repeater tables based on page
-  if (currentPage === 'index.html') {
-    renderHubRepeaters();
-  } else if (currentPage === 'repeaters.html') {
+  // Initialize repeater tables for repeaters.html
+  if (currentPage === 'repeaters.html') {
     Promise.all([
       renderLinkedRepeaters(),
       renderNonLinkedRepeaters()
