@@ -23,7 +23,10 @@ georgiaskywarn/
 ├── about.html              # Site structure and overview
 ├── photoarchive.html       # Photo archive of WX4PTC station
 ├── style.css               # Shared stylesheet for all pages
-├── footer.html             # Reusable footer component (loaded via JS)
+├── scripts.js              # Page-specific JavaScript (alerts, modals, repeater search)
+├── header.js               # Header component (logo, nav, theme toggle, back-to-top)
+├── footer.js               # Footer component (dynamically loaded)
+├── GeorgiaSkywarnLogo.png  # Site logo (500x500px)
 ├── favicon.ico             # Site favicon
 ├── nws.gif                 # NWS logo
 ├── ganwsareacoverage.png   # NWS Atlanta coverage area map
@@ -60,8 +63,9 @@ georgiaskywarn/
 2. **DO NOT REMOVE** the `www/` directory - legacy redirect for old bookmarks
 3. All HTML pages MUST remain in the root directory
 4. All HTML pages share the same `style.css` stylesheet (root level)
-5. Footer is loaded dynamically via JavaScript from `footer.html` (root level)
-6. Images and assets MUST remain in the root directory (flat structure)
+5. **Component architecture**: Header loaded via `header.js`, Footer loaded via `footer.js`
+6. All JavaScript files (`header.js`, `footer.js`, `scripts.js`) MUST remain in root directory
+7. Images and assets MUST remain in the root directory (flat structure)
 
 ---
 
@@ -784,6 +788,60 @@ refactor: Simplify alert filtering logic
 ---
 
 ## Changelog
+
+### 2025-12-30
+- **MAJOR REDESIGN**: Component-based architecture with header.js and footer.js
+  - Created `header.js` component for dynamic header loading (inspired by atlantahamradio.org)
+  - Integrated logo (GeorgiaSkywarnLogo.png), site navigation, and theme toggle into unified header
+  - Created `footer.js` component for dynamic footer loading
+  - Migrated theme toggle, mobile menu, and back-to-top functionality from scripts.js to header.js
+  - All 7 HTML pages updated to load header and footer components
+  - Renamed logo file from `" GeorgiaSkywarnLogo.png"` to `"GeorgiaSkywarnLogo.png"` (removed leading space)
+
+- **HEADER COMPONENT** (header.js):
+  - Sticky dark header with glassmorphism (`rgba(15, 23, 42, 0.95)` with `backdrop-filter: blur(10px)`)
+  - Logo + title/subtitle on left, navigation links + theme toggle on right
+  - Desktop: Horizontal navigation with inline links
+  - Mobile: Full-screen overlay menu with hamburger button
+  - Integrated theme toggle with sun/moon SVG icons
+  - Back-to-top button injection with instant scroll detection (requestAnimationFrame)
+  - Mobile subtitle wrapping to prevent header expansion
+
+- **PAGE NAVIGATION REDESIGN**:
+  - **Desktop**: Sticky horizontal bar below header (`position: sticky`, `top: 90px`)
+    - Blue gradient buttons with glassmorphism
+    - Smooth hover animations (lift 2px with glow)
+  - **Mobile**: Green hamburger menu ("☰ PAGE") with full-screen overlay
+    - "⚡ Jump to Section" header with gradient background
+    - Uniform button sizing (1.15rem font, 1.25rem padding)
+    - Centered vertical layout with 1.5rem gaps
+    - Shimmer effect on button press
+    - Semi-transparent background (`rgba(15, 23, 42, 0.85)` with 16px blur)
+
+- **SCROLL OFFSET FIX**:
+  - Added `scroll-padding-top` to prevent content hiding behind sticky elements
+  - Desktop: 200px offset (header + page-nav)
+  - Mobile: 100px offset (header only)
+  - Smooth anchor link scrolling with proper clearance
+
+- **VISUAL ENHANCEMENTS**:
+  - Enhanced shadows: 4-level graduated system (sm, md, lg, xl)
+  - Gradient backgrounds on navigation buttons and headers
+  - Inset highlights (`inset 0 1px 0 rgba(255, 255, 255, 0.1)`)
+  - Smooth cubic-bezier transitions (`cubic-bezier(0.4, 0, 0.2, 1)`)
+  - Active state animations (scale 0.97, shimmer effect)
+
+- **MOBILE OPTIMIZATIONS**:
+  - Logo text wrapping with `max-width: calc(100vw - 180px)`
+  - Reduced font sizes and padding for compact mobile layout
+  - Hamburger button stays inline with logo (no wrapping)
+  - Page-nav header positioned at `top: 6rem` to clear site header
+
+- **FILES MODIFIED**:
+  - Created: `header.js`, `footer.js`
+  - Updated: `style.css`, `scripts.js` (removed migrated code)
+  - Updated all 7 HTML pages: index.html, alerts.html, repeaters.html, nwsffclinks.html, wx4ptc.html, about.html, photoarchive.html
+  - Version numbers: header.js (v20251230c), footer.js (v20251230), style.css (v20251230n), scripts.js (v20251230a)
 
 ### 2025-12-29
 - **MAJOR UPDATE**: Floating sticky page navigation (inspired by atlantahamradio.org)

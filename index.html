@@ -34,35 +34,14 @@
   <meta property="og:type" content="website">
 
   <!-- Stylesheet and favicon -->
-  <link rel="stylesheet" href="style.css?v=20251206">
+  <link rel="stylesheet" href="style.css?v=20251230n">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 
 </head>
 
 <body>
-  <!-- Theme Toggle Button -->
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark theme">
-    <span id="themeIcon">🌙</span>
-  </button>
-
-  <!-- Site header with title (ARIA landmark) -->
-  <header class="site-header" role="banner" id="topheader">
-    <h1 class="site-title">Georgia SKYWARN</h1>
-    <h2 class="site-subtitle">Linked Repeater System for Amateur Radio Spotters</h2>
-  </header>
-
-  <!-- Site-wide navigation (colored buttons) -->
-  <nav class="site-nav" role="navigation" aria-label="Site navigation">
-    <button class="nav-toggle" aria-controls="site-nav-list"
-            aria-expanded="false" aria-label="Toggle site menu">☰ SITE</button>
-    <ul id="site-nav-list" class="nav-list">
-      <li><a href="alerts.html" class="nav-btn-alert">All GA Alerts Page</a></li>
-      <li><a href="repeaters.html" class="nav-btn-link">SKYWARN Repeaters</a></li>
-      <li><a href="wx4ptc.html" class="nav-btn-link">WX4PTC Station</a></li>
-      <li><a href="nwsffclinks.html" class="nav-btn-link">Useful NWS Links</a></li>
-      <li><a href="about.html" class="nav-btn-link">About</a></li>
-    </ul>
-  </nav>
+  <!-- Load header component (includes logo, site nav, theme toggle, back-to-top) -->
+  <script src="header.js?v=20251230c"></script>
 
   <!-- Page navigation (sticky horizontal bar) -->
   <nav class="page-nav" role="navigation" aria-label="Page navigation">
@@ -381,11 +360,6 @@
   <!-- Site footer - calls on footer.html via script-->
   <div id="footer-placeholder"></div>
 
-<!-- Back to Top Button -->
-<button class="back-to-top" aria-label="Back to top" title="Back to top">
-  ↑
-</button>
-
 <!-- Modal for Alert Details -->
 <div class="modal-backdrop" id="alertModal">
   <div class="modal-content">
@@ -398,7 +372,8 @@
 </div>
 
 <!-- Consolidated JavaScript - includes alert fetching, navigation, footer, security fixes -->
-<script src="scripts.js?v=20251206"></script>
+<script src="footer.js?v=20251230"></script>
+<script src="scripts.js?v=20251230a"></script>
 
   </body>
 </html>
