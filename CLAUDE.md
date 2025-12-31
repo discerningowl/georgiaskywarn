@@ -50,7 +50,7 @@ georgiaskywarn/
 - ❌ Create new directories for organization (e.g., `css/`, `js/`, `images/`)
 - ❌ Rename existing directories (`archive/`, `www/`, `wx4ptc/`)
 - ❌ Change file locations or create nested structures
-- ❌ Move `style.css` or `footer.html` from the root directory
+- ❌ Move `style.css`, `footer.js`, or `header.js` from the root directory
 - ❌ Reorganize image files into an `assets/` or `images/` folder
 
 **WHY**: The flat directory structure is required for:
@@ -363,7 +363,7 @@ fetch(url, { headers: { 'User-Agent': USER_AGENT } });
 - ❌ Moving any files from the root directory to subdirectories
 - ❌ Reorganizing files into a "better" structure
 - ❌ Renaming or removing `archive/`, `www/`, or `wx4ptc/` directories
-- ❌ Moving `style.css`, `footer.html`, or any `.html` files from root
+- ❌ Moving `style.css`, `footer.js`, `header.js`, or any `.html` files from root
 
 **WHY THIS MATTERS**:
 - External websites (NWS, RepeaterBook, ham radio forums) link to specific file paths
@@ -678,10 +678,10 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes (in milliseconds)
 
 ### Footer Not Loading
 
-1. **Verify `footer.html` exists** in root directory
-2. **Check browser console** for fetch errors
-3. **Test file path** - must be relative: `footer.html` (not `/footer.html`)
-4. **CORS issues** - ensure testing on a web server (not `file://`)
+1. **Verify `footer.js` exists** in root directory
+2. **Check browser console** for JavaScript errors
+3. **Ensure testing on a web server** (not `file://`) - JavaScript component loading requires HTTP
+4. **Re-upload `footer.js`** from GitHub if corrupted
 
 ### Mobile Navigation Not Working
 

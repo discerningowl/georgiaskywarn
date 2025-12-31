@@ -69,17 +69,26 @@ A static website providing resources for amateur radio weather spotters in North
 georgiaskywarn/
 ├── index.html              # Main landing page
 ├── alerts.html             # All NWS Atlanta alerts
+├── repeaters.html          # Linked and non-linked repeaters
+├── nwsffclinks.html        # NWS links and resources
 ├── wx4ptc.html             # WX4PTC station information
 ├── about.html              # Site overview and structure
 ├── photoarchive.html       # Historical station photos
 ├── style.css               # Shared stylesheet (all pages)
-├── footer.html             # Reusable footer component
+├── scripts.js              # Page-specific JavaScript (alerts, search)
+├── header.js               # Header component (logo, nav, theme toggle)
+├── footer.js               # Footer component (dynamically loaded)
+├── linked-repeaters.json   # Linked repeater data (dynamically loaded)
+├── nonlinked-repeaters.json # Non-linked repeater data (dynamically loaded)
+├── GeorgiaSkywarnLogo.png  # Site logo
 ├── robots.txt              # Search engine directives
 ├── sitemap.xml             # Site map for SEO
 ├── favicon.ico             # Site favicon
 ├── nws.gif                 # NWS logo
 ├── ganwsareacoverage.png   # NWS coverage area map
-├── CLAUDE.md               # AI assistant documentation
+├── CLAUDE.md               # Technical documentation for developers
+├── ADMIN_GUIDE.md          # Administrator's guide for non-technical users
+├── README.md               # This file - project overview
 ├── PRODUCTION_READINESS_REPORT.md  # Production readiness analysis
 ├── archive/                # Historical photos
 │   └── WX4PTC*.jpg
@@ -145,7 +154,7 @@ See [CLAUDE.md](CLAUDE.md) for detailed documentation.
 ### Prerequisites
 
 - Modern web browser (Chrome, Firefox, Safari, Edge)
-- Local web server (for testing footer.html loading)
+- Local web server (for testing dynamic content loading)
 - Text editor with HTML/CSS/JS support
 
 ### Local Development

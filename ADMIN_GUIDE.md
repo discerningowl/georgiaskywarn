@@ -117,11 +117,13 @@ The Georgia SKYWARN website uses a **flat directory structure** - all important 
 georgiaskywarn/
 ├── index.html              ← Main page (what visitors see first)
 ├── alerts.html             ← All NWS weather alerts page
-├── repeaters.html          ← Repeater directory page
+├── repeaters.html          ← Repeater directory page (displays data from JSON)
 ├── nwsffclinks.html        ← NWS links and resources page
 ├── wx4ptc.html             ← WX4PTC station information page
 ├── about.html              ← About the site page
 ├── photoarchive.html       ← Historical photos page
+├── linked-repeaters.json   ← **YOU EDIT THIS** - Linked repeater data
+├── nonlinked-repeaters.json ← **YOU EDIT THIS** - Non-linked repeater data
 ├── header.js               ← Header component (logo, navigation, theme toggle)
 ├── footer.js               ← Footer component
 ├── scripts.js              ← Page-specific JavaScript (alerts, search)
@@ -154,10 +156,149 @@ georgiaskywarn/
 
 | File | What It Contains | How Often Updated |
 |------|------------------|-------------------|
-| `index.html` | Main page with repeater table and alerts | Monthly or as needed |
-| `repeaters.html` | Full repeater directory | When repeaters change |
+| `linked-repeaters.json` | **Linked repeater data** | When repeaters change |
+| `nonlinked-repeaters.json` | **Non-linked repeater data** | When repeaters change |
+| `about.html` | Contact information | When contacts change |
 | `nwsffclinks.html` | NWS resource links | Rarely (annual check) |
 | `style.css` | Visual design and colors | Rarely |
+
+**Important**: You do NOT directly edit `index.html` or `repeaters.html` for repeater information. These pages automatically load data from the JSON files.
+
+---
+
+## Understanding JSON Files
+
+### What is JSON?
+
+JSON (JavaScript Object Notation) is a simple text format for storing data. The Georgia SKYWARN website uses JSON files to store repeater information. When you visit the site, JavaScript automatically reads these files and displays the data in nicely formatted tables.
+
+### Why Use JSON Instead of HTML?
+
+**Advantages**:
+- ✅ **Easier to edit** - Simple text format, no HTML tags to worry about
+- ✅ **Less error-prone** - Structured format that's easy to validate
+- ✅ **Single source of truth** - One file updates multiple pages automatically
+- ✅ **Automatic display** - Changes appear immediately on both `index.html` and `repeaters.html`
+
+### JSON File Structure
+
+The repeater JSON files contain an **array** (list) of repeater objects. Each repeater is a set of key-value pairs enclosed in curly braces `{ }`.
+
+**Example from `linked-repeaters.json`**:
+
+```json
+[
+  {
+    "location": "Fayetteville",
+    "frequency": "444.600+",
+    "tone": "77.0 Hz",
+    "tags": ["Hub", "WX4PTC"],
+    "description": "Hub and net control repeater. Emergency Power.",
+    "url": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6"
+  },
+  {
+    "location": "Peachtree City",
+    "frequency": "147.390+",
+    "tone": "141.3 Hz",
+    "tags": ["WX4PTC"],
+    "description": "Wide coverage, generator backup",
+    "url": "https://www.repeaterbook.com/repeaters/details.php?ID=12345"
+  }
+]
+```
+
+### JSON Syntax Rules (CRITICAL!)
+
+**Follow these rules exactly or the file won't work**:
+
+1. **Square brackets `[ ]`** - Wrap the entire list of repeaters
+2. **Curly braces `{ }`** - Wrap each individual repeater
+3. **Double quotes `" "`** - ALL text values must be in double quotes (not single quotes)
+4. **Commas between entries** - Separate repeaters with commas
+5. **NO comma after last entry** - The last repeater should NOT have a comma after its closing `}`
+6. **Commas between fields** - Separate fields within a repeater with commas
+7. **Colon `:`** - Separates the field name from its value
+8. **Tags array `["tag1", "tag2"]`** - Multiple tags enclosed in square brackets with quotes
+
+### Field Descriptions
+
+Each repeater entry has these fields:
+
+| Field | Description | Example | Required |
+|-------|-------------|---------|----------|
+| `location` | City or county name | `"Peachtree City"` | Yes |
+| `frequency` | Frequency with offset | `"147.390+"` or `"444.600-"` | Yes |
+| `tone` | PL/CTCSS tone | `"141.3 Hz"` | Yes |
+| `tags` | Array of tags | `["Hub"]` or `["WX4PTC"]` or `["Hub", "WX4PTC"]` | Yes |
+| `description` | Coverage, power info | `"Wide coverage, generator backup"` | Yes |
+| `url` | RepeaterBook link | `"https://www.repeaterbook.com/repeaters/details.php?ID=12345"` | Yes |
+
+### Common JSON Mistakes to Avoid
+
+❌ **Missing comma between repeaters**:
+```json
+[
+  {
+    "location": "City1",
+    "frequency": "146.520"
+  }
+  {
+    "location": "City2",
+    "frequency": "147.390"
+  }
+]
+```
+✅ **Correct**:
+```json
+[
+  {
+    "location": "City1",
+    "frequency": "146.520"
+  },  ← COMMA HERE!
+  {
+    "location": "City2",
+    "frequency": "147.390"
+  }
+]
+```
+
+❌ **Comma after last entry**:
+```json
+[
+  {
+    "location": "City1",
+    "frequency": "146.520"
+  },
+]  ← NO COMMA AFTER LAST ENTRY!
+```
+
+❌ **Single quotes instead of double quotes**:
+```json
+{
+  'location': 'City1'  ← WRONG! Use double quotes
+}
+```
+
+❌ **Missing quotes around text**:
+```json
+{
+  location: City1  ← WRONG! Needs quotes
+}
+```
+
+### How to Validate Your JSON
+
+**ALWAYS validate your JSON before committing**:
+
+1. Go to [jsonlint.com](https://jsonlint.com/)
+2. Copy and paste your entire JSON file
+3. Click "Validate JSON"
+4. Fix any errors it reports
+
+**Common error messages**:
+- "Expecting 'STRING'" - You're missing quotes around text
+- "Expecting ','" - You need a comma between entries
+- "Trailing comma" - Remove the comma after the last entry
 
 ---
 
