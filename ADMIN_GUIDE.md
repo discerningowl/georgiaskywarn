@@ -4,7 +4,10 @@
 
 **Version**: 1.0
 **Last Updated**: December 31, 2025
-**Maintained By**: Jack Parks (KQ4JP) <kq4jp@pm.me>
+**Maintained By**: Georgia SKYWARN Website Team
+- Jim Lynch (K4GVO) - Site Administrator
+- Robert Burton (KD4YDC) - Content Moderator & SKYWARN EC
+- Jack Parks (KQ4JP) - Website Administrator
 
 ---
 
@@ -524,6 +527,32 @@ Before uploading to the live server:
 - [ ] Light and dark modes tested
 - [ ] Changes committed to GitHub
 
+### Backup Site Information
+
+**georgiaskywarn.org - Automated Backup Site**
+
+The Georgia SKYWARN website has a backup site that provides redundancy and reliability:
+
+- **Primary Site**: georgiaskywarn.com
+- **Backup Site**: georgiaskywarn.org
+
+**How the Backup Works**:
+- The backup site is hosted on a separate server from the primary site
+- An automated daily script syncs content from georgiaskywarn.com to georgiaskywarn.org
+- This provides failover capability if the primary site experiences downtime
+- No manual intervention required - the sync happens automatically
+
+**What This Means for Administrators**:
+- ✅ **Only update georgiaskywarn.com** - Changes will automatically sync to the backup
+- ✅ **No need to deploy to both sites** - The sync script handles this
+- ✅ **The backup provides redundancy** - If the primary site is down, visitors can access the backup
+- ✅ **Both sites have identical content** - Any change to the primary appears on the backup within 24 hours
+
+**Important Notes**:
+- Changes made to georgiaskywarn.com will appear on georgiaskywarn.org after the next sync (daily)
+- Do not attempt to manually update georgiaskywarn.org - it will be overwritten by the sync
+- If urgent changes are needed on both sites immediately, contact the Site Administrator (K4GVO)
+
 ---
 
 ## Testing Your Changes
@@ -750,17 +779,27 @@ document.documentElement.setAttribute('data-theme', 'light');
 
 ### Who to Contact
 
-**For website technical issues**:
-- **Webmaster**: Jack Parks (KQ4JP) - kq4jp@pm.me
-- Include:
-  - What you were trying to do
-  - What happened instead
-  - What browser/device you're using
-  - Screenshots if possible
-  - Any error messages from the browser console (F12 → Console)
+**Georgia SKYWARN Website Team**:
 
-**For repeater information updates**:
-- **NWS Liaison**: Robert Burton (KD4YDC) - kd4ydc@gmail.com
+- **Site Administrator**: Jim Lynch (K4GVO)
+  - Overall site administration and server management
+
+- **Content Moderator & SKYWARN Emergency Coordinator**: Robert Burton (KD4YDC) - kd4ydc@gmail.com
+  - Content updates and repeater information
+  - SKYWARN coordination and operations
+  - Weather spotter liaison
+
+- **Website Administrator**: Jack Parks (KQ4JP) - kq4jp@pm.me
+  - Technical website issues and maintenance
+  - GitHub repository management
+  - Code updates and troubleshooting
+
+**When reporting technical issues to the website administrator, include**:
+- What you were trying to do
+- What happened instead
+- What browser/device you're using
+- Screenshots if possible
+- Any error messages from the browser console (F12 → Console)
 
 **For NWS contact or policy questions**:
 - **NWS Warning Coordination Meteorologist**: David Nadler - David.Nadler@noaa.gov
@@ -824,13 +863,19 @@ If you want to learn more:
 - Common administrative tasks
 - Troubleshooting section
 - Testing procedures
+- Server deployment with two-folder structure (www vs non-www)
+- Backup site information (georgiaskywarn.org automatic sync)
+- Complete contact information for website team
 
 ---
 
 **Questions or Suggestions?**
 
 If you have ideas for improving this guide, please contact:
-**Jack Parks (KQ4JP)** - kq4jp@pm.me
+
+- **Technical/Website Issues**: Jack Parks (KQ4JP) - kq4jp@pm.me
+- **Content/SKYWARN Operations**: Robert Burton (KD4YDC) - kd4ydc@gmail.com
+- **Server/Administration**: Jim Lynch (K4GVO)
 
 ---
 
