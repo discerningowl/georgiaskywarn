@@ -556,6 +556,40 @@ The Georgia SKYWARN website has a backup site that provides redundancy and relia
 - Do not attempt to manually update georgiaskywarn.org - it will be overwritten by the sync
 - If urgent changes are needed on both sites immediately, contact the Site Administrator (K4GVO)
 
+### Domain Registrar Management
+
+**Managing georgiaskywarn.com and georgiaskywarn.org Domain Names**
+
+[**NOTE**: This section will be completed with domain registrar information and procedures]
+
+**To be documented**:
+- Domain registrar name and login information
+- Domain renewal procedures and timeline
+- DNS settings and nameserver configuration
+- Domain transfer procedures (if needed)
+- Contact information update procedures
+- Auto-renewal settings
+- Domain privacy/WHOIS protection settings
+- Instructions for updating DNS records
+- Troubleshooting domain-related issues
+
+**Important Domain Information**:
+- **Primary Domain**: georgiaskywarn.com
+- **Backup Domain**: georgiaskywarn.org
+- **Registrar**: [to be specified]
+- **Renewal Date**: [to be specified]
+- **Nameservers**: [to be specified]
+
+**Common Domain Tasks** (to be documented):
+- Renewing domain registration
+- Updating DNS records (A, CNAME, MX, TXT)
+- Verifying domain ownership
+- Managing domain forwarding/redirects
+- SSL certificate management
+
+**Who to Contact for Domain Issues**:
+- **Site Administrator**: Jim Lynch (K4GVO) - Overall domain management
+
 ---
 
 ## Testing Your Changes
