@@ -41,9 +41,20 @@ This guide will walk you through common website maintenance tasks for the Georgi
 
 ### What This Guide Does NOT Cover
 
-For detailed technical documentation, see:
-- **[README.md](README.md)** - Overview, features, and general information
-- **[CLAUDE.md](CLAUDE.md)** - Comprehensive technical documentation for developers and AI assistants
+This guide focuses on non-technical administration. For additional documentation:
+
+- **[README.md](README.md)** - Project overview, features, deployment options, and production status
+- **[CLAUDE.md](CLAUDE.md)** - Comprehensive technical documentation including:
+  - Complete file structure and architecture
+  - CSS/JavaScript patterns and conventions
+  - Development workflow and testing
+  - Detailed API integration information
+  - Advanced troubleshooting
+
+**When to use each guide**:
+- **ADMIN_GUIDE.md** (this guide) - For routine website updates and maintenance
+- **CLAUDE.md** - For technical development, architecture questions, or AI-assisted coding
+- **README.md** - For project overview, deployment information, and general features
 
 ---
 
@@ -384,6 +395,8 @@ Update a link in about.html:
 
 Only experienced developers should modify the weather alert system. For all alert-related issues, contact the Website Administrator.
 
+**For developers**: See [CLAUDE.md](CLAUDE.md) "NWS Weather API Integration" section for technical details about the alert system.
+
 ### Task 4: Changing Site Colors or Appearance
 
 **File to edit**: `style.css`
@@ -407,6 +420,8 @@ To change a color:
 3. Save and test in both light and dark mode
 
 **Tip**: Use a color picker tool like [colorpicker.me](https://colorpicker.me/) to find hex codes.
+
+**For advanced CSS customization** (layouts, fonts, spacing, media queries), see [CLAUDE.md](CLAUDE.md) "CSS Architecture" section.
 
 ### Task 5: Adding a New Page
 

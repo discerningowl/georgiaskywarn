@@ -26,6 +26,8 @@ georgiaskywarn/
 ├── scripts.js              # Page-specific JavaScript (alerts, modals, repeater search)
 ├── header.js               # Header component (logo, nav, theme toggle, back-to-top)
 ├── footer.js               # Footer component (dynamically loaded)
+├── linked-repeaters.json   # Linked repeater data (dynamically loaded)
+├── nonlinked-repeaters.json # Non-linked repeater data (dynamically loaded)
 ├── GeorgiaSkywarnLogo.png  # Site logo (500x500px)
 ├── favicon.ico             # Site favicon
 ├── nws.gif                 # NWS logo
@@ -506,31 +508,53 @@ p.event?.toLowerCase().includes('watch')
 
 ## Common Tasks
 
-### Adding a New Repeater to the Table
+### Adding a New Repeater
 
-1. Locate the appropriate table in `index.html`:
-   - `.repeater-table` (lines 343-621) for linked repeaters
-   - `.repeater-table` (lines 634-697) for non-linked repeaters
+**Files**: `linked-repeaters.json` or `nonlinked-repeaters.json`
 
-2. Add a new `<tr>` in alphabetical order by location:
-   ```html
-   <tr>
-     <td><a href="https://www.repeaterbook.com/..." target="_blank">Location</a></td>
-     <td class="freq">146.520- (110.9 Hz)</td>
-     <td>Coverage notes, emergency power, etc.</td>
-   </tr>
-   ```
+Repeater tables are dynamically generated from JSON files. Edit the appropriate file:
 
-3. Verify on RepeaterBook before adding
+**JSON Structure**:
+```json
+{
+  "location": "Peachtree City",
+  "frequency": "147.390+",
+  "tone": "141.3 Hz",
+  "tags": ["WX4PTC"],
+  "description": "Wide coverage, generator backup",
+  "url": "https://www.repeaterbook.com/repeaters/details.php?ID=12345"
+}
+```
 
-4. Test mobile horizontal scrolling
+**Steps**:
+1. Open `linked-repeaters.json` or `nonlinked-repeaters.json`
+2. Add new entry in alphabetical order by location
+3. Follow JSON syntax rules:
+   - Entries separated by commas
+   - Last entry has NO trailing comma
+   - All strings in double quotes
+   - Tags array: `["Hub"]`, `["WX4PTC"]`, or `["Hub", "WX4PTC"]`
+4. Validate JSON at [jsonlint.com](https://jsonlint.com/)
+5. Verify frequency on RepeaterBook
+6. Test on mobile (repeater tables are responsive)
+
+**Important**: The HTML tables on `index.html` and `repeaters.html` are auto-generated from these JSON files via JavaScript. Do NOT edit the HTML tables directly.
+
+**For detailed non-technical instructions**, see [ADMIN_GUIDE.md](ADMIN_GUIDE.md) Task 1.
 
 ### Updating NWS Contact Information
 
-1. Locate the Contacts Card in `index.html` (lines 704-716)
+**File**: `about.html`
+
+1. Search for `<section id="contactcard">`
 2. Update email addresses or names
-3. Verify with NWS Atlanta website
-4. Test mailto links
+3. Use HTML entities for spam protection:
+   - Replace `@` with `&#64;`
+   - Replace `.` with `&#46;`
+4. Verify with NWS Atlanta website
+5. Test mailto links
+
+**For detailed non-technical instructions**, see [ADMIN_GUIDE.md](ADMIN_GUIDE.md) Task 2.
 
 ### Adding a New Page
 
