@@ -91,7 +91,7 @@ You'll need a program to edit HTML files. Good free options:
 
 ### 4. Server Access (if deploying)
 
-- FTP/SFTP credentials for the web server
+- SFTP credentials for the web server
 - You'll need these from the current webmaster or hosting provider
 
 ---
@@ -438,18 +438,21 @@ georgiaskywarn.com        →      georgiaskywarn/public_html/
 
 ### Deployment Process
 
-**Step-by-Step FTP/SFTP Deployment**
+**Step-by-Step SFTP Deployment**
 
 This is the standard deployment method for the Georgia SKYWARN website.
 
+**Important**: You MUST use SFTP (Secure File Transfer Protocol) to upload files. Regular FTP is not supported.
+
 #### Step 1: Connect to the Server
 
-1. Open your FTP client (FileZilla, Cyberduck, WinSCP, etc.)
+1. Open your SFTP client (FileZilla, Cyberduck, WinSCP, etc.)
 2. Connect using your credentials:
+   - **Protocol**: SFTP (SSH File Transfer Protocol)
    - **Host**: [provided by hosting provider]
-   - **Username**: [your FTP username]
-   - **Password**: [your FTP password]
-   - **Port**: 21 (FTP) or 22 (SFTP - recommended)
+   - **Username**: [your SFTP username]
+   - **Password**: [your SFTP password]
+   - **Port**: 22
 
 #### Step 2: Upload Main Website Files to `public_html/`
 
@@ -491,7 +494,7 @@ GitHub Folder → Server Location
 
 #### Step 4: Verify File Permissions
 
-Set the following permissions (if your FTP client supports it):
+Set the following permissions (if your SFTP client supports it):
 - Files: `644` (read/write for owner, read-only for others)
 - Folders: `755` (read/write/execute for owner, read/execute for others)
 
