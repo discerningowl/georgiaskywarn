@@ -360,45 +360,157 @@ This is more advanced. Refer to [CLAUDE.md](CLAUDE.md) section "Adding a New Pag
 
 **⚠️ IMPORTANT**: Due to external links from NWS, RepeaterBook, and other amateur radio sites, certain files and folders MUST remain at specific locations on the server.
 
-### Critical Path Requirements
+### Understanding the Server Directory Structure
 
-[**NOTE**: This section will be completed with specific server path requirements based on hosting configuration]
+The Georgia SKYWARN website uses a **two-folder structure** on the server due to Apache configuration that maps `www` and non-`www` URLs to different locations.
 
-**To be documented**:
-- Root-level file requirements
-- Legacy redirect handling (`wx4ptc/` and `www/` folders)
-- Subdomain configurations (if any)
-- FTP/SFTP upload paths
-- File permission requirements
+#### Server Directory Layout
+
+```
+georgiaskywarn/                    ← Root directory on server
+├── index.html                     ← Redirect file (points to non-www version)
+│
+└── public_html/                   ← MAIN WEBSITE FOLDER
+    ├── index.html                 ← Actual homepage
+    ├── alerts.html
+    ├── repeaters.html
+    ├── nwsffclinks.html
+    ├── wx4ptc.html
+    ├── about.html
+    ├── photoarchive.html
+    ├── header.js
+    ├── footer.js
+    ├── scripts.js
+    ├── style.css
+    ├── GeorgiaSkywarnLogo.png
+    ├── favicon.ico
+    ├── nws.gif
+    ├── ganwsareacoverage.png
+    ├── archive/
+    │   └── WX4PTC*.jpg
+    └── wx4ptc/                    ← Legacy redirect folder
+        ├── index.html             ← Points to main site
+        └── ReadMe.md
+```
+
+#### How Apache Maps URLs
+
+```
+User Types:                      Server Shows:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+www.georgiaskywarn.com    →      georgiaskywarn/index.html
+                                 (redirect file)
+                                      ↓
+                                 Redirects to:
+                                 georgiaskywarn.com (no www)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+georgiaskywarn.com        →      georgiaskywarn/public_html/
+(no www)                         (actual website)
+```
+
+**Summary:**
+- **www.georgiaskywarn.com** → `georgiaskywarn/` (root directory)
+  - Displays the redirect `index.html` that sends visitors to the non-www version
+
+- **georgiaskywarn.com** (no www) → `georgiaskywarn/public_html/`
+  - Displays the actual website content
+
+#### Critical Path Requirements
+
+**Root Directory (`georgiaskywarn/`):**
+- Must contain ONLY the redirect `index.html` file
+- This file is located in the `www/` folder in GitHub
+- **MUST be manually copied** from `www/index.html` (GitHub) to `georgiaskywarn/index.html` (server root)
+
+**Main Directory (`georgiaskywarn/public_html/`):**
+- Contains ALL website files from GitHub (HTML, JS, CSS, images)
+- Includes the `wx4ptc/` folder with its redirect files
+- Copy everything from GitHub root EXCEPT the `www/` folder
+
+**Legacy Redirect (`public_html/wx4ptc/`):**
+- Handles old external links from NWS and amateur radio sites
+- Contains a redirect that points to the main website
+- Automatically handled when you copy files - no special action needed
+- **DO NOT delete this folder**
 
 ### Deployment Process
 
-**Method 1: FTP/SFTP Upload** (Traditional Hosting)
+**Step-by-Step FTP/SFTP Deployment**
 
-1. Connect to the server using your FTP client:
-   - **Host**: [to be specified]
+This is the standard deployment method for the Georgia SKYWARN website.
+
+#### Step 1: Connect to the Server
+
+1. Open your FTP client (FileZilla, Cyberduck, WinSCP, etc.)
+2. Connect using your credentials:
+   - **Host**: [provided by hosting provider]
    - **Username**: [your FTP username]
    - **Password**: [your FTP password]
-   - **Port**: 21 (FTP) or 22 (SFTP)
+   - **Port**: 21 (FTP) or 22 (SFTP - recommended)
 
-2. Navigate to the web root directory (usually `public_html/` or `www/`)
+#### Step 2: Upload Main Website Files to `public_html/`
 
-3. Upload changed files, maintaining the flat directory structure
+1. On the server, navigate to `georgiaskywarn/public_html/`
+2. From your local GitHub folder, select all files and folders **EXCEPT**:
+   - ❌ `www/` folder (this goes to root - see Step 3)
+   - ❌ `.git/` folder (if present)
+   - ❌ `CLAUDE.md`, `README.md`, `ADMIN_GUIDE.md` (documentation files)
+3. Upload the selected files to `public_html/`
+4. **IMPORTANT**: Make sure to include:
+   - ✅ All HTML files (index.html, alerts.html, etc.)
+   - ✅ All JavaScript files (header.js, footer.js, scripts.js)
+   - ✅ style.css
+   - ✅ All image files (PNG, GIF, ICO)
+   - ✅ `archive/` folder with all photos
+   - ✅ `wx4ptc/` folder with redirect files
+5. Verify the upload completed successfully (no errors)
 
-4. **DO NOT DELETE** existing `wx4ptc/` or `www/` folders
+#### Step 3: Upload WWW Redirect to Root
 
-5. Verify file permissions (usually 644 for files, 755 for folders)
+1. On the server, navigate UP one level to `georgiaskywarn/` (the root)
+2. From your local GitHub folder, go into the `www/` folder
+3. Copy the `index.html` file from `www/` folder
+4. Upload it to `georgiaskywarn/` root (NOT to `public_html/`)
+5. This file redirects `www.georgiaskywarn.com` to the non-www version
 
-**Method 2: GitHub Pages** (Automated)
+**Visual Guide:**
+```
+GitHub Folder → Server Location
 
-If the site is hosted on GitHub Pages:
-1. Push your changes to GitHub (see "Getting Started with GitHub")
-2. GitHub automatically deploys changes within 1-2 minutes
-3. Visit [georgiaskywarn.com](https://georgiaskywarn.com) to verify
+/index.html              → georgiaskywarn/public_html/index.html
+/alerts.html             → georgiaskywarn/public_html/alerts.html
+/header.js               → georgiaskywarn/public_html/header.js
+/style.css               → georgiaskywarn/public_html/style.css
+/archive/*.jpg           → georgiaskywarn/public_html/archive/*.jpg
+/wx4ptc/index.html       → georgiaskywarn/public_html/wx4ptc/index.html
+/www/index.html          → georgiaskywarn/index.html (ROOT!)
+```
 
-**Method 3: Other Platforms** (Netlify, Vercel, etc.)
+#### Step 4: Verify File Permissions
 
-Follow the platform-specific deployment guide. Most platforms auto-deploy when you push to GitHub.
+Set the following permissions (if your FTP client supports it):
+- Files: `644` (read/write for owner, read-only for others)
+- Folders: `755` (read/write/execute for owner, read/execute for others)
+
+Most hosting providers set these automatically.
+
+#### Step 5: Test the Live Site
+
+1. Visit **www.georgiaskywarn.com** (with www)
+   - Should redirect to georgiaskywarn.com
+2. Visit **georgiaskywarn.com** (without www)
+   - Should show the main website
+3. Test a few pages to ensure everything works
+4. Check weather alerts load correctly
+5. Test mobile menu and navigation
+
+#### Common Deployment Mistakes
+
+- ❌ **Uploading `www/` folder to `public_html/`** - Don't do this! The `www/index.html` goes to root.
+- ❌ **Forgetting to upload the root redirect** - `www.georgiaskywarn.com` won't work
+- ❌ **Deleting `wx4ptc/` folder** - Breaks old external links
+- ❌ **Uploading to wrong directory** - Double-check you're in `public_html/` for main files
+- ❌ **Overwriting server-only files** - Be careful not to delete `.htaccess` or server config files
 
 ### Pre-Deployment Checklist
 
