@@ -246,45 +246,77 @@ Before starting new work, always click "Fetch origin" to download the latest cha
 
 ### Task 1: Adding a New Repeater
 
-**File to edit**: `index.html` and/or `repeaters.html`
+**Files to edit**: `linked-repeaters.json` or `nonlinked-repeaters.json`
 
-1. **Find the repeater table** in the file:
-   - Linked repeaters: Search for `<h2 id="repeatercardlinked">Linked Repeaters</h2>`
-   - Non-linked repeaters: Search for `<h2 id="repeatercardnonlinked">Non-Linked Repeaters</h2>`
+The repeater tables are dynamically generated from JSON files. You need to edit the appropriate JSON file:
+- **Linked repeaters**: Edit `linked-repeaters.json`
+- **Non-linked repeaters**: Edit `nonlinked-repeaters.json`
 
-2. **Locate the table** (starts with `<table class="repeater-table">`)
+**Steps**:
 
-3. **Add a new row** in alphabetical order by location:
+1. **Open the appropriate JSON file** in your text editor
 
-```html
-<tr>
-  <td><a href="https://www.repeaterbook.com/repeaters/details.php?ID=XXXXX" target="_blank">Location Name</a></td>
-  <td class="freq">146.520- (110.9 Hz)</td>
-  <td>Coverage notes, emergency power status, etc.</td>
-</tr>
+2. **Add a new repeater entry** in alphabetical order by location:
+
+```json
+{
+  "location": "Peachtree City",
+  "frequency": "147.390+",
+  "tone": "141.3 Hz",
+  "tags": ["WX4PTC"],
+  "description": "Wide coverage, generator backup",
+  "url": "https://www.repeaterbook.com/repeaters/details.php?ID=12345"
+}
 ```
+
+3. **Important JSON formatting rules**:
+   - Each repeater entry is enclosed in curly braces `{ }`
+   - Entries are separated by commas
+   - The last entry in the file should NOT have a comma after it
+   - All text values must be in double quotes `""`
+   - Tags are in square brackets `["tag1", "tag2"]`
 
 4. **Replace the placeholders**:
-   - `XXXXX`: RepeaterBook ID number (find on RepeaterBook.com)
-   - `Location Name`: City or county name
-   - `146.520-`: Frequency and offset (-, +, or blank)
-   - `110.9 Hz`: PL/CTCSS tone
-   - Coverage notes: Any important information
+   - `location`: City or county name
+   - `frequency`: Frequency and offset (e.g., "147.390+", "444.600-", "145.210")
+   - `tone`: PL/CTCSS tone (e.g., "141.3 Hz", "77.0 Hz")
+   - `tags`: Array of tags like `["Hub"]`, `["WX4PTC"]`, `["Hub", "WX4PTC"]`
+   - `description`: Coverage notes, emergency power status, etc.
+   - `url`: Link to RepeaterBook or repeater website
 
-5. **Save the file** and commit your changes
+5. **Validate your JSON**:
+   - Use [jsonlint.com](https://jsonlint.com/) to check for syntax errors
+   - Common mistakes: missing commas, extra commas, missing quotes
 
-**Example**:
-```html
-<tr>
-  <td><a href="https://www.repeaterbook.com/repeaters/details.php?ID=12345" target="_blank">Peachtree City</a></td>
-  <td class="freq">147.390+ (141.3 Hz)</td>
-  <td>Wide coverage, generator backup</td>
-</tr>
+6. **Save the file** and commit your changes
+
+**Complete Example**:
+```json
+[
+  {
+    "location": "Fayetteville",
+    "frequency": "444.600+",
+    "tone": "77.0 Hz",
+    "tags": ["Hub", "WX4PTC"],
+    "description": "Hub and net control repeater. Emergency Power.",
+    "url": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6"
+  },
+  {
+    "location": "Peachtree City",
+    "frequency": "147.390+",
+    "tone": "141.3 Hz",
+    "tags": ["WX4PTC"],
+    "description": "Wide coverage, generator backup",
+    "url": "https://www.repeaterbook.com/repeaters/details.php?ID=12345"
+  }
+]
 ```
+
+**Note**: The repeater tables on `index.html` and `repeaters.html` are automatically generated from these JSON files. You do NOT need to edit the HTML files directly.
 
 ### Task 2: Updating Contact Information
 
-**File to edit**: `index.html`
+**File to edit**: `about.html`
 
 1. Search for `<section id="contactcard">`
 2. Update email addresses or names as needed
@@ -299,18 +331,58 @@ Before starting new work, always click "Fetch origin" to download the latest cha
 </p>
 ```
 
-### Task 3: Updating Weather Alert Links
+### Task 3: Updating Links on Any Page
 
-**File to edit**: `nwsffclinks.html`
+**Files you might edit**: `nwsffclinks.html`, `about.html`, `index.html`, etc.
 
-1. Search for the section you want to update (e.g., "Core NWS Resources")
-2. Update the link:
+This task covers updating any links on the website (resource links, documentation links, etc.).
+
+**Steps**:
+
+1. Open the appropriate HTML file in your text editor
+2. Search for the section you want to update (e.g., "Core NWS Resources")
+3. Find the link you want to change
+4. Update the URL and/or link text:
 
 ```html
 <li><a href="https://www.weather.gov/ffc/resource" target="_blank" rel="noopener noreferrer">Link Description</a></li>
 ```
 
 **Important**: Always include `target="_blank" rel="noopener noreferrer"` for external links. This opens links in a new tab and provides security.
+
+**Examples**:
+
+Update a link in nwsffclinks.html:
+```html
+<li><a href="https://www.weather.gov/ffc/winter" target="_blank" rel="noopener noreferrer">Winter Weather Information</a></li>
+```
+
+Update a link in about.html:
+```html
+<p>For more information, visit <a href="https://example.com" target="_blank" rel="noopener noreferrer">our resources page</a>.</p>
+```
+
+### Understanding Weather Alerts (Automatic - No Manual Updates Needed)
+
+**Important**: Weather alerts on `index.html` and `alerts.html` are **automatically fetched from the NWS API**. You should NOT manually update these.
+
+**How Weather Alerts Work**:
+- The site automatically fetches live weather alerts from the National Weather Service API
+- Alerts refresh every 5 minutes with a local cache
+- The system filters for NWS Peachtree City (FFC) warnings, watches, and advisories
+- No manual intervention is needed - alerts appear and disappear automatically
+
+**If weather alerts are not displaying**:
+- See the [Troubleshooting](#problem-weather-alerts-not-loading) section
+- The NWS API may be temporarily down
+- Contact the Website Administrator (KQ4JP) if problems persist
+
+**Do NOT attempt to**:
+- Manually add or remove weather alerts from the HTML
+- Modify the JavaScript code that fetches alerts
+- Change the NWS API endpoints
+
+Only experienced developers should modify the weather alert system. For all alert-related issues, contact the Website Administrator.
 
 ### Task 4: Changing Site Colors or Appearance
 
@@ -705,16 +777,22 @@ document.documentElement.setAttribute('data-theme', 'light');
 
 **Causes & Fixes**:
 
-1. **Missing footer.html file**
-   - Check that `footer.html` exists in the root directory
+1. **Missing footer.js file**
+   - Check that `footer.js` exists in the root directory
    - Re-upload if missing
+   - The footer is dynamically loaded via JavaScript, not an HTML file
 
 2. **Local testing without web server**
    - Don't open HTML files directly (`file:///`)
    - Use a local web server (see "Local Testing" section)
+   - JavaScript file loading requires a proper HTTP server
 
 3. **JavaScript disabled**
    - Check browser settings to ensure JavaScript is enabled
+
+4. **Corrupted footer.js file**
+   - Re-upload `footer.js` from GitHub
+   - Clear browser cache
 
 ### Problem: Mobile Menu Not Working
 
