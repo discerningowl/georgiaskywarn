@@ -41,9 +41,20 @@ This guide will walk you through common website maintenance tasks for the Georgi
 
 ### What This Guide Does NOT Cover
 
-For detailed technical documentation, see:
-- **[README.md](README.md)** - Overview, features, and general information
-- **[CLAUDE.md](CLAUDE.md)** - Comprehensive technical documentation for developers and AI assistants
+This guide focuses on non-technical administration. For additional documentation:
+
+- **[README.md](README.md)** - Project overview, features, deployment options, and production status
+- **[CLAUDE.md](CLAUDE.md)** - Comprehensive technical documentation including:
+  - Complete file structure and architecture
+  - CSS/JavaScript patterns and conventions
+  - Development workflow and testing
+  - Detailed API integration information
+  - Advanced troubleshooting
+
+**When to use each guide**:
+- **ADMIN_GUIDE.md** (this guide) - For routine website updates and maintenance
+- **CLAUDE.md** - For technical development, architecture questions, or AI-assisted coding
+- **README.md** - For project overview, deployment information, and general features
 
 ---
 
@@ -106,11 +117,13 @@ The Georgia SKYWARN website uses a **flat directory structure** - all important 
 georgiaskywarn/
 ├── index.html              ← Main page (what visitors see first)
 ├── alerts.html             ← All NWS weather alerts page
-├── repeaters.html          ← Repeater directory page
+├── repeaters.html          ← Repeater directory page (displays data from JSON)
 ├── nwsffclinks.html        ← NWS links and resources page
 ├── wx4ptc.html             ← WX4PTC station information page
 ├── about.html              ← About the site page
 ├── photoarchive.html       ← Historical photos page
+├── linked-repeaters.json   ← **YOU EDIT THIS** - Linked repeater data
+├── nonlinked-repeaters.json ← **YOU EDIT THIS** - Non-linked repeater data
 ├── header.js               ← Header component (logo, navigation, theme toggle)
 ├── footer.js               ← Footer component
 ├── scripts.js              ← Page-specific JavaScript (alerts, search)
@@ -143,10 +156,149 @@ georgiaskywarn/
 
 | File | What It Contains | How Often Updated |
 |------|------------------|-------------------|
-| `index.html` | Main page with repeater table and alerts | Monthly or as needed |
-| `repeaters.html` | Full repeater directory | When repeaters change |
+| `linked-repeaters.json` | **Linked repeater data** | When repeaters change |
+| `nonlinked-repeaters.json` | **Non-linked repeater data** | When repeaters change |
+| `about.html` | Contact information | When contacts change |
 | `nwsffclinks.html` | NWS resource links | Rarely (annual check) |
 | `style.css` | Visual design and colors | Rarely |
+
+**Important**: You do NOT directly edit `index.html` or `repeaters.html` for repeater information. These pages automatically load data from the JSON files.
+
+---
+
+## Understanding JSON Files
+
+### What is JSON?
+
+JSON (JavaScript Object Notation) is a simple text format for storing data. The Georgia SKYWARN website uses JSON files to store repeater information. When you visit the site, JavaScript automatically reads these files and displays the data in nicely formatted tables.
+
+### Why Use JSON Instead of HTML?
+
+**Advantages**:
+- ✅ **Easier to edit** - Simple text format, no HTML tags to worry about
+- ✅ **Less error-prone** - Structured format that's easy to validate
+- ✅ **Single source of truth** - One file updates multiple pages automatically
+- ✅ **Automatic display** - Changes appear immediately on both `index.html` and `repeaters.html`
+
+### JSON File Structure
+
+The repeater JSON files contain an **array** (list) of repeater objects. Each repeater is a set of key-value pairs enclosed in curly braces `{ }`.
+
+**Example from `linked-repeaters.json`**:
+
+```json
+[
+  {
+    "location": "Fayetteville",
+    "frequency": "444.600+",
+    "tone": "77.0 Hz",
+    "tags": ["Hub", "WX4PTC"],
+    "description": "Hub and net control repeater. Emergency Power.",
+    "url": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6"
+  },
+  {
+    "location": "Peachtree City",
+    "frequency": "147.390+",
+    "tone": "141.3 Hz",
+    "tags": ["WX4PTC"],
+    "description": "Wide coverage, generator backup",
+    "url": "https://www.repeaterbook.com/repeaters/details.php?ID=12345"
+  }
+]
+```
+
+### JSON Syntax Rules (CRITICAL!)
+
+**Follow these rules exactly or the file won't work**:
+
+1. **Square brackets `[ ]`** - Wrap the entire list of repeaters
+2. **Curly braces `{ }`** - Wrap each individual repeater
+3. **Double quotes `" "`** - ALL text values must be in double quotes (not single quotes)
+4. **Commas between entries** - Separate repeaters with commas
+5. **NO comma after last entry** - The last repeater should NOT have a comma after its closing `}`
+6. **Commas between fields** - Separate fields within a repeater with commas
+7. **Colon `:`** - Separates the field name from its value
+8. **Tags array `["tag1", "tag2"]`** - Multiple tags enclosed in square brackets with quotes
+
+### Field Descriptions
+
+Each repeater entry has these fields:
+
+| Field | Description | Example | Required |
+|-------|-------------|---------|----------|
+| `location` | City or county name | `"Peachtree City"` | Yes |
+| `frequency` | Frequency with offset | `"147.390+"` or `"444.600-"` | Yes |
+| `tone` | PL/CTCSS tone | `"141.3 Hz"` | Yes |
+| `tags` | Array of tags | `["Hub"]` or `["WX4PTC"]` or `["Hub", "WX4PTC"]` | Yes |
+| `description` | Coverage, power info | `"Wide coverage, generator backup"` | Yes |
+| `url` | RepeaterBook link | `"https://www.repeaterbook.com/repeaters/details.php?ID=12345"` | Yes |
+
+### Common JSON Mistakes to Avoid
+
+❌ **Missing comma between repeaters**:
+```json
+[
+  {
+    "location": "City1",
+    "frequency": "146.520"
+  }
+  {
+    "location": "City2",
+    "frequency": "147.390"
+  }
+]
+```
+✅ **Correct**:
+```json
+[
+  {
+    "location": "City1",
+    "frequency": "146.520"
+  },  ← COMMA HERE!
+  {
+    "location": "City2",
+    "frequency": "147.390"
+  }
+]
+```
+
+❌ **Comma after last entry**:
+```json
+[
+  {
+    "location": "City1",
+    "frequency": "146.520"
+  },
+]  ← NO COMMA AFTER LAST ENTRY!
+```
+
+❌ **Single quotes instead of double quotes**:
+```json
+{
+  'location': 'City1'  ← WRONG! Use double quotes
+}
+```
+
+❌ **Missing quotes around text**:
+```json
+{
+  location: City1  ← WRONG! Needs quotes
+}
+```
+
+### How to Validate Your JSON
+
+**ALWAYS validate your JSON before committing**:
+
+1. Go to [jsonlint.com](https://jsonlint.com/)
+2. Copy and paste your entire JSON file
+3. Click "Validate JSON"
+4. Fix any errors it reports
+
+**Common error messages**:
+- "Expecting 'STRING'" - You're missing quotes around text
+- "Expecting ','" - You need a comma between entries
+- "Trailing comma" - Remove the comma after the last entry
 
 ---
 
@@ -246,45 +398,77 @@ Before starting new work, always click "Fetch origin" to download the latest cha
 
 ### Task 1: Adding a New Repeater
 
-**File to edit**: `index.html` and/or `repeaters.html`
+**Files to edit**: `linked-repeaters.json` or `nonlinked-repeaters.json`
 
-1. **Find the repeater table** in the file:
-   - Linked repeaters: Search for `<h2 id="repeatercardlinked">Linked Repeaters</h2>`
-   - Non-linked repeaters: Search for `<h2 id="repeatercardnonlinked">Non-Linked Repeaters</h2>`
+The repeater tables are dynamically generated from JSON files. You need to edit the appropriate JSON file:
+- **Linked repeaters**: Edit `linked-repeaters.json`
+- **Non-linked repeaters**: Edit `nonlinked-repeaters.json`
 
-2. **Locate the table** (starts with `<table class="repeater-table">`)
+**Steps**:
 
-3. **Add a new row** in alphabetical order by location:
+1. **Open the appropriate JSON file** in your text editor
 
-```html
-<tr>
-  <td><a href="https://www.repeaterbook.com/repeaters/details.php?ID=XXXXX" target="_blank">Location Name</a></td>
-  <td class="freq">146.520- (110.9 Hz)</td>
-  <td>Coverage notes, emergency power status, etc.</td>
-</tr>
+2. **Add a new repeater entry** in alphabetical order by location:
+
+```json
+{
+  "location": "Peachtree City",
+  "frequency": "147.390+",
+  "tone": "141.3 Hz",
+  "tags": ["WX4PTC"],
+  "description": "Wide coverage, generator backup",
+  "url": "https://www.repeaterbook.com/repeaters/details.php?ID=12345"
+}
 ```
+
+3. **Important JSON formatting rules**:
+   - Each repeater entry is enclosed in curly braces `{ }`
+   - Entries are separated by commas
+   - The last entry in the file should NOT have a comma after it
+   - All text values must be in double quotes `""`
+   - Tags are in square brackets `["tag1", "tag2"]`
 
 4. **Replace the placeholders**:
-   - `XXXXX`: RepeaterBook ID number (find on RepeaterBook.com)
-   - `Location Name`: City or county name
-   - `146.520-`: Frequency and offset (-, +, or blank)
-   - `110.9 Hz`: PL/CTCSS tone
-   - Coverage notes: Any important information
+   - `location`: City or county name
+   - `frequency`: Frequency and offset (e.g., "147.390+", "444.600-", "145.210")
+   - `tone`: PL/CTCSS tone (e.g., "141.3 Hz", "77.0 Hz")
+   - `tags`: Array of tags like `["Hub"]`, `["WX4PTC"]`, `["Hub", "WX4PTC"]`
+   - `description`: Coverage notes, emergency power status, etc.
+   - `url`: Link to RepeaterBook or repeater website
 
-5. **Save the file** and commit your changes
+5. **Validate your JSON**:
+   - Use [jsonlint.com](https://jsonlint.com/) to check for syntax errors
+   - Common mistakes: missing commas, extra commas, missing quotes
 
-**Example**:
-```html
-<tr>
-  <td><a href="https://www.repeaterbook.com/repeaters/details.php?ID=12345" target="_blank">Peachtree City</a></td>
-  <td class="freq">147.390+ (141.3 Hz)</td>
-  <td>Wide coverage, generator backup</td>
-</tr>
+6. **Save the file** and commit your changes
+
+**Complete Example**:
+```json
+[
+  {
+    "location": "Fayetteville",
+    "frequency": "444.600+",
+    "tone": "77.0 Hz",
+    "tags": ["Hub", "WX4PTC"],
+    "description": "Hub and net control repeater. Emergency Power.",
+    "url": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6"
+  },
+  {
+    "location": "Peachtree City",
+    "frequency": "147.390+",
+    "tone": "141.3 Hz",
+    "tags": ["WX4PTC"],
+    "description": "Wide coverage, generator backup",
+    "url": "https://www.repeaterbook.com/repeaters/details.php?ID=12345"
+  }
+]
 ```
+
+**Note**: The repeater tables on `index.html` and `repeaters.html` are automatically generated from these JSON files. You do NOT need to edit the HTML files directly.
 
 ### Task 2: Updating Contact Information
 
-**File to edit**: `index.html`
+**File to edit**: `about.html`
 
 1. Search for `<section id="contactcard">`
 2. Update email addresses or names as needed
@@ -299,18 +483,60 @@ Before starting new work, always click "Fetch origin" to download the latest cha
 </p>
 ```
 
-### Task 3: Updating Weather Alert Links
+### Task 3: Updating Links on Any Page
 
-**File to edit**: `nwsffclinks.html`
+**Files you might edit**: `nwsffclinks.html`, `about.html`, `index.html`, etc.
 
-1. Search for the section you want to update (e.g., "Core NWS Resources")
-2. Update the link:
+This task covers updating any links on the website (resource links, documentation links, etc.).
+
+**Steps**:
+
+1. Open the appropriate HTML file in your text editor
+2. Search for the section you want to update (e.g., "Core NWS Resources")
+3. Find the link you want to change
+4. Update the URL and/or link text:
 
 ```html
 <li><a href="https://www.weather.gov/ffc/resource" target="_blank" rel="noopener noreferrer">Link Description</a></li>
 ```
 
 **Important**: Always include `target="_blank" rel="noopener noreferrer"` for external links. This opens links in a new tab and provides security.
+
+**Examples**:
+
+Update a link in nwsffclinks.html:
+```html
+<li><a href="https://www.weather.gov/ffc/winter" target="_blank" rel="noopener noreferrer">Winter Weather Information</a></li>
+```
+
+Update a link in about.html:
+```html
+<p>For more information, visit <a href="https://example.com" target="_blank" rel="noopener noreferrer">our resources page</a>.</p>
+```
+
+### Understanding Weather Alerts (Automatic - No Manual Updates Needed)
+
+**Important**: Weather alerts on `index.html` and `alerts.html` are **automatically fetched from the NWS API**. You should NOT manually update these.
+
+**How Weather Alerts Work**:
+- The site automatically fetches live weather alerts from the National Weather Service API
+- Alerts refresh every 5 minutes with a local cache
+- The system filters for NWS Peachtree City (FFC) warnings, watches, and advisories
+- No manual intervention is needed - alerts appear and disappear automatically
+
+**If weather alerts are not displaying**:
+- See the [Troubleshooting](#problem-weather-alerts-not-loading) section
+- The NWS API may be temporarily down
+- Contact the Website Administrator (KQ4JP) if problems persist
+
+**Do NOT attempt to**:
+- Manually add or remove weather alerts from the HTML
+- Modify the JavaScript code that fetches alerts
+- Change the NWS API endpoints
+
+Only experienced developers should modify the weather alert system. For all alert-related issues, contact the Website Administrator.
+
+**For developers**: See [CLAUDE.md](CLAUDE.md) "NWS Weather API Integration" section for technical details about the alert system.
 
 ### Task 4: Changing Site Colors or Appearance
 
@@ -335,6 +561,8 @@ To change a color:
 3. Save and test in both light and dark mode
 
 **Tip**: Use a color picker tool like [colorpicker.me](https://colorpicker.me/) to find hex codes.
+
+**For advanced CSS customization** (layouts, fonts, spacing, media queries), see [CLAUDE.md](CLAUDE.md) "CSS Architecture" section.
 
 ### Task 5: Adding a New Page
 
@@ -705,16 +933,22 @@ document.documentElement.setAttribute('data-theme', 'light');
 
 **Causes & Fixes**:
 
-1. **Missing footer.html file**
-   - Check that `footer.html` exists in the root directory
+1. **Missing footer.js file**
+   - Check that `footer.js` exists in the root directory
    - Re-upload if missing
+   - The footer is dynamically loaded via JavaScript, not an HTML file
 
 2. **Local testing without web server**
    - Don't open HTML files directly (`file:///`)
    - Use a local web server (see "Local Testing" section)
+   - JavaScript file loading requires a proper HTTP server
 
 3. **JavaScript disabled**
    - Check browser settings to ensure JavaScript is enabled
+
+4. **Corrupted footer.js file**
+   - Re-upload `footer.js` from GitHub
+   - Clear browser cache
 
 ### Problem: Mobile Menu Not Working
 
