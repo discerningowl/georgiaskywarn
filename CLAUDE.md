@@ -82,13 +82,10 @@ georgiaskywarn/
 
 **Key Sections**:
 - Active Alerts (NWS Atlanta WARNINGS only - red card)
-- NWS Resources (3-column grid: logo, links, social)
+- NWS Resources
 - SKYWARN Information & Spotter Resources
 - Reporting Requirements (what to report and how)
 - Submit Reports (contact methods)
-- Linked Repeaters Table (primary repeater network)
-- Non-linked Repeaters Table (local SKYWARN nets)
-- Contact Information
 
 **JavaScript Features**:
 - Fetches active NWS warnings from `api.weather.gov/alerts`
