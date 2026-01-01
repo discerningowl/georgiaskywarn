@@ -48,7 +48,7 @@ function loadFooter() {
                 </div>
 
                 <div class="footer-bottom">
-                    <p>&copy; 2025 Georgia SKYWARN &middot; All Rights Reserved &middot; Serving North and Central Georgia</p>
+                    <p>&copy; 2026 Georgia SKYWARN &middot; All Rights Reserved &middot; Serving North and Central Georgia</p>
                 </div>
             </div>
         </footer>
