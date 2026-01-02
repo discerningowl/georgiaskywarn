@@ -23,15 +23,21 @@ georgiaskywarn/
 ├── about.html              # Site structure and overview
 ├── photoarchive.html       # Photo archive of WX4PTC station
 ├── style.css               # Shared stylesheet for all pages
-├── scripts.js              # Page-specific JavaScript (alerts, modals, repeater search)
-├── header.js               # Header component (logo, nav, theme toggle, back-to-top)
-├── footer.js               # Footer component (dynamically loaded)
-├── linked-repeaters.json   # Linked repeater data (dynamically loaded)
-├── nonlinked-repeaters.json # Non-linked repeater data (dynamically loaded)
-├── GeorgiaSkywarnLogo.png  # Site logo (500x500px)
+├── georgiaskywarnlogo.png  # Site logo (500x500px)
 ├── favicon.ico             # Site favicon
 ├── nws.gif                 # NWS logo
-├── ganwsareacoverage.png   # NWS Atlanta coverage area map
+├── js/                     # JavaScript files directory
+│   ├── header.js           # Header component (logo, nav, theme toggle, back-to-top)
+│   ├── footer.js           # Footer component (dynamically loaded)
+│   ├── scripts.js          # Page-specific JavaScript (alerts, modals, repeater search)
+│   ├── nws-api.js          # NWS API integration and HWO
+│   ├── config.js           # Centralized configuration
+│   ├── utils.js            # Shared utility functions
+│   └── changelog.js        # Changelog display
+├── data/                   # Data files directory
+│   ├── linked-repeaters.json   # Linked repeater data (dynamically loaded)
+│   ├── nonlinked-repeaters.json # Non-linked repeater data (dynamically loaded)
+│   └── changelog.json      # Website changelog/updates
 ├── archive/                # Photo archive directory
 │   └── WX4PTC*.jpg         # Station photos (1-8)
 ├── www/                    # Legacy redirect folder
@@ -43,31 +49,40 @@ georgiaskywarn/
 
 ### ⚠️ CRITICAL: Directory Structure Requirements
 
-**The directory structure MUST remain similar to its existing layout. This is a hard requirement.**
+**HTML files and CSS MUST remain in the root directory. This is a hard requirement.**
+
+**Current Structure** (as of January 2, 2026):
+- ✅ **HTML files**: All in root directory
+- ✅ **CSS files**: `style.css` in root directory
+- ✅ **JavaScript files**: Organized in `js/` directory
+- ✅ **Data files**: JSON files in `data/` directory
+- ✅ **Images**: In root directory (except photo archive in `archive/`)
+- ✅ **Legacy redirects**: `www/` and `wx4ptc/` directories preserved
 
 **DO NOT**:
 - ❌ Move HTML files into subdirectories (e.g., `pages/`, `src/`, `public/`)
-- ❌ Create new directories for organization (e.g., `css/`, `js/`, `images/`)
-- ❌ Rename existing directories (`archive/`, `www/`, `wx4ptc/`)
-- ❌ Change file locations or create nested structures
-- ❌ Move `style.css`, `footer.js`, or `header.js` from the root directory
-- ❌ Reorganize image files into an `assets/` or `images/` folder
+- ❌ Move `style.css` from the root directory
+- ❌ Create additional directories (e.g., `css/`, `images/`, `assets/`)
+- ❌ Rename existing directories (`js/`, `data/`, `archive/`, `www/`, `wx4ptc/`)
+- ❌ Move image files into an `assets/` or `images/` folder
+- ❌ Reorganize the `js/` or `data/` directory structure
 
-**WHY**: The flat directory structure is required for:
-1. **External links** - Many external websites and references link directly to files at their current paths
-2. **Legacy redirects** - The `wx4ptc/` and `www/` directories handle old URLs that are still in use
-3. **Simplicity** - Static hosting and deployment depend on the current flat structure
-4. **Relative paths** - All CSS, JavaScript, and HTML use relative paths based on the flat structure
+**WHY**: This structure is required for:
+1. **External links** - Many external websites link directly to HTML files at their current root paths
+2. **Legacy redirects** - The `wx4ptc/` and `www/` directories handle old URLs still in use
+3. **Static hosting** - Deployment configuration depends on HTML files being in root
+4. **Code organization** - The `js/` and `data/` directories reduce duplication while maintaining compatibility
 
 ### Important Notes
 
-1. **DO NOT REMOVE** the `wx4ptc/` directory - it contains redirect scripts for external links that are referenced by NWS and other official sources
+1. **DO NOT REMOVE** the `wx4ptc/` directory - it contains redirect scripts for external links referenced by NWS and other official sources
 2. **DO NOT REMOVE** the `www/` directory - legacy redirect for old bookmarks
 3. All HTML pages MUST remain in the root directory
 4. All HTML pages share the same `style.css` stylesheet (root level)
-5. **Component architecture**: Header loaded via `header.js`, Footer loaded via `footer.js`
-6. All JavaScript files (`header.js`, `footer.js`, `scripts.js`) MUST remain in root directory
-7. Images and assets MUST remain in the root directory (flat structure)
+5. **Component architecture**: Header loaded via `js/header.js`, Footer loaded via `js/footer.js`
+6. **JavaScript organization**: All JavaScript files in `js/` directory for better code organization
+7. **Data organization**: All JSON data files in `data/` directory
+8. Images and assets remain in root directory except for historical photos in `archive/`
 
 ---
 
@@ -810,6 +825,32 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-01-02
+- **CODE REORGANIZATION**: Eliminated ~450 lines of duplicate code
+  - Created `js/config.js` for centralized configuration (NWS API settings, zone lists, cache TTL, activation patterns)
+  - Created `js/utils.js` for shared utility functions (cache management, modal abstraction, JSON fetch, DOM helpers)
+  - Moved JavaScript files to `js/` directory, data files to `data/` directory
+  - Refactored `js/nws-api.js`, `js/scripts.js`, and `js/changelog.js` to use shared utilities
+  - Added CSS color variables (--white, --black, --slate-400, etc.) replacing 60+ hardcoded color values
+  - Fixed recursive CSS variable definitions in theme sections
+  - Updated all 7 HTML pages to load scripts in proper dependency order
+- **SPOTTER ACTIVATION ENHANCEMENTS**: Three-level urgency system
+  - Implemented automatic detection of standard, enhanced, and PDS (Particularly Dangerous Situation) activations
+  - Enhanced pattern matching for activation keywords in HWO
+  - Added color-coded visual indicators (yellow/orange/red) for activation urgency
+  - Improved dashboard styling with activation status prominently displayed
+- **RELIABILITY IMPROVEMENTS**: Defensive error handling
+  - Added try-catch blocks and cache diagnostics for configuration loading
+  - Enhanced error handling in NWS API calls with better user feedback
+  - Robust fallbacks for missing or corrupted cache data
+  - Script version bumps to force browser cache refresh (v20260102b/i)
+- **DASHBOARD CONSOLIDATION**: Unified spotter dashboard
+  - Consolidated alerts.html into dashboard.html with HWO, activation status, and all alerts
+  - Added Quick Maps section with 6 essential weather/situational awareness tools
+  - HWO cached for 4 hours, alerts refresh every 5 minutes
+  - Updated all navigation references from "Alerts" to "Dashboard"
+  - Deleted alerts.html (functionality merged into dashboard.html)
+
 ### 2025-12-30
 - **MAJOR REDESIGN**: Component-based architecture with header.js and footer.js
   - Created `header.js` component for dynamic header loading (inspired by atlantahamradio.org)
@@ -911,14 +952,6 @@ refactor: Simplify alert filtering logic
 - Added warnings about external links dependency on current file paths
 - Updated "Common Pitfalls to Avoid" to prioritize structure preservation
 - Created comprehensive CLAUDE.md file for AI assistant guidance
-
-### 2026-01-02
-- **MAJOR UPDATE**: Consolidated alerts.html into dashboard.html
-  - Created unified spotter dashboard with HWO, activation status, and all alerts
-  - Added Quick Maps section with 6 essential weather/situational awareness tools
-  - HWO cached for 4 hours, alerts refresh every 5 minutes
-  - Updated all navigation references from "Alerts" to "Dashboard"
-  - Deleted alerts.html (functionality merged into dashboard.html)
 
 ### 2025-11-09
 - Extracted alerts section into dedicated page (`alerts.html`)

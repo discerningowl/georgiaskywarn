@@ -75,21 +75,26 @@ georgiaskywarn/
 ├── about.html              # Site overview and structure
 ├── photoarchive.html       # Historical station photos
 ├── style.css               # Shared stylesheet (all pages)
-├── scripts.js              # Page-specific JavaScript (alerts, search)
-├── header.js               # Header component (logo, nav, theme toggle)
-├── footer.js               # Footer component (dynamically loaded)
-├── linked-repeaters.json   # Linked repeater data (dynamically loaded)
-├── nonlinked-repeaters.json # Non-linked repeater data (dynamically loaded)
-├── GeorgiaSkywarnLogo.png  # Site logo
+├── georgiaskywarnlogo.png  # Site logo
 ├── robots.txt              # Search engine directives
 ├── sitemap.xml             # Site map for SEO
 ├── favicon.ico             # Site favicon
 ├── nws.gif                 # NWS logo
-├── ganwsareacoverage.png   # NWS coverage area map
+├── js/                     # JavaScript files
+│   ├── header.js           # Header component (logo, nav, theme toggle)
+│   ├── footer.js           # Footer component (dynamically loaded)
+│   ├── scripts.js          # Page-specific JavaScript (alerts, search)
+│   ├── nws-api.js          # NWS API integration and HWO
+│   ├── config.js           # Centralized configuration
+│   ├── utils.js            # Shared utility functions
+│   └── changelog.js        # Changelog display
+├── data/                   # Data files
+│   ├── linked-repeaters.json   # Linked repeater data
+│   ├── nonlinked-repeaters.json # Non-linked repeater data
+│   └── changelog.json      # Website changelog/updates
 ├── CLAUDE.md               # Technical documentation for developers
 ├── ADMIN_GUIDE.md          # Administrator's guide for non-technical users
 ├── README.md               # This file - project overview
-├── PRODUCTION_READINESS_REPORT.md  # Production readiness analysis
 ├── archive/                # Historical photos
 │   └── WX4PTC*.jpg
 ├── www/                    # Legacy redirect (DO NOT REMOVE)
@@ -101,7 +106,7 @@ georgiaskywarn/
 
 ### ⚠️ Important: Directory Structure
 
-**The flat directory structure MUST be maintained.** Do not move files into subdirectories (`pages/`, `css/`, `js/`, `images/`, etc.) or rename existing directories. This structure is required for:
+**HTML files and CSS MUST remain in the root directory.** The `js/` and `data/` subdirectories organize code and data files, but HTML pages must stay in root. Do not create additional subdirectories (`pages/`, `css/`, `images/`, etc.) or rename existing directories. This structure is required for:
 
 1. **External Links**: Many websites link directly to these file paths
 2. **Legacy Redirects**: The `wx4ptc/` and `www/` directories handle old URLs still in use
@@ -113,6 +118,33 @@ See [CLAUDE.md](CLAUDE.md) for detailed documentation.
 
 ## 🚀 Recent Improvements
 
+### January 2, 2026 - Code Optimization & Enhanced Features
+
+**Code Reorganization** ✅
+- Eliminated ~450 lines of duplicate code through modular architecture
+- Created centralized configuration system (`js/config.js`)
+- Implemented shared utility functions (`js/utils.js`)
+- Organized JavaScript files into `js/` directory and data files into `data/`
+- Reduced bundle size and improved maintainability
+
+**Enhanced Spotter Activation System** ✅
+- Implemented three-level urgency detection (standard/enhanced/PDS)
+- Automatic activation status from NWS Hazardous Weather Outlook
+- Color-coded visual indicators for quick assessment
+- Improved pattern matching for activation keywords
+
+**Improved Reliability** ✅
+- Added defensive error handling and cache diagnostics
+- Robust fallbacks for configuration loading failures
+- Enhanced API error handling with better user feedback
+- Improved reliability during severe weather events
+
+**Unified Spotter Dashboard** ✅
+- Consolidated alerts into comprehensive dashboard
+- HWO integration with 4-hour cache
+- Quick access to 6 essential weather and situational awareness maps
+- Real-time alerts refresh every 5 minutes
+
 ### December 30, 2025 - Component-Based Architecture
 
 **Major Redesign** ✅
@@ -120,42 +152,7 @@ See [CLAUDE.md](CLAUDE.md) for detailed documentation.
 - Unified header with integrated logo, navigation, and theme toggle
 - Sticky floating page navigation with glassmorphism effects
 - Enhanced mobile navigation with full-screen overlay
-- Improved scroll offset handling for better anchor link behavior
 - All 7 pages updated to use component-based architecture
-
-### December 2025 - Production Readiness Updates
-
-**Security Enhancements** ✅
-- Added Content Security Policy (CSP) headers to all pages
-- Secured all 76 external links with `rel="noopener noreferrer"`
-- Implemented proper error handling throughout
-
-**SEO & Social Media** ✅
-- Comprehensive meta descriptions for all pages
-- Open Graph tags for rich social media previews
-- Twitter Card integration
-- Created `robots.txt` and `sitemap.xml`
-- Added DNS prefetch hints for NWS API
-
-**Performance & Reliability** ✅
-- NWS API retry logic with exponential backoff
-- 10-second request timeout to prevent hanging
-- Background refresh every 5 minutes (respects cache)
-- Skeleton loader for better perceived performance
-
-**UX Improvements** ✅
-- Enhanced mobile navigation with proper error handling
-- Friendly error messages for API failures
-- Print stylesheet for optimal printing
-- Improved accessibility throughout
-
-**Code Quality** ✅
-- Fixed duplicate IDs
-- Consistent IIFE pattern for all scripts
-- Proper null checks and guard clauses
-- Clean HTML entity encoding
-
-**Production Status**: 9.5/10 ⭐ (Previously 7.5/10)
 
 ---
 
@@ -315,6 +312,6 @@ This website is maintained by volunteer amateur radio operators in coordination 
 
 ---
 
-**Last Updated**: January 2, 2026
+**Last Updated**: January 2, 2026 (v20260102)
 **Maintained By**: Georgia SKYWARN Team
 **For Questions**: Contact webmaster at kq4jp@pm.me

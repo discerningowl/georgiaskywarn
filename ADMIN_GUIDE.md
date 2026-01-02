@@ -122,16 +122,22 @@ georgiaskywarn/
 ├── wx4ptc.html             ← WX4PTC station information page
 ├── about.html              ← About the site page
 ├── photoarchive.html       ← Historical photos page
-├── linked-repeaters.json   ← **YOU EDIT THIS** - Linked repeater data
-├── nonlinked-repeaters.json ← **YOU EDIT THIS** - Non-linked repeater data
-├── header.js               ← Header component (logo, navigation, theme toggle)
-├── footer.js               ← Footer component
-├── scripts.js              ← Page-specific JavaScript (alerts, search)
 ├── style.css               ← Stylesheet (colors, layout, design)
-├── GeorgiaSkywarnLogo.png  ← Site logo
+├── georgiaskywarnlogo.png  ← Site logo
 ├── favicon.ico             ← Browser tab icon
 ├── nws.gif                 ← NWS logo image
-├── ganwsareacoverage.png   ← Coverage area map
+├── js/                     ← JavaScript files
+│   ├── header.js           ← Header component (logo, navigation, theme toggle)
+│   ├── footer.js           ← Footer component
+│   ├── scripts.js          ← Page-specific JavaScript (alerts, search)
+│   ├── nws-api.js          ← NWS API integration and HWO
+│   ├── config.js           ← Centralized configuration
+│   ├── utils.js            ← Shared utility functions
+│   └── changelog.js        ← Changelog display
+├── data/                   ← Data files
+│   ├── linked-repeaters.json   ← **YOU EDIT THIS** - Linked repeater data
+│   ├── nonlinked-repeaters.json ← **YOU EDIT THIS** - Non-linked repeater data
+│   └── changelog.json      ← Website changelog/updates
 ├── archive/                ← Historical photos folder
 │   └── WX4PTC*.jpg         ← Station photos
 ├── www/                    ← DO NOT DELETE (legacy redirects)
@@ -156,8 +162,8 @@ georgiaskywarn/
 
 | File | What It Contains | How Often Updated |
 |------|------------------|-------------------|
-| `linked-repeaters.json` | **Linked repeater data** | When repeaters change |
-| `nonlinked-repeaters.json` | **Non-linked repeater data** | When repeaters change |
+| `data/linked-repeaters.json` | **Linked repeater data** | When repeaters change |
+| `data/nonlinked-repeaters.json` | **Non-linked repeater data** | When repeaters change |
 | `about.html` | Contact information | When contacts change |
 | `nwsffclinks.html` | NWS resource links | Rarely (annual check) |
 | `style.css` | Visual design and colors | Rarely |
@@ -184,7 +190,7 @@ JSON (JavaScript Object Notation) is a simple text format for storing data. The 
 
 The repeater JSON files contain an **array** (list) of repeater objects. Each repeater is a set of key-value pairs enclosed in curly braces `{ }`.
 
-**Example from `linked-repeaters.json`**:
+**Example from `data/linked-repeaters.json`**:
 
 ```json
 [
@@ -398,11 +404,11 @@ Before starting new work, always click "Fetch origin" to download the latest cha
 
 ### Task 1: Adding a New Repeater
 
-**Files to edit**: `linked-repeaters.json` or `nonlinked-repeaters.json`
+**Files to edit**: `data/linked-repeaters.json` or `data/nonlinked-repeaters.json`
 
 The repeater tables are dynamically generated from JSON files. You need to edit the appropriate JSON file:
-- **Linked repeaters**: Edit `linked-repeaters.json`
-- **Non-linked repeaters**: Edit `nonlinked-repeaters.json`
+- **Linked repeaters**: Edit `data/linked-repeaters.json`
+- **Non-linked repeaters**: Edit `data/nonlinked-repeaters.json`
 
 **Steps**:
 
@@ -610,14 +616,22 @@ georgiaskywarn/                    ← Root directory on server
     ├── wx4ptc.html
     ├── about.html
     ├── photoarchive.html
-    ├── header.js
-    ├── footer.js
-    ├── scripts.js
     ├── style.css
-    ├── GeorgiaSkywarnLogo.png
+    ├── georgiaskywarnlogo.png
     ├── favicon.ico
     ├── nws.gif
-    ├── ganwsareacoverage.png
+    ├── js/
+    │   ├── header.js
+    │   ├── footer.js
+    │   ├── scripts.js
+    │   ├── nws-api.js
+    │   ├── config.js
+    │   ├── utils.js
+    │   └── changelog.js
+    ├── data/
+    │   ├── linked-repeaters.json
+    │   ├── nonlinked-repeaters.json
+    │   └── changelog.json
     ├── archive/
     │   └── WX4PTC*.jpg
     └── wx4ptc/                    ← Legacy redirect folder
@@ -693,7 +707,8 @@ This is the standard deployment method for the Georgia SKYWARN website.
 3. Upload the selected files to `public_html/`
 4. **IMPORTANT**: Make sure to include:
    - ✅ All HTML files (index.html, dashboard.html, etc.)
-   - ✅ All JavaScript files (header.js, footer.js, scripts.js)
+   - ✅ `js/` folder with all JavaScript files
+   - ✅ `data/` folder with all JSON data files
    - ✅ style.css
    - ✅ All image files (PNG, GIF, ICO)
    - ✅ `archive/` folder with all photos
@@ -714,8 +729,10 @@ GitHub Folder → Server Location
 
 /index.html              → georgiaskywarn/public_html/index.html
 /dashboard.html          → georgiaskywarn/public_html/dashboard.html
-/header.js               → georgiaskywarn/public_html/header.js
 /style.css               → georgiaskywarn/public_html/style.css
+/js/header.js            → georgiaskywarn/public_html/js/header.js
+/js/nws-api.js           → georgiaskywarn/public_html/js/nws-api.js
+/data/changelog.json     → georgiaskywarn/public_html/data/changelog.json
 /archive/*.jpg           → georgiaskywarn/public_html/archive/*.jpg
 /wx4ptc/index.html       → georgiaskywarn/public_html/wx4ptc/index.html
 /www/index.html          → georgiaskywarn/index.html (ROOT!)
@@ -935,7 +952,7 @@ document.documentElement.setAttribute('data-theme', 'light');
 **Causes & Fixes**:
 
 1. **Missing footer.js file**
-   - Check that `footer.js` exists in the root directory
+   - Check that `js/footer.js` exists in the js directory
    - Re-upload if missing
    - The footer is dynamically loaded via JavaScript, not an HTML file
 
@@ -948,7 +965,7 @@ document.documentElement.setAttribute('data-theme', 'light');
    - Check browser settings to ensure JavaScript is enabled
 
 4. **Corrupted footer.js file**
-   - Re-upload `footer.js` from GitHub
+   - Re-upload `js/footer.js` from GitHub
    - Clear browser cache
 
 ### Problem: Mobile Menu Not Working
@@ -963,7 +980,7 @@ document.documentElement.setAttribute('data-theme', 'light');
    - Usually caused by incorrect HTML structure
 
 2. **Corrupted header.js file**
-   - Re-upload `header.js` from GitHub
+   - Re-upload `js/header.js` from GitHub
    - Clear browser cache
 
 3. **Test on actual mobile device**
@@ -1129,6 +1146,11 @@ If you want to learn more:
 
 ## Changelog
 
+### Version 1.1 (January 2, 2026)
+- Updated directory structure documentation (js/ and data/ folders)
+- Updated file references throughout guide
+- Updated deployment instructions for new folder structure
+
 ### Version 1.0 (December 31, 2025)
 - Initial release of Administrator's Guide
 - GitHub basics for non-technical users
@@ -1151,6 +1173,6 @@ If you have ideas for improving this guide, please contact:
 
 ---
 
-**Last Updated**: December 31, 2025
-**Document Version**: 1.0
+**Last Updated**: January 2, 2026
+**Document Version**: 1.1
 **Website Version**: See [README.md](README.md) for current production status
