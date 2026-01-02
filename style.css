@@ -18,6 +18,13 @@
 
 /* ---------- CSS Custom Properties (Light / Dark) ---------- */
 :root {
+  /* Base colors */
+  --white: #ffffff;
+  --black: #000000;
+  --slate-400: #94a3b8;
+  --blue-400: #60a5fa;
+  --green-500: #4caf50;
+
   /* Light mode defaults */
   --bg-body: #f8f9fa;
   --text-primary: #1a1a1a;
@@ -48,7 +55,7 @@
 
   /* Additional backgrounds for layering */
   --bg-primary: #f8f9fa;
-  --bg-secondary: #ffffff;
+  --bg-secondary: var(--white);
   --bg-tertiary: #f3f4f6;
 
   /* Border system */
@@ -62,7 +69,7 @@
   --header-gradient: linear-gradient(135deg, #001f3f 0%, #003366 100%);
   --header-gradient-red: linear-gradient(135deg, #FB2C36 0%, #FF6467 100%);
   --header-gradient-green: linear-gradient(135deg, #116045 0%, #075F5A 100%);
-  --header-gradient-blue: linear-gradient(135deg, #0066cc 0%, #005cb8 100%);
+  --header-gradient-blue: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
   --header-gradient-th: linear-gradient(135deg, #111140 0%, #112840 100%);
   --title-grad-start: #99ACAF;
   --title-grad-end: #99A1AF;
@@ -74,11 +81,11 @@
   --alert-other-bg: #e3f2fd;
   --alert-header-color: #333;
   --alert-desc-color: var(--text-secondary);
-  --nav-btn-bg: #ffffff;
-  --nav-btn-color: #1a1a1a;
+  --nav-btn-bg: var(--white);
+  --nav-btn-color: var(--text-primary);
   --nav-btn-border: rgba(0, 0, 0, 0.1);
   --nav-btn-bg-hover: rgba(0, 102, 204, 0.15);
-  --nav-btn-color-hover: #005cb8;
+  --nav-btn-color-hover: var(--accent-blue-dark);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -126,7 +133,7 @@
     --header-gradient: linear-gradient(135deg, #0a3d62 0%, #1e40af 100%);
     --header-gradient-red: linear-gradient(135deg, #FB2C36 0%, #FF6467 100%);
     --header-gradient-green: linear-gradient(135deg, #116045 0%, #075F5A 100%);
-    --header-gradient-blue: linear-gradient(135deg, #0066cc 0%, #005cb8 100%);
+    --header-gradient-blue: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
     --header-gradient-th: linear-gradient(135deg, #18185D 0%, #112840 100%);
     --title-grad-start: #99ACAF;
     --title-grad-end: #99A1AF;
@@ -134,13 +141,13 @@
 	--alert-warning-bg: rgba(230, 57, 70, 0.25); /* Muted red with transparency */
 	--alert-watch-bg: rgba(244, 162, 97, 0.25); /* Muted orange with transparency */
 	--alert-other-bg: rgba(96, 165, 250, 0.25); /* Muted blue with transparency */
-	--alert-header-color: #fff;
-	--alert-desc-color: #d1d5db; /* Light gray for readability */
+	--alert-header-color: var(--white);
+	--alert-desc-color: var(--border-secondary); /* Light gray for readability */
 	--nav-btn-bg: rgba(15, 23, 42, 0.9);
-    --nav-btn-color: #e2e8f0;
+    --nav-btn-color: var(--border-primary);
     --nav-btn-border: rgba(255, 255, 255, 0.1);
     --nav-btn-bg-hover: rgba(96, 165, 250, 0.2);
-    --nav-btn-color-hover: #60a5fa;
+    --nav-btn-color-hover: var(--blue-400);
 	}
 	.alert-item {
 	    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.1); /* Inner glow for depth in dark mode */
@@ -165,7 +172,7 @@ html[data-theme="light"] {
   --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
   --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.2);
   --bg-primary: #f8f9fa;
-  --bg-secondary: #ffffff;
+  --bg-secondary: var(--white);
   --bg-tertiary: #f3f4f6;
   --border-primary: #e2e8f0;
   --border-secondary: #d1d5db;
@@ -202,8 +209,8 @@ html[data-theme="dark"] {
   --alert-warning-bg: rgba(230, 57, 70, 0.25);
   --alert-watch-bg: rgba(244, 162, 97, 0.25);
   --alert-other-bg: rgba(96, 165, 250, 0.25);
-  --alert-header-color: #fff;
-  --alert-desc-color: #d1d5db;
+  --alert-header-color: var(--white);
+  --alert-desc-color: var(--border-secondary);
 }
 
 /* ---------- Global Reset & Base ---------- */
@@ -324,12 +331,12 @@ a:hover, a:focus {
   font-weight: 800;
   margin: 0;
   line-height: 1.2;
-  color: #e2e8f0;
+  color: var(--border-primary);
 }
 
 .logo-text p {
   font-size: 0.875rem;
-  color: #94a3b8;
+  color: var(--slate-400);
   margin: 0.25rem 0 0;
   line-height: 1.3;
 }
@@ -342,7 +349,7 @@ a:hover, a:focus {
 }
 
 #desktopNav a {
-  color: #e2e8f0;
+  color: var(--border-primary);
   text-decoration: none;
   font-weight: 600;
   transition: var(--transition);
@@ -353,7 +360,7 @@ a:hover, a:focus {
 
 #desktopNav a:hover,
 #desktopNav a:focus {
-  color: #60a5fa;
+  color: var(--blue-400);
   background: rgba(96, 165, 250, 0.1);
 }
 
@@ -361,21 +368,21 @@ a:hover, a:focus {
 #themeToggle,
 #themeToggleMobile {
   transition: var(--transition);
-  color: #e2e8f0 !important; /* Ensure icons are always visible */
+  color: var(--border-primary) !important; /* Ensure icons are always visible */
 }
 
 #themeToggle svg,
 #themeToggleMobile svg {
-  stroke: #e2e8f0; /* Explicit stroke color for sun/moon icons */
+  stroke: var(--border-primary); /* Explicit stroke color for sun/moon icons */
 }
 
 #themeToggle:hover {
-  color: #60a5fa;
+  color: var(--blue-400);
   transform: scale(1.1);
 }
 
 #themeToggle:hover svg {
-  stroke: #60a5fa;
+  stroke: var(--blue-400);
 }
 
 /* Mobile hamburger button */
@@ -383,7 +390,7 @@ a:hover, a:focus {
   display: none;
   background: none;
   border: none;
-  color: #e2e8f0;
+  color: var(--border-primary);
   cursor: pointer;
   padding: 0.75rem;
   min-width: 44px;
@@ -422,7 +429,7 @@ a:hover, a:focus {
 
 .mobile-nav a,
 .mobile-nav button {
-  color: #ffffff; /* Always white text on dark mobile menu */
+  color: var(--white); /* Always white text on dark mobile menu */
   text-decoration: none;
   font-size: 1.5rem;
   font-weight: 600;
@@ -443,16 +450,16 @@ a:hover, a:focus {
 .mobile-nav button:hover,
 .mobile-nav button:active {
   background: rgba(59, 130, 246, 0.25);
-  color: #60a5fa;
+  color: var(--blue-400);
 }
 
 /* Ensure theme toggle icons in mobile menu are white */
 .mobile-nav button svg {
-  stroke: #ffffff;
+  stroke: var(--white);
 }
 
 .mobile-nav button:hover svg {
-  stroke: #60a5fa;
+  stroke: var(--blue-400);
 }
 
 /* Responsive behavior */
@@ -708,7 +715,7 @@ a:hover, a:focus {
   text-decoration: none;
   border-radius: 8px;
   background: rgba(96, 165, 250, 0.15);
-  color: #e2e8f0;
+  color: var(--border-primary);
   border: 1px solid rgba(96, 165, 250, 0.3);
   transition: var(--transition);
   text-align: center;
@@ -720,7 +727,7 @@ a:hover, a:focus {
 .page-nav .nav-list a:focus {
   background: rgba(96, 165, 250, 0.25);
   border-color: rgba(96, 165, 250, 0.5);
-  color: #fff;
+  color: var(--white);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
 }
@@ -796,7 +803,7 @@ a:hover, a:focus {
     text-align: center;
     font-size: 1.15rem; /* Same as buttons */
     font-weight: 700;
-    color: #fff;
+    color: var(--white);
     text-transform: uppercase;
     letter-spacing: 0.1em;
     padding: 1.25rem 2.5rem 1.25rem 3.5rem; /* Extra left padding for icon */
@@ -840,7 +847,7 @@ a:hover, a:focus {
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(96, 165, 250, 0.1) 100%);
     border: 2px solid rgba(96, 165, 250, 0.35);
     border-radius: 16px;
-    color: #fff;
+    color: var(--white);
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08);
@@ -924,7 +931,7 @@ a:hover, a:focus {
 .callout.tip       { border-left-color: var(--accent-green); border-right-color: var(--accent-green); }
 .callout.warning   { border-left-color: var(--accent-red); border-right-color: var(--accent-red);   }
 .callout.note      { border-left-color: #9c27b0; border-right-color: #9c27b0;  }
-.callout.success   { border-left-color: #4caf50; border-right-color: #4caf50;   }
+.callout.success   { border-left-color: var(--green-500); border-right-color: var(--green-500);   }
 
 /* ---------- Card Component (Reusable) ---------- */
 .card {
@@ -954,7 +961,7 @@ a:hover, a:focus {
 .card-header h2 {
   margin: 0;
   font-size: 1.4rem;
-  color: #fff;
+  color: var(--white);
   font-weight: 700;
 }
 
@@ -1068,7 +1075,7 @@ a:hover, a:focus {
   font-weight: 600;
   font-size: 0.9rem;
   text-decoration: none;
-  color: #fff;
+  color: var(--white);
   background: var(--btn-bg);
   border: none;
   border-radius: 8px;
@@ -1081,7 +1088,7 @@ a:hover, a:focus {
 .btn:hover,
 .btn:focus {
   background: var(--btn-bg-hover);
-  color: #fff;
+  color: var(--white);
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
@@ -1097,9 +1104,9 @@ a:hover, a:focus {
 .btn-green   { --btn-bg: var(--accent-green); --btn-bg-hover: var(--accent-green-dark); }
 .btn-indigo  { --btn-bg: var(--accent-indigo); --btn-bg-hover: var(--accent-indigo-dark); }
 .btn-orange  { --btn-bg: var(--accent-orange); --btn-bg-hover: var(--accent-orange-dark); }
-.btn-yellow  { --btn-bg: var(--accent-yellow); --btn-bg-hover: var(--accent-yellow-dark); color: #000;}
+.btn-yellow  { --btn-bg: var(--accent-yellow); --btn-bg-hover: var(--accent-yellow-dark); color: var(--black);}
 .btn-yellow:hover,
-.btn-yellow:focus { color: #000; }
+.btn-yellow:focus { color: var(--black); }
 
 /* ---------- Contact Grid Component ---------- */
 .contact-grid {
@@ -1176,6 +1183,44 @@ a:hover, a:focus {
   color: var(--accent-blue-dark);
   text-decoration: underline;
   transform: translateX(3px);
+}
+
+/* ---------- Forecast Maps Component (About Page) ---------- */
+.forecast-maps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+@media (min-width: 768px) {
+  .forecast-maps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.forecast-map-link {
+  display: block;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.forecast-map-link:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.forecast-map-link img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--card-border);
+}
+
+/* Scale down second map (Georgia state coverage) by ~30% */
+.forecast-map-link:nth-child(2) img {
+  width: 70%;
+  margin: 0 auto;
+  display: block;
 }
 
 /* ---------- SKYWARN Information Styles ---------- */
@@ -1449,7 +1494,7 @@ a:hover, a:focus {
   font-weight: 600;
 }
 .repeater-table tr.pinned td {
-  border-top: 3px solid #4caf50;
+  border-top: 3px solid var(--green-500);
 }
 
 /* Frequency column */
@@ -1543,7 +1588,7 @@ a:hover, a:focus {
 }
 
 .alert-warning {
-  border-left-color: #e63946; /* Red */
+  border-left-color: var(--accent-red); /* Red */
   background-color: var(--alert-warning-bg);
 }
 
@@ -1913,7 +1958,7 @@ a:hover, a:focus {
   left: 0;
   top: 0;
   font-weight: bold;
-  color: #4caf50;
+  color: var(--green-500);
   font-size: 1.3rem;
   line-height: 1;
 }
@@ -2081,6 +2126,101 @@ a:hover, a:focus {
   margin: 0;
   color: var(--text-secondary);
   opacity: 0.8;
+}
+
+/* ==========================================================================
+   CHANGELOG GRID - Recent Updates Display
+   ========================================================================== */
+
+.changelog-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .changelog-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.changelog-month-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.changelog-month-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.changelog-month-header {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid;
+}
+
+.changelog-month-header--green {
+  color: var(--accent-green);
+  border-bottom-color: var(--accent-green);
+}
+
+.changelog-month-header--blue {
+  color: var(--accent-blue);
+  border-bottom-color: var(--accent-blue);
+}
+
+.changelog-month-header--indigo {
+  color: var(--accent-indigo);
+  border-bottom-color: var(--accent-indigo);
+}
+
+.changelog-month-header--orange {
+  color: var(--accent-orange);
+  border-bottom-color: var(--accent-orange);
+}
+
+.changelog-month-header--red {
+  color: var(--accent-red);
+  border-bottom-color: var(--accent-red);
+}
+
+.changelog-month-header--yellow {
+  color: var(--accent-yellow);
+  border-bottom-color: var(--accent-yellow);
+}
+
+.changelog-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.changelog-list li {
+  margin-bottom: 0.75rem;
+  padding-left: 1.25rem;
+  position: relative;
+  line-height: 1.6;
+}
+
+.changelog-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--accent-blue);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.changelog-list li:last-child {
+  margin-bottom: 0;
 }
 
 /* ==========================================================================
@@ -2455,7 +2595,7 @@ a:hover, a:focus {
   background: rgba(0, 102, 204, 0.85);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  color: #fff;
+  color: var(--white);
   border: none;
   border-radius: 50%;
   font-size: 1.5rem;

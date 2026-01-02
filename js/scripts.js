@@ -32,15 +32,21 @@
   'use strict';
 
   // ========================================================================
-  // CONSTANTS & CONFIGURATION
+  // CONSTANTS & CONFIGURATION (using centralized CONFIG module)
   // ========================================================================
-  const CACHE_KEY = 'ffc-all-watches-warnings';
+  const { CACHE_KEYS, CACHE_TTL } = window.CONFIG;
 
   // Global interval reference for cleanup
   let alertRefreshInterval = null;
 
-  // Create cache manager using NWSAPI utility
-  const alertCache = window.NWSAPI.createCache(CACHE_KEY);
+  // Lazy-initialize cache manager only when needed
+  let alertCache = null;
+  function getAlertCache() {
+    if (!alertCache && window.UTILS) {
+      alertCache = window.UTILS.createCache(CACHE_KEYS.ALERTS, CACHE_TTL.ALERTS);
+    }
+    return alertCache;
+  }
 
   // ========================================================================
   // NOTE: Theme toggle is now handled in header.js
@@ -53,82 +59,50 @@
   // Global alert data cache (for modal access)
   let alertDataCache = [];
 
+  // Initialize modal manager using UTILS
+  const alertModal = window.UTILS.createModalManager('alertModal', 'modalClose');
+
   function openAlertModal(alertData) {
-    const modal = document.getElementById('alertModal');
+    if (!alertModal) return;
+
     const modalTitle = document.getElementById('modalTitle');
     const modalBody = document.getElementById('modalBody');
-
-    if (!modal || !modalTitle || !modalBody) return;
+    if (!modalTitle || !modalBody) return;
 
     const p = alertData.properties;
+    const sanitize = window.UTILS.sanitizeHTML;
 
     const content = `
-      <p><strong>${sanitizeHTML(p.event || 'Weather Alert')}</strong></p>
+      <p><strong>${sanitize(p.event || 'Weather Alert')}</strong></p>
       ${p.sent ? `<p><strong>Issued:</strong> ${new Date(p.sent).toLocaleString()}</p>` : ''}
       ${p.expires ? `<p><strong>Expires:</strong> ${new Date(p.expires).toLocaleString()}</p>` : ''}
-      ${p.areaDesc ? `<p><strong>Areas:</strong> ${sanitizeHTML(p.areaDesc)}</p>` : ''}
-      ${p.description ? `<p><strong>Description:</strong><br>${sanitizeHTML(p.description)}</p>` : ''}
-      ${p.instruction ? `<p><strong>Instructions:</strong><br>${sanitizeHTML(p.instruction)}</p>` : ''}
+      ${p.areaDesc ? `<p><strong>Areas:</strong> ${sanitize(p.areaDesc)}</p>` : ''}
+      ${p.description ? `<p><strong>Description:</strong><br>${sanitize(p.description)}</p>` : ''}
+      ${p.instruction ? `<p><strong>Instructions:</strong><br>${sanitize(p.instruction)}</p>` : ''}
       <p style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-primary);">
-        <strong>Source:</strong> ${sanitizeHTML(p.senderName || 'NWS')}
+        <strong>Source:</strong> ${sanitize(p.senderName || 'NWS')}
       </p>
     `;
 
     modalTitle.textContent = p.headline || p.event || 'Alert Details';
     modalBody.innerHTML = content;
-
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
+    alertModal.open();
     document.getElementById('modalClose')?.focus();
   }
 
-  function closeAlertModal() {
-    const modal = document.getElementById('alertModal');
-    if (!modal) return;
-
-    modal.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
-  function initModal() {
-    const modal = document.getElementById('alertModal');
-    if (!modal) return;
-
-    // Close modal when clicking backdrop
-    modal.addEventListener('click', (e) => {
-      if (e.target.id === 'alertModal') closeAlertModal();
-    });
-
-    // Close modal on Escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('active')) {
-        closeAlertModal();
-      }
-    });
-
-    // Close button handler
-    const closeBtn = document.getElementById('modalClose');
-    if (closeBtn) closeBtn.addEventListener('click', closeAlertModal);
-  }
-
-  // Initialize modal on page load
-  initModal();
-
   // ========================================================================
-  // SECURITY: XSS SANITIZATION
+  // SECURITY: XSS SANITIZATION (local variant with newline handling)
   // ========================================================================
 
   /**
    * Sanitizes HTML content to prevent XSS attacks
-   * Converts text to HTML-safe string while preserving newlines as <br>
+   * Uses UTILS.sanitizeHTML with additional newline-to-br conversion
    * @param {string} str - The string to sanitize
-   * @returns {string} - HTML-safe string
+   * @returns {string} - HTML-safe string with newlines as <br>
    */
   function sanitizeHTML(str) {
     if (!str) return '';
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML.replace(/\n/g, '<br>');
+    return window.UTILS.sanitizeHTML(str).replace(/\n/g, '<br>');
   }
 
   // ========================================================================
@@ -145,15 +119,17 @@
    * @returns {Promise<Object>} - Alert data from API or cache
    */
   async function fetchAlerts() {
+    const cache = getAlertCache();
+
     // Check cache first
-    const cached = alertCache.get();
+    const cached = cache ? cache.get() : null;
     if (cached) return cached;
 
     // Fetch from API using shared NWSAPI module
     const data = await window.NWSAPI.fetchAlerts();
 
     // Cache the result
-    alertCache.set(data);
+    if (cache) cache.set(data);
 
     return data;
   }
@@ -339,7 +315,7 @@
           console.error('Background refresh failed:', err);
           // Don't clear existing alerts - keep showing cached data
         }
-      }, 5 * 60 * 1000);
+      }, window.CONFIG.UI.AUTO_REFRESH_INTERVAL);
     } catch (err) {
       hide(loading);
       const errorMsg = `
@@ -418,7 +394,7 @@
   // ========================================================================
 
   // Detect which page we're on and initialize alerts accordingly
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  const currentPage = window.UTILS.getCurrentPage();
 
   if (currentPage === 'index.html' || currentPage === '') {
     // Main page - warnings only
@@ -566,7 +542,7 @@
     const container = document.getElementById('linked-repeaters-tbody');
     if (!container) return;
 
-    const repeaters = await fetchRepeaterData('linked-repeaters.json');
+    const repeaters = await fetchRepeaterData('data/linked-repeaters.json');
 
     if (repeaters.length === 0) {
       container.innerHTML = '<tr><td colspan="3">No linked repeaters available.</td></tr>';
@@ -583,7 +559,7 @@
     const container = document.getElementById('nonlinked-repeaters-tbody');
     if (!container) return;
 
-    const repeaters = await fetchRepeaterData('nonlinked-repeaters.json');
+    const repeaters = await fetchRepeaterData('data/nonlinked-repeaters.json');
 
     if (repeaters.length === 0) {
       container.innerHTML = '<tr><td colspan="3">No non-linked repeaters available.</td></tr>';

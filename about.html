@@ -27,7 +27,7 @@
 
 <body>
   <!-- Load header component (includes logo, site nav, theme toggle, back-to-top) -->
-  <script src="header.js?v=20251230e"></script>
+  <script src="js/header.js?v=20251230e"></script>
 
   <!-- Page navigation (sticky horizontal bar) -->
   <nav class="page-nav" role="navigation" aria-label="Page navigation">
@@ -35,8 +35,7 @@
       <li><a href="#overview">Overview</a></li>
       <li><a href="#contactcard">Contacts</a></li>
       <li><a href="#forecastarea">Service Area</a></li>
-      <li><a href="#structure">Site Structure</a></li>
-
+      <li><a href="#changelog">Recent Updates</a></li>
     </ul>
   </nav>
 
@@ -166,57 +165,57 @@
       <header class="card-header"><h2>Service Area of NWS Atlanta</h2></header>
       <div class="card-body">
         <p class="center">
-          NWS Atlanta issues severe weather warnings (i.e. Tornado Warnings, Flash Flood Warnings, etc.) 
+          NWS Atlanta issues severe weather warnings (i.e. Tornado Warnings, Flash Flood Warnings, etc.)
           for 96 counties in northern and central Georgia. We call this our "CWA" or County Warning Area.
 		</p>
-		<div class="about-diagram">
-		  <a href="https://www.weather.gov/ffc/cwa" target="_blank" rel="noopener noreferrer">
-          <img src="ganwsareacoverage.png" alt="NWS Atlanta County Warning Area Coverage Map"
-               loading="lazy" decoding="async">
-        </a>
+		<h3 class="center" style="margin-top: 1.5rem; color: var(--accent-blue);">Our Forecast Area + Who Covers the Rest of the State</h3>
+		<div class="forecast-maps">
+		  <a href="https://www.weather.gov/ffc/cwa" target="_blank" rel="noopener noreferrer" class="forecast-map-link">
+		    <img src="https://www.weather.gov/images/ffc/cwa4new.gif"
+		         alt="NWS Atlanta forecast area map showing coverage zones"
+		         loading="lazy"
+		         decoding="async">
+		  </a>
+		  <a href="https://www.weather.gov/ffc/cwa" target="_blank" rel="noopener noreferrer" class="forecast-map-link">
+		    <img src="https://www.weather.gov/images/ffc/fa2.gif"
+		         alt="Georgia state map showing all NWS forecast office coverage areas"
+		         loading="lazy"
+		         decoding="async">
+		  </a>
 		</div>
       </div>
     </section>
 
-    <!-- Site Structure section with basic drawing -->
-    <section id="structure" class="card">
-      <header class="card-header card-header--green"><h2>Site Structure</h2></header>
-      <div class="card-body">
-        <p class="center">Below is a basic diagram of the site's structure, showing the main pages and their relationships.</p>
-        <div class="about-diagram-wrapper">
-		<pre class="about-diagram">
-                                +-------------------+
-                                |     Home Page     |
-                                |   (index.html)    |
-                                +-------------------+
-                                          |
-              +----------- Links to -------+----------- Links to -----------+
-              |              |             |              |                 |
-              v              v             v              v                 v
-        +----------+  +----------+  +----------+  +----------+  +------------------+
-        | Alerts   |  | Repeaters|  | WX4PTC   |  | About    |  | NWS Useful Links |
-        | Page     |  | Page     |  | Page     |  | Page     |  | (nwsffclinks)    |
-        +----------+  +----------+  +----------+  +----------+  +------------------+
-                                          |
-                                          v
-                                   +-------------+
-                                   |    Photo    |
-                                   |   Archive   |
-                                   +-------------+
-		</pre>
-		</div>
-        <p class="center">All pages share the same navigation menu, header style, and footer. The site uses minimal JavaScript for mobile navigation and footer loading.</p>
-      </div>
-    </section>
-    
+    <!-- Recent Updates (dynamically loaded from changelog.json) -->
+    <div id="changelog"></div>
+
+    <!-- View Older Updates Button (shown if there are archived updates) -->
+    <div id="archived-updates-container" style="display: none; text-align: center; margin: 2rem 0;">
+      <button id="view-archived-btn" class="btn btn-blue">View Older Updates</button>
+    </div>
+
   </main>
 
   <!-- Site footer - calls on footer.html via script-->
   <div id="footer-placeholder"></div>
 
+<!-- Modal for Archived Updates -->
+<div class="modal-backdrop" id="archivedModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Archived Updates</h2>
+      <button class="modal-close" id="archivedModalClose" aria-label="Close modal">×</button>
+    </div>
+    <div class="modal-body" id="archivedModalBody"></div>
+  </div>
+</div>
+
 <!-- Consolidated JavaScript -->
-<script src="footer.js?v=20251230"></script>
-<script src="scripts.js?v=20251230a"></script>
+<script src="js/config.js?v=20260102"></script>
+<script src="js/utils.js?v=20260102"></script>
+<script src="js/footer.js?v=20251230"></script>
+<script src="js/scripts.js?v=20251230a"></script>
+<script src="js/changelog.js?v=20260102"></script>
 
 </body>
 </html>

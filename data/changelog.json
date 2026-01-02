@@ -1,0 +1,65 @@
+{
+  "updates": [
+    {
+      "month": "January",
+      "year": 2026,
+      "date": "2026-01-02",
+      "items": [
+        {
+          "title": "Dashboard Consolidation",
+          "description": "Unified spotter dashboard with Hazardous Weather Outlook (HWO), automatic activation detection, and all active alerts in one location."
+        },
+        {
+          "title": "Quick Maps",
+          "description": "Added 6 essential weather and situational awareness tools including NWS radar, repeater map, NWSChat companion map, ARES map, GEMA dashboard, and NWS hazards view."
+        },
+        {
+          "title": "Enhanced Caching",
+          "description": "HWO now cached for 4 hours (updates less frequently), while alerts continue to refresh every 5 minutes for real-time accuracy."
+        }
+      ]
+    },
+    {
+      "month": "December",
+      "year": 2025,
+      "date": "2025-12-30",
+      "items": [
+        {
+          "title": "Component Architecture",
+          "description": "Implemented dynamic header and footer components with integrated theme toggle and navigation system."
+        },
+        {
+          "title": "Sticky Navigation",
+          "description": "Page navigation now remains visible while scrolling for easier access to page sections during severe weather events."
+        },
+        {
+          "title": "Unified Button Design",
+          "description": "Consistent styling across all interactive elements with enhanced hover effects and accessibility improvements."
+        }
+      ]
+    },
+    {
+      "month": "November",
+      "year": 2025,
+      "date": "2025-11-09",
+      "items": [
+        {
+          "title": "Alerts Page",
+          "description": "Created dedicated alerts page showing all NWS Atlanta warnings, watches, and advisories."
+        },
+        {
+          "title": "Mobile Navigation",
+          "description": "Improved mobile hamburger menu with better touch targets and accessibility."
+        },
+        {
+          "title": "Complete CSS Refactor",
+          "description": "Mobile-first redesign with CSS Grid and Flexbox, improved accessibility with ARIA attributes."
+        },
+        {
+          "title": "Dark Mode Support",
+          "description": "Automatic light/dark mode based on system preferences with custom theme toggle."
+        }
+      ]
+    }
+  ]
+}
