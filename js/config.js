@@ -3,7 +3,9 @@
  * File:   config.js
  * Author: Jack Parks (KQ4JP) <kq4jp@pm.me>
  * Purpose: Centralized configuration constants for Georgia SKYWARN
+ * Version: 20260102a
  * Change-log:
+ *   • 2026-01-02a – Updated ACTIVATION_PATTERNS to three-level urgency system (RED/YELLOW/GREEN)
  *   • 2026-01-02 – Created centralized config module
  * ──────────────────────────────────────────────────────────────
  */
@@ -68,12 +70,14 @@
     ADVISORY: 'advisory'
   };
 
-  // SKYWARN activation detection patterns
+  // SKYWARN activation detection patterns (three-level system)
   const ACTIVATION_PATTERNS = {
-    HIGH_CONFIDENCE: [
-      /SKYWARN\s+ACTIVATION/i,
-      /SPOTTER\s+ACTIVATION/i,
-      /WEATHER\s+SPOTTER\s+ACTIVATION/i,
+    // RED - Activation requested/likely
+    RED: [
+      /SPOTTER\s+ACTIVATION\s+IS\s+REQUESTED/i,
+      /SPOTTER\s+ACTIVATION\s+WILL\s+LIKELY\s+BE\s+NEEDED/i,
+      /SKYWARN\s+ACTIVATION\s+IS\s+REQUESTED/i,
+      /SKYWARN\s+ACTIVATION\s+WILL\s+LIKELY\s+BE\s+NEEDED/i,
       /ACTIVATE.*SKYWARN/i,
       /ACTIVATE.*SPOTTER/i
     ],
