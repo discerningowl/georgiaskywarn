@@ -3,8 +3,9 @@
  * File:   config.js
  * Author: Jack Parks (KQ4JP) <kq4jp@pm.me>
  * Purpose: Centralized configuration constants for Georgia SKYWARN
- * Version: 20260102a
+ * Version: 20260102c
  * Change-log:
+ *   • 2026-01-02c – Added version check console log for cache debugging
  *   • 2026-01-02a – Updated ACTIVATION_PATTERNS to three-level urgency system (RED/YELLOW/GREEN)
  *   • 2026-01-02 – Created centralized config module
  * ──────────────────────────────────────────────────────────────
@@ -110,5 +111,8 @@
     ALERT_TYPES,
     ACTIVATION_PATTERNS
   };
+
+  // Version check log
+  console.log('[CONFIG] Loaded v20260102c with patterns:', Object.keys(ACTIVATION_PATTERNS));
 
 })();
