@@ -6,8 +6,9 @@
  *          - Fetch functions with timeout and retry logic
  *          - Cache management
  *          - Common constants and configuration
- * Version: 20260102h
+ * Version: 20260102j
  * Change-log:
+ *   • 2026-01-02j – Added defensive error checking for browser cache issues
  *   • 2026-01-02h – Updated spotter activation to three-level system (RED/YELLOW/GREEN)
  *                   parseSpotterActivation() now returns {level, matchedText}
  *                   displayActivationStatus() handles all three urgency levels
@@ -191,8 +192,23 @@
       return { level: 'green', matchedText: '' };
     }
 
+    // Verify CONFIG is loaded correctly
+    if (!window.CONFIG || !window.CONFIG.ACTIVATION_PATTERNS) {
+      console.error('[NWS API] CONFIG not loaded! Browser may be using cached config.js');
+      console.error('[NWS API] Please hard refresh: Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac)');
+      return { level: 'green', matchedText: '' };
+    }
+
     // Use activation patterns from CONFIG (three-level system)
     const { RED, YELLOW, GREEN } = window.CONFIG.ACTIVATION_PATTERNS;
+
+    // Verify all pattern arrays exist
+    if (!RED || !YELLOW || !GREEN) {
+      console.error('[NWS API] ACTIVATION_PATTERNS incomplete! Loaded patterns:', Object.keys(window.CONFIG.ACTIVATION_PATTERNS));
+      console.error('[NWS API] Expected: RED, YELLOW, GREEN');
+      console.error('[NWS API] Browser is loading OLD cached config.js - please hard refresh!');
+      return { level: 'green', matchedText: '' };
+    }
 
     // Check RED patterns first (activation requested/likely)
     for (const pattern of RED) {
