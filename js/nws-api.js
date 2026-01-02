@@ -273,6 +273,9 @@
           </div>
           <div class="alert-more">Click to view full outlook →</div>
         </div>
+        <div style="margin-top: 1rem;">
+          <a href="index.html#submitcard" class="btn btn-red">How to Submit Reports →</a>
+        </div>
       `;
     } else if (activationInfo.level === 'yellow') {
       // YELLOW - Monitor & report if seen (encouraged but not requested)
