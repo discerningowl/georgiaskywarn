@@ -78,10 +78,10 @@
       /ACTIVATE.*SPOTTER/i
     ],
     MEDIUM_CONFIDENCE: [
-      /SKYWARN.*REQUESTED/i,
-      /SPOTTER.*REQUESTED/i,
-      /SKYWARN.*NEEDED/i,
-      /SPOTTER.*NEEDED/i
+      /SKYWARN.*(?:IS|ARE|WILL BE)\s+REQUESTED/i,
+      /SPOTTER.*(?:IS|ARE|WILL BE)\s+REQUESTED/i,
+      /SKYWARN.*(?:IS|ARE|WILL BE)\s+NEEDED/i,
+      /SPOTTER.*(?:IS|ARE|WILL BE)\s+NEEDED/i
     ]
   };
 

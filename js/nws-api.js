@@ -222,10 +222,9 @@
     if (!container || !header) return;
 
     let statusHTML = '';
-    let headerClass = '';
+    const headerClass = 'card-header--green'; // Always green header
 
     if (activationInfo.activated) {
-      headerClass = 'card-header--red';
       const confidenceText = activationInfo.confidence === 'high'
         ? 'HIGH CONFIDENCE'
         : 'POSSIBLE ACTIVATION';
@@ -245,18 +244,14 @@
           </div>
           <div class="alert-more">Click to view full outlook →</div>
         </div>
-        <div style="margin-top: 1rem;">
-          <a href="index.html#submitcard" class="btn btn-red">How to Submit Reports →</a>
-        </div>
       `;
     } else {
-      headerClass = 'card-header--green';
       statusHTML = `
-        <div class="alert-item alert-other outlook-trigger"
+        <div class="alert-item outlook-trigger"
              role="button"
              tabindex="0"
              aria-label="Click to view full hazardous weather outlook"
-             style="border-left-color: var(--accent-green);">
+             style="background: rgba(74, 211, 142, 0.15); border-left: 4px solid var(--accent-green);">
           <div class="alert-header">✓ No Spotter Activation Currently Required</div>
           <div class="alert-description">
             <p>The latest Hazardous Weather Outlook does not indicate spotter activation at this time. Continue to monitor conditions.</p>
