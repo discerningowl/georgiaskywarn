@@ -152,7 +152,6 @@ georgiaskywarn/
 **NEVER** do the following:
 
 - ❌ Move HTML files into folders like `pages/` or `site/`
-- ❌ Create new folders like `css/`, `js/`, or `images/`
 - ❌ Delete the `wx4ptc/` or `www/` folders (these handle old links that are still in use)
 - ❌ Rename files unless you know ALL places they're referenced
 
@@ -165,7 +164,7 @@ georgiaskywarn/
 | `data/linked-repeaters.json` | **Linked repeater data** | When repeaters change |
 | `data/nonlinked-repeaters.json` | **Non-linked repeater data** | When repeaters change |
 | `about.html` | Contact information | When contacts change |
-| `nwsffclinks.html` | NWS resource links | Rarely (annual check) |
+| `nwsffclinks.html` | NWS resource links | Annual check |
 | `style.css` | Visual design and colors | Rarely |
 
 **Important**: You do NOT directly edit `index.html` or `repeaters.html` for repeater information. These pages automatically load data from the JSON files.
