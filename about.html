@@ -26,8 +26,7 @@
 </head>
 
 <body>
-  <!-- Load header component (includes logo, site nav, theme toggle, back-to-top) -->
-  <script src="js/header.js?v=20260102b"></script>
+  <!-- Header and all scripts loaded via js/loader.js at bottom of page -->
 
   <!-- Page navigation (sticky horizontal bar) -->
   <nav class="page-nav" role="navigation" aria-label="Page navigation">
@@ -210,12 +209,9 @@
   </div>
 </div>
 
-<!-- Consolidated JavaScript -->
-<script src="js/config.js?v=20260102b"></script>
-<script src="js/utils.js?v=20260102b"></script>
-<script src="js/footer.js?v=20260102b"></script>
-<script src="js/scripts.js?v=20260102b"></script>
-<script src="js/changelog.js?v=20260102b"></script>
+<!-- Centralized script loading - to update cache, only edit js/version.js -->
+<script src="js/version.js"></script>
+<script src="js/loader.js"></script>
 
 </body>
 </html>

@@ -13,7 +13,7 @@
   'use strict';
 
   // Version number for cache invalidation (update when cache structure changes)
-  const UTILS_VERSION = '20260102b';
+  const UTILS_VERSION = '20260102c';
   const VERSION_KEY = 'georgiaskywarn-utils-version';
 
   /**
