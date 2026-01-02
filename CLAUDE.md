@@ -27,12 +27,14 @@ georgiaskywarn/
 ├── favicon.ico             # Site favicon
 ├── nws.gif                 # NWS logo
 ├── js/                     # JavaScript files directory
+│   ├── version.js          # **CRITICAL** - Single version number for cache busting
+│   ├── loader.js           # **CRITICAL** - Dynamically loads all scripts with versioning
 │   ├── header.js           # Header component (logo, nav, theme toggle, back-to-top)
 │   ├── footer.js           # Footer component (dynamically loaded)
 │   ├── scripts.js          # Page-specific JavaScript (alerts, modals, repeater search)
 │   ├── nws-api.js          # NWS API integration and HWO
 │   ├── config.js           # Centralized configuration
-│   ├── utils.js            # Shared utility functions
+│   ├── utils.js            # Shared utility functions (includes cache invalidation)
 │   └── changelog.js        # Changelog display
 ├── data/                   # Data files directory
 │   ├── linked-repeaters.json   # Linked repeater data (dynamically loaded)
@@ -83,6 +85,110 @@ georgiaskywarn/
 6. **JavaScript organization**: All JavaScript files in `js/` directory for better code organization
 7. **Data organization**: All JSON data files in `data/` directory
 8. Images and assets remain in root directory except for historical photos in `archive/`
+
+---
+
+## ⚡ CRITICAL: Centralized Version Management & Cache Busting
+
+**IMPORTANT**: This site uses a centralized version management system to handle cache invalidation across all pages. When you make changes to JavaScript files, you MUST update version numbers to ensure users get fresh code.
+
+### How It Works
+
+All 7 HTML pages load scripts via a centralized loader system:
+
+```html
+<!-- Bottom of every HTML file -->
+<script src="js/version.js"></script>
+<script src="js/loader.js"></script>
+```
+
+**That's it!** No individual `<script>` tags for other files. The loader automatically:
+1. Loads `header.js` first (prevents flash of unstyled content)
+2. Loads core scripts: `config.js` → `utils.js` → `footer.js` → `scripts.js`
+3. Loads page-specific scripts (`nws-api.js` for index/dashboard, `changelog.js` for about)
+4. Appends `?v=${APP_VERSION}` to every script URL for cache busting
+
+### 🔴 REQUIRED: Update Version After JavaScript Changes
+
+**When you modify ANY JavaScript file, you MUST update the version number:**
+
+#### Update `js/version.js` (line 18):
+```javascript
+const APP_VERSION = '20260102c';  // ← Change this to force cache refresh
+```
+
+**That's it!** This single change:
+- ✅ Forces browsers to reload all JavaScript files (`?v=` parameter)
+- ✅ Triggers localStorage cache clearing (utils.js reads this version)
+- ✅ Updates across all 7 pages automatically
+
+### Version Numbering Convention
+
+Use date-based versioning with letter suffix for multiple updates per day:
+- Format: `YYYYMMDD` + optional letter (`a`, `b`, `c`, etc.)
+- Examples: `20260102c`, `20260103`, `20260115b`
+- Increment the letter for same-day updates
+- Start fresh with no letter for new days
+
+### What Happens When Version Changes
+
+1. **Browser cache busting**: All scripts reload with new `?v=` parameter
+2. **localStorage cache clearing**: `utils.js` detects version change and clears all cached NWS data
+3. **Fresh data**: Users automatically get latest JavaScript and API responses
+
+### DO NOT
+
+- ❌ Update JavaScript files without bumping version in `version.js`
+- ❌ Add individual `<script>` tags to HTML files (use `loader.js` instead)
+- ❌ Manually add version parameters to script tags in HTML
+- ❌ Edit `utils.js` to change version (it reads from `version.js` automatically)
+
+### Example: Adding a New JavaScript File
+
+If you create a new shared JavaScript file that should load on all pages:
+
+1. Add file to `js/` directory (e.g., `js/newfeature.js`)
+2. Edit `js/loader.js` and add to `coreScripts` array:
+   ```javascript
+   const coreScripts = [
+     'js/config.js',
+     'js/utils.js',
+     'js/footer.js',
+     'js/scripts.js',
+     'js/newfeature.js'  // ← Add here
+   ];
+   ```
+3. Update version in `js/version.js` (line 18)
+4. Done! All pages will load it automatically
+
+### Example: Adding a Page-Specific Script
+
+For scripts that only load on specific pages:
+
+1. Add file to `js/` directory (e.g., `js/gallery.js`)
+2. Edit `js/loader.js` and add to `pageScripts` object:
+   ```javascript
+   const pageScripts = {
+     'index.html': ['js/nws-api.js'],
+     'dashboard.html': ['js/nws-api.js'],
+     'about.html': ['js/changelog.js'],
+     'photoarchive.html': ['js/gallery.js']  // ← Add here
+   };
+   ```
+3. Update version in `js/version.js` (line 18)
+4. Done! Only `photoarchive.html` will load it
+
+### Troubleshooting
+
+**Users seeing old alerts or stale data?**
+- Verify version was incremented in `js/version.js` (line 18)
+- Check browser console for `[UTILS] Version change detected` message
+- Confirm `window.APP_VERSION` is set correctly (check console: `console.log(window.APP_VERSION)`)
+
+**Scripts not loading?**
+- Check browser console for errors
+- Verify all script paths in `loader.js` are correct
+- Ensure `version.js` and `loader.js` are present in HTML files
 
 ---
 
@@ -826,6 +932,15 @@ refactor: Simplify alert filtering logic
 ## Changelog
 
 ### 2026-01-02
+- **CENTRALIZED VERSION MANAGEMENT**: True single-source cache busting system
+  - Created `js/version.js` - Single version number controls all script cache busting
+  - Created `js/loader.js` - Dynamically loads all JavaScript with automatic versioning
+  - All 7 HTML pages now load only 2 scripts: `version.js` + `loader.js`
+  - **To force cache refresh site-wide: update ONE number in `js/version.js` (line 18) - that's it!**
+  - Added version-based localStorage cache invalidation in `js/utils.js` (reads from `window.APP_VERSION`)
+  - Automatic cache clearing when version changes (fixes mobile browser stale cache issue)
+  - Loader maintains correct dependency order: header → config → utils → footer → scripts → page-specific
+  - No duplicate version numbers - utils.js reads from version.js automatically
 - **CODE REORGANIZATION**: Eliminated ~450 lines of duplicate code
   - Created `js/config.js` for centralized configuration (NWS API settings, zone lists, cache TTL, activation patterns)
   - Created `js/utils.js` for shared utility functions (cache management, modal abstraction, JSON fetch, DOM helpers)
@@ -843,7 +958,7 @@ refactor: Simplify alert filtering logic
   - Added try-catch blocks and cache diagnostics for configuration loading
   - Enhanced error handling in NWS API calls with better user feedback
   - Robust fallbacks for missing or corrupted cache data
-  - Script version bumps to force browser cache refresh (v20260102b/i)
+  - Script version bumps to force browser cache refresh (v20260102c)
 - **DASHBOARD CONSOLIDATION**: Unified spotter dashboard
   - Consolidated alerts.html into dashboard.html with HWO, activation status, and all alerts
   - Added Quick Maps section with 6 essential weather/situational awareness tools

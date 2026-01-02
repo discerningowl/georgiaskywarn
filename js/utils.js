@@ -4,6 +4,7 @@
  * Author: Jack Parks (KQ4JP) <kq4jp@pm.me>
  * Purpose: Shared utility functions for Georgia SKYWARN website
  * Change-log:
+ *   • 2026-01-02c – Removed UTILS_VERSION, now uses APP_VERSION from version.js (single source of truth)
  *   • 2026-01-02b – Added version-based cache invalidation for mobile browsers
  *   • 2026-01-02 – Created shared utilities module
  * ──────────────────────────────────────────────────────────────
@@ -12,8 +13,7 @@
 (function () {
   'use strict';
 
-  // Version number for cache invalidation (update when cache structure changes)
-  const UTILS_VERSION = '20260102c';
+  // Use APP_VERSION from version.js (single source of truth)
   const VERSION_KEY = 'georgiaskywarn-utils-version';
 
   /**
@@ -22,10 +22,11 @@
    */
   function checkAndClearOldCaches() {
     try {
+      const APP_VERSION = window.APP_VERSION || 'unknown';
       const storedVersion = localStorage.getItem(VERSION_KEY);
 
-      if (storedVersion !== UTILS_VERSION) {
-        console.log(`[UTILS] Version change detected (${storedVersion} → ${UTILS_VERSION}), clearing all caches...`);
+      if (storedVersion !== APP_VERSION) {
+        console.log(`[UTILS] Version change detected (${storedVersion} → ${APP_VERSION}), clearing all caches...`);
 
         // Clear all Georgia SKYWARN caches
         const keysToRemove = [];
@@ -42,8 +43,8 @@
         });
 
         // Update stored version
-        localStorage.setItem(VERSION_KEY, UTILS_VERSION);
-        console.log(`[UTILS] Cache cleared. New version: ${UTILS_VERSION}`);
+        localStorage.setItem(VERSION_KEY, APP_VERSION);
+        console.log(`[UTILS] Cache cleared. New version: ${APP_VERSION}`);
       }
     } catch (err) {
       console.error('[UTILS] Error checking cache version:', err);
