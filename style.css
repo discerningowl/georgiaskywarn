@@ -156,6 +156,68 @@
 	.alert-item {
 	    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.1); /* Inner glow for depth in dark mode */
 	  }
+
+	  /* Fix header and navigation visibility in dark mode */
+	  .logo-text h1 {
+	    color: var(--white) !important;
+	  }
+
+	  .logo-text p {
+	    color: var(--text-secondary) !important;
+	  }
+
+	  #desktopNav a {
+	    color: var(--text-primary) !important;
+	  }
+
+	  #desktopNav a:hover,
+	  #desktopNav a:focus {
+	    color: var(--blue-400) !important;
+	  }
+
+	  .mobile-menu-btn {
+	    color: var(--text-primary) !important;
+	  }
+
+	  #themeToggle,
+	  #themeToggleMobile {
+	    color: var(--text-primary) !important;
+	  }
+
+	  #themeToggle svg,
+	  #themeToggleMobile svg {
+	    stroke: var(--text-primary) !important;
+	  }
+
+	  .page-nav .nav-list a {
+	    color: var(--text-primary) !important;
+	  }
+
+	  .page-nav .nav-list a:hover,
+	  .page-nav .nav-list a:focus {
+	    color: var(--white) !important;
+	  }
+
+	  /* Fix footer visibility in dark mode */
+	  .footer-content {
+	    color: var(--text-secondary) !important;
+	  }
+
+	  .footer-section p {
+	    color: var(--text-secondary) !important;
+	  }
+
+	  .footer-nav a {
+	    color: var(--text-secondary) !important;
+	  }
+
+	  .footer-nav a:hover {
+	    color: var(--blue-400) !important;
+	  }
+
+	  .footer-bottom p {
+	    color: var(--text-secondary) !important;
+	  }
 }
 
 /* ---------- Manual Theme Override (takes precedence over system preference) ---------- */
@@ -188,6 +250,67 @@ html[data-theme="light"] {
   --alert-desc-color: var(--text-secondary);
 }
 
+/* Restore original light mode colors for header, nav, and footer */
+html[data-theme="light"] .logo-text h1 {
+  color: var(--border-primary) !important;
+}
+
+html[data-theme="light"] .logo-text p {
+  color: var(--slate-400) !important;
+}
+
+html[data-theme="light"] #desktopNav a {
+  color: var(--border-primary) !important;
+}
+
+html[data-theme="light"] #desktopNav a:hover,
+html[data-theme="light"] #desktopNav a:focus {
+  color: var(--blue-400) !important;
+}
+
+html[data-theme="light"] .mobile-menu-btn {
+  color: var(--border-primary) !important;
+}
+
+html[data-theme="light"] #themeToggle,
+html[data-theme="light"] #themeToggleMobile {
+  color: var(--border-primary) !important;
+}
+
+html[data-theme="light"] #themeToggle svg,
+html[data-theme="light"] #themeToggleMobile svg {
+  stroke: var(--border-primary) !important;
+}
+
+html[data-theme="light"] .page-nav .nav-list a {
+  color: var(--border-primary) !important;
+}
+
+html[data-theme="light"] .page-nav .nav-list a:hover,
+html[data-theme="light"] .page-nav .nav-list a:focus {
+  color: var(--white) !important;
+}
+
+html[data-theme="light"] .footer-content {
+  color: var(--text-muted) !important;
+}
+
+html[data-theme="light"] .footer-section p {
+  color: var(--text-muted) !important;
+}
+
+html[data-theme="light"] .footer-nav a {
+  color: var(--text-muted) !important;
+}
+
+html[data-theme="light"] .footer-nav a:hover {
+  color: var(--accent-blue) !important;
+}
+
+html[data-theme="light"] .footer-bottom p {
+  color: var(--text-muted) !important;
+}
+
 html[data-theme="dark"] {
   --bg-body: #0f172a;
   --text-primary: #e2e8f0;
@@ -215,6 +338,68 @@ html[data-theme="dark"] {
   --alert-other-bg: rgba(96, 165, 250, 0.25);
   --alert-header-color: var(--white);
   --alert-desc-color: var(--border-secondary);
+}
+
+/* Fix header and navigation visibility in manual dark mode */
+html[data-theme="dark"] .logo-text h1 {
+  color: var(--white) !important;
+}
+
+html[data-theme="dark"] .logo-text p {
+  color: var(--text-secondary) !important;
+}
+
+html[data-theme="dark"] #desktopNav a {
+  color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] #desktopNav a:hover,
+html[data-theme="dark"] #desktopNav a:focus {
+  color: var(--blue-400) !important;
+}
+
+html[data-theme="dark"] .mobile-menu-btn {
+  color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] #themeToggle,
+html[data-theme="dark"] #themeToggleMobile {
+  color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] #themeToggle svg,
+html[data-theme="dark"] #themeToggleMobile svg {
+  stroke: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] .page-nav .nav-list a {
+  color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] .page-nav .nav-list a:hover,
+html[data-theme="dark"] .page-nav .nav-list a:focus {
+  color: var(--white) !important;
+}
+
+/* Fix footer visibility in manual dark mode */
+html[data-theme="dark"] .footer-content {
+  color: var(--text-secondary) !important;
+}
+
+html[data-theme="dark"] .footer-section p {
+  color: var(--text-secondary) !important;
+}
+
+html[data-theme="dark"] .footer-nav a {
+  color: var(--text-secondary) !important;
+}
+
+html[data-theme="dark"] .footer-nav a:hover {
+  color: var(--blue-400) !important;
+}
+
+html[data-theme="dark"] .footer-bottom p {
+  color: var(--text-secondary) !important;
 }
 
 /* ---------- Global Reset & Base ---------- */
