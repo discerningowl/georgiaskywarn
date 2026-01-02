@@ -377,7 +377,7 @@ fetch(url, { headers: { 'User-Agent': USER_AGENT } });
 - ❌ Moving any files from the root directory to subdirectories
 - ❌ Reorganizing files into a "better" structure
 - ❌ Renaming or removing `archive/`, `www/`, or `wx4ptc/` directories
-- ❌ Moving `style.css`, `footer.js`, `header.js`, or any `.html` files from root
+- ❌ Moving `style.css` or any `.html` files from root
 
 **WHY THIS MATTERS**:
 - External websites (NWS, RepeaterBook, ham radio forums) link to specific file paths
