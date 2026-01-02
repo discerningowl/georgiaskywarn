@@ -3,7 +3,9 @@
  * File:   config.js
  * Author: Jack Parks (KQ4JP) <kq4jp@pm.me>
  * Purpose: Centralized configuration constants for Georgia SKYWARN
+ * Version: 20260102a
  * Change-log:
+ *   • 2026-01-02a – Updated ACTIVATION_PATTERNS to three-level urgency system (RED/YELLOW/GREEN)
  *   • 2026-01-02 – Created centralized config module
  * ──────────────────────────────────────────────────────────────
  */
@@ -68,20 +70,33 @@
     ADVISORY: 'advisory'
   };
 
-  // SKYWARN activation detection patterns
+  // SKYWARN activation detection patterns (three-level system)
   const ACTIVATION_PATTERNS = {
-    HIGH_CONFIDENCE: [
-      /SKYWARN\s+ACTIVATION/i,
-      /SPOTTER\s+ACTIVATION/i,
-      /WEATHER\s+SPOTTER\s+ACTIVATION/i,
+    // RED - Activation requested/likely
+    RED: [
+      /SPOTTER\s+ACTIVATION\s+IS\s+REQUESTED/i,
+      /SPOTTER\s+ACTIVATION\s+WILL\s+LIKELY\s+BE\s+NEEDED/i,
+      /SKYWARN\s+ACTIVATION\s+IS\s+REQUESTED/i,
+      /SKYWARN\s+ACTIVATION\s+WILL\s+LIKELY\s+BE\s+NEEDED/i,
       /ACTIVATE.*SKYWARN/i,
       /ACTIVATE.*SPOTTER/i
     ],
-    MEDIUM_CONFIDENCE: [
-      /SKYWARN.*REQUESTED/i,
-      /SPOTTER.*REQUESTED/i,
-      /SKYWARN.*NEEDED/i,
-      /SPOTTER.*NEEDED/i
+    // YELLOW - Monitor & report if seen (encouraged but not requested)
+    YELLOW: [
+      /SPOTTER\s+ACTIVATION\s+IS\s+NOT\s+REQUESTED\s+BUT\s+SPOTTERS\s+ARE\s+ENCOURAGED/i,
+      /SPOTTERS\s+ARE\s+ENCOURAGED\s+TO\s+REPORT/i,
+      /SPOTTERS\s+ARE\s+ENCOURAGED\s+TO\s+SUBMIT\s+REPORTS/i,
+      /PLEASE\s+RELAY\s+ANY\s+INFORMATION\s+ABOUT\s+OBSERVED\s+SEVERE\s+WEATHER/i,
+      /RELAY.*SEVERE\s+WEATHER\s+REPORTS/i
+    ],
+    // GREEN - Stand down / No activation needed
+    GREEN: [
+      /SPOTTER\s+ACTIVATION\s+IS\s+NOT\s+REQUESTED/i,
+      /SPOTTER\s+ACTIVATION\s+WILL\s+NOT\s+BE\s+NEEDED/i,
+      /SPOTTER\s+ACTIVATION\s+IS\s+NOT\s+EXPECTED/i,
+      /SKYWARN\s+ACTIVATION\s+IS\s+NOT\s+REQUESTED/i,
+      /SKYWARN\s+ACTIVATION\s+WILL\s+NOT\s+BE\s+NEEDED/i,
+      /SKYWARN\s+ACTIVATION\s+IS\s+NOT\s+EXPECTED/i
     ]
   };
 

@@ -6,8 +6,11 @@
  *          - Fetch functions with timeout and retry logic
  *          - Cache management
  *          - Common constants and configuration
- * Version: 20260102
+ * Version: 20260102h
  * Change-log:
+ *   • 2026-01-02h – Updated spotter activation to three-level system (RED/YELLOW/GREEN)
+ *                   parseSpotterActivation() now returns {level, matchedText}
+ *                   displayActivationStatus() handles all three urgency levels
  *   • 2026-01-02 – Initial creation, consolidating NWS API logic
  *                  from scripts.js and dashboard-scripts.js
  * ──────────────────────────────────────────────────────────────
@@ -181,33 +184,43 @@
   /**
    * Parse HWO text to determine spotter activation status
    * @param {string} productText - HWO product text
-   * @returns {Object} - {activated, confidence, matchedText}
+   * @returns {Object} - {level: 'red'|'yellow'|'green', matchedText: string}
    */
   function parseSpotterActivation(productText) {
     if (!productText) {
-      return { activated: false, confidence: 'unknown', matchedText: '' };
+      return { level: 'green', matchedText: '' };
     }
 
-    // Use activation patterns from CONFIG
-    const { HIGH_CONFIDENCE, MEDIUM_CONFIDENCE } = window.CONFIG.ACTIVATION_PATTERNS;
+    // Use activation patterns from CONFIG (three-level system)
+    const { RED, YELLOW, GREEN } = window.CONFIG.ACTIVATION_PATTERNS;
 
-    // Check high confidence patterns
-    for (const pattern of HIGH_CONFIDENCE) {
+    // Check RED patterns first (activation requested/likely)
+    for (const pattern of RED) {
       const match = productText.match(pattern);
       if (match) {
-        return { activated: true, confidence: 'high', matchedText: match[0] };
+        return { level: 'red', matchedText: match[0] };
       }
     }
 
-    // Check medium confidence patterns
-    for (const pattern of MEDIUM_CONFIDENCE) {
+    // Check YELLOW patterns second (encouraged but not requested)
+    // Must check before GREEN to catch "not requested but encouraged" phrasing
+    for (const pattern of YELLOW) {
       const match = productText.match(pattern);
       if (match) {
-        return { activated: true, confidence: 'medium', matchedText: match[0] };
+        return { level: 'yellow', matchedText: match[0] };
       }
     }
 
-    return { activated: false, confidence: 'none', matchedText: '' };
+    // Check GREEN patterns third (explicit stand down language)
+    for (const pattern of GREEN) {
+      const match = productText.match(pattern);
+      if (match) {
+        return { level: 'green', matchedText: match[0] };
+      }
+    }
+
+    // Default to GREEN if no patterns match (no mention = no activation)
+    return { level: 'green', matchedText: '' };
   }
 
   /**
@@ -224,21 +237,19 @@
     let statusHTML = '';
     let headerClass = '';
 
-    if (activationInfo.activated) {
+    // Handle three-level urgency system
+    if (activationInfo.level === 'red') {
+      // RED - Activation requested/likely
       headerClass = 'card-header--red';
-      const confidenceText = activationInfo.confidence === 'high'
-        ? 'HIGH CONFIDENCE'
-        : 'POSSIBLE ACTIVATION';
-
       statusHTML = `
         <div class="alert-item alert-warning outlook-trigger"
              role="button"
              tabindex="0"
              aria-label="Click to view full hazardous weather outlook">
-          <div class="alert-header">⚠️ SPOTTER ACTIVATION ${confidenceText}</div>
+          <div class="alert-header">🚨 SPOTTER ACTIVATION REQUESTED</div>
           <div class="alert-description">
-            <p><strong>Matched Text:</strong> "${activationInfo.matchedText}"</p>
-            <p><strong>Action Required:</strong> Monitor weather conditions and be prepared to report severe weather to NWS Atlanta via the SKYWARN repeater network.</p>
+            ${activationInfo.matchedText ? `<p><strong>Matched Text:</strong> "${activationInfo.matchedText}"</p>` : ''}
+            <p><strong>Action Required:</strong> Monitor weather conditions and report severe weather to NWS Atlanta via the SKYWARN repeater network. Activation is requested or likely needed.</p>
           </div>
           <div class="alert-meta">
             <small><strong>Outlook Issued:</strong> ${new Date(issuanceTime).toLocaleString()}</small>
@@ -249,7 +260,30 @@
           <a href="index.html#submitcard" class="btn btn-red">How to Submit Reports →</a>
         </div>
       `;
+    } else if (activationInfo.level === 'yellow') {
+      // YELLOW - Monitor & report if seen (encouraged but not requested)
+      headerClass = 'card-header--yellow';
+      statusHTML = `
+        <div class="alert-item alert-watch outlook-trigger"
+             role="button"
+             tabindex="0"
+             aria-label="Click to view full hazardous weather outlook">
+          <div class="alert-header">⚠️ SPOTTER REPORTS ENCOURAGED</div>
+          <div class="alert-description">
+            ${activationInfo.matchedText ? `<p><strong>Matched Text:</strong> "${activationInfo.matchedText}"</p>` : ''}
+            <p><strong>Action:</strong> While spotter activation is not formally requested, you are encouraged to monitor conditions and report any observed severe weather, damaging winds, hail, or heavy rain to NWS Atlanta.</p>
+          </div>
+          <div class="alert-meta">
+            <small><strong>Outlook Issued:</strong> ${new Date(issuanceTime).toLocaleString()}</small>
+          </div>
+          <div class="alert-more">Click to view full outlook →</div>
+        </div>
+        <div style="margin-top: 1rem;">
+          <a href="index.html#submitcard" class="btn btn-yellow">How to Submit Reports →</a>
+        </div>
+      `;
     } else {
+      // GREEN - Stand down / No activation needed
       headerClass = 'card-header--green';
       statusHTML = `
         <div class="alert-item alert-other outlook-trigger"
@@ -257,9 +291,10 @@
              tabindex="0"
              aria-label="Click to view full hazardous weather outlook"
              style="border-left-color: var(--accent-green);">
-          <div class="alert-header">✓ No Spotter Activation Currently Required</div>
+          <div class="alert-header">✓ No Spotter Activation Required</div>
           <div class="alert-description">
-            <p>The latest Hazardous Weather Outlook does not indicate spotter activation at this time. Continue to monitor conditions.</p>
+            ${activationInfo.matchedText ? `<p><strong>Matched Text:</strong> "${activationInfo.matchedText}"</p>` : ''}
+            <p>The latest Hazardous Weather Outlook does not indicate spotter activation at this time. Continue to monitor conditions and always report any severe weather you observe.</p>
           </div>
           <div class="alert-meta">
             <small><strong>Outlook Issued:</strong> ${new Date(issuanceTime).toLocaleString()}</small>

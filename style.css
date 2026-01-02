@@ -4,6 +4,8 @@
    Purpose: Unified, accessible, responsive design system using CSS Grid/Flexbox.
             Supports light/dark mode, mobile-first layout, and semantic styling.
    Change-log:
+     • 2026-01-02 – Added yellow gradient and card-header--yellow for three-level
+       spotter activation urgency system (RED/YELLOW/GREEN).
      • 2025-11-05 – Full refactor: mobile-first, Grid/Flexbox, ARIA-ready,
        reduced specificity, removed unused legacy styles.
      • 2025-11-05 – Merged "What to Report" grid (no table), NWS resources grid,
@@ -70,6 +72,7 @@
   --header-gradient-red: linear-gradient(135deg, #FB2C36 0%, #FF6467 100%);
   --header-gradient-green: linear-gradient(135deg, #116045 0%, #075F5A 100%);
   --header-gradient-blue: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+  --header-gradient-yellow: linear-gradient(135deg, #D4A800 0%, #FFC107 100%);
   --header-gradient-th: linear-gradient(135deg, #111140 0%, #112840 100%);
   --title-grad-start: #99ACAF;
   --title-grad-end: #99A1AF;
@@ -134,6 +137,7 @@
     --header-gradient-red: linear-gradient(135deg, #FB2C36 0%, #FF6467 100%);
     --header-gradient-green: linear-gradient(135deg, #116045 0%, #075F5A 100%);
     --header-gradient-blue: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+    --header-gradient-yellow: linear-gradient(135deg, #D4A800 0%, #FFC107 100%);
     --header-gradient-th: linear-gradient(135deg, #18185D 0%, #112840 100%);
     --title-grad-start: #99ACAF;
     --title-grad-end: #99A1AF;
@@ -972,11 +976,13 @@ a:hover, a:focus {
    .card-header--red    → red background
    .card-header--green  → green background
    .card-header--blue   → blue background
+   .card-header--yellow → yellow background
    .card-header--indigo → indigo background
    ------------------------------------------------- */
 .card-header--red    { background: var(--header-gradient-red); }
 .card-header--green  { background: var(--header-gradient-green); }
 .card-header--blue   { background: var(--header-gradient-blue); }
+.card-header--yellow { background: var(--header-gradient-yellow); }
 .card-header--indigo { background: var(--header-gradient); }
 
 .card-img {
