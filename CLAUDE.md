@@ -16,7 +16,7 @@ The **Georgia SKYWARN** website (`georgiaskywarn.com`) is a static HTML/CSS webs
 ```
 georgiaskywarn/
 ├── index.html              # Main landing page with SKYWARN info and active warnings
-├── alerts.html             # Dedicated page for all NWS Atlanta weather alerts
+├── dashboard.html          # Spotter dashboard with HWO, activation status, and all alerts
 ├── repeaters.html          # Dedicated page for linked and non-linked repeaters
 ├── nwsffclinks.html        # Useful NWS links and resources page
 ├── wx4ptc.html             # Information about WX4PTC station
@@ -77,11 +77,11 @@ georgiaskywarn/
 **Purpose**: Primary entry point with comprehensive SKYWARN information
 
 **Navigation**:
-- **Site-nav**: Links to other pages (alerts, repeaters, wx4ptc, nwsffclinks, about)
+- **Site-nav**: Links to other pages (dashboard, repeaters, wx4ptc, nwsffclinks, about)
 - **Page-nav**: Internal page links (NWS Resources, SKYWARN Info, Reporting, Submit Reports, Repeaters, Contacts)
 
 **Key Sections**:
-- Active Alerts (NWS Atlanta WARNINGS only - red card)
+- Active Warnings (NWS Atlanta WARNINGS only - red card, links to dashboard for all alerts)
 - NWS Resources
 - SKYWARN Information & Spotter Resources
 - Reporting Requirements (what to report and how)
@@ -94,23 +94,25 @@ georgiaskywarn/
 - Auto-refresh every 10 minutes
 - Dual navigation toggle handlers for site-nav and page-nav
 
-### alerts.html
-**Purpose**: Dedicated page showing ALL alerts (warnings, watches, and advisories)
+### dashboard.html
+**Purpose**: Spotter dashboard showing HWO outlook, activation status, and all active alerts
 
 **Navigation**:
-- **Site-nav only**: Links to other pages (back to index, repeaters, wx4ptc, nwsffclinks, about)
-- **No page-nav**: Single-purpose page with no internal sections
+- **Site-nav**: Links to other pages (back to index, repeaters, wx4ptc, nwsffclinks, about)
+- **Page-nav**: Links to page sections (Spotter Status, Active Alerts, Quick Maps)
 
-**Key Differences from index.html**:
-- Shows warnings (red), watches (orange), and other alerts (teal)
-- No filtering - displays all alert types from NWS Atlanta
-- Same caching and refresh logic as index.html
+**Key Features**:
+- Hazardous Weather Outlook (HWO) from NWS Atlanta with spotter activation detection
+- Shows all alert types: warnings (red), watches (orange), and advisories (teal)
+- Quick Maps section with 6 essential weather/situational awareness tools
+- HWO cached for 4 hours, alerts refresh every 5 minutes
+- Modal popups for HWO details and individual alert details
 
 ### repeaters.html
 **Purpose**: Dedicated page for SKYWARN repeater information
 
 **Navigation**:
-- **Site-nav**: Links to other pages (back to index, alerts, wx4ptc, nwsffclinks, about)
+- **Site-nav**: Links to other pages (back to index, dashboard, wx4ptc, nwsffclinks, about)
 - **Page-nav**: Links to page sections (Linked Repeaters, Non-Linked Repeaters)
 
 **Contains**:
@@ -225,7 +227,7 @@ The site uses a **two-tier navigation system**:
    - Desktop: Horizontal button bar
    - Mobile toggle: Blue hamburger button labeled "☰ SITE"
    - Button styling: `background: var(--accent-blue)` with darker hover state
-   - Contains links to: alerts.html, repeaters.html, wx4ptc.html, nwsffclinks.html, about.html
+   - Contains links to: dashboard.html, repeaters.html, wx4ptc.html, nwsffclinks.html, about.html
 
 2. **Page Navigation (`.page-nav`)** - **Sticky Floating Bar**:
    - Purpose: Navigate to sections within the current page
@@ -598,9 +600,9 @@ Repeater tables are dynamically generated from JSON files. Edit the appropriate 
   ```
 
 **Styling navigation links**:
-- Use `.nav-btn-alert` for high-priority links (e.g., alerts page):
+- Use `.nav-btn-alert` for high-priority links (e.g., dashboard page):
   ```html
-  <a href="alerts.html" class="nav-btn-alert">All GA Alerts Page</a>
+  <a href="dashboard.html" class="nav-btn-alert">Dashboard</a>
   ```
 - Use `.nav-btn-link` for standard navigation links:
   ```html
@@ -625,14 +627,12 @@ Repeater tables are dynamically generated from JSON files. Edit the appropriate 
 
 **index.html** (warnings only):
 ```javascript
-// Lines 802-808
 return p.senderName?.includes('NWS Peachtree City') &&
        p.event?.toLowerCase().includes('warning');
 ```
 
-**alerts.html** (all alerts):
+**dashboard.html** (all alerts):
 ```javascript
-// Lines 149-153
 return p.senderName && p.senderName.includes('NWS Peachtree City');
 ```
 
@@ -665,11 +665,11 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes (in milliseconds)
 
 ## Troubleshooting
 
-### Alerts Not Loading
+### Dashboard/Alerts Not Loading
 
 1. **Check browser console** for API errors
 2. **Verify User-Agent header** is present
-3. **Clear localStorage** cache: `localStorage.removeItem('ffc-all-watches-warnings')`
+3. **Clear localStorage** cache: `localStorage.removeItem('ffc-all-watches-warnings')` and `localStorage.removeItem('ffc-hwo-outlook')`
 4. **Test API directly**: Visit `https://api.weather.gov/alerts/active?zone=GAZ001`
 5. **Check NWS API status**: `https://www.weather.gov/`
 
@@ -861,7 +861,7 @@ refactor: Simplify alert filtering logic
 - **FILES MODIFIED**:
   - Created: `header.js`, `footer.js`
   - Updated: `style.css`, `scripts.js` (removed migrated code)
-  - Updated all 7 HTML pages: index.html, alerts.html, repeaters.html, nwsffclinks.html, wx4ptc.html, about.html, photoarchive.html
+  - Updated all 7 HTML pages: index.html, dashboard.html, repeaters.html, nwsffclinks.html, wx4ptc.html, about.html, photoarchive.html
   - Version numbers: header.js (v20251230c), footer.js (v20251230), style.css (v20251230n), scripts.js (v20251230a)
 
 ### 2025-12-29
@@ -911,6 +911,14 @@ refactor: Simplify alert filtering logic
 - Added warnings about external links dependency on current file paths
 - Updated "Common Pitfalls to Avoid" to prioritize structure preservation
 - Created comprehensive CLAUDE.md file for AI assistant guidance
+
+### 2026-01-02
+- **MAJOR UPDATE**: Consolidated alerts.html into dashboard.html
+  - Created unified spotter dashboard with HWO, activation status, and all alerts
+  - Added Quick Maps section with 6 essential weather/situational awareness tools
+  - HWO cached for 4 hours, alerts refresh every 5 minutes
+  - Updated all navigation references from "Alerts" to "Dashboard"
+  - Deleted alerts.html (functionality merged into dashboard.html)
 
 ### 2025-11-09
 - Extracted alerts section into dedicated page (`alerts.html`)

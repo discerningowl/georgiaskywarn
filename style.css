@@ -2006,6 +2006,84 @@ a:hover, a:focus {
 }
 
 /* ==========================================================================
+   MAP GRID - Dashboard Quick Maps
+   ========================================================================== */
+
+.map-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+@media (min-width: 768px) {
+  .map-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+.map-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-sm);
+}
+
+.map-card:hover,
+.map-card:focus {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-blue);
+  background: linear-gradient(135deg, var(--card-bg) 0%, rgba(92, 107, 192, 0.05) 100%);
+}
+
+.map-card-icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-indigo) 100%);
+  border-radius: 12px;
+  color: white;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.3s ease;
+}
+
+.map-card:hover .map-card-icon,
+.map-card:focus .map-card-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.map-card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.map-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: var(--text-primary);
+}
+
+.map-card-desc {
+  font-size: 0.875rem;
+  margin: 0;
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+/* ==========================================================================
    RESPONSIVE MAP BUTTONS – Show only one per device
    ========================================================================== */
 

@@ -63,9 +63,9 @@
       </header>
       <div class="card-body">
         <div class="alert-status-bar">
-          <span class="alert-status-text">‼️ Warnings Only | <a href="alerts.html">View All Area Alerts</a></span>
+          <span class="alert-status-text">‼️ Warnings Only | <a href="dashboard.html">View Dashboard for ALL Alerts ‼️</a></span>
           <span class="alert-status-divider">•</span>
-          <span class="alert-status-refresh"><span class="pulse"></span> Auto-refresh: 5min</span>
+          <span class="alert-status-refresh"><span class="pulse"></span> Auto-refresh: 5 min</span>
           <span class="alert-status-divider">•</span>
           <span class="alert-status-time" id="alert-last-update">Loading...</span>
         </div>
@@ -135,15 +135,15 @@
 
       <!-- NWSChat Map -->
       <div class="link-item">
-        <h3 class="link-title">NWSChat 2.0 Companion Map (Desktop)</h3>
-        <p class="link-description">Interactive map with NOAA/NWS weather feeds, active watches/warnings, and radar. Developed by W8BYH for ARES/EMCOMM operations. Desktop recommended.</p>
+        <h3 class="link-title">NWSChat 2.0 Companion Map</h3>
+        <p class="link-description">Interactive map with NOAA/NWS weather feeds, active watches/warnings, and radar. Developed by W8BYH for ARES/EMCOMM operations.</p>
         <a href="https://arcg.is/XrrLP" target="_blank" rel="noopener noreferrer" class="link-url">Open NWSChat Map</a>
       </div>
 
       <!-- ARES Map -->
       <div class="link-item">
-        <h3 class="link-title">ARES Southeast Situational Map (Desktop)</h3>
-        <p class="link-description">Amateur Radio Emergency Service situational awareness map for southeastern US with operational data and tools. Developed by W8BYH. Desktop recommended.</p>
+        <h3 class="link-title">ARES Southeast Situational Map (Desktop Only)</h3>
+        <p class="link-description">Amateur Radio Emergency Service situational awareness map for southeastern US with operational data and tools. Developed by W8BYH. Desktop Only - poor performance on Mobile.</p>
         <a href="https://georgia-ares-oldtopographer.hub.arcgis.com/apps/9695e774a1c64971b43bb89a8bae766e/explore" target="_blank" rel="noopener noreferrer" class="link-url">Open ARES Map</a>
       </div>
 
@@ -373,7 +373,8 @@
 
 <!-- Consolidated JavaScript - includes alert fetching, navigation, footer, security fixes -->
 <script src="footer.js?v=20251230"></script>
-<script src="scripts.js?v=20251230a"></script>
+<script src="nws-api.js?v=20260102"></script>
+<script src="scripts.js?v=20260102"></script>
 
   </body>
 </html>

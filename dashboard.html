@@ -1,0 +1,219 @@
+<!--
+  ──────────────────────────────────────────────────────────────
+  File:   dashboard.html
+  Author: Jack Parks (KQ4JP) <kq4jp@pm.me>
+  Purpose: SKYWARN Dashboard - Displays NWS Hazardous Weather Outlook and spotter activation status
+  Change‑log:
+    • 2026‑01‑02 – Initial creation with HWO API integration
+  ──────────────────────────────────────────────────────────────
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Essential meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SKYWARN Dashboard - Georgia SKYWARN</title>
+  <meta name="description" content="Georgia SKYWARN dashboard displaying current Hazardous Weather Outlook from NWS Atlanta and spotter activation status.">
+
+  <!-- Security headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://api.weather.gov; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- Performance optimization - Resource hints -->
+  <link rel="preconnect" href="https://api.weather.gov" crossorigin>
+  <link rel="dns-prefetch" href="https://api.weather.gov">
+
+  <!-- Open Graph for social media sharing -->
+  <meta property="og:title" content="SKYWARN Dashboard - Georgia SKYWARN">
+  <meta property="og:description" content="Real-time Hazardous Weather Outlook and spotter activation status from NWS Atlanta.">
+  <meta property="og:image" content="https://georgiaskywarn.com/ganwsareacoverage.png">
+  <meta property="og:url" content="https://georgiaskywarn.com/dashboard.html">
+  <meta property="og:type" content="website">
+
+  <!-- Stylesheet and favicon -->
+  <link rel="stylesheet" href="style.css?v=20251230q">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+</head>
+
+<body>
+  <!-- Load header component (includes logo, site nav, theme toggle, back-to-top) -->
+  <script src="header.js?v=20251230e"></script>
+
+  <!-- Page navigation (sticky horizontal bar) -->
+  <nav class="page-nav" role="navigation" aria-label="Page navigation">
+    <ul id="page-nav-list" class="nav-list">
+      <li><a href="#activation-status">Spotter Status</a></li>
+      <li><a href="#active-alerts">Active Alerts</a></li>
+      <li><a href="#quick-maps">Quick Maps</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main content area (ARIA landmark) -->
+  <main class="site-main" role="main">
+
+    <!-- Page Header -->
+    <section class="card" id="dashboard-header">
+      <header class="card-header card-header--blue">
+        <h2 class="card-title">Georgia SKYWARN Spotter Dashboard</h2>
+      </header>
+      <div class="card-body">
+        <h4 class="center">Real-time dashboard for Georgia SKYWARN weather spotters. This page displays the current Hazardous Weather Outlook from NWS Atlanta, spotter activation status, and all active weather alerts for North and Central Georgia.</h4>
+      </div>
+    </section>
+
+    <!-- Spotter Activation Status -->
+    <section class="card" id="activation-status">
+      <header class="card-header" id="activation-header">
+        <h2 class="card-title">Spotter Activation Status</h2>
+      </header>
+      <div class="card-body">
+        <div class="alert-status-bar">
+          <span class="alert-status-refresh"> Auto-refresh: 4 hours</span>
+          <span class="alert-status-divider">•</span>
+          <span class="alert-status-time" id="dashboard-last-update">Loading...</span>
+        </div>
+        <div id="activation-loading" class="skeleton-loader" aria-label="Loading activation status"></div>
+        <div id="activation-container"></div>
+      </div>
+    </section>
+    
+    <!-- Active Alerts Section -->
+    <section class="card alert-card" id="active-alerts">
+      <header class="card-header card-header--red">
+        <h2 class="card-title">Active Area Alerts (NWS Atlanta - FFC)</h2>
+      </header>
+      <div class="card-body">
+        <div class="alert-status-bar">
+          <span class="alert-status-text">🔴 Warnings | 🟠 Watches | 🔵 Alerts</span>
+          <span class="alert-status-divider">•</span>
+          <span class="alert-status-refresh"><span class="pulse"></span> Auto-refresh: 5 min</span>    
+          <span class="alert-status-divider">•</span>
+          <span class="alert-status-time" id="alert-last-update">Loading...</span>
+        </div>
+        <div id="alerts-loading" class="skeleton-loader" aria-label="Loading active alerts"></div>
+        <div id="alerts-container"></div>
+      </div>
+    </section>
+
+    <!-- Quick Maps Section -->
+    <section class="card" id="quick-maps">
+      <header class="card-header card-header--blue">
+        <h2 class="card-title">Quick Maps & Radar</h2>
+      </header>
+      <div class="card-body">
+        <p style="margin-bottom: 1.5rem;">Essential weather and situational awareness tools for spotters.</p>
+        <div class="map-grid">
+          <a href="https://radar.weather.gov/station/kffc" class="map-card" target="_blank" rel="noopener noreferrer">
+            <div class="map-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+            </div>
+            <div class="map-card-content">
+              <h3 class="map-card-title">NWS Atlanta Radar</h3>
+              <p class="map-card-desc">KFFC Live Doppler Radar</p>
+            </div>
+          </a>
+          <a href="https://arcg.is/0Lfvfb1" class="map-card" target="_blank" rel="noopener noreferrer">
+            <div class="map-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div class="map-card-content">
+              <h3 class="map-card-title">Linked Repeater Map</h3>
+              <p class="map-card-desc">GA SKYWARN Linked Repeater Network</p>
+            </div>
+          </a>
+          <a href="https://arcg.is/XrrLP" class="map-card" target="_blank" rel="noopener noreferrer">
+            <div class="map-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <div class="map-card-content">
+              <h3 class="map-card-title">NWSChat Map</h3>
+              <p class="map-card-desc">ARES/EMCOMM Ops - Companion Map for NWSChat2.0</p>
+            </div>
+          </a>
+          <a href="https://georgia-ares-oldtopographer.hub.arcgis.com/apps/9695e774a1c64971b43bb89a8bae766e/explore" class="map-card" target="_blank" rel="noopener noreferrer">
+            <div class="map-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+              </svg>
+            </div>
+            <div class="map-card-content">
+              <h3 class="map-card-title">ARES Southeast Map (Desktop Only)</h3>
+              <p class="map-card-desc">Situational Awareness Map. Desktop Only - does not work well on Mobile.</p>
+            </div>
+          </a>
+          <a href="https://gema-soc.maps.arcgis.com/apps/MapSeries/index.html?appid=ce54a035db9f482ea4443be9f14fdf13" class="map-card" target="_blank" rel="noopener noreferrer">
+            <div class="map-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            </div>
+            <div class="map-card-content">
+              <h3 class="map-card-title">GEMA All Hazards Dashboard</h3>
+              <p class="map-card-desc">GA Emergency Management Dashboard</p>
+            </div>
+          </a>
+          <a href="https://www.weather.gov/wrh/hazards" class="map-card" target="_blank" rel="noopener noreferrer">
+            <div class="map-card-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 20V10"/>
+                <path d="M12 20V4"/>
+                <path d="M6 20v-6"/>
+              </svg>
+            </div>
+            <div class="map-card-content">
+              <h3 class="map-card-title">NWS Weather Hazards</h3>
+              <p class="map-card-desc">NWS National Hazards View</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+  </main>
+
+  <!-- Site footer placeholder -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Modal for Hazardous Weather Outlook -->
+  <div class="modal-backdrop" id="outlookModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="outlookModalTitle">Hazardous Weather Outlook</h2>
+        <button class="modal-close" id="outlookModalClose" aria-label="Close modal">×</button>
+      </div>
+      <div class="modal-body" id="outlookModalBody"></div>
+    </div>
+  </div>
+
+  <!-- Modal for Alert Details -->
+  <div class="modal-backdrop" id="alertModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">Alert Details</h2>
+        <button class="modal-close" id="modalClose" aria-label="Close modal">×</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Load footer component -->
+  <script src="footer.js?v=20251230"></script>
+
+  <!-- Load NWS API module (auto-initializes dashboard) -->
+  <script src="nws-api.js?v=20260102g"></script>
+
+</body>
+</html>

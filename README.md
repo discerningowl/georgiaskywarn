@@ -68,7 +68,7 @@ A static website providing resources for amateur radio weather spotters in North
 ```
 georgiaskywarn/
 ├── index.html              # Main landing page
-├── alerts.html             # All NWS Atlanta alerts
+├── dashboard.html          # Spotter dashboard with HWO and all alerts
 ├── repeaters.html          # Linked and non-linked repeaters
 ├── nwsffclinks.html        # NWS links and resources
 ├── wx4ptc.html             # WX4PTC station information
@@ -112,6 +112,16 @@ See [CLAUDE.md](CLAUDE.md) for detailed documentation.
 ---
 
 ## 🚀 Recent Improvements
+
+### December 30, 2025 - Component-Based Architecture
+
+**Major Redesign** ✅
+- Implemented dynamic header and footer components (`header.js`, `footer.js`)
+- Unified header with integrated logo, navigation, and theme toggle
+- Sticky floating page navigation with glassmorphism effects
+- Enhanced mobile navigation with full-screen overlay
+- Improved scroll offset handling for better anchor link behavior
+- All 7 pages updated to use component-based architecture
 
 ### December 2025 - Production Readiness Updates
 
@@ -232,8 +242,8 @@ We welcome contributions! Please follow these guidelines:
 
 ### Before Contributing
 
-1. Read [CLAUDE.md](CLAUDE.md) for comprehensive documentation
-2. Check [PRODUCTION_READINESS_REPORT.md](PRODUCTION_READINESS_REPORT.md) for known issues
+1. Read [CLAUDE.md](CLAUDE.md) for comprehensive technical documentation
+2. Check [ADMIN_GUIDE.md](ADMIN_GUIDE.md) for non-technical administrative tasks
 3. Open an issue to discuss major changes
 
 ### Contribution Process
@@ -305,6 +315,6 @@ This website is maintained by volunteer amateur radio operators in coordination 
 
 ---
 
-**Last Updated**: December 2, 2025
+**Last Updated**: January 2, 2026
 **Maintained By**: Georgia SKYWARN Team
 **For Questions**: Contact webmaster at kq4jp@pm.me

@@ -34,15 +34,13 @@
   // ========================================================================
   // CONSTANTS & CONFIGURATION
   // ========================================================================
-  const USER_AGENT = 'GeorgiaSKYWARN-Site (kq4jp@pm.me)';
   const CACHE_KEY = 'ffc-all-watches-warnings';
-  const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
-
-  // Pre-computed FFC zones (GAZ001 to GAZ118) for performance
-  const FFC_ZONES = 'GAZ001,GAZ002,GAZ003,GAZ004,GAZ005,GAZ006,GAZ007,GAZ008,GAZ009,GAZ010,GAZ011,GAZ012,GAZ013,GAZ014,GAZ015,GAZ016,GAZ017,GAZ018,GAZ019,GAZ020,GAZ021,GAZ022,GAZ023,GAZ024,GAZ025,GAZ026,GAZ027,GAZ028,GAZ029,GAZ030,GAZ031,GAZ032,GAZ033,GAZ034,GAZ035,GAZ036,GAZ037,GAZ038,GAZ039,GAZ040,GAZ041,GAZ042,GAZ043,GAZ044,GAZ045,GAZ046,GAZ047,GAZ048,GAZ049,GAZ050,GAZ051,GAZ052,GAZ053,GAZ054,GAZ055,GAZ056,GAZ057,GAZ058,GAZ059,GAZ060,GAZ061,GAZ062,GAZ063,GAZ064,GAZ065,GAZ066,GAZ067,GAZ068,GAZ069,GAZ070,GAZ071,GAZ072,GAZ073,GAZ074,GAZ075,GAZ076,GAZ077,GAZ078,GAZ079,GAZ080,GAZ081,GAZ082,GAZ083,GAZ084,GAZ085,GAZ086,GAZ087,GAZ088,GAZ089,GAZ090,GAZ091,GAZ092,GAZ093,GAZ094,GAZ095,GAZ096,GAZ097,GAZ098,GAZ099,GAZ100,GAZ101,GAZ102,GAZ103,GAZ104,GAZ105,GAZ106,GAZ107,GAZ108,GAZ109,GAZ110,GAZ111,GAZ112,GAZ113,GAZ114,GAZ115,GAZ116,GAZ117,GAZ118';
 
   // Global interval reference for cleanup
   let alertRefreshInterval = null;
+
+  // Create cache manager using NWSAPI utility
+  const alertCache = window.NWSAPI.createCache(CACHE_KEY);
 
   // ========================================================================
   // NOTE: Theme toggle is now handled in header.js
@@ -134,112 +132,30 @@
   }
 
   // ========================================================================
-  // CACHE MANAGEMENT WITH ERROR HANDLING
+  // NOTE: Cache management now handled by NWSAPI.createCache()
+  // ========================================================================
+
+  // ========================================================================
+  // NWS ALERT FETCHING (NOW USES NWSAPI MODULE)
   // ========================================================================
 
   /**
-   * Retrieves cached alert data if valid and not expired
-   * Includes error handling for corrupted cache data
-   * @returns {Object|null} - Cached data or null if invalid/expired
-   */
-  function getCache() {
-    try {
-      const cached = localStorage.getItem(CACHE_KEY);
-      if (!cached) return null;
-
-      const { data, ts } = JSON.parse(cached);
-
-      // Check if cache is still valid
-      if (Date.now() - ts <= CACHE_TTL) {
-        return data;
-      }
-
-      // Cache expired - remove it
-      localStorage.removeItem(CACHE_KEY);
-      return null;
-    } catch (err) {
-      console.error('Cache read error - clearing corrupted cache:', err);
-      // Clear corrupted cache
-      try {
-        localStorage.removeItem(CACHE_KEY);
-      } catch (e) {
-        // Ignore if we can't clear it
-      }
-      return null;
-    }
-  }
-
-  /**
-   * Stores alert data in cache with timestamp
-   * Includes error handling for quota exceeded
-   * @param {Object} data - Alert data to cache
-   */
-  function setCache(data) {
-    try {
-      const cacheData = JSON.stringify({
-        data,
-        ts: Date.now()
-      });
-      localStorage.setItem(CACHE_KEY, cacheData);
-    } catch (err) {
-      console.error('Cache write error (quota exceeded?):', err);
-      // Try to clear cache and retry once
-      try {
-        localStorage.removeItem(CACHE_KEY);
-        localStorage.setItem(CACHE_KEY, JSON.stringify({ data, ts: Date.now() }));
-      } catch (e) {
-        // If still fails, just log and continue without caching
-        console.warn('Unable to cache alerts - continuing without cache');
-      }
-    }
-  }
-
-  // ========================================================================
-  // NWS ALERT FETCHING (CONSOLIDATED)
-  // ========================================================================
-
-  /**
-   * Fetches active alerts from NWS API with retry logic
-   * Includes exponential backoff for rate limiting and service unavailability
-   * @param {number} retries - Number of retry attempts
+   * Fetches active alerts from NWS API with caching
+   * Uses NWSAPI.fetchAlerts() for actual API calls
    * @returns {Promise<Object>} - Alert data from API or cache
    */
-  async function fetchAlerts(retries = 3) {
+  async function fetchAlerts() {
     // Check cache first
-    const cached = getCache();
+    const cached = alertCache.get();
     if (cached) return cached;
 
-    // Fetch from API with retry logic
-    for (let i = 0; i < retries; i++) {
-      try {
-        const url = `https://api.weather.gov/alerts/active?zone=${FFC_ZONES}`;
-        const resp = await fetch(url, {
-          headers: { 'User-Agent': USER_AGENT },
-          signal: AbortSignal.timeout(10000) // 10 second timeout
-        });
+    // Fetch from API using shared NWSAPI module
+    const data = await window.NWSAPI.fetchAlerts();
 
-        // Handle rate limiting and service unavailability
-        if (resp.status === 503 || resp.status === 429) {
-          if (i < retries - 1) {
-            // Exponential backoff: 2s, 4s, 8s
-            await new Promise(resolve => setTimeout(resolve, 2000 * Math.pow(2, i)));
-            continue;
-          }
-        }
+    // Cache the result
+    alertCache.set(data);
 
-        if (!resp.ok) {
-          throw new Error(`NWS API error: ${resp.status}`);
-        }
-
-        const json = await resp.json();
-        setCache(json);
-        return json;
-      } catch (err) {
-        if (i === retries - 1) throw err; // Last retry failed
-        // Exponential backoff before retry
-        await new Promise(resolve => setTimeout(resolve, 2000 * Math.pow(2, i)));
-      }
-    }
+    return data;
   }
 
   /**

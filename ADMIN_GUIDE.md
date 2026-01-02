@@ -116,7 +116,7 @@ The Georgia SKYWARN website uses a **flat directory structure** - all important 
 ```
 georgiaskywarn/
 ├── index.html              ← Main page (what visitors see first)
-├── alerts.html             ← All NWS weather alerts page
+├── dashboard.html          ← Spotter dashboard with HWO and all alerts
 ├── repeaters.html          ← Repeater directory page (displays data from JSON)
 ├── nwsffclinks.html        ← NWS links and resources page
 ├── wx4ptc.html             ← WX4PTC station information page
@@ -514,13 +514,14 @@ Update a link in about.html:
 <p>For more information, visit <a href="https://example.com" target="_blank" rel="noopener noreferrer">our resources page</a>.</p>
 ```
 
-### Understanding Weather Alerts (Automatic - No Manual Updates Needed)
+### Understanding Weather Alerts and Dashboard (Automatic - No Manual Updates Needed)
 
-**Important**: Weather alerts on `index.html` and `alerts.html` are **automatically fetched from the NWS API**. You should NOT manually update these.
+**Important**: Weather alerts on `index.html` and `dashboard.html` are **automatically fetched from the NWS API**. You should NOT manually update these.
 
-**How Weather Alerts Work**:
+**How Weather Alerts and Dashboard Work**:
 - The site automatically fetches live weather alerts from the National Weather Service API
 - Alerts refresh every 5 minutes with a local cache
+- HWO (Hazardous Weather Outlook) on dashboard refreshes every 4 hours
 - The system filters for NWS Peachtree City (FFC) warnings, watches, and advisories
 - No manual intervention is needed - alerts appear and disappear automatically
 
@@ -603,7 +604,7 @@ georgiaskywarn/                    ← Root directory on server
 │
 └── public_html/                   ← MAIN WEBSITE FOLDER
     ├── index.html                 ← Actual homepage
-    ├── alerts.html
+    ├── dashboard.html
     ├── repeaters.html
     ├── nwsffclinks.html
     ├── wx4ptc.html
@@ -691,7 +692,7 @@ This is the standard deployment method for the Georgia SKYWARN website.
    - ❌ `CLAUDE.md`, `README.md`, `ADMIN_GUIDE.md` (documentation files)
 3. Upload the selected files to `public_html/`
 4. **IMPORTANT**: Make sure to include:
-   - ✅ All HTML files (index.html, alerts.html, etc.)
+   - ✅ All HTML files (index.html, dashboard.html, etc.)
    - ✅ All JavaScript files (header.js, footer.js, scripts.js)
    - ✅ style.css
    - ✅ All image files (PNG, GIF, ICO)
@@ -712,7 +713,7 @@ This is the standard deployment method for the Georgia SKYWARN website.
 GitHub Folder → Server Location
 
 /index.html              → georgiaskywarn/public_html/index.html
-/alerts.html             → georgiaskywarn/public_html/alerts.html
+/dashboard.html          → georgiaskywarn/public_html/dashboard.html
 /header.js               → georgiaskywarn/public_html/header.js
 /style.css               → georgiaskywarn/public_html/style.css
 /archive/*.jpg           → georgiaskywarn/public_html/archive/*.jpg
@@ -891,7 +892,7 @@ document.documentElement.setAttribute('data-theme', 'light');
 | Mobile responsive | ☐ | Test on phone or use DevTools |
 | Dark mode works | ☐ | Check colors and readability |
 | Light mode works | ☐ | Check colors and readability |
-| Weather alerts load | ☐ | Check index.html and alerts.html |
+| Weather alerts load | ☐ | Check index.html and dashboard.html |
 | No console errors | ☐ | F12 → Console (should be empty) |
 | Contact emails work | ☐ | Click mailto: links |
 | External links open | ☐ | Should open in new tabs |
@@ -900,7 +901,7 @@ document.documentElement.setAttribute('data-theme', 'light');
 
 ## Troubleshooting
 
-### Problem: Weather Alerts Not Loading
+### Problem: Weather Alerts or Dashboard Not Loading
 
 **Symptoms**: Empty alerts section or "Error loading alerts" message
 

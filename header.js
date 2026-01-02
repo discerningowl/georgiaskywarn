@@ -22,7 +22,7 @@ function loadHeader() {
                 </a>
                 <nav id="desktopNav">
                     <a href="index.html">Home</a>
-                    <a href="alerts.html">Alerts</a>
+                    <a href="dashboard.html">Dashboard</a>
                     <a href="repeaters.html">Repeaters</a>
                     <a href="wx4ptc.html">WX4PTC</a>
                     <a href="nwsffclinks.html">Resources</a>
@@ -39,7 +39,7 @@ function loadHeader() {
             </div>
             <nav class="mobile-nav" id="mobileNav">
                 <a href="index.html">Home</a>
-                <a href="alerts.html">Alerts</a>
+                <a href="dashboard.html">Dashboard</a>
                 <a href="repeaters.html">Repeaters</a>
                 <a href="wx4ptc.html">WX4PTC</a>
                 <a href="nwsffclinks.html">Resources</a>
