@@ -22,6 +22,44 @@
           "description": "Consolidated alerts into comprehensive spotter dashboard with HWO, activation status, all active alerts, and quick access to 6 essential weather maps."
         }
       ]
+    },
+    {
+      "month": "December",
+      "year": 2025,
+      "date": "2025-12-30",
+      "items": [
+        {
+          "title": "Component Architecture",
+          "description": "Implemented dynamic header and footer components with integrated theme toggle and navigation system for easier maintenance across all pages."
+        },
+        {
+          "title": "Sticky Navigation",
+          "description": "Page navigation now remains visible while scrolling with glassmorphism effects for easier access to page sections during severe weather events."
+        },
+        {
+          "title": "Unified Button Design",
+          "description": "Consistent styling across all interactive elements with enhanced hover effects, smooth transitions, and improved accessibility."
+        }
+      ]
+    },
+    {
+      "month": "November",
+      "year": 2025,
+      "date": "2025-11-09",
+      "items": [
+        {
+          "title": "Complete CSS Refactor",
+          "description": "Mobile-first redesign with CSS Grid and Flexbox layouts, improved accessibility with ARIA attributes, and semantic HTML5 structure."
+        },
+        {
+          "title": "Dark Mode Support",
+          "description": "Automatic light/dark mode based on system preferences with custom theme toggle button and smooth transitions between themes."
+        },
+        {
+          "title": "Enhanced Mobile Navigation",
+          "description": "Improved mobile hamburger menu with better touch targets, accessibility features, and dual navigation system (site-wide and page-specific)."
+        }
+      ]
     }
   ]
 }
