@@ -81,22 +81,11 @@
       /ACTIVATE.*SKYWARN/i,
       /ACTIVATE.*SPOTTER/i
     ],
-    // YELLOW - Monitor & report if seen (encouraged but not requested)
-    YELLOW: [
-      /SPOTTER\s+ACTIVATION\s+IS\s+NOT\s+REQUESTED\s+BUT\s+SPOTTERS\s+ARE\s+ENCOURAGED/i,
-      /SPOTTERS\s+ARE\s+ENCOURAGED\s+TO\s+REPORT/i,
-      /SPOTTERS\s+ARE\s+ENCOURAGED\s+TO\s+SUBMIT\s+REPORTS/i,
-      /PLEASE\s+RELAY\s+ANY\s+INFORMATION\s+ABOUT\s+OBSERVED\s+SEVERE\s+WEATHER/i,
-      /RELAY.*SEVERE\s+WEATHER\s+REPORTS/i
-    ],
-    // GREEN - Stand down / No activation needed
-    GREEN: [
-      /SPOTTER\s+ACTIVATION\s+IS\s+NOT\s+REQUESTED/i,
-      /SPOTTER\s+ACTIVATION\s+WILL\s+NOT\s+BE\s+NEEDED/i,
-      /SPOTTER\s+ACTIVATION\s+IS\s+NOT\s+EXPECTED/i,
-      /SKYWARN\s+ACTIVATION\s+IS\s+NOT\s+REQUESTED/i,
-      /SKYWARN\s+ACTIVATION\s+WILL\s+NOT\s+BE\s+NEEDED/i,
-      /SKYWARN\s+ACTIVATION\s+IS\s+NOT\s+EXPECTED/i
+    MEDIUM_CONFIDENCE: [
+      /SKYWARN.*(?:IS|ARE|WILL BE)\s+REQUESTED/i,
+      /SPOTTER.*(?:IS|ARE|WILL BE)\s+REQUESTED/i,
+      /SKYWARN.*(?:IS|ARE|WILL BE)\s+NEEDED/i,
+      /SPOTTER.*(?:IS|ARE|WILL BE)\s+NEEDED/i
     ]
   };
 

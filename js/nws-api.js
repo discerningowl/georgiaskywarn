@@ -235,12 +235,13 @@
     if (!container || !header) return;
 
     let statusHTML = '';
-    let headerClass = '';
+    const headerClass = 'card-header--green'; // Always green header
 
-    // Handle three-level urgency system
-    if (activationInfo.level === 'red') {
-      // RED - Activation requested/likely
-      headerClass = 'card-header--red';
+    if (activationInfo.activated) {
+      const confidenceText = activationInfo.confidence === 'high'
+        ? 'HIGH CONFIDENCE'
+        : 'POSSIBLE ACTIVATION';
+
       statusHTML = `
         <div class="alert-item alert-warning outlook-trigger"
              role="button"
@@ -255,9 +256,6 @@
             <small><strong>Outlook Issued:</strong> ${new Date(issuanceTime).toLocaleString()}</small>
           </div>
           <div class="alert-more">Click to view full outlook →</div>
-        </div>
-        <div style="margin-top: 1rem;">
-          <a href="index.html#submitcard" class="btn btn-red">How to Submit Reports →</a>
         </div>
       `;
     } else if (activationInfo.level === 'yellow') {
@@ -283,15 +281,13 @@
         </div>
       `;
     } else {
-      // GREEN - Stand down / No activation needed
-      headerClass = 'card-header--green';
       statusHTML = `
-        <div class="alert-item alert-other outlook-trigger"
+        <div class="alert-item outlook-trigger"
              role="button"
              tabindex="0"
              aria-label="Click to view full hazardous weather outlook"
-             style="border-left-color: var(--accent-green);">
-          <div class="alert-header">✓ No Spotter Activation Required</div>
+             style="background: rgba(74, 211, 142, 0.15); border-left: 4px solid var(--accent-green);">
+          <div class="alert-header">✓ No Spotter Activation Currently Required</div>
           <div class="alert-description">
             ${activationInfo.matchedText ? `<p><strong>Matched Text:</strong> "${activationInfo.matchedText}"</p>` : ''}
             <p>The latest Hazardous Weather Outlook does not indicate spotter activation at this time. Continue to monitor conditions and always report any severe weather you observe.</p>
