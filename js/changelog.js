@@ -1,7 +1,7 @@
 /**
  * ──────────────────────────────────────────────────────────────
  * File:   changelog.js
- * Author: Jack Parks (KQ4JP) <kq4jp@pm.me>
+ * Author: Georgia SKYWARN Development Team
  * Purpose: Load and display changelog from changelog.json
  * Change-log:
  *   • 2026-01-02 – Initial creation for dynamic changelog display

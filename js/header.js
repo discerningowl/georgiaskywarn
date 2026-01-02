@@ -1,6 +1,6 @@
 // ===========================================================================
 // File:   header.js
-// Author: Jack Parks (KQ4JP) <kq4jp@pm.me>
+// Author: Georgia SKYWARN Development Team
 // Purpose: Common header component for Georgia SKYWARN website
 //          Dynamically loads sticky header with logo, navigation, and theme toggle
 // Based on: atlantahamradio.org header.js structure

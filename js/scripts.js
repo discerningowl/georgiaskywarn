@@ -1,7 +1,7 @@
 /*
  * ──────────────────────────────────────────────────────────────
  * File:   scripts.js
- * Author: Jack Parks (KQ4JP) <kq4jp@pm.me>
+ * Author: Georgia SKYWARN Development Team
  * Purpose: Consolidated JavaScript for Georgia SKYWARN website
  *          - Footer loading
  *          - Site navigation toggle (site-nav hamburger menu on mobile)
@@ -12,6 +12,7 @@
  *          - Security hardening (XSS prevention, error handling)
  *          - Performance optimizations (debouncing, caching)
  * Change-log:
+ *   • 2026-01-02 – Security fixes: URL sanitization, tone sanitization
  *   • 2025-12-06 – Created consolidated script file to replace
  *     inline scripts across all pages
  *   • 2025-12-06 – Security & performance review fixes:
@@ -507,7 +508,7 @@
    */
   function renderRepeaterRow(repeater) {
     const locationHTML = repeater.url
-      ? `<a href="${repeater.url}" target="_blank" rel="noopener noreferrer">${sanitizeHTML(repeater.location)}</a>`
+      ? `<a href="${window.UTILS.sanitizeURL(repeater.url)}" target="_blank" rel="noopener noreferrer">${sanitizeHTML(repeater.location)}</a>`
       : sanitizeHTML(repeater.location);
 
     // Render badges from tags array - displayed below location
@@ -525,7 +526,7 @@
         }).join('') + '</div>'
       : '';
 
-    const toneText = repeater.tone ? ` (${repeater.tone})` : '';
+    const toneText = repeater.tone ? ` (${sanitizeHTML(repeater.tone)})` : '';
 
     return `
       <tr>

@@ -1,7 +1,7 @@
 /**
  * ──────────────────────────────────────────────────────────────
  * File:   version.js
- * Author: Jack Parks (KQ4JP) <kq4jp@pm.me>
+ * Author: Georgia SKYWARN Development Team
  * Purpose: Single source of truth for cache-busting version number
  *          UPDATE THIS VERSION NUMBER to force cache refresh across ALL pages
  * Change-log:
@@ -15,7 +15,7 @@
   // ========================================================================
   // UPDATE THIS VERSION NUMBER TO FORCE CACHE REFRESH ACROSS ENTIRE SITE
   // ========================================================================
-  const APP_VERSION = '20260102c';
+  const APP_VERSION = '20260102d';
 
   // Export to global namespace
   window.APP_VERSION = APP_VERSION;

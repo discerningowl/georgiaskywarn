@@ -1,6 +1,6 @@
 // ===========================================================================
 // File:   footer.js
-// Author: Jack Parks (KQ4JP) <kq4jp@pm.me>
+// Author: Georgia SKYWARN Development Team
 // Purpose: Common footer component for Georgia SKYWARN website
 //          Dynamically loads footer with site info, quick links, and connect links
 // Based on: Extracted from scripts.js footer injection logic

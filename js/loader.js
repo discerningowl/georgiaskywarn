@@ -1,7 +1,7 @@
 /**
  * ──────────────────────────────────────────────────────────────
  * File:   loader.js
- * Author: Jack Parks (KQ4JP) <kq4jp@pm.me>
+ * Author: Georgia SKYWARN Development Team
  * Purpose: Dynamically loads ALL JavaScript files with version-based cache busting
  *          To update cache across entire site: just update APP_VERSION in version.js
  * Change-log:

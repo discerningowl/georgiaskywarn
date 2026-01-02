@@ -1,7 +1,7 @@
 /**
  * ──────────────────────────────────────────────────────────────
  * File:   nws-api.js
- * Author: Jack Parks (KQ4JP) <kq4jp@pm.me>
+ * Author: Georgia SKYWARN Development Team
  * Purpose: Shared NWS API utilities for Georgia SKYWARN website
  *          - Fetch functions with timeout and retry logic
  *          - Cache management

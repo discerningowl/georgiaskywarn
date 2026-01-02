@@ -1,9 +1,10 @@
 /**
  * ──────────────────────────────────────────────────────────────
  * File:   utils.js
- * Author: Jack Parks (KQ4JP) <kq4jp@pm.me>
+ * Author: Georgia SKYWARN Development Team
  * Purpose: Shared utility functions for Georgia SKYWARN website
  * Change-log:
+ *   • 2026-01-02d – Added sanitizeURL() function to prevent URL injection attacks
  *   • 2026-01-02c – Removed UTILS_VERSION, now uses APP_VERSION from version.js (single source of truth)
  *   • 2026-01-02b – Added version-based cache invalidation for mobile browsers
  *   • 2026-01-02 – Created shared utilities module
@@ -187,6 +188,29 @@
   }
 
   /**
+   * Validates and sanitizes URLs to prevent injection attacks
+   * Only allows http: and https: protocols
+   * @param {string} url - URL to validate
+   * @returns {string} - Sanitized URL or '#' if invalid
+   */
+  function sanitizeURL(url) {
+    if (!url) return '#';
+
+    try {
+      const parsed = new URL(url);
+      // Only allow http and https protocols
+      if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+        return url;
+      }
+      console.warn('[SECURITY] Blocked non-HTTP(S) URL:', url);
+    } catch (e) {
+      console.warn('[SECURITY] Invalid URL detected:', url);
+    }
+
+    return '#'; // Fallback for invalid URLs
+  }
+
+  /**
    * DOM manipulation helpers
    */
   const DOM = {
@@ -261,6 +285,7 @@
     createModalManager,
     fetchJSON,
     sanitizeHTML,
+    sanitizeURL,
     DOM,
     debounce,
     formatDate,

@@ -1,7 +1,7 @@
 /**
  * ──────────────────────────────────────────────────────────────
  * File:   config.js
- * Author: Jack Parks (KQ4JP) <kq4jp@pm.me>
+ * Author: Georgia SKYWARN Development Team
  * Purpose: Centralized configuration constants for Georgia SKYWARN
  * Version: 20260102c
  * Change-log:
