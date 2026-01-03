@@ -6,8 +6,13 @@
  *          - Fetch functions with timeout and retry logic
  *          - Cache management
  *          - Common constants and configuration
- * Version: 20260103b
+ * Version: 20260103c
  * Change-log:
+ *   • 2026-01-03c – UX IMPROVEMENT: Reformatted activation status display
+ *                  - Moved "Matched Text" to bottom of description (was at top)
+ *                  - Removed bold formatting from matched text for consistency
+ *                  - Changed "Outlook Issued" from <small> to <p> for readability
+ *                  - Applied changes to all three levels (RED/YELLOW/GREEN)
  *   • 2026-01-03b – CRITICAL FIX: Improved parseSpotterActivation() accuracy
  *                  - Now extracts and focuses on .SPOTTER INFORMATION STATEMENT. section
  *                  - Added debug logging for pattern matches
@@ -281,11 +286,11 @@
              aria-label="Click to view full hazardous weather outlook">
           <div class="alert-header">🚨 SPOTTER ACTIVATION REQUESTED</div>
           <div class="alert-description">
-            ${activationInfo.matchedText ? `<p><strong>Matched Text:</strong> "${activationInfo.matchedText}"</p>` : ''}
             <p><strong>Action Required:</strong> Monitor weather conditions and report severe weather to NWS Atlanta via the SKYWARN repeater network. Activation is requested or likely needed.</p>
+            ${activationInfo.matchedText ? `<p>Matched Text: "${activationInfo.matchedText}"</p>` : ''}
           </div>
           <div class="alert-meta">
-            <small><strong>Outlook Issued:</strong> ${new Date(issuanceTime).toLocaleString()}</small>
+            <p><strong>Outlook Issued:</strong> ${new Date(issuanceTime).toLocaleString()}</p>
           </div>
           <div class="alert-more">Click to view full outlook →</div>
         </div>
@@ -303,11 +308,11 @@
              aria-label="Click to view full hazardous weather outlook">
           <div class="alert-header">⚠️ SPOTTER REPORTS ENCOURAGED</div>
           <div class="alert-description">
-            ${activationInfo.matchedText ? `<p><strong>Matched Text:</strong> "${activationInfo.matchedText}"</p>` : ''}
             <p><strong>Action:</strong> While spotter activation is not formally requested, you are encouraged to monitor conditions and report any observed severe weather, damaging winds, hail, or heavy rain to NWS Atlanta.</p>
+            ${activationInfo.matchedText ? `<p>Matched Text: "${activationInfo.matchedText}"</p>` : ''}
           </div>
           <div class="alert-meta">
-            <small><strong>Outlook Issued:</strong> ${new Date(issuanceTime).toLocaleString()}</small>
+            <p><strong>Outlook Issued:</strong> ${new Date(issuanceTime).toLocaleString()}</p>
           </div>
           <div class="alert-more">Click to view full outlook →</div>
         </div>
@@ -324,11 +329,11 @@
              style="background: rgba(74, 211, 142, 0.15); border-left: 4px solid var(--accent-green);">
           <div class="alert-header">✓ No Spotter Activation Currently Required</div>
           <div class="alert-description">
-            ${activationInfo.matchedText ? `<p><strong>Matched Text:</strong> "${activationInfo.matchedText}"</p>` : ''}
             <p>The latest Hazardous Weather Outlook does not indicate spotter activation at this time. Continue to monitor conditions and always report any severe weather you observe.</p>
+            ${activationInfo.matchedText ? `<p>Matched Text: "${activationInfo.matchedText}"</p>` : ''}
           </div>
           <div class="alert-meta">
-            <small><strong>Outlook Issued:</strong> ${new Date(issuanceTime).toLocaleString()}</small>
+            <p><strong>Outlook Issued:</strong> ${new Date(issuanceTime).toLocaleString()}</p>
           </div>
           <div class="alert-more">Click to view full outlook →</div>
         </div>
