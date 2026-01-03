@@ -34,6 +34,7 @@
       <li><a href="#repeater-search">Search Repeaters</a></li>
       <li><a href="#repeater-table">Linked Repeaters</a></li>
       <li><a href="#nonlinkcard">Non-Linked Repeaters</a></li>
+      <li><a href="#weathercard">Weather Stations</a></li>
     </ul>
   </nav>
 
@@ -111,6 +112,35 @@
               </thead>
               <tbody id="nonlinked-repeaters-tbody">
                   <tr><td colspan="3" class="center">Loading non-linked repeaters...</td></tr>
+              </tbody>
+          </table>
+        </div>
+        <p class="scroll-hint">← Scroll horizontally on mobile →</p>
+      </div>
+    </section>
+
+    <!-- Weather Station Repeaters Card -->
+    <section class="card table-card" id="weathercard">
+      <header class="card-header card-header--blue">
+        <h2 class="card-title">NWS Weather Radio Stations (NOAA Weather Radio)</h2>
+      </header>
+      <div class="card-body">
+        <aside class="callout note">
+        	<p class="net-info center">
+         		These are <strong>NOAA Weather Radio</strong> transmitters operated by the National Weather Service. They broadcast continuous weather information, warnings, watches, and forecasts 24/7. You can receive these stations with a weather radio or scanner. Most stations transmit on one of seven VHF frequencies between 162.400 and 162.550 MHz.
+        	</p>
+        </aside>
+        <div class="table-wrapper">
+          <table class="repeater-table">
+              <thead>
+                  <tr>
+                      <th class="center"><em><strong>Location</strong></em></th>
+                      <th class="center"><em><strong>Frequency / Channel</strong></em></th>
+                      <th class="center"><em><strong>Coverage Area</strong></em></th>
+                  </tr>
+              </thead>
+              <tbody id="weather-stations-tbody">
+                  <tr><td colspan="3" class="center">Loading weather stations...</td></tr>
               </tbody>
           </table>
         </div>

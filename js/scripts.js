@@ -570,11 +570,49 @@
     container.innerHTML = repeaters.map(r => renderRepeaterRow(r)).join('');
   }
 
+  /**
+   * Renders a weather station table row
+   * @param {Object} station - Weather station object from JSON
+   * @returns {string} - HTML table row
+   */
+  function renderWeatherStationRow(station) {
+    const callsignBadge = station.callsign
+      ? `<div class="repeater-badges"><span class="badge">${sanitizeHTML(station.callsign)}</span></div>`
+      : '';
+
+    const freqChannel = `${sanitizeHTML(station.frequency)} (${sanitizeHTML(station.wxChannel)})`;
+
+    return `
+      <tr>
+        <td><div>${sanitizeHTML(station.location)}</div>${callsignBadge}</td>
+        <td class="freq">${freqChannel}</td>
+        <td>${sanitizeHTML(station.coverage)}</td>
+      </tr>`;
+  }
+
+  /**
+   * Renders all weather stations for repeaters.html
+   */
+  async function renderWeatherStations() {
+    const container = document.getElementById('weather-stations-tbody');
+    if (!container) return;
+
+    const stations = await fetchRepeaterData('data/weather-stations.json');
+
+    if (stations.length === 0) {
+      container.innerHTML = '<tr><td colspan="3">No weather stations available.</td></tr>';
+      return;
+    }
+
+    container.innerHTML = stations.map(s => renderWeatherStationRow(s)).join('');
+  }
+
   // Initialize repeater tables for repeaters.html
   if (currentPage === 'repeaters.html') {
     Promise.all([
       renderLinkedRepeaters(),
-      renderNonLinkedRepeaters()
+      renderNonLinkedRepeaters(),
+      renderWeatherStations()
     ]).then(() => {
       // Re-initialize search after tables are loaded
       const searchInput = document.getElementById('repeater-search');
