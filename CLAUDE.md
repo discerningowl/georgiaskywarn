@@ -39,6 +39,7 @@ georgiaskywarn/
 ├── data/                   # Data files directory
 │   ├── linked-repeaters.json   # Linked repeater data (dynamically loaded)
 │   ├── nonlinked-repeaters.json # Non-linked repeater data (dynamically loaded)
+│   ├── weather-stations.json   # NOAA Weather Radio stations (dynamically loaded)
 │   └── changelog.json      # Website changelog/updates
 ├── archive/                # Photo archive directory
 │   └── WX4PTC*.jpg         # Station photos (1-8)
@@ -230,15 +231,17 @@ For scripts that only load on specific pages:
 - Modal popups for HWO details and individual alert details
 
 ### repeaters.html
-**Purpose**: Dedicated page for SKYWARN repeater information
+**Purpose**: Dedicated page for SKYWARN repeater and weather radio information
 
 **Navigation**:
 - **Site-nav**: Links to other pages (back to index, dashboard, wx4ptc, nwsffclinks, about)
-- **Page-nav**: Links to page sections (Linked Repeaters, Non-Linked Repeaters)
+- **Page-nav**: Links to page sections (Search Repeaters, Linked Repeaters, Non-Linked Repeaters, Weather Stations)
 
 **Contains**:
+- Repeater search bar (Ctrl/Cmd+K shortcut)
 - Complete linked repeater table (primary SKYWARN network)
 - Non-linked repeaters table (local SKYWARN nets)
+- NOAA Weather Radio stations table (17 NWS transmitters in Georgia)
 - Coverage notes and emergency power information
 
 ### nwsffclinks.html
@@ -662,6 +665,38 @@ Repeater tables are dynamically generated from JSON files. Edit the appropriate 
 
 **For detailed non-technical instructions**, see [ADMIN_GUIDE.md](ADMIN_GUIDE.md) Task 1.
 
+### Adding a Weather Station
+
+**File**: `data/weather-stations.json`
+
+Weather station tables are dynamically generated from the JSON file. Edit `weather-stations.json` to add or update NOAA Weather Radio stations.
+
+**JSON Structure**:
+```json
+{
+  "location": "Atlanta",
+  "wxChannel": "WX1",
+  "frequency": "162.550 MHz",
+  "callsign": "KEC80",
+  "coverage": "Metro Atlanta and surrounding central Georgia counties (e.g., Fulton, DeKalb, Gwinnett); approx. 40-mile radius."
+}
+```
+
+**Steps**:
+1. Open `data/weather-stations.json`
+2. Add new entry in alphabetical order by location
+3. Follow JSON syntax rules:
+   - Entries separated by commas
+   - Last entry has NO trailing comma
+   - All strings in double quotes
+   - Frequency includes "MHz" (e.g., "162.550 MHz")
+   - WX Channel format: "WX1" through "WX7"
+4. Validate JSON at [jsonlint.com](https://jsonlint.com/)
+5. Verify station information on [NOAA Weather Radio coverage map](https://www.weather.gov/nwr/coverage)
+6. Test on mobile (weather station table is responsive and searchable)
+
+**Important**: The weather stations table on `repeaters.html` is auto-generated from this JSON file via JavaScript. Do NOT edit the HTML table directly.
+
 ### Updating NWS Contact Information
 
 **File**: `about.html`
@@ -930,6 +965,30 @@ refactor: Simplify alert filtering logic
 ---
 
 ## Changelog
+
+### 2026-01-03
+- **WEATHER RADIO STATIONS**: Added NOAA Weather Radio information to repeaters page
+  - Created `data/weather-stations.json` - 17 NWS weather radio transmitters in Georgia
+  - Added "Weather Stations" section to `repeaters.html` with dedicated table
+  - Stations include: location, WX channel (WX1-WX7), frequency (162.400-162.550 MHz), callsign, coverage area
+  - Integrated with existing repeater search functionality (searchable by location, frequency, or callsign)
+  - Added link to NWS county coverage finder in callout box
+  - Updated page navigation to include "Weather Stations" link
+  - Added `renderWeatherStations()` and `renderWeatherStationRow()` functions to `js/scripts.js`
+  - All stations alphabetically sorted and mobile-responsive
+- **NWS API INTEGRATION FIXES**: Critical bug fixes for spotter activation detection
+  - Fixed inverted logic in RED activation patterns (was showing "will NOT be needed" as activation)
+  - Added negative lookahead `(?!NOT\s+)` to all RED and YELLOW patterns
+  - Fixed `parseSpotterActivation()` to extract `.SPOTTER INFORMATION STATEMENT...` section
+  - Fixed `displayActivationStatus()` checking wrong properties (.activated → .level)
+  - Fixed dark mode invisible alert text (--alert-desc-color was 92% transparent)
+  - Fixed script loading race condition (nws-api.js now loads BEFORE scripts.js via preScripts array)
+  - UX improvements: moved matched text to bottom, removed bold, enlarged "Outlook Issued"
+- **DOCUMENTATION UPDATES**: Updated CLAUDE.md with weather stations feature
+  - Added `weather-stations.json` to Repository Structure section
+  - Updated `repeaters.html` description with weather stations information
+  - Added "Adding a Weather Station" task to Common Tasks section
+  - Version bumps: js/version.js to 20260103d
 
 ### 2026-01-02
 - **CENTRALIZED VERSION MANAGEMENT**: True single-source cache busting system
