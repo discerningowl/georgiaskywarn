@@ -695,7 +695,59 @@ Weather station tables are dynamically generated from the JSON file. Edit `weath
 5. Verify station information on [NOAA Weather Radio coverage map](https://www.weather.gov/nwr/coverage)
 6. Test on mobile (weather station table is responsive and searchable)
 
+**Search Integration**: Weather stations are automatically searchable via the existing repeater search (Ctrl/Cmd+K). No code changes needed - the search queries all `.repeater-table tbody` elements, which includes weather stations.
+
+**Updating Existing Stations**:
+- Frequency change: Update the `frequency` field in weather-stations.json
+- Callsign change: Update the `callsign` field
+- Coverage change: Update the `coverage` description
+- Station offline: Remove the entry from the JSON file
+- Always verify changes on [NOAA Weather Radio Status](https://www.weather.gov/nwr/)
+
+**Coverage Note**: The 17 stations listed cover the NWS Atlanta (FFC) forecast area. Stations in neighboring forecast areas (e.g., NWS Jacksonville for South Georgia) are intentionally excluded to match SKYWARN geographic scope.
+
 **Important**: The weather stations table on `repeaters.html` is auto-generated from this JSON file via JavaScript. Do NOT edit the HTML table directly.
+
+### Weather Stations vs Repeaters - Key Differences
+
+**CRITICAL: Weather stations and repeaters serve different purposes and require different equipment.**
+
+**Weather Stations (NOAA Weather Radio)**:
+- **Receive-only** broadcast transmitters operated by the National Weather Service
+- Users **CANNOT transmit** on these frequencies (162.400-162.550 MHz)
+- Requires weather radio or scanner (no amateur radio license needed)
+- Broadcasts continuous weather information, warnings, watches, and forecasts 24/7
+- One-way communication only
+
+**Repeaters (Amateur Radio)**:
+- **Two-way communication** systems for weather spotters
+- Requires valid amateur radio license to transmit
+- Used for reporting severe weather observations to NWS
+- Interactive communication with net control and other spotters
+
+**Code Implementation Differences**:
+- **Weather stations**: Use `renderWeatherStationRow()` function
+  - Table columns: Location, Frequency/Channel, Coverage Area
+  - Callsign displayed as badge below location
+  - No tone information (receive-only)
+  - File: `data/weather-stations.json`
+
+- **Repeaters**: Use `renderRepeaterRow()` function
+  - Table columns: Location, Frequency+Tone, Description
+  - Tags displayed as badges (Hub, WX4PTC, Peach State, Cherry Blossom)
+  - Includes tone, autopatch, emergency power details
+  - Files: `data/linked-repeaters.json`, `data/nonlinked-repeaters.json`
+
+**Shared Functionality**:
+- Both use the same search bar (Ctrl/Cmd+K shortcut)
+- Both use `.repeater-table` CSS class for consistent styling
+- Both are mobile-responsive with horizontal scrolling
+- Both tables dynamically load from JSON files via `js/scripts.js`
+
+**When to Use Which**:
+- **Add to weather-stations.json**: NWS broadcast transmitters (NOAA Weather Radio)
+- **Add to linked-repeaters.json**: Amateur radio repeaters linked to the SKYWARN network
+- **Add to nonlinked-repeaters.json**: Local amateur radio repeaters for SKYWARN nets (not state-wide linked)
 
 ### Updating NWS Contact Information
 
