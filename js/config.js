@@ -3,8 +3,19 @@
  * File:   config.js
  * Author: Georgia SKYWARN Development Team
  * Purpose: Centralized configuration constants for Georgia SKYWARN
- * Version: 20260102c
+ * Version: 20260103b
  * Change-log:
+ *   • 2026-01-03b – CRITICAL FIX: Added negative lookahead to prevent false positives
+ *                  - RED patterns now exclude "NOT" (e.g., "will NOT be needed")
+ *                  - YELLOW patterns now exclude "NOT" (e.g., "may NOT be needed")
+ *                  - Fixed inverted logic: "will not be needed" now correctly = GREEN
+ *                  - Prevents dangerous false activation alerts
+ *   • 2026-01-03 – CRITICAL FIX: Corrected ACTIVATION_PATTERNS structure
+ *                  - Replaced MEDIUM_CONFIDENCE with YELLOW and GREEN
+ *                  - Added comprehensive patterns based on actual NWS HWO language
+ *                  - RED: 6 patterns for definitive activation
+ *                  - YELLOW: 4 patterns for tentative/monitoring
+ *                  - GREEN: 5 patterns for stand-down language
  *   • 2026-01-02c – Added version check console log for cache debugging
  *   • 2026-01-02a – Updated ACTIVATION_PATTERNS to three-level urgency system (RED/YELLOW/GREEN)
  *   • 2026-01-02 – Created centralized config module
@@ -71,22 +82,37 @@
     ADVISORY: 'advisory'
   };
 
-  // SKYWARN activation detection patterns (three-level system)
+  // SKYWARN activation detection patterns (three-level urgency system)
+  // Based on actual NWS Hazardous Weather Outlook language patterns
+  // NOTE: Patterns use negative lookahead to exclude "NOT" (e.g., "will NOT be needed")
   const ACTIVATION_PATTERNS = {
-    // RED - Activation requested/likely
+    // RED - Activation requested or definitely needed (highest urgency)
+    // Explicitly exclude "NOT" using negative lookahead in the right position
     RED: [
-      /SPOTTER\s+ACTIVATION\s+IS\s+REQUESTED/i,
-      /SPOTTER\s+ACTIVATION\s+WILL\s+LIKELY\s+BE\s+NEEDED/i,
-      /SKYWARN\s+ACTIVATION\s+IS\s+REQUESTED/i,
-      /SKYWARN\s+ACTIVATION\s+WILL\s+LIKELY\s+BE\s+NEEDED/i,
-      /ACTIVATE.*SKYWARN/i,
-      /ACTIVATE.*SPOTTER/i
+      /SPOTTER\s+ACTIVATION\s+IS\s+(?!NOT\s+)REQUESTED/i,
+      /SKYWARN\s+(?:SPOTTER\s+)?ACTIVATION\s+IS\s+(?!NOT\s+)REQUESTED/i,
+      /SPOTTER\s+ACTIVATION\s+WILL\s+(?!NOT\s+)(?:LIKELY\s+)?BE\s+NEEDED/i,
+      /SKYWARN\s+(?:SPOTTER\s+)?ACTIVATION\s+WILL\s+(?!NOT\s+)(?:LIKELY\s+)?BE\s+NEEDED/i,
+      /(?!.*\bNOT\b.*ACTIVATE)ACTIVATE.*(?:SKYWARN|SPOTTER)/i,
+      /(?:SKYWARN|SPOTTER).*ACTIVATION\s+(?:IS\s+|WILL\s+(?:LIKELY\s+)?BE\s+)?(?!NOT\s+)(?:REQUESTED|NEEDED)/i
     ],
-    MEDIUM_CONFIDENCE: [
-      /SKYWARN.*(?:IS|ARE|WILL BE)\s+REQUESTED/i,
-      /SPOTTER.*(?:IS|ARE|WILL BE)\s+REQUESTED/i,
-      /SKYWARN.*(?:IS|ARE|WILL BE)\s+NEEDED/i,
-      /SPOTTER.*(?:IS|ARE|WILL BE)\s+NEEDED/i
+
+    // YELLOW - Monitor conditions, activation may be needed (medium urgency)
+    // Also exclude "NOT" to prevent false positives (e.g., "may NOT be needed")
+    YELLOW: [
+      /SPOTTER\s+ACTIVATION\s+MAY\s+(?!NOT\s+)BE\s+NEEDED/i,
+      /SKYWARN\s+(?:SPOTTER\s+)?ACTIVATION\s+MAY\s+(?!NOT\s+)BE\s+NEEDED/i,
+      /(?:SPOTTER|SKYWARN).*(?:REPORTS?\s+)?(?!NOT\s+)(?:ENCOURAGED|POSSIBLE)/i,
+      /(?:SPOTTER|SKYWARN).*ACTIVATION.*(?!NOT\s+)(?:POSSIBLE|MAY)/i
+    ],
+
+    // GREEN - Stand down, activation not needed (low urgency)
+    GREEN: [
+      /SPOTTER\s+ACTIVATION\s+(?:IS\s+)?NOT\s+(?:EXPECTED|NEEDED|ANTICIPATED)/i,
+      /SKYWARN\s+(?:SPOTTER\s+)?ACTIVATION\s+(?:IS\s+)?NOT\s+(?:EXPECTED|NEEDED|ANTICIPATED)/i,
+      /SPOTTER\s+ACTIVATION\s+WILL\s+NOT\s+BE\s+NEEDED/i,
+      /SKYWARN\s+(?:SPOTTER\s+)?ACTIVATION\s+WILL\s+NOT\s+BE\s+NEEDED/i,
+      /NO\s+(?:SPOTTER\s+)?ACTION\s+NEEDED/i
     ]
   };
 
@@ -102,6 +128,6 @@
   };
 
   // Version check log
-  console.log('[CONFIG] Loaded v20260102c with patterns:', Object.keys(ACTIVATION_PATTERNS));
+  console.log('[CONFIG] Loaded v20260103b with patterns:', Object.keys(ACTIVATION_PATTERNS));
 
 })();

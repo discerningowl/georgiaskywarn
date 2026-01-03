@@ -5,6 +5,12 @@
  * Purpose: Dynamically loads ALL JavaScript files with version-based cache busting
  *          To update cache across entire site: just update APP_VERSION in version.js
  * Change-log:
+ *   • 2026-01-03b – CRITICAL FIX: Fixed script loading order for index.html
+ *                   - nws-api.js now loads BEFORE scripts.js (was after)
+ *                   - Prevents race condition where initAlerts() tries to use
+ *                     window.NWSAPI before it's defined
+ *                   - Split page scripts into preScripts (before scripts.js) and
+ *                     postScripts (after scripts.js) for proper dependency order
  *   • 2026-01-02b – Added header.js to centralized loading
  *   • 2026-01-02 – Created centralized script loader
  * ──────────────────────────────────────────────────────────────
@@ -58,25 +64,38 @@
     const headerScripts = ['js/header.js'];
 
     // Core scripts loaded on every page (in dependency order)
+    // NOTE: For pages using NWS API, nws-api.js must load BEFORE scripts.js
     const coreScripts = [
       'js/config.js',
       'js/utils.js',
-      'js/footer.js',
-      'js/scripts.js'
+      'js/footer.js'
     ];
 
-    // Page-specific scripts
-    const pageScripts = {
+    // Page-specific scripts that must load BEFORE scripts.js
+    const preScripts = {
       'index.html': ['js/nws-api.js'],
-      'dashboard.html': ['js/nws-api.js'],
+      'dashboard.html': ['js/nws-api.js']
+    };
+
+    // Page-specific scripts that load AFTER scripts.js
+    const postScripts = {
       'about.html': ['js/changelog.js']
     };
 
-    // Combine: header first, then core, then page-specific
+    // Combine in correct order: header → core → page-specific pre-scripts → scripts.js → post-scripts
     const scripts = [...headerScripts, ...coreScripts];
 
-    if (pageScripts[currentPage]) {
-      scripts.push(...pageScripts[currentPage]);
+    // Add page-specific pre-scripts (must load before scripts.js)
+    if (preScripts[currentPage]) {
+      scripts.push(...preScripts[currentPage]);
+    }
+
+    // Add scripts.js AFTER page-specific dependencies
+    scripts.push('js/scripts.js');
+
+    // Add page-specific post-scripts (load after scripts.js)
+    if (postScripts[currentPage]) {
+      scripts.push(...postScripts[currentPage]);
     }
 
     return scripts;

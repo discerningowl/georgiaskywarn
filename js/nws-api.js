@@ -6,8 +6,16 @@
  *          - Fetch functions with timeout and retry logic
  *          - Cache management
  *          - Common constants and configuration
- * Version: 20260102j
+ * Version: 20260103b
  * Change-log:
+ *   • 2026-01-03b – CRITICAL FIX: Improved parseSpotterActivation() accuracy
+ *                  - Now extracts and focuses on .SPOTTER INFORMATION STATEMENT. section
+ *                  - Added debug logging for pattern matches
+ *                  - Changed to use textToSearch instead of full productText
+ *   • 2026-01-03 – CRITICAL FIX: Fixed displayActivationStatus() function
+ *                  - Replaced non-existent .activated and .confidence properties
+ *                  - Now correctly checks activationInfo.level (red/yellow/green)
+ *                  - Added proper header color changes for each level
  *   • 2026-01-02j – Added defensive error checking for browser cache issues
  *   • 2026-01-02h – Updated spotter activation to three-level system (RED/YELLOW/GREEN)
  *                   parseSpotterActivation() now returns {level, matchedText}
@@ -210,10 +218,18 @@
       return { level: 'green', matchedText: '' };
     }
 
+    // Extract the SPOTTER INFORMATION STATEMENT section for more accurate parsing
+    // This section contains the official spotter activation status
+    const spotterSectionMatch = productText.match(/\.SPOTTER INFORMATION STATEMENT\.\.\.([\s\S]*?)(?=\n\.\w+|$)/i);
+    const textToSearch = spotterSectionMatch ? spotterSectionMatch[1] : productText;
+
+    console.log('[NWS API] Parsing spotter activation from:', spotterSectionMatch ? 'SPOTTER INFORMATION STATEMENT section' : 'full HWO text');
+
     // Check RED patterns first (activation requested/likely)
     for (const pattern of RED) {
-      const match = productText.match(pattern);
+      const match = textToSearch.match(pattern);
       if (match) {
+        console.log('[NWS API] RED activation detected:', match[0]);
         return { level: 'red', matchedText: match[0] };
       }
     }
@@ -221,16 +237,18 @@
     // Check YELLOW patterns second (encouraged but not requested)
     // Must check before GREEN to catch "not requested but encouraged" phrasing
     for (const pattern of YELLOW) {
-      const match = productText.match(pattern);
+      const match = textToSearch.match(pattern);
       if (match) {
+        console.log('[NWS API] YELLOW activation detected:', match[0]);
         return { level: 'yellow', matchedText: match[0] };
       }
     }
 
     // Check GREEN patterns third (explicit stand down language)
     for (const pattern of GREEN) {
-      const match = productText.match(pattern);
+      const match = textToSearch.match(pattern);
       if (match) {
+        console.log('[NWS API] GREEN (stand down) detected:', match[0]);
         return { level: 'green', matchedText: match[0] };
       }
     }
@@ -251,13 +269,11 @@
     if (!container || !header) return;
 
     let statusHTML = '';
-    const headerClass = 'card-header--green'; // Always green header
+    let headerClass = 'card-header--green';
 
-    if (activationInfo.activated) {
-      const confidenceText = activationInfo.confidence === 'high'
-        ? 'HIGH CONFIDENCE'
-        : 'POSSIBLE ACTIVATION';
-
+    if (activationInfo.level === 'red') {
+      // RED - Activation requested or likely needed
+      headerClass = 'card-header--red';
       statusHTML = `
         <div class="alert-item alert-warning outlook-trigger"
              role="button"
