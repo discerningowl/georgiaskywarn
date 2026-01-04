@@ -6,8 +6,14 @@
  *          - Fetch functions with timeout and retry logic
  *          - Cache management
  *          - Common constants and configuration
- * Version: 20260103c
+ * Version: 20260103f
  * Change-log:
+ *   • 2026-01-03f – CLEANUP: Remove $$ end-of-message marker from spotter statement display
+ *   • 2026-01-03e – UX ENHANCEMENT: Display full SPOTTER INFORMATION STATEMENT
+ *                  - Now shows entire spotter statement section instead of just matched phrase
+ *                  - Changed label from "Matched Text" to "Spotter Information Statement"
+ *                  - Keeps matchedText for pattern detection, displays fullText to users
+ *                  - Provides complete context for spotters to understand activation status
  *   • 2026-01-03c – UX IMPROVEMENT: Reformatted activation status display
  *                  - Moved "Matched Text" to bottom of description (was at top)
  *                  - Removed bold formatting from matched text for consistency
@@ -198,18 +204,18 @@
   /**
    * Parse HWO text to determine spotter activation status
    * @param {string} productText - HWO product text
-   * @returns {Object} - {level: 'red'|'yellow'|'green', matchedText: string}
+   * @returns {Object} - {level: 'red'|'yellow'|'green', matchedText: string, fullText: string}
    */
   function parseSpotterActivation(productText) {
     if (!productText) {
-      return { level: 'green', matchedText: '' };
+      return { level: 'green', matchedText: '', fullText: '' };
     }
 
     // Verify CONFIG is loaded correctly
     if (!window.CONFIG || !window.CONFIG.ACTIVATION_PATTERNS) {
       console.error('[NWS API] CONFIG not loaded! Browser may be using cached config.js');
       console.error('[NWS API] Please hard refresh: Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac)');
-      return { level: 'green', matchedText: '' };
+      return { level: 'green', matchedText: '', fullText: '' };
     }
 
     // Use activation patterns from CONFIG (three-level system)
@@ -220,13 +226,14 @@
       console.error('[NWS API] ACTIVATION_PATTERNS incomplete! Loaded patterns:', Object.keys(window.CONFIG.ACTIVATION_PATTERNS));
       console.error('[NWS API] Expected: RED, YELLOW, GREEN');
       console.error('[NWS API] Browser is loading OLD cached config.js - please hard refresh!');
-      return { level: 'green', matchedText: '' };
+      return { level: 'green', matchedText: '', fullText: '' };
     }
 
     // Extract the SPOTTER INFORMATION STATEMENT section for more accurate parsing
     // This section contains the official spotter activation status
     const spotterSectionMatch = productText.match(/\.SPOTTER INFORMATION STATEMENT\.\.\.([\s\S]*?)(?=\n\.\w+|$)/i);
     const textToSearch = spotterSectionMatch ? spotterSectionMatch[1] : productText;
+    const fullText = spotterSectionMatch ? spotterSectionMatch[1].trim().replace(/\$\$/g, '') : '';
 
     console.log('[NWS API] Parsing spotter activation from:', spotterSectionMatch ? 'SPOTTER INFORMATION STATEMENT section' : 'full HWO text');
 
@@ -235,7 +242,7 @@
       const match = textToSearch.match(pattern);
       if (match) {
         console.log('[NWS API] RED activation detected:', match[0]);
-        return { level: 'red', matchedText: match[0] };
+        return { level: 'red', matchedText: match[0], fullText };
       }
     }
 
@@ -245,7 +252,7 @@
       const match = textToSearch.match(pattern);
       if (match) {
         console.log('[NWS API] YELLOW activation detected:', match[0]);
-        return { level: 'yellow', matchedText: match[0] };
+        return { level: 'yellow', matchedText: match[0], fullText };
       }
     }
 
@@ -254,12 +261,12 @@
       const match = textToSearch.match(pattern);
       if (match) {
         console.log('[NWS API] GREEN (stand down) detected:', match[0]);
-        return { level: 'green', matchedText: match[0] };
+        return { level: 'green', matchedText: match[0], fullText };
       }
     }
 
     // Default to GREEN if no patterns match (no mention = no activation)
-    return { level: 'green', matchedText: '' };
+    return { level: 'green', matchedText: '', fullText };
   }
 
   /**
@@ -287,7 +294,7 @@
           <div class="alert-header">🚨 SPOTTER ACTIVATION REQUESTED</div>
           <div class="alert-description">
             <p><strong>Action Required:</strong> Monitor weather conditions and report severe weather to NWS Atlanta via the SKYWARN repeater network. Activation is requested or likely needed.</p>
-            ${activationInfo.matchedText ? `<p>Matched Text: "${activationInfo.matchedText}"</p>` : ''}
+            ${activationInfo.fullText ? `<p><strong>Spotter Information Statement:</strong><br>${sanitizeHTML(activationInfo.fullText)}</p>` : ''}
           </div>
           <div class="alert-meta">
             <p><strong>Outlook Issued:</strong> ${new Date(issuanceTime).toLocaleString()}</p>
@@ -309,7 +316,7 @@
           <div class="alert-header">⚠️ SPOTTER REPORTS ENCOURAGED</div>
           <div class="alert-description">
             <p><strong>Action:</strong> While spotter activation is not formally requested, you are encouraged to monitor conditions and report any observed severe weather, damaging winds, hail, or heavy rain to NWS Atlanta.</p>
-            ${activationInfo.matchedText ? `<p>Matched Text: "${activationInfo.matchedText}"</p>` : ''}
+            ${activationInfo.fullText ? `<p><strong>Spotter Information Statement:</strong><br>${sanitizeHTML(activationInfo.fullText)}</p>` : ''}
           </div>
           <div class="alert-meta">
             <p><strong>Outlook Issued:</strong> ${new Date(issuanceTime).toLocaleString()}</p>
@@ -330,7 +337,7 @@
           <div class="alert-header">✓ No Spotter Activation Currently Required</div>
           <div class="alert-description">
             <p>The latest Hazardous Weather Outlook does not indicate spotter activation at this time. Continue to monitor conditions and always report any severe weather you observe.</p>
-            ${activationInfo.matchedText ? `<p>Matched Text: "${activationInfo.matchedText}"</p>` : ''}
+            ${activationInfo.fullText ? `<p><strong>Spotter Information Statement:</strong><br>${sanitizeHTML(activationInfo.fullText)}</p>` : ''}
           </div>
           <div class="alert-meta">
             <p><strong>Outlook Issued:</strong> ${new Date(issuanceTime).toLocaleString()}</p>
