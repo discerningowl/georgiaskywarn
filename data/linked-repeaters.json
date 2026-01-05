@@ -3,33 +3,52 @@
     "location": "Fayetteville",
     "frequency": "444.600+",
     "tone": "77.0 Hz",
-    "tags": ["Hub", "WX4PTC"],
+    "tags": [
+      "Hub",
+      "WX4PTC"
+    ],
     "description": "Hub and net control repeater. Emergency Power. Good south metro coverage and down into Cowetta, Fayette, Henry, Spalding, and Pike Counties. Mobile coverage into parts of north metro Atlanta as well. Generator and large UPS battery backup on site.",
-    "url": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6"
+    "url": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6",
+    "callsign": "WX4PTC",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=444.6"
   },
   {
     "location": "Tyrone",
     "frequency": "444.675+",
     "tone": "77.0 Hz",
-    "tags": ["Hub", "WX4PTC"],
+    "tags": [
+      "Hub",
+      "WX4PTC"
+    ],
     "description": "Backup Hub and net control / remote base repeater. Emergency Power. South metro coverage. Battery backup at site. Also site of AB4KN-2 APRS digi. Linked to 444.600 via 220m Hz link.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=508"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=508",
+    "callsign": "KN4YZ",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=508"
   },
   {
     "location": "Fayetteville",
     "frequency": "145.210-",
     "tone": "131.8 Hz",
-    "tags": ["WX4PTC"],
+    "tags": [
+      "WX4PTC"
+    ],
     "description": "Hardwired to 444.600+ repeater controller. Good south metro Atlanta coverage. Same site as 444.600. Battery backup on site.",
-    "url": "https://www.kk4gq.org"
+    "url": "https://www.kk4gq.org",
+    "callsign": "KK4GQ",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=145.21"
   },
   {
     "location": "Peachtree City",
     "frequency": "442.500+",
     "tone": "77.0 Hz",
-    "tags": ["Hub", "WX4PTC"],
+    "tags": [
+      "Hub",
+      "WX4PTC"
+    ],
     "description": "Backup remote base repeater. Covers Fayette, Coweta, Spalding and parts of Pike Counties. Some coverage into the southern metro Atlanta area. This repeater is also the NCS repeater for all public events in PTC where extra communications are requested.",
-    "url": "https://photos.app.goo.gl/Jvmp4e4xPQx9aAjU8"
+    "url": "https://photos.app.goo.gl/Jvmp4e4xPQx9aAjU8",
+    "callsign": "WX4PTC",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=442.5"
   },
   {
     "location": "Atlanta",
@@ -37,7 +56,9 @@
     "tone": "146.2 Hz",
     "tags": [],
     "description": "Atlanta Radio Club Repeater Good metro coverage. Links to 444.675+ or 444.600 repeaters.",
-    "url": "https://www.w4doc.org"
+    "url": "https://www.w4doc.org",
+    "callsign": "W4DOC",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=146.82"
   },
   {
     "location": "Biskey Mtn",
@@ -45,7 +66,9 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Jasper • Biskey Mtn • Pickens County • Georgia Remote Base. Autopatch. Emergency power equipped",
-    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=KC4JNN"
+    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=KC4JNN",
+    "callsign": "KC4JNN",
+    "refurl": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=KC4JNN"
   },
   {
     "location": "Biskey Mtn",
@@ -53,7 +76,9 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Jasper • Biskey Mtn • Pickens County • Georgia Remote Base. Autopatch. Emergency power equipped",
-    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=KC4JNN"
+    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=KC4JNN",
+    "callsign": "KC4JNN",
+    "refurl": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=KC4JNN"
   },
   {
     "location": "Biskey Mtn",
@@ -61,39 +86,57 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Jasper • Biskey Mtn • Pickens County • Georgia Remote Base. Autopatch. Emergency power equipped",
-    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=KC4JNN"
+    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=KC4JNN",
+    "callsign": "KC4JNN",
+    "refurl": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=KC4JNN"
   },
   {
     "location": "Bolingbroke",
     "frequency": "146.835-",
     "tone": "77.0 Hz",
-    "tags": ["Peach State"],
+    "tags": [
+      "Peach State"
+    ],
     "description": "Covers Monroe and surrounding counties. Range north of Forsyth to McDonough area.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=12976"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=12976",
+    "callsign": "WB4NFG",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=12976"
   },
   {
     "location": "Butler",
     "frequency": "444.950+",
     "tone": "107.2 Hz",
-    "tags": ["Peach State"],
+    "tags": [
+      "Peach State"
+    ],
     "description": "Covers Taylor and surrounding counties.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=21429"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=21429",
+    "callsign": "K4DBN",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=21429"
   },
   {
     "location": "Byron",
     "frequency": "145.290-",
     "tone": "82.5 Hz",
-    "tags": ["Peach State"],
+    "tags": [
+      "Peach State"
+    ],
     "description": "Byron Fire Dept. Covers Peach and surrounding counties.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=16822"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=16822",
+    "callsign": "WX4PCH",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=16822"
   },
   {
     "location": "Cedar Grove (Dublin)",
     "frequency": "147.150+",
     "tone": "123.0 Hz",
-    "tags": ["Peach State"],
+    "tags": [
+      "Peach State"
+    ],
     "description": "Covers Laurens and surrounding counties.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=86"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=86",
+    "callsign": "K4DBN",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=86"
   },
   {
     "location": "Clermont",
@@ -101,15 +144,21 @@
     "tone": "123.0 Hz",
     "tags": [],
     "description": "Located on Wauka Mtn. Links to W4GTA 145.350. Located 1100 Ft. above average terrain with coverage of Hall, Dawson and White counties, and partial coverage of Jackson, Habersham and Gwinnett Counties. Generator backup on site, Allstar link connected.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=79"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=79",
+    "callsign": "KA3JIJ",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=79"
   },
   {
     "location": "Cochran",
     "frequency": "145.490-",
     "tone": "77.0 Hz",
-    "tags": ["Peach State"],
+    "tags": [
+      "Peach State"
+    ],
     "description": "Covers Bleckley and surrounding counties.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23269"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23269",
+    "callsign": "K4DBN",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23269"
   },
   {
     "location": "Commerce",
@@ -117,7 +166,9 @@
     "tone": "131.8 Hz",
     "tags": [],
     "description": "Links to W4GTA 145.350. Covers Banks and Jackson Co with partial coverage in Madison, Clark and Barrow Counties. Generator backup on site, Allstar linked connected. This repeater is linked full time to Wauka Mtn. Frequency 145.310- 123.0 Hz. with both repeaters providing though coverage in our area of Northeast Ga.)",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23184"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23184",
+    "callsign": "KF4DGN",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23184"
   },
   {
     "location": "Concord",
@@ -125,7 +176,9 @@
     "tone": "110.9 Hz",
     "tags": [],
     "description": "Links to 444.600+ repeater. Great coverage over South Metro Atlanta area. Mobile coverage in Fayette, Coweta, Henry, Spalding, Pike, Troup and other surrounding couties. AllStar node 46796. Node linked on demand.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=137"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=137",
+    "callsign": "WB4GWA",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=137"
   },
   {
     "location": "Covington",
@@ -133,7 +186,9 @@
     "tone": "88.5 Hz",
     "tags": [],
     "description": "Links to 444.675+ repeater. Wide north Georgia coverage. Good repeater for east of Atlanta going out I-20 east.",
-    "url": "https://sites.google.com/site/wa4asirepeater/home"
+    "url": "https://sites.google.com/site/wa4asirepeater/home",
+    "callsign": "WA4ASI",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=146.925"
   },
   {
     "location": "Dallas",
@@ -141,7 +196,9 @@
     "tone": "77.0 Hz",
     "tags": [],
     "description": "Links to 444.675+ or 444.600+ repeater. Coverage into the northwestern part of the state (Rome down to Carrolton and over to N. Atlanta), improved mobile coverage even in the south metro area. Battery backup at site. 224.880 has a fulltime link to 146.895+.",
-    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WD4LUQ"
+    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WD4LUQ",
+    "callsign": "WD4LUQ",
+    "refurl": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WD4LUQ"
   },
   {
     "location": "Dallas",
@@ -149,23 +206,21 @@
     "tone": "77.0 Hz",
     "tags": [],
     "description": "Links to 444.675+ or 444.600+ repeater. Coverage into the northwestern part of the state (Rome down to Carrolton and over to N. Atlanta), improved mobile coverage even in the south metro area. Battery backup at site. 224.880 has a fulltime link to 146.895+.",
-    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WD4LUQ"
+    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WD4LUQ",
+    "callsign": "WD4LUQ",
+    "refurl": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WD4LUQ"
   },
   {
     "location": "Eastman",
     "frequency": "145.210-",
     "tone": "103.5 Hz",
-    "tags": ["Peach State"],
+    "tags": [
+      "Peach State"
+    ],
     "description": "Covers Eastman over into Bleckley County (Including the city of Cochran).",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=120"
-  },
-  {
-    "location": "Forsyth",
-    "frequency": "147.315+",
-    "tone": null,
-    "tags": ["Cherry Blossom"],
-    "description": "Covers Monroe, Jones and surrounding counties. Links I-75 from Macon to Atlanta. Tone only required when needed.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=10907"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=120",
+    "callsign": "KB4MQ",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=120"
   },
   {
     "location": "Griffin",
@@ -173,31 +228,59 @@
     "tone": "88.5 Hz",
     "tags": [],
     "description": "Links to 444.600 repeater. Good south metro coverage.",
-    "url": null
+    "url": null,
+    "callsign": "Unknown",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=146.91"
+  },
+  {
+    "location": "Gray (Round Oak)",
+    "frequency": "145.370-",
+    "tone": "88.5 Hz",
+    "tags": [
+      "Cherry Blossom"
+    ],
+    "description": "Full-time linked to Macon AA4RI 145.430. Part of Cherry Blossom Intertie System. Covers Jones, Bibb, and surrounding counties.",
+    "url": "https://www.repeaterbook.com/repeaters/feature_search.php?system=Cherry+Blossom+Intertie+System&type=systems",
+    "callsign": "WB4JOE",
+    "refurl": "https://www.repeaterbook.com/repeaters/feature_search.php?system=Cherry+Blossom+Intertie+System&type=systems"
   },
   {
     "location": "Irwinton",
     "frequency": "147.240+",
     "tone": "77.0 Hz",
-    "tags": ["Peach State"],
+    "tags": [
+      "Peach State",
+      "Cherry Blossom"
+    ],
     "description": "Wide coverage area. Counties include Jones, Twiggs, Wilkinson, and Washington. (Cities include Dublin, Gordon, McIntyre, Sandersville.",
-    "url": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25"
+    "url": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25",
+    "callsign": "K4DBN",
+    "refurl": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25"
   },
   {
     "location": "Irwinton",
     "frequency": "443.275+",
     "tone": "77.0 Hz",
-    "tags": ["Hub", "Peach State"],
+    "tags": [
+      "Hub",
+      "Peach State"
+    ],
     "description": "Full time link to the intertie - Hub Repeater. Wide coverage area. Counties include Jones, Twiggs, Wilkinson, and Washington. (Cities include Dublin, Gordon, McIntyre, Sandersville.",
-    "url": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25"
+    "url": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25",
+    "callsign": "K4DBN",
+    "refurl": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25"
   },
   {
     "location": "Irwinton",
     "frequency": "444.925+",
     "tone": "77.0 Hz",
-    "tags": ["Peach State"],
+    "tags": [
+      "Peach State"
+    ],
     "description": "Wide coverage area. Counties include Jones, Twiggs, Wilkinson, and Washington. (Cities include Dublin, Gordon, McIntyre, Sandersville.",
-    "url": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25"
+    "url": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25",
+    "callsign": "K4DBN",
+    "refurl": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25"
   },
   {
     "location": "Jasper",
@@ -205,7 +288,9 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Links to 444.675+ repeater and 444.600+. Wide north Georgia coverage. Also covers Atlanta Metro area. Emergency Power with generator and battery backup on site.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=147"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=147",
+    "callsign": "KC4AQS",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=147"
   },
   {
     "location": "LaGrange",
@@ -213,15 +298,19 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Links to 444.600+ Good coverage throughout the LaGrange and surrounding counties.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=158"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=158",
+    "callsign": "WB4BXO",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=158"
   },
   {
     "location": "Laurens County",
     "frequency": "145.150-",
     "tone": null,
-    "tags": ["Cherry Blossom"],
+    "tags": [],
     "description": "Covers East Dublin, Laurens and Truetlin counties.",
-    "url": null
+    "url": null,
+    "callsign": "Unknown",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=145.15"
   },
   {
     "location": "Lookout Mountain",
@@ -229,31 +318,46 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Primary Coverage for Walker, Catoosa, Dade and Chattooga counties. Secondary Repeater is the W4ABZ 145.715- (67.0 Hz). Estimated Wide Area Coverage: Approximately 50 miles from Lookout Mountain, GA and Chattanooga, TN. Wide area coverage. 50 mi radius. Tri-States Amateur Radio Club",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=163"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=163",
+    "callsign": "W4GTA",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=163"
   },
   {
     "location": "Macon",
     "frequency": "145.430-",
     "tone": "88.5 Hz",
-    "tags": ["Hub", "Cherry Blossom"],
+    "tags": [
+      "Hub",
+      "Cherry Blossom"
+    ],
     "description": "Hub for Cherry Blossom Intertie System. Covers Bibb, Jones, Houston, Twiggs, Baldwin, Moore, and Crawford Counties. 34 mi radius. Full-time linked to WB4JOE 145.370.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=166"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=166",
+    "callsign": "AA4RI",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=166"
   },
   {
     "location": "Macon",
     "frequency": "146.895-",
     "tone": "88.5 Hz",
-    "tags": ["Peach State"],
+    "tags": [
+      "Peach State"
+    ],
     "description": "Covers Bibb and surrounding counties.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=176"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=176",
+    "callsign": "KI4FVI",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=176"
   },
   {
     "location": "Macon",
     "frequency": "147.015+",
     "tone": "88.5 Hz",
-    "tags": ["Peach State"],
+    "tags": [
+      "Peach State"
+    ],
     "description": "Covers Bibb and surrounding counties.",
-    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WX4EMA"
+    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WX4EMA",
+    "callsign": "WX4EMA",
+    "refurl": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WX4EMA"
   },
   {
     "location": "Macon",
@@ -261,7 +365,9 @@
     "tone": "88.5 Hz",
     "tags": [],
     "description": "Covers Bibb and surrounding counties.",
-    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WX4EMA"
+    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WX4EMA",
+    "callsign": "WX4EMA",
+    "refurl": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WX4EMA"
   },
   {
     "location": "Macon",
@@ -269,7 +375,9 @@
     "tone": null,
     "tags": [],
     "description": "",
-    "url": null
+    "url": null,
+    "callsign": "Unknown",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=443.2"
   },
   {
     "location": "Milledgeville",
@@ -277,15 +385,21 @@
     "tone": "123.0 Hz",
     "tags": [],
     "description": "Covers Baldwin and surrounding counties.",
-    "url": null
+    "url": null,
+    "callsign": "Unknown",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=147.135"
   },
   {
     "location": "Montezuma",
     "frequency": "146.640-",
     "tone": "97.4 Hz",
-    "tags": ["Peach State"],
+    "tags": [
+      "Peach State"
+    ],
     "description": "Covers Macon and surrounding counties.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=180"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=180",
+    "callsign": "KI4BEO",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=180"
   },
   {
     "location": "Pine Mountain",
@@ -293,7 +407,9 @@
     "tone": "110.9 Hz",
     "tags": [],
     "description": "Links to 444.600+. Located in Warm Springs. Great coverage southwest of the metro area.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=194"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=194",
+    "callsign": "WB4ULJ",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=194"
   },
   {
     "location": "Rome",
@@ -301,15 +417,21 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Excellent Coverage in the Rome area on Mount Alto. Links to the Jasper 146.805+ (100.0 Hz) repeater for SKYWARN.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=10212"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=10212",
+    "callsign": "N4RMG",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=10212"
   },
   {
     "location": "Sandersville",
     "frequency": "145.270-",
     "tone": "77.0 Hz",
-    "tags": ["Peach State"],
+    "tags": [
+      "Peach State"
+    ],
     "description": "Covers Washington and surrounding counties.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=205"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=205",
+    "callsign": "K3SRC",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=205"
   },
   {
     "location": "Sawnee Mtn",
@@ -317,7 +439,9 @@
     "tone": "141.3 Hz",
     "tags": [],
     "description": "Links to 444.675+ repeater. Wide north Georgia coverage.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3862"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3862",
+    "callsign": "WB4GQX",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3862"
   },
   {
     "location": "Sun City",
@@ -325,15 +449,22 @@
     "tone": "110.9 Hz",
     "tags": [],
     "description": "Links to the KK4GQ Repeater (145.210+).",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18622"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18622",
+    "callsign": "W4SCP",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18622"
   },
   {
     "location": "Thomaston",
     "frequency": "147.390+",
     "tone": "131.8 Hz",
-    "tags": ["Hub", "Peach State"],
+    "tags": [
+      "Hub",
+      "Peach State"
+    ],
     "description": "Links to 444.600+. Good coverage south of the metro area. Hub for the Peach State Intertie connection.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=219"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=219",
+    "callsign": "W4OHH",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=219"
   },
   {
     "location": "Warm Springs",
@@ -341,7 +472,9 @@
     "tone": "110.9 Hz",
     "tags": [],
     "description": "Links to Woodbury 443.800. AllStar node 473360. This is a full time node.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=234"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=234",
+    "callsign": "KN4FE",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=234"
   },
   {
     "location": "Warner Robins",
@@ -349,15 +482,21 @@
     "tone": "82.5 Hz",
     "tags": [],
     "description": "Covers Houston and surrounding counties.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5525"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5525",
+    "callsign": "WM4B",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5525"
   },
   {
     "location": "Warner Robins",
     "frequency": "146.850-",
     "tone": "88.5 Hz",
-    "tags": ["Peach State"],
+    "tags": [
+      "Peach State"
+    ],
     "description": "Covers Jones and Baldwin Counties (Including the cities of Gray and Milledgeville). This repeater is linked on a part time basis.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3139"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3139",
+    "callsign": "WA4ORT",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3139"
   },
   {
     "location": "Warner Robins",
@@ -365,7 +504,21 @@
     "tone": "82.5 Hz",
     "tags": [],
     "description": "Covers Houston and surrounding counties.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5525"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5525",
+    "callsign": "WM4B",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5525"
+  },
+  {
+    "location": "Wrens",
+    "frequency": "147.120+",
+    "tone": "71.9 Hz",
+    "tags": [
+      "Cherry Blossom"
+    ],
+    "description": "Part of Cherry Blossom Intertie System. Covers Jefferson and surrounding counties.",
+    "url": "https://www.repeaterbook.com/repeaters/feature_search.php?system=Cherry+Blossom+Intertie+System&type=systems",
+    "callsign": "W4CDC",
+    "refurl": "https://www.repeaterbook.com/repeaters/feature_search.php?system=Cherry+Blossom+Intertie+System&type=systems"
   },
   {
     "location": "Woodbury",
@@ -373,6 +526,8 @@
     "tone": "110.9 Hz",
     "tags": [],
     "description": "Links to 444.600 repeater. Allstar node of 48225. Node links when needed.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18030"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18030",
+    "callsign": "WB4GWA",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18030"
   }
 ]

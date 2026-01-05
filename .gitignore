@@ -1,2 +1,4 @@
 .DS_Store
 ACTIVATION_PATTERN_TESTS.md
+data/linked-repeaters.json.backup
+data/nonlinked-repeaters.json.backup

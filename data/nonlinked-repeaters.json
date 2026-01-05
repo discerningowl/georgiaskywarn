@@ -5,7 +5,9 @@
     "tone": "110.9 Hz",
     "tags": [],
     "description": "Barrow Amateur Radio Club",
-    "url": "https://www.google.com/maps/preview?q=barrow+county+ga&ie=UTF-8&hq=&hnear=0x88f452c3f822962f:0x4838b967f3ac74e5,Barrow+County,+GA&gl=us&ei=K_M7U7LhI6rSsATP64DYCA&ved=0CIABELYD"
+    "url": "https://www.google.com/maps/preview?q=barrow+county+ga&ie=UTF-8&hq=&hnear=0x88f452c3f822962f:0x4838b967f3ac74e5,Barrow+County,+GA&gl=us&ei=K_M7U7LhI6rSsATP64DYCA&ved=0CIABELYD",
+    "callsign": "Unknown",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=145.28"
   },
   {
     "location": "Butts County",
@@ -13,7 +15,9 @@
     "tone": "131.8 Hz",
     "tags": [],
     "description": "WX4BCA repeater",
-    "url": "https://www.google.com/maps/place/Butts+County/@33.3124094,-83.9655015,11z/data=!3m1!4b1!4m2!3m1!1s0x88f4145181fc2c57:0x6eaad207c326378c"
+    "url": "https://www.google.com/maps/place/Butts+County/@33.3124094,-83.9655015,11z/data=!3m1!4b1!4m2!3m1!1s0x88f4145181fc2c57:0x6eaad207c326378c",
+    "callsign": "WX4BCA",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=147.285"
   },
   {
     "location": "Carroll County",
@@ -21,7 +25,9 @@
     "tone": "131.8 Hz",
     "tags": [],
     "description": "Covers Douglas & Carroll counties. Reports do come in from adjacent counties as well.",
-    "url": "https://www.google.com/maps/place/Carroll+County/@33.6189315,-85.0735819,11z/data=!3m1!4b1!4m2!3m1!1s0x88f4d1a9e11835b5:0xaa51cf66a234e730"
+    "url": "https://www.google.com/maps/place/Carroll+County/@33.6189315,-85.0735819,11z/data=!3m1!4b1!4m2!3m1!1s0x88f4d1a9e11835b5:0xaa51cf66a234e730",
+    "callsign": "Unknown",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=146.64"
   },
   {
     "location": "Cherokee County",
@@ -29,7 +35,9 @@
     "tone": "107.2 Hz",
     "tags": [],
     "description": "Primary - Coverage – Cherokee, Pickens, Bartow, Cobb – NW Georgia with occasional check-in's from TN, AL",
-    "url": "https://www.google.com/maps/place/Cherokee+County/@34.242944,-84.4584125,11z/data=!3m1!4b1!4m2!3m1!1s0x88f50ff083db2faf:0x1e94ba1d119f7d06"
+    "url": "https://www.google.com/maps/place/Cherokee+County/@34.242944,-84.4584125,11z/data=!3m1!4b1!4m2!3m1!1s0x88f50ff083db2faf:0x1e94ba1d119f7d06",
+    "callsign": "Unknown",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=145.43"
   },
   {
     "location": "Cherokee County",
@@ -37,7 +45,9 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Secondary - Coverage – Cherokee, Pickens, Bartow, Cobb – NW Georgia with occasional check-in's from TN, AL",
-    "url": "https://www.google.com/maps/place/Cherokee+County/@34.242944,-84.4584125,11z/data=!3m1!4b1!4m2!3m1!1s0x88f50ff083db2faf:0x1e94ba1d119f7d06"
+    "url": "https://www.google.com/maps/place/Cherokee+County/@34.242944,-84.4584125,11z/data=!3m1!4b1!4m2!3m1!1s0x88f50ff083db2faf:0x1e94ba1d119f7d06",
+    "callsign": "Unknown",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=145.27"
   },
   {
     "location": "Coweta County",
@@ -45,7 +55,9 @@
     "tone": "156.7 Hz",
     "tags": [],
     "description": "Activated by EMA request",
-    "url": "https://www.google.com/maps/place/Coweta+County/@33.3514005,-84.7562004,11z/data=!3m1!4b1!4m2!3m1!1s0x88f4c6e84a90d781:0x5060d84a1f2bc220"
+    "url": "https://www.google.com/maps/place/Coweta+County/@33.3514005,-84.7562004,11z/data=!3m1!4b1!4m2!3m1!1s0x88f4c6e84a90d781:0x5060d84a1f2bc220",
+    "callsign": "Unknown",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=145.13"
   },
   {
     "location": "Lamar County",
@@ -53,7 +65,9 @@
     "tone": null,
     "tags": [],
     "description": "W8JI repeater is located just north of Barnesville. Normally operates with NO Uplink Tone, but will enable 123.0 Hz or 131.8 Hz Uplink Tone depending upon propagation conditions",
-    "url": "https://www.google.com/maps/place/Lamar+County/@33.121831,-84.140409,11z/data=!4m2!3m1!1s0x88f465f64c93765f:0x6a99eac07b5401c5"
+    "url": "https://www.google.com/maps/place/Lamar+County/@33.121831,-84.140409,11z/data=!4m2!3m1!1s0x88f465f64c93765f:0x6a99eac07b5401c5",
+    "callsign": "W8JI",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=147.225"
   },
   {
     "location": "Paulding County",
@@ -61,7 +75,9 @@
     "tone": "77.0 Hz",
     "tags": [],
     "description": "The repeater covers an area that includes most of Atlanta to the east and Cedartown to the west.",
-    "url": "https://www.google.com/maps/place/Paulding+County/@33.9286835,-84.886773,11z/data=!3m1!4b1!4m2!3m1!1s0x88f52701903803c3:0x10f625bf4e35d05"
+    "url": "https://www.google.com/maps/place/Paulding+County/@33.9286835,-84.886773,11z/data=!3m1!4b1!4m2!3m1!1s0x88f52701903803c3:0x10f625bf4e35d05",
+    "callsign": "Unknown",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=146.955"
   },
   {
     "location": "Walton County",
@@ -69,7 +85,9 @@
     "tone": "88.5 Hz",
     "tags": [],
     "description": "Covers Walton and surrounding counties.",
-    "url": "https://www.google.com/maps/preview?q=walton+county+ga&ie=UTF-8&hq=&hnear=0x88f5c90d8e66bc73:0x7e69bf134b171e81,Walton+County,+GA&gl=us&ei=rxE-U6SfI5besASZ9IGQAg&ved=0CIcBELYD"
+    "url": "https://www.google.com/maps/preview?q=walton+county+ga&ie=UTF-8&hq=&hnear=0x88f5c90d8e66bc73:0x7e69bf134b171e81,Walton+County,+GA&gl=us&ei=rxE-U6SfI5besASZ9IGQAg&ved=0CIcBELYD",
+    "callsign": "Unknown",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=147.27"
   },
   {
     "location": "Walton County",
@@ -77,7 +95,9 @@
     "tone": "88.5 Hz",
     "tags": [],
     "description": "Covers Walton and surrounding counties.",
-    "url": "https://www.google.com/maps/preview?q=walton+county+ga&ie=UTF-8&hq=&hnear=0x88f5c90d8e66bc73:0x7e69bf134b171e81,Walton+County,+GA&gl=us&ei=rxE-U6SfI5besASZ9IGQAg&ved=0CIcBELYD"
+    "url": "https://www.google.com/maps/preview?q=walton+county+ga&ie=UTF-8&hq=&hnear=0x88f5c90d8e66bc73:0x7e69bf134b171e81,Walton+County,+GA&gl=us&ei=rxE-U6SfI5besASZ9IGQAg&ved=0CIcBELYD",
+    "callsign": "Unknown",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=442.05"
   },
   {
     "location": "White County",
@@ -85,7 +105,9 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Activated by EMA / EOC requests or severe weather warnings.",
-    "url": "https://www.google.com/maps/place/White+County/@34.6524859,-83.7464674,11z/data=!3m1!4b1!4m2!3m1!1s0x885f464f6dba6c73:0x9dcf2a5724747fd7"
+    "url": "https://www.google.com/maps/place/White+County/@34.6524859,-83.7464674,11z/data=!3m1!4b1!4m2!3m1!1s0x885f464f6dba6c73:0x9dcf2a5724747fd7",
+    "callsign": "Unknown",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=146.91"
   },
   {
     "location": "Whitfield County",
@@ -93,6 +115,8 @@
     "tone": "141.3 Hz",
     "tags": [],
     "description": "Dalton • Dug Gap Mtn • Whitfield County. Whitfield SKYWARN Coordinator is Alan Bryant, N4ABB, assistant is Greg Williams, N4JGW.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=107"
+    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=107",
+    "callsign": "N4BZJ",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=107"
   }
 ]
