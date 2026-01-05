@@ -133,7 +133,7 @@
     "tags": [
       "Peach State"
     ],
-    "description": "Covers Laurens and surrounding counties.",
+    "description": "Covers Laurens County (including East Dublin) and surrounding counties such as Treutlen.",
     "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=86",
     "callsign": "K4DBN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=86"
@@ -301,16 +301,6 @@
     "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=158",
     "callsign": "WB4BXO",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=158"
-  },
-  {
-    "location": "Laurens County",
-    "frequency": "145.150-",
-    "tone": null,
-    "tags": [],
-    "description": "Covers East Dublin, Laurens and Truetlin counties.",
-    "url": null,
-    "callsign": "Unknown",
-    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=145.15"
   },
   {
     "location": "Lookout Mountain",
