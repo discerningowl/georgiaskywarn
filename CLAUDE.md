@@ -54,7 +54,7 @@ georgiaskywarn/
 
 **HTML files and CSS MUST remain in the root directory. This is a hard requirement.**
 
-**Current Structure** (as of January 2, 2026):
+**Current Structure** (as of January 5, 2026):
 - ✅ **HTML files**: All in root directory
 - ✅ **CSS files**: `style.css` in root directory
 - ✅ **JavaScript files**: Organized in `js/` directory
@@ -645,21 +645,35 @@ Repeater tables are dynamically generated from JSON files. Edit the appropriate 
   "tone": "141.3 Hz",
   "tags": ["WX4PTC"],
   "description": "Wide coverage, generator backup",
-  "url": "https://www.repeaterbook.com/repeaters/details.php?ID=12345"
+  "url": "https://www.repeaterbook.com/repeaters/details.php?ID=12345",
+  "callsign": "WX4PTC",
+  "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=12345"
 }
 ```
 
+**Field Descriptions**:
+- `location` - City or geographic location (required)
+- `frequency` - Frequency with offset (e.g., "147.390+", "444.600+") (required)
+- `tone` - CTCSS/PL tone in Hz (e.g., "141.3 Hz") or `null` if no tone (required)
+- `tags` - Array of network affiliations: `["Hub"]`, `["WX4PTC"]`, `["Peach State"]`, `["Cherry Blossom"]` (required, can be empty `[]`)
+- `description` - Coverage area, features, emergency power, etc. (required)
+- `url` - Link to repeater info page (club website, photo, etc.) or `null` (required)
+- `callsign` - Amateur radio callsign (e.g., "WX4PTC", "K4DBN") or "Unknown" if not found (required)
+- `refurl` - RepeaterBook reference URL used to find/verify the repeater (required)
+
 **Steps**:
-1. Open `linked-repeaters.json` or `nonlinked-repeaters.json`
+1. Open `data/linked-repeaters.json` or `data/nonlinked-repeaters.json`
 2. Add new entry in alphabetical order by location
 3. Follow JSON syntax rules:
    - Entries separated by commas
    - Last entry has NO trailing comma
    - All strings in double quotes
-   - Tags array: `["Hub"]`, `["WX4PTC"]`, or `["Hub", "WX4PTC"]`
-4. Validate JSON at [jsonlint.com](https://jsonlint.com/)
-5. Verify frequency on RepeaterBook
-6. Test on mobile (repeater tables are responsive)
+   - Tags array: `["Hub"]`, `["WX4PTC"]`, `["Peach State"]`, `["Cherry Blossom"]`, or combinations
+4. Look up callsign on [RepeaterBook.com](https://www.repeaterbook.com/)
+5. Set `refurl` to the RepeaterBook URL used to find the repeater
+6. Validate JSON at [jsonlint.com](https://jsonlint.com/)
+7. Verify frequency and callsign are correct
+8. Test on mobile (repeater tables are responsive)
 
 **Important**: The HTML tables on `index.html` and `repeaters.html` are auto-generated from these JSON files via JavaScript. Do NOT edit the HTML tables directly.
 
@@ -1018,6 +1032,25 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-01-05
+- **REPEATER CALLSIGN DATA**: Added amateur radio callsigns to all repeater entries
+  - Added `callsign` field to all repeaters in `linked-repeaters.json` and `nonlinked-repeaters.json`
+  - Added `refurl` field documenting RepeaterBook URL used to find/verify each repeater
+  - Successfully identified 46 out of 59 callsigns (78% success rate):
+    - Linked repeaters: 43/48 callsigns found (89.6%)
+    - Non-linked repeaters: 3/12 callsigns found (25.0%)
+  - Data sources: URL keyword extraction (10), RepeaterBook page scraping (27), existing tags/descriptions (9)
+  - Remaining 13 repeaters marked "Unknown" for manual lookup
+  - Updated CLAUDE.md "Adding a New Repeater" section with field descriptions
+- **CHERRY BLOSSOM INTERTIE CORRECTIONS**: Fixed repeater network membership
+  - Added Gray (Round Oak) 145.370- (WB4JOE, 88.5 Hz) - official Cherry Blossom member
+  - Added Wrens 147.120+ (W4CDC, 71.9 Hz) - official Cherry Blossom member
+  - Deleted Forsyth 147.315+ (WB4JOE) - not part of official Cherry Blossom system
+  - Added "Cherry Blossom" tag to Irwinton 147.240+ (K4DBN) - dual membership in both Cherry Blossom and Peach State
+  - Removed "Cherry Blossom" tag from Laurens County 145.150- - not part of official system
+  - Cherry Blossom Intertie now matches RepeaterBook's official listing (4 repeaters)
+  - Total linked repeaters: 48 (net +1 from additions/deletions)
+
 ### 2026-01-03
 - **WEATHER RADIO STATIONS**: Added NOAA Weather Radio information to repeaters page
   - Created `data/weather-stations.json` - 17 NWS weather radio transmitters in Georgia
@@ -1336,6 +1369,6 @@ Based on research from actual NWS Hazardous Weather Outlooks:
 
 ---
 
-**Last Updated**: 2026-01-03
+**Last Updated**: 2026-01-05
 **Maintained By**: Claude AI Assistant (based on codebase analysis)
 **For Questions**: Contact Jack Parks (KQ4JP) <kq4jp@pm.me>
