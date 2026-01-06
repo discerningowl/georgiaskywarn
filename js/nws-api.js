@@ -6,8 +6,14 @@
  *          - Fetch functions with timeout and retry logic
  *          - Cache management
  *          - Common constants and configuration
- * Version: 20260103f
+ * Version: 20260106
  * Change-log:
+ *   • 2026-01-06 – MAJOR UPDATE: Dynamic cache-busting and separate refresh timers
+ *                  - Added getCacheBustingParam() for minute-based HTTP cache invalidation
+ *                  - All NWS API requests now include ?_t= cache-busting parameter
+ *                  - Changed HWO cache TTL from 4 hours to 15 minutes (in config.js)
+ *                  - Split auto-refresh into separate timers: Alerts=5min, HWO=15min
+ *                  - Guarantees fresh data while respecting NWS rate limits
  *   • 2026-01-03f – CLEANUP: Remove $$ end-of-message marker from spotter statement display
  *   • 2026-01-03e – UX ENHANCEMENT: Display full SPOTTER INFORMATION STATEMENT
  *                  - Now shows entire spotter statement section instead of just matched phrase
@@ -80,6 +86,15 @@
     }
   }
 
+  /**
+   * Generate cache-busting parameter based on minute timestamp
+   * Multiple requests within same minute use same parameter (respects server caching)
+   * @returns {number} - Timestamp rounded to current minute
+   */
+  function getCacheBustingParam() {
+    return Math.floor(Date.now() / 60000) * 60000; // Round to minute
+  }
+
   // Note: createCache() function now provided by UTILS module
 
   // ========================================================================
@@ -98,7 +113,9 @@
     // Fetch from API with retry logic
     for (let i = 0; i < retries; i++) {
       try {
-        const url = `${NWS_API.BASE_URL}/alerts/active?zone=${zones}`;
+        const cacheBuster = getCacheBustingParam();
+        const url = `${NWS_API.BASE_URL}/alerts/active?zone=${zones}&_t=${cacheBuster}`;
+        console.log(`[NWS API] Fetching alerts with cache buster: ${cacheBuster}`);
         const resp = await fetchWithTimeout(url);
 
         // Handle rate limiting and service unavailability
@@ -141,7 +158,9 @@
 
     try {
       // First, get the list of HWO products for FFC
-      const listUrl = `${NWS_API.BASE_URL}/products/types/HWO/locations/${NWS_API.OFFICE}`;
+      const cacheBuster = getCacheBustingParam();
+      const listUrl = `${NWS_API.BASE_URL}/products/types/HWO/locations/${NWS_API.OFFICE}?_t=${cacheBuster}`;
+      console.log(`[NWS API] Fetching HWO list with cache buster: ${cacheBuster}`);
       const listResp = await fetchWithTimeout(listUrl);
 
       if (!listResp.ok) {
@@ -159,7 +178,10 @@
       const productUrl = latestProduct['@id'];
 
       console.log('[NWS API] Fetching latest HWO product...');
-      const productResp = await fetchWithTimeout(productUrl);
+      const productUrlWithCache = productUrl.includes('?')
+        ? `${productUrl}&_t=${cacheBuster}`
+        : `${productUrl}?_t=${cacheBuster}`;
+      const productResp = await fetchWithTimeout(productUrlWithCache);
 
       if (!productResp.ok) {
         throw new Error(`Product fetch error: ${productResp.status}`);
@@ -722,19 +744,29 @@
 
     initDashboardModals();
 
-    // Load both outlook and alerts
-    const loadBoth = async () => {
-      await Promise.all([loadDashboard(), loadAlerts()]);
-    };
-
+    // Initial load on page ready
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', loadBoth);
+      document.addEventListener('DOMContentLoaded', async () => {
+        await Promise.all([loadDashboard(), loadAlerts()]);
+      });
     } else {
-      loadBoth();
+      (async () => {
+        await Promise.all([loadDashboard(), loadAlerts()]);
+      })();
     }
 
-    // Auto-refresh both every 5 minutes
-    setInterval(loadBoth, AUTO_REFRESH);
+    // Separate auto-refresh timers for alerts and HWO
+    // Alerts: Refresh every 5 minutes (time-sensitive)
+    setInterval(() => {
+      console.log('[Dashboard] Auto-refreshing alerts...');
+      loadAlerts();
+    }, CACHE_TTL.ALERTS);
+
+    // HWO: Refresh every 15 minutes (slower-changing)
+    setInterval(() => {
+      console.log('[Dashboard] Auto-refreshing HWO...');
+      loadDashboard();
+    }, CACHE_TTL.HWO);
   }
 
   // ========================================================================
