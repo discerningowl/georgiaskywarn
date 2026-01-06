@@ -6,12 +6,15 @@
  *          - Fetch functions with timeout and retry logic
  *          - Cache management
  *          - Common constants and configuration
- * Version: 20260106a
+ * Version: 20260106b
  * Change-log:
+ *   • 2026-01-06b – CORS FIX: Removed custom headers that trigger CORS preflight
+ *                  - Custom Cache-Control/Pragma headers cause CORS preflight (OPTIONS request)
+ *                  - NWS API doesn't support CORS preflight requests, blocks all requests
+ *                  - Changed to cache: 'reload' (simple request, no CORS preflight)
+ *                  - Only User-Agent header remains (required by NWS, doesn't trigger CORS)
  *   • 2026-01-06a – CRITICAL FIX: Changed cache-busting strategy from URL params to HTTP headers
  *                  - NWS API rejects unknown query parameters with HTTP 400 errors
- *                  - Now using fetch cache: 'no-store' option instead of ?_t= parameter
- *                  - Added Cache-Control and Pragma headers for maximum compatibility
  *                  - Removed getCacheBustingParam() function (no longer needed)
  *   • 2026-01-06 – MAJOR UPDATE: Dynamic cache-busting and separate refresh timers
  *                  - Changed HWO cache TTL from 4 hours to 15 minutes (in config.js)
@@ -76,11 +79,9 @@
       const response = await fetch(url, {
         ...options,
         signal: controller.signal,
-        cache: 'no-store', // Force fresh fetch, bypass browser cache
+        cache: 'reload', // Force revalidation with server, bypass browser cache (no CORS preflight)
         headers: {
           'User-Agent': NWS_API.USER_AGENT,
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache',
           ...options.headers
         }
       });
@@ -111,7 +112,7 @@
     for (let i = 0; i < retries; i++) {
       try {
         const url = `${NWS_API.BASE_URL}/alerts/active?zone=${zones}`;
-        console.log('[NWS API] Fetching fresh alerts (cache: no-store)...');
+        console.log('[NWS API] Fetching fresh alerts (cache: reload)...');
         const resp = await fetchWithTimeout(url);
 
         // Handle rate limiting and service unavailability
@@ -155,7 +156,7 @@
     try {
       // First, get the list of HWO products for FFC
       const listUrl = `${NWS_API.BASE_URL}/products/types/HWO/locations/${NWS_API.OFFICE}`;
-      console.log('[NWS API] Fetching HWO list (cache: no-store)...');
+      console.log('[NWS API] Fetching HWO list (cache: reload)...');
       const listResp = await fetchWithTimeout(listUrl);
 
       if (!listResp.ok) {
@@ -172,7 +173,7 @@
       const latestProduct = listData['@graph'][0];
       const productUrl = latestProduct['@id'];
 
-      console.log('[NWS API] Fetching latest HWO product (cache: no-store)...');
+      console.log('[NWS API] Fetching latest HWO product (cache: reload)...');
       const productResp = await fetchWithTimeout(productUrl);
 
       if (!productResp.ok) {
