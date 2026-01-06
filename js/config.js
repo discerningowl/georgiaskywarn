@@ -3,8 +3,11 @@
  * File:   config.js
  * Author: Georgia SKYWARN Development Team
  * Purpose: Centralized configuration constants for Georgia SKYWARN
- * Version: 20260103b
+ * Version: 20260106
  * Change-log:
+ *   • 2026-01-06 – CACHE OPTIMIZATION: Updated HWO cache TTL from 4 hours to 15 minutes
+ *                  - Better balance between freshness and API load
+ *                  - Marked AUTO_REFRESH_INTERVAL as deprecated (now using CACHE_TTL directly)
  *   • 2026-01-03b – CRITICAL FIX: Added negative lookahead to prevent false positives
  *                  - RED patterns now exclude "NOT" (e.g., "will NOT be needed")
  *                  - YELLOW patterns now exclude "NOT" (e.g., "may NOT be needed")
@@ -28,7 +31,7 @@
   // Cache TTL values (in milliseconds)
   const CACHE_TTL = {
     ALERTS: 5 * 60 * 1000,        // 5 minutes
-    HWO: 4 * 60 * 60 * 1000,      // 4 hours
+    HWO: 15 * 60 * 1000,          // 15 minutes
     REPEATERS: 24 * 60 * 60 * 1000 // 24 hours (future use)
   };
 
@@ -69,7 +72,7 @@
   // UI configuration
   const UI = {
     CHANGELOG_MONTHS_TO_SHOW: 6,
-    AUTO_REFRESH_INTERVAL: 5 * 60 * 1000, // 5 minutes
+    AUTO_REFRESH_INTERVAL: 5 * 60 * 1000, // DEPRECATED: Now using CACHE_TTL values directly for refresh intervals
     SCROLL_OFFSET_MOBILE: 100,
     SCROLL_OFFSET_DESKTOP: 200,
     BACK_TO_TOP_THRESHOLD: 300 // pixels scrolled before showing back-to-top button
