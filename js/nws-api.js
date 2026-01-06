@@ -6,11 +6,14 @@
  *          - Fetch functions with timeout and retry logic
  *          - Cache management
  *          - Common constants and configuration
- * Version: 20260106
+ * Version: 20260106a
  * Change-log:
+ *   • 2026-01-06a – CRITICAL FIX: Changed cache-busting strategy from URL params to HTTP headers
+ *                  - NWS API rejects unknown query parameters with HTTP 400 errors
+ *                  - Now using fetch cache: 'no-store' option instead of ?_t= parameter
+ *                  - Added Cache-Control and Pragma headers for maximum compatibility
+ *                  - Removed getCacheBustingParam() function (no longer needed)
  *   • 2026-01-06 – MAJOR UPDATE: Dynamic cache-busting and separate refresh timers
- *                  - Added getCacheBustingParam() for minute-based HTTP cache invalidation
- *                  - All NWS API requests now include ?_t= cache-busting parameter
  *                  - Changed HWO cache TTL from 4 hours to 15 minutes (in config.js)
  *                  - Split auto-refresh into separate timers: Alerts=5min, HWO=15min
  *                  - Guarantees fresh data while respecting NWS rate limits
@@ -73,8 +76,11 @@
       const response = await fetch(url, {
         ...options,
         signal: controller.signal,
+        cache: 'no-store', // Force fresh fetch, bypass browser cache
         headers: {
           'User-Agent': NWS_API.USER_AGENT,
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
           ...options.headers
         }
       });
@@ -84,15 +90,6 @@
       clearTimeout(id);
       throw err;
     }
-  }
-
-  /**
-   * Generate cache-busting parameter based on minute timestamp
-   * Multiple requests within same minute use same parameter (respects server caching)
-   * @returns {number} - Timestamp rounded to current minute
-   */
-  function getCacheBustingParam() {
-    return Math.floor(Date.now() / 60000) * 60000; // Round to minute
   }
 
   // Note: createCache() function now provided by UTILS module
@@ -113,9 +110,8 @@
     // Fetch from API with retry logic
     for (let i = 0; i < retries; i++) {
       try {
-        const cacheBuster = getCacheBustingParam();
-        const url = `${NWS_API.BASE_URL}/alerts/active?zone=${zones}&_t=${cacheBuster}`;
-        console.log(`[NWS API] Fetching alerts with cache buster: ${cacheBuster}`);
+        const url = `${NWS_API.BASE_URL}/alerts/active?zone=${zones}`;
+        console.log('[NWS API] Fetching fresh alerts (cache: no-store)...');
         const resp = await fetchWithTimeout(url);
 
         // Handle rate limiting and service unavailability
@@ -158,9 +154,8 @@
 
     try {
       // First, get the list of HWO products for FFC
-      const cacheBuster = getCacheBustingParam();
-      const listUrl = `${NWS_API.BASE_URL}/products/types/HWO/locations/${NWS_API.OFFICE}?_t=${cacheBuster}`;
-      console.log(`[NWS API] Fetching HWO list with cache buster: ${cacheBuster}`);
+      const listUrl = `${NWS_API.BASE_URL}/products/types/HWO/locations/${NWS_API.OFFICE}`;
+      console.log('[NWS API] Fetching HWO list (cache: no-store)...');
       const listResp = await fetchWithTimeout(listUrl);
 
       if (!listResp.ok) {
@@ -177,11 +172,8 @@
       const latestProduct = listData['@graph'][0];
       const productUrl = latestProduct['@id'];
 
-      console.log('[NWS API] Fetching latest HWO product...');
-      const productUrlWithCache = productUrl.includes('?')
-        ? `${productUrl}&_t=${cacheBuster}`
-        : `${productUrl}?_t=${cacheBuster}`;
-      const productResp = await fetchWithTimeout(productUrlWithCache);
+      console.log('[NWS API] Fetching latest HWO product (cache: no-store)...');
+      const productResp = await fetchWithTimeout(productUrl);
 
       if (!productResp.ok) {
         throw new Error(`Product fetch error: ${productResp.status}`);
