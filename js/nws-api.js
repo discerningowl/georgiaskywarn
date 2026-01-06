@@ -6,8 +6,9 @@
  *          - Fetch functions with timeout and retry logic
  *          - Cache management
  *          - Common constants and configuration
- * Version: 20260106b
+ * Version: 20260106c
  * Change-log:
+ *   • 2026-01-06c – UX: Improved alert formatting - "Expires" now on separate line
  *   • 2026-01-06b – CORS FIX: Removed custom headers that trigger CORS preflight
  *                  - Custom Cache-Control/Pragma headers cause CORS preflight (OPTIONS request)
  *                  - NWS API doesn't support CORS preflight requests, blocks all requests
@@ -563,7 +564,7 @@
           <div class="alert-header">${headline} – <strong>${type}</strong></div>
           <div class="alert-description">${shortDesc}</div>
           <div class="alert-meta">
-            <small><strong>Areas:</strong> ${areaDesc} | <strong>Expires:</strong> ${new Date(p.expires).toLocaleString()}</small>
+            <small><strong>Areas:</strong> ${areaDesc}<br><strong>Expires:</strong> ${new Date(p.expires).toLocaleString()}</small>
           </div>
           <div class="alert-more">Click for full details →</div>
         </div>`;
