@@ -1101,6 +1101,51 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-01-08
+- **CSV EXPORT FUNCTIONALITY**: Implemented dual-format repeater export system
+  - Created CHIRP CSV export for all 58 SKYWARN repeaters (linked + non-linked)
+  - Created RT Systems CSV export with Bank 22: Skywarn organization
+  - Export buttons open modal dialogs with step-by-step import instructions
+  - Download buttons inside modals trigger actual CSV generation
+  - Added channel number editing guidance in modal notes
+  - CSV exports include all tags in comment/notes field
+  - Filename format: `ga-skywarn-repeaters-chirp.csv` and `ga-skywarn-repeaters-rtsystems.csv`
+- **SEARCH BAR ENHANCEMENT**: Improved repeater search UI
+  - Moved search bar into dedicated card with blue header
+  - Updated input ID from `repeater-search` to `repeater-search-input`
+  - Maintained Ctrl/Cmd+K keyboard shortcut functionality
+  - Search results display within card body
+- **REPEATER DATA RESTRUCTURING**: Unified JSON structure and validation
+  - Merged `linked-repeaters.json` and `nonlinked-repeaters.json` into single `data/repeaters.json`
+  - Added `linked` boolean attribute to all 58 repeaters
+  - Renamed `url` field to `picUrl` for 444.600+ and 442.500+ repeaters (station photos)
+  - Removed `url` field from all other repeaters
+  - All location links now point to RepeaterBook `refurl` (single source of truth)
+  - Added camera icon (📷) for repeaters with `picUrl` field
+- **CALLSIGN CORRECTIONS**: Fixed callsigns to match RepeaterBook
+  - 444.600+ Fayetteville: WX4PTC → W4PSZ (FCC license callsign)
+  - 442.500+ Peachtree City: WX4PTC → W4PSZ (FCC license callsign)
+  - 145.270- Sandersville: K3SRC → W4SAN
+  - Updated refurl IDs for 9 repeaters (KC4JNN, WD4LUQ, WX4EMA, WX4BCA, W8JI)
+- **REPEATERBOOK VALIDATION**: Comprehensive validation against official systems
+  - Validated against Georgia SKYWARN Linked Repeaters System (41 official repeaters)
+  - Identified 7 discrepancies (2 fixed, 5 requiring review)
+  - Created `REPEATERBOOK_VALIDATION.md` report with findings and action items
+  - Added validation documentation to CLAUDE.md with three system URLs:
+    - Georgia SKYWARN Linked Repeaters System
+    - Peach State Intertie System
+    - Cherry Blossom Intertie System
+  - Clarified that georgiaskywarn.com is source of truth, RepeaterBook is validation source
+- **DOCUMENTATION UPDATES**: Enhanced developer and maintainer guides
+  - Updated CLAUDE.md with CSV export architecture
+  - Added "Validating Repeater Data" section with process and URLs
+  - Updated JSON field descriptions (picUrl vs refurl usage)
+  - Added guidance on maintaining RepeaterBook as single source of truth
+  - Updated sitemap.xml lastmod date for repeaters.html to 2026-01-08
+- **GITIGNORE UPDATE**: Improved macOS file exclusion
+  - Added `**/.DS_Store` pattern to ignore .DS_Store files in all subdirectories
+  - Organized .gitignore with section comments for clarity
+
 ### 2026-01-05
 - **REPEATER CALLSIGN DATA**: Added amateur radio callsigns to all repeater entries
   - Added `callsign` field to all repeaters in `linked-repeaters.json` and `nonlinked-repeaters.json`
@@ -1411,6 +1456,24 @@ Based on research from actual NWS Hazardous Weather Outlooks:
 6. Test in multiple viewports (mobile, tablet, desktop)
 7. Verify light and dark modes
 
+### After Completing Session Work
+
+When a user indicates the session is ending (e.g., "this session is over", "wrap up", "finalize documentation"), always:
+
+1. **Update sitemap.xml**: Change `<lastmod>` date to current date (YYYY-MM-DD) for any modified pages
+2. **Update CLAUDE.md Changelog**: Add comprehensive entry for current date including:
+   - All features implemented or modified
+   - Files created, modified, or deleted
+   - Bug fixes and corrections
+   - Data updates (repeaters, contacts, links)
+   - Documentation improvements
+3. **Review Documentation**: Verify all references in CLAUDE.md, ADMIN_GUIDE.md, and other docs reflect current state
+4. **Check Cross-References**: Ensure file paths, function names, section IDs, and instructions are accurate
+5. **Verify Consistency**: Check that navigation, links, and references work across all pages
+6. **Update Version Numbers**: If JavaScript was modified, ensure version numbers were bumped appropriately
+
+**Important**: Session wrap-up is a critical maintenance task that ensures documentation stays current and accurate for future work.
+
 ### Common Pitfalls to Avoid
 
 - ❌ **MOST IMPORTANT**: Don't reorganize directory structure or create subdirectories
@@ -1438,6 +1501,6 @@ Based on research from actual NWS Hazardous Weather Outlooks:
 
 ---
 
-**Last Updated**: 2026-01-05
+**Last Updated**: 2026-01-08
 **Maintained By**: Claude AI Assistant (based on codebase analysis)
 **For Questions**: Contact Jack Parks (KQ4JP) <kq4jp@pm.me>
