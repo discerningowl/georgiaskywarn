@@ -745,6 +745,20 @@ a:hover, a:focus {
   border-radius: var(--radius) var(--radius) 0 0;
 }
 
+/* Ensure all text elements in modal headers are white with consistent styling */
+.modal-header h1,
+.modal-header h2,
+.modal-header h3,
+.modal-header h4,
+.modal-header h5,
+.modal-header h6 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1.3;
+}
+
 /* Standardized modal header color variants */
 /* Used by both alert modals and HWO modal */
 .modal-header--red {
