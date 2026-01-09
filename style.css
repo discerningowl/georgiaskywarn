@@ -745,26 +745,18 @@ a:hover, a:focus {
   border-radius: var(--radius) var(--radius) 0 0;
 }
 
-/* Modal header color variants based on alert type */
-.modal-header--warning {
-  background: var(--header-gradient-red);
-}
-
-.modal-header--watch {
-  background: var(--header-gradient-yellow);
-}
-
-.modal-header--other {
-  background: var(--header-gradient-blue);
-}
-
-/* Modal header color variants for HWO activation levels */
+/* Standardized modal header color variants */
+/* Used by both alert modals and HWO modal */
 .modal-header--red {
   background: var(--header-gradient-red);
 }
 
 .modal-header--yellow {
   background: var(--header-gradient-yellow);
+}
+
+.modal-header--blue {
+  background: var(--header-gradient-blue);
 }
 
 .modal-header--green {

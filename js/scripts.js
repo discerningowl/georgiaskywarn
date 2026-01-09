@@ -12,11 +12,11 @@
  *          - Security hardening (XSS prevention, error handling)
  *          - Performance optimizations (debouncing, caching)
  * Change-log:
- *   • 2026-01-09 – Enhanced alert modal colors to match alert types
- *     - Modal headers now change color based on alert type (red/orange/blue)
- *     - Warning modals: red gradient
- *     - Watch modals: yellow/orange gradient
- *     - Other alerts: blue gradient
+ *   • 2026-01-09 – Standardized modal header color classes
+ *     - Unified color classes: --red, --yellow, --blue, --green
+ *     - Warnings: red, Watches: yellow, Other alerts: blue
+ *     - Fixed bug where watches were incorrectly showing red
+ *     - Now consistent with HWO activation colors
  *   • 2026-01-09 – Major restructuring: dashboard.html → index.html
  *     - Removed renderWarningsOnly() function (no longer needed)
  *     - Updated initAlerts() to always show all alert types
@@ -92,16 +92,16 @@
     const isWarning = p.event?.toLowerCase().includes('warning');
     const isWatch = p.event?.toLowerCase().includes('watch');
 
-    // Remove existing alert type classes
-    modalHeader.classList.remove('modal-header--warning', 'modal-header--watch', 'modal-header--other');
+    // Remove existing color classes
+    modalHeader.classList.remove('modal-header--red', 'modal-header--yellow', 'modal-header--blue', 'modal-header--green');
 
-    // Add appropriate class based on alert type
+    // Add appropriate standardized color class based on alert type
     if (isWarning) {
-      modalHeader.classList.add('modal-header--warning');
+      modalHeader.classList.add('modal-header--red');
     } else if (isWatch) {
-      modalHeader.classList.add('modal-header--watch');
+      modalHeader.classList.add('modal-header--yellow');
     } else {
-      modalHeader.classList.add('modal-header--other');
+      modalHeader.classList.add('modal-header--blue');
     }
 
     const content = `
