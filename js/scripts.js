@@ -486,14 +486,13 @@
   // ========================================================================
 
   /**
-   * Fetches repeater data from JSON file
-   * @param {string} filename - JSON filename (linked-repeaters.json or nonlinked-repeaters.json)
+   * Fetches repeater data from merged JSON file
    * @returns {Promise<Array>} - Array of repeater objects
    */
-  async function fetchRepeaterData(filename) {
+  async function fetchRepeaterData() {
     try {
-      const response = await fetch(filename);
-      if (!response.ok) throw new Error(`Failed to load ${filename}`);
+      const response = await fetch('data/repeaters.json');
+      if (!response.ok) throw new Error('Failed to load repeaters.json');
       return await response.json();
     } catch (error) {
       console.error(`Error loading repeater data: ${error}`);
@@ -537,37 +536,28 @@
   }
 
   /**
-   * Renders all linked repeaters for repeaters.html
+   * Renders all repeaters for repeaters.html (filters by 'linked' attribute)
    */
-  async function renderLinkedRepeaters() {
-    const container = document.getElementById('linked-repeaters-tbody');
-    if (!container) return;
+  async function renderAllRepeaters() {
+    const allRepeaters = await fetchRepeaterData();
 
-    const repeaters = await fetchRepeaterData('data/linked-repeaters.json');
-
-    if (repeaters.length === 0) {
-      container.innerHTML = '<tr><td colspan="3">No linked repeaters available.</td></tr>';
-      return;
+    // Render linked repeaters
+    const linkedContainer = document.getElementById('linked-repeaters-tbody');
+    if (linkedContainer) {
+      const linked = allRepeaters.filter(r => r.linked === true);
+      linkedContainer.innerHTML = linked.length > 0
+        ? linked.map(r => renderRepeaterRow(r)).join('')
+        : '<tr><td colspan="3">No linked repeaters available.</td></tr>';
     }
 
-    container.innerHTML = repeaters.map(r => renderRepeaterRow(r)).join('');
-  }
-
-  /**
-   * Renders all non-linked repeaters for repeaters.html
-   */
-  async function renderNonLinkedRepeaters() {
-    const container = document.getElementById('nonlinked-repeaters-tbody');
-    if (!container) return;
-
-    const repeaters = await fetchRepeaterData('data/nonlinked-repeaters.json');
-
-    if (repeaters.length === 0) {
-      container.innerHTML = '<tr><td colspan="3">No non-linked repeaters available.</td></tr>';
-      return;
+    // Render non-linked repeaters
+    const nonLinkedContainer = document.getElementById('nonlinked-repeaters-tbody');
+    if (nonLinkedContainer) {
+      const nonLinked = allRepeaters.filter(r => r.linked === false);
+      nonLinkedContainer.innerHTML = nonLinked.length > 0
+        ? nonLinked.map(r => renderRepeaterRow(r)).join('')
+        : '<tr><td colspan="3">No non-linked repeaters available.</td></tr>';
     }
-
-    container.innerHTML = repeaters.map(r => renderRepeaterRow(r)).join('');
   }
 
   /**
@@ -597,21 +587,371 @@
     const container = document.getElementById('weather-stations-tbody');
     if (!container) return;
 
-    const stations = await fetchRepeaterData('data/weather-stations.json');
+    try {
+      const response = await fetch('data/weather-stations.json');
+      if (!response.ok) throw new Error('Failed to load weather-stations.json');
+      const stations = await response.json();
 
-    if (stations.length === 0) {
-      container.innerHTML = '<tr><td colspan="3">No weather stations available.</td></tr>';
-      return;
+      container.innerHTML = stations.length > 0
+        ? stations.map(s => renderWeatherStationRow(s)).join('')
+        : '<tr><td colspan="3">No weather stations available.</td></tr>';
+    } catch (error) {
+      console.error(`Error loading weather stations: ${error}`);
+      container.innerHTML = '<tr><td colspan="3">Error loading weather stations.</td></tr>';
+    }
+  }
+
+  // ========================================================================
+  // CHIRP CSV EXPORT FUNCTIONALITY
+  // ========================================================================
+
+  /**
+   * Parses frequency string to extract components for CHIRP CSV
+   * @param {string} freqStr - Frequency string like "444.600+" or "145.210-"
+   * @returns {Object} - { frequency, duplex, offset }
+   */
+  function parseFrequency(freqStr) {
+    if (!freqStr) return { frequency: '', duplex: '', offset: '0.000000' };
+
+    // Extract duplex direction (last character)
+    const lastChar = freqStr.slice(-1);
+    const duplex = (lastChar === '+' || lastChar === '-') ? lastChar : '';
+
+    // Extract base frequency (remove duplex character)
+    const freqNum = duplex ? freqStr.slice(0, -1) : freqStr;
+    const frequency = parseFloat(freqNum);
+
+    // Determine offset based on band
+    let offset = '0.000000';
+    if (duplex) {
+      if (frequency >= 144 && frequency < 148) {
+        offset = '0.600000'; // 2 meter band
+      } else if (frequency >= 222 && frequency < 225) {
+        offset = '1.600000'; // 1.25 meter band
+      } else if (frequency >= 420 && frequency < 450) {
+        offset = '5.000000'; // 70 cm band
+      } else if (frequency >= 50 && frequency < 54) {
+        offset = '0.500000'; // 6 meter band
+      }
     }
 
-    container.innerHTML = stations.map(s => renderWeatherStationRow(s)).join('');
+    return {
+      frequency: frequency.toFixed(6),
+      duplex: duplex,
+      offset: offset
+    };
+  }
+
+  /**
+   * Parses tone string to extract numeric value
+   * @param {string} toneStr - Tone string like "77.0 Hz" or null
+   * @returns {string} - Numeric tone value or default "88.5"
+   */
+  function parseTone(toneStr) {
+    if (!toneStr) return '88.5';
+    const match = toneStr.match(/[\d.]+/);
+    return match ? match[0] : '88.5';
+  }
+
+  /**
+   * Converts repeater object to CHIRP CSV row
+   * @param {Object} repeater - Repeater object from JSON
+   * @param {number} index - Row index for Location column
+   * @returns {string} - CSV row string
+   */
+  function repeaterToChirpRow(repeater, index) {
+    const freq = parseFrequency(repeater.frequency);
+    const tone = parseTone(repeater.tone);
+
+    // Generate name (location + callsign, max ~20 chars for radio compatibility)
+    let name = repeater.location;
+    if (repeater.callsign && repeater.callsign !== 'Unknown') {
+      name = `${repeater.location} ${repeater.callsign}`;
+    }
+    // Truncate to 20 chars if needed
+    name = name.substring(0, 20);
+
+    // Build comment from tags
+    const comment = repeater.tags && repeater.tags.length > 0
+      ? repeater.tags.join(', ')
+      : '';
+
+    // CHIRP CSV columns:
+    // Location,Name,Frequency,Duplex,Offset,Tone,rToneFreq,cToneFreq,DtcsCode,DtcsPolarity,RxDtcsCode,CrossMode,Mode,TStep,Skip,Power,Comment,URCALL,RPT1CALL,RPT2CALL,DVCODE
+    return [
+      index,                    // Location (channel number)
+      name,                     // Name
+      freq.frequency,           // Frequency
+      freq.duplex,              // Duplex
+      freq.offset,              // Offset
+      'TSQL',                   // Tone (Tone Squelch)
+      tone,                     // rToneFreq (transmit tone)
+      tone,                     // cToneFreq (receive tone)
+      '023',                    // DtcsCode
+      'NN',                     // DtcsPolarity
+      '023',                    // RxDtcsCode
+      'Tone->Tone',             // CrossMode
+      'FM',                     // Mode
+      '5.00',                   // TStep
+      '',                       // Skip
+      '5.0W',                   // Power
+      comment,                  // Comment
+      '',                       // URCALL
+      '',                       // RPT1CALL
+      '',                       // RPT2CALL
+      ''                        // DVCODE
+    ].join(',');
+  }
+
+  /**
+   * Generates CHIRP CSV file for all SKYWARN repeaters
+   */
+  async function exportChirpLinked() {
+    try {
+      // Fetch all repeaters
+      const allRepeaters = await fetchRepeaterData();
+
+      if (allRepeaters.length === 0) {
+        alert('No repeaters found to export.');
+        return;
+      }
+
+      // Build CSV header
+      const header = 'Location,Name,Frequency,Duplex,Offset,Tone,rToneFreq,cToneFreq,DtcsCode,DtcsPolarity,RxDtcsCode,CrossMode,Mode,TStep,Skip,Power,Comment,URCALL,RPT1CALL,RPT2CALL,DVCODE';
+
+      // Build CSV rows
+      const rows = allRepeaters.map((r, index) => repeaterToChirpRow(r, index));
+
+      // Combine header and rows
+      const csvContent = [header, ...rows].join('\n');
+
+      // Create blob and download
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'ga-skywarn-repeaters-chirp.csv');
+      link.style.visibility = 'hidden';
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      console.log(`✅ Exported ${allRepeaters.length} SKYWARN repeaters to CHIRP CSV`);
+
+      // Show import instructions modal
+      openChirpInstructionsModal();
+    } catch (error) {
+      console.error('Error generating CHIRP CSV:', error);
+      alert('Error generating CSV file. Please try again.');
+    }
+  }
+
+  // ========================================================================
+  // RT SYSTEMS CSV EXPORT FUNCTIONALITY
+  // ========================================================================
+
+  /**
+   * Calculates TX and RX frequencies from base frequency and duplex
+   * @param {string} freqStr - Frequency string like "444.600+" or "145.210-"
+   * @returns {Object} - { rxFreq, txFreq, offsetFreq, offsetDir }
+   */
+  function calculateTxRxFrequencies(freqStr) {
+    if (!freqStr) return { rxFreq: '', txFreq: '', offsetFreq: '', offsetDir: 'Simplex' };
+
+    const lastChar = freqStr.slice(-1);
+    const duplex = (lastChar === '+' || lastChar === '-') ? lastChar : '';
+    const baseFreq = parseFloat(duplex ? freqStr.slice(0, -1) : freqStr);
+
+    // Determine offset based on band
+    let offsetMHz = 0;
+    if (duplex) {
+      if (baseFreq >= 144 && baseFreq < 148) {
+        offsetMHz = 0.6; // 2 meter
+      } else if (baseFreq >= 222 && baseFreq < 225) {
+        offsetMHz = 1.6; // 1.25 meter
+      } else if (baseFreq >= 420 && baseFreq < 450) {
+        offsetMHz = 5.0; // 70 cm
+      } else if (baseFreq >= 50 && baseFreq < 54) {
+        offsetMHz = 0.5; // 6 meter
+      }
+    }
+
+    let rxFreq, txFreq;
+    if (duplex === '+') {
+      rxFreq = baseFreq;
+      txFreq = baseFreq + offsetMHz;
+    } else if (duplex === '-') {
+      rxFreq = baseFreq;
+      txFreq = baseFreq - offsetMHz;
+    } else {
+      // Simplex
+      rxFreq = baseFreq;
+      txFreq = baseFreq;
+    }
+
+    const offsetDir = duplex === '+' ? 'DUP+' : duplex === '-' ? 'DUP-' : 'Simplex';
+    const offsetFreq = offsetMHz > 0 ? `${offsetMHz.toFixed(2)} MHz` : '';
+
+    return {
+      rxFreq: rxFreq.toFixed(5),
+      txFreq: txFreq.toFixed(5),
+      offsetFreq: offsetFreq,
+      offsetDir: offsetDir
+    };
+  }
+
+  /**
+   * Determines operating mode based on frequency
+   * @param {number} frequency - Frequency in MHz
+   * @returns {string} - Operating mode (FM or FM Narrow)
+   */
+  function getOperatingMode(frequency) {
+    // UHF repeaters typically use FM Narrow for better selectivity
+    // VHF repeaters use standard FM
+    if (frequency >= 420 && frequency < 450) {
+      return 'FM'; // Most ham UHF repeaters use 25 kHz (FM)
+    }
+    return 'FM';
+  }
+
+  /**
+   * Determines step size based on band
+   * @param {number} frequency - Frequency in MHz
+   * @returns {string} - Step size
+   */
+  function getStepSize(frequency) {
+    if (frequency >= 420 && frequency < 450) {
+      return '25 kHz'; // UHF
+    }
+    return '5 kHz'; // VHF
+  }
+
+  /**
+   * Converts repeater object to RT Systems CSV row
+   * @param {Object} repeater - Repeater object from JSON
+   * @param {number} channelNum - Channel number
+   * @param {number} bankChNum - Channel number within bank
+   * @returns {string} - CSV row string
+   */
+  function repeaterToRTSystemsRow(repeater, channelNum, bankChNum) {
+    const freqs = calculateTxRxFrequencies(repeater.frequency);
+    const tone = parseTone(repeater.tone);
+    const baseFreq = parseFloat(freqs.rxFreq);
+
+    // Generate abbreviated name (max 16 chars for most radios)
+    let name = repeater.location;
+    if (repeater.callsign && repeater.callsign !== 'Unknown') {
+      // Use callsign as name for brevity
+      name = repeater.callsign;
+    }
+    name = name.substring(0, 16);
+
+    // All repeaters go into Bank 22: Skywarn
+    const bank = '22: Skywarn';
+
+    // Build comment from location and tags
+    const tagStr = repeater.tags && repeater.tags.length > 0 ? repeater.tags.join(', ') : '';
+    const comment = tagStr || repeater.location;
+
+    // RT Systems CSV columns:
+    // Channel Number,Bank,Bank CH #,Receive Frequency,Transmit Frequency,Offset Frequency,Offset Direction,
+    // Operating Mode,Name,Tone Mode,CTCSS,Rx CTCSS,DCS,DCS Polarity,Skip,Step,Digital Squelch,Digital Code,
+    // Your Callsign,Rpt-1 CallSign,Rpt-2 CallSign,Comment
+    return [
+      channelNum,                         // Channel Number
+      bank,                               // Bank
+      bankChNum.toString().padStart(2, '0'), // Bank CH # (zero-padded)
+      freqs.rxFreq,                       // Receive Frequency
+      freqs.txFreq,                       // Transmit Frequency
+      freqs.offsetFreq,                   // Offset Frequency
+      freqs.offsetDir,                    // Offset Direction
+      getOperatingMode(baseFreq),         // Operating Mode
+      name,                               // Name
+      'T Sql',                            // Tone Mode (Tone Squelch)
+      `${tone} Hz`,                       // CTCSS (transmit tone with Hz)
+      `${tone} Hz`,                       // Rx CTCSS (receive tone with Hz)
+      '023',                              // DCS
+      'Both N',                           // DCS Polarity
+      'Off',                              // Skip
+      getStepSize(baseFreq),              // Step
+      'Off',                              // Digital Squelch
+      '0',                                // Digital Code
+      '',                                 // Your Callsign
+      '',                                 // Rpt-1 CallSign
+      '',                                 // Rpt-2 CallSign
+      comment                             // Comment
+    ].join(',');
+  }
+
+  /**
+   * Generates RT Systems CSV file for all SKYWARN repeaters
+   */
+  async function exportRTSystemsLinked() {
+    try {
+      // Fetch all repeaters
+      const allRepeaters = await fetchRepeaterData();
+
+      if (allRepeaters.length === 0) {
+        alert('No repeaters found to export.');
+        return;
+      }
+
+      // Build CSV header
+      const header = 'Channel Number,Bank,Bank CH #,Receive Frequency,Transmit Frequency,Offset Frequency,Offset Direction,Operating Mode,Name,Tone Mode,CTCSS,Rx CTCSS,DCS,DCS Polarity,Skip,Step,Digital Squelch,Digital Code,Your Callsign,Rpt-1 CallSign,Rpt-2 CallSign,Comment';
+
+      // Build CSV rows - all repeaters in Bank 22: Skywarn
+      const rows = allRepeaters.map((r, index) => {
+        return repeaterToRTSystemsRow(r, index, index);
+      });
+
+      // Combine header and rows
+      const csvContent = [header, ...rows].join('\n');
+
+      // Create blob and download
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+
+      link.setAttribute('href', url);
+      link.setAttribute('download', 'ga-skywarn-repeaters-rtsystems.csv');
+      link.style.visibility = 'hidden';
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      console.log(`✅ Exported ${allRepeaters.length} SKYWARN repeaters to RT Systems CSV`);
+
+      // Show import instructions modal
+      openRTSystemsInstructionsModal();
+    } catch (error) {
+      console.error('Error generating RT Systems CSV:', error);
+      alert('Error generating CSV file. Please try again.');
+    }
+  }
+
+  // ========================================================================
+  // IMPORT INSTRUCTIONS MODALS
+  // ========================================================================
+
+  // Initialize modal managers for import instructions
+  const chirpInstructionsModal = window.UTILS ? window.UTILS.createModalManager('chirpInstructionsModal', 'chirpModalClose') : null;
+  const rtSystemsInstructionsModal = window.UTILS ? window.UTILS.createModalManager('rtSystemsInstructionsModal', 'rtSystemsModalClose') : null;
+
+  function openChirpInstructionsModal() {
+    if (chirpInstructionsModal) chirpInstructionsModal.open();
+  }
+
+  function openRTSystemsInstructionsModal() {
+    if (rtSystemsInstructionsModal) rtSystemsInstructionsModal.open();
   }
 
   // Initialize repeater tables for repeaters.html
   if (currentPage === 'repeaters.html') {
     Promise.all([
-      renderLinkedRepeaters(),
-      renderNonLinkedRepeaters(),
+      renderAllRepeaters(),
       renderWeatherStations()
     ]).then(() => {
       // Re-initialize search after tables are loaded
@@ -620,6 +960,17 @@
         searchInput.dispatchEvent(new Event('input'));
       }
     });
+
+    // Attach CSV export button handlers
+    const exportChirpBtn = document.getElementById('export-chirp-linked');
+    if (exportChirpBtn) {
+      exportChirpBtn.addEventListener('click', exportChirpLinked);
+    }
+
+    const exportRTSystemsBtn = document.getElementById('export-rtsystems-linked');
+    if (exportRTSystemsBtn) {
+      exportRTSystemsBtn.addEventListener('click', exportRTSystemsLinked);
+    }
   }
 
   // ========================================================================

@@ -35,6 +35,7 @@
       <li><a href="#repeater-table">Linked Repeaters</a></li>
       <li><a href="#nonlinkcard">Non-Linked Repeaters</a></li>
       <li><a href="#weathercard">Weather Stations</a></li>
+      <li><a href="#csv-export-card">Export CSV</a></li>
     </ul>
   </nav>
 
@@ -149,7 +150,85 @@
       </div>
     </section>
 
+    <!-- CSV Export Section -->
+    <section class="card" id="csv-export-card">
+      <header class="card-header card-header--blue">
+        <h2 class="card-title">Export to Radio Programming Software</h2>
+      </header>
+      <div class="card-body">
+        <aside class="callout note">
+          <p class="center">
+            Export SKYWARN repeater data to CSV format for use with CHIRP or RT Systems radio programming software.
+            Click a button below to download and view import instructions.
+          </p>
+        </aside>
+        <div class="center" style="margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
+          <button id="export-chirp-linked" class="btn btn-blue" aria-label="Export all SKYWARN repeaters to CHIRP CSV">
+            📥 [CHIRP]: SKYWARN Repeaters
+          </button>
+          <button id="export-rtsystems-linked" class="btn btn-blue" aria-label="Export all SKYWARN repeaters to RT Systems CSV">
+            📥 [RT Systems]: SKYWARN Repeaters
+          </button>
+        </div>
+      </div>
+    </section>
+
   </main>
+
+  <!-- CHIRP Import Instructions Modal -->
+  <div id="chirpInstructionsModal" class="modal" role="dialog" aria-labelledby="chirpModalTitle" aria-hidden="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="chirpModalTitle">CHIRP Import Instructions</h2>
+        <button id="chirpModalClose" class="modal-close" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>How to Import into CHIRP</h3>
+        <ol>
+          <li><strong>Download Complete!</strong> Your CSV file has been saved to your downloads folder.</li>
+          <li><strong>Open CHIRP</strong> software on your computer.</li>
+          <li><strong>Connect your radio</strong> to your computer via USB cable.</li>
+          <li><strong>Download from radio:</strong> Radio → Download From Radio (to read existing channels).</li>
+          <li><strong>Import CSV:</strong> File → Import → Select the downloaded CSV file.</li>
+          <li><strong>Review channels:</strong> Check imported repeaters in the channel list.</li>
+          <li><strong>Upload to radio:</strong> Radio → Upload To Radio.</li>
+        </ol>
+        <aside class="callout note">
+          <p><strong>Note:</strong> The CSV includes all Georgia SKYWARN repeaters (linked and non-linked). Total: 58 repeaters.</p>
+        </aside>
+        <h3>CHIRP Download</h3>
+        <p>Don't have CHIRP? Download it free from <a href="https://chirp.danplanet.com/" target="_blank" rel="noopener noreferrer">chirp.danplanet.com</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- RT Systems Import Instructions Modal -->
+  <div id="rtSystemsInstructionsModal" class="modal" role="dialog" aria-labelledby="rtSystemsModalTitle" aria-hidden="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="rtSystemsModalTitle">RT Systems Import Instructions</h2>
+        <button id="rtSystemsModalClose" class="modal-close" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3>How to Import into RT Systems</h3>
+        <ol>
+          <li><strong>Download Complete!</strong> Your CSV file has been saved to your downloads folder.</li>
+          <li><strong>Open RT Systems</strong> software for your radio model.</li>
+          <li><strong>Connect your radio</strong> to your computer via USB cable.</li>
+          <li><strong>Read from radio:</strong> Communication → Read from radio (to load existing data).</li>
+          <li><strong>Import CSV:</strong> File → Import → CSV File → Select the downloaded file.</li>
+          <li><strong>Select Bank 22: Skywarn</strong> when prompted for import location.</li>
+          <li><strong>Review repeaters:</strong> Navigate to Bank 22 to see all imported channels.</li>
+          <li><strong>Write to radio:</strong> Communication → Write to radio.</li>
+        </ol>
+        <aside class="callout note">
+          <p><strong>Note:</strong> All 58 Georgia SKYWARN repeaters will be imported into Bank 22: Skywarn with channel numbers 00-57.</p>
+        </aside>
+        <h3>RT Systems Software</h3>
+        <p>Visit <a href="https://www.rtsystemsinc.com/" target="_blank" rel="noopener noreferrer">rtsystemsinc.com</a> to purchase software for your specific radio model.</p>
+      </div>
+    </div>
+  </div>
 
   <!-- Site footer - calls on footer.html via script-->
   <div id="footer-placeholder"></div>
