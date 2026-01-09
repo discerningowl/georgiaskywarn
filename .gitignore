@@ -1,4 +1,8 @@
+# macOS system files
 .DS_Store
+**/.DS_Store
+
+# Test and backup files
 ACTIVATION_PATTERN_TESTS.md
 data/linked-repeaters.json.backup
 data/nonlinked-repeaters.json.backup
