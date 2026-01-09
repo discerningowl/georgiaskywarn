@@ -936,9 +936,9 @@
   // IMPORT INSTRUCTIONS MODALS
   // ========================================================================
 
-  // Initialize modal managers for import instructions
-  const chirpInstructionsModal = window.UTILS ? window.UTILS.createModalManager('chirpInstructionsModal', 'chirpModalClose') : null;
-  const rtSystemsInstructionsModal = window.UTILS ? window.UTILS.createModalManager('rtSystemsInstructionsModal', 'rtSystemsModalClose') : null;
+  // Modal managers (initialized on repeaters.html page)
+  let chirpInstructionsModal = null;
+  let rtSystemsInstructionsModal = null;
 
   function openChirpInstructionsModal() {
     if (chirpInstructionsModal) chirpInstructionsModal.open();
@@ -950,6 +950,12 @@
 
   // Initialize repeater tables for repeaters.html
   if (currentPage === 'repeaters.html') {
+    // Initialize modal managers after DOM is ready
+    if (window.UTILS) {
+      chirpInstructionsModal = window.UTILS.createModalManager('chirpInstructionsModal', 'chirpModalClose');
+      rtSystemsInstructionsModal = window.UTILS.createModalManager('rtSystemsInstructionsModal', 'rtSystemsModalClose');
+    }
+
     Promise.all([
       renderAllRepeaters(),
       renderWeatherStations()
