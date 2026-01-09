@@ -783,6 +783,55 @@ Weather station tables are dynamically generated from the JSON file. Edit `weath
 - **Add to linked-repeaters.json**: Amateur radio repeaters linked to the SKYWARN network
 - **Add to nonlinked-repeaters.json**: Local amateur radio repeaters for SKYWARN nets (not state-wide linked)
 
+### Validating Repeater Data
+
+**Source of Truth**: The Georgia SKYWARN website (`data/repeaters.json`) is the **source of truth** for repeater information used on this site.
+
+**Validation Source**: RepeaterBook.com is used as the **validation source** to verify repeater data accuracy and system membership.
+
+#### RepeaterBook System Validation URLs
+
+Use these official RepeaterBook system pages to validate repeater membership and data accuracy:
+
+1. **Georgia SKYWARN Linked Repeaters System**
+   - URL: https://www.repeaterbook.com/repeaters/feature_search.php?system=Georgia+SKYWARN+Linked+Repeaters+System&type=systems
+   - Use for: Validating repeaters with `linked=true` and SKYWARN tags
+   - Official list maintained by SKYWARN coordinators
+
+2. **Peach State Intertie System**
+   - URL: https://www.repeaterbook.com/repeaters/feature_search.php?system=Peach+State+Intertie+System&type=systems
+   - Use for: Validating repeaters with "Peach State" tag
+   - Regional linked system in central Georgia
+
+3. **Cherry Blossom Intertie System**
+   - URL: https://www.repeaterbook.com/repeaters/feature_search.php?system=Cherry+Blossom+Intertie+System&type=systems
+   - Use for: Validating repeaters with "Cherry Blossom" tag
+   - Regional linked system in central Georgia
+
+#### Validation Process
+
+**When to Validate**:
+- Before adding new repeaters to the database
+- Quarterly review of all linked repeaters
+- When system coordinators announce changes
+- After receiving reports of repeater changes/outages
+
+**Validation Steps**:
+1. Compare `data/repeaters.json` against appropriate RepeaterBook system list
+2. Verify frequency, callsign, location, and tone match
+3. Update `refurl` field to point to correct RepeaterBook details page (format: `details.php?state_id=13&ID=####`)
+4. Check for missing repeaters (in RepeaterBook but not in our database)
+5. Check for extra repeaters (in our database but not in RepeaterBook)
+6. Document discrepancies in `REPEATERBOOK_VALIDATION.md`
+
+**Important Notes**:
+- Our database may intentionally include repeaters not in RepeaterBook systems (local nets, backup sites)
+- Repeaters with `linked=false` do not need to be in RepeaterBook linked system lists
+- The `refurl` field should ALWAYS point to RepeaterBook as the single source of truth for technical specs
+- Use `picUrl` field only for station photos (currently 444.600+ and 442.500+)
+
+**See Also**: `REPEATERBOOK_VALIDATION.md` for the most recent validation report and action items.
+
 ### Updating NWS Contact Information
 
 **File**: `about.html`
