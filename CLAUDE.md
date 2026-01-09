@@ -26,15 +26,13 @@ georgiaskywarn/
 ├── georgiaskywarnlogo.png  # Site logo (500x500px)
 ├── favicon.ico             # Site favicon
 ├── nws.gif                 # NWS logo
-├── js/                     # JavaScript files directory
+├── js/                     # JavaScript files directory (7 files total)
 │   ├── version.js          # **CRITICAL** - Single version number for cache busting
 │   ├── loader.js           # **CRITICAL** - Dynamically loads all scripts with versioning
-│   ├── header.js           # Header component (logo, nav, theme toggle, back-to-top)
-│   ├── footer.js           # Footer component (dynamically loaded)
+│   ├── core.js             # Core utilities (merged config.js + utils.js)
+│   ├── components.js       # UI components (merged header.js + footer.js)
 │   ├── scripts.js          # Page-specific JavaScript (alerts, modals, repeater search)
 │   ├── nws-api.js          # NWS API integration and HWO
-│   ├── config.js           # Centralized configuration
-│   ├── utils.js            # Shared utility functions (includes cache invalidation)
 │   └── changelog.js        # Changelog display
 ├── data/                   # Data files directory
 │   ├── linked-repeaters.json   # Linked repeater data (dynamically loaded)
@@ -54,10 +52,10 @@ georgiaskywarn/
 
 **HTML files and CSS MUST remain in the root directory. This is a hard requirement.**
 
-**Current Structure** (as of January 5, 2026):
+**Current Structure** (as of January 9, 2026):
 - ✅ **HTML files**: All in root directory
 - ✅ **CSS files**: `style.css` in root directory
-- ✅ **JavaScript files**: Organized in `js/` directory
+- ✅ **JavaScript files**: Organized in `js/` directory (7 consolidated files)
 - ✅ **Data files**: JSON files in `data/` directory
 - ✅ **Images**: In root directory (except photo archive in `archive/`)
 - ✅ **Legacy redirects**: `www/` and `wx4ptc/` directories preserved
@@ -82,8 +80,8 @@ georgiaskywarn/
 2. **DO NOT REMOVE** the `www/` directory - legacy redirect for old bookmarks
 3. All HTML pages MUST remain in the root directory
 4. All HTML pages share the same `style.css` stylesheet (root level)
-5. **Component architecture**: Header loaded via `js/header.js`, Footer loaded via `js/footer.js`
-6. **JavaScript organization**: All JavaScript files in `js/` directory for better code organization
+5. **Component architecture**: Header and footer loaded via `js/components.js` (merged for efficiency)
+6. **JavaScript organization**: Consolidated to 7 files (reduced from 9 in 2026-01-09 refactor)
 7. **Data organization**: All JSON data files in `data/` directory
 8. Images and assets remain in root directory except for historical photos in `archive/`
 
@@ -104,10 +102,11 @@ All 7 HTML pages load scripts via a centralized loader system:
 ```
 
 **That's it!** No individual `<script>` tags for other files. The loader automatically:
-1. Loads `header.js` first (prevents flash of unstyled content)
-2. Loads core scripts: `config.js` → `utils.js` → `footer.js` → `scripts.js`
-3. Loads page-specific scripts (`nws-api.js` for index/dashboard, `changelog.js` for about)
-4. Appends `?v=${APP_VERSION}` to every script URL for cache busting
+1. Loads `components.js` first (header + footer, prevents flash of unstyled content)
+2. Loads `core.js` (config + utils merged, provides CONFIG and UTILS namespaces)
+3. Loads page-specific scripts (`nws-api.js` for index.html, `changelog.js` for about.html)
+4. Loads `scripts.js` last (depends on core and page-specific scripts)
+5. Appends `?v=${APP_VERSION}` to every script URL for cache busting
 
 ### 🔴 REQUIRED: Update Version After JavaScript Changes
 
@@ -1100,6 +1099,56 @@ refactor: Simplify alert filtering logic
 ---
 
 ## Changelog
+
+### 2026-01-09
+- **JAVASCRIPT CONSOLIDATION**: Major code refactoring (9 files → 7 files, -22%)
+  - **Phase 1: Deduplication** - Eliminated ~185-270 lines of duplicate code
+    - Moved `openAlertModal()` to UTILS (was duplicated in scripts.js and nws-api.js)
+    - This fixes the root cause of the modal color bug (watch alerts showing red instead of yellow)
+    - Consolidated `sanitizeHTML()` with optional newline conversion parameter
+    - Added `closeModal()` utility (replaces closeAlertModal, closeOutlookModal)
+    - Added modal color utilities (`getAlertColorClass()`, `applyModalColor()`)
+    - Added `updateTimestampElement()` utility (consolidates 3 timestamp functions)
+    - Updated scripts.js and nws-api.js to use UTILS functions exclusively
+  - **Phase 2: File Merging** - Reduced file count for better organization
+    - Created `js/core.js` (merges config.js + utils.js) - 17KB
+    - Created `js/components.js` (merges header.js + footer.js) - 15KB
+    - Updated `js/loader.js` to load new consolidated files
+    - Fixed footer Quick Links: dashboard.html → spotters.html
+    - Deleted old files: config.js, utils.js, header.js, footer.js
+  - **Benefits**:
+    - Single source of truth for modal operations (prevents future duplication bugs)
+    - Easier maintenance (22% fewer files)
+    - Smaller codebase (~185 lines removed)
+    - Improved code organization with logical grouping
+  - Version: 20260109h
+- **MODAL HEADER STYLING FIX**: Standardized CSS for all modal headers
+  - Problem: CSV export modals had black text instead of white
+  - Root cause: CSS only styled `.modal-title` class, but CSV modals use `<h2>` without class
+  - Solution: Added universal CSS rule for all heading elements (h1-h6) in modal headers
+  - All modals now have consistent appearance:
+    - White text color
+    - 1.4rem font size
+    - 700 font weight (bold)
+    - 1.3 line height
+  - Makes CSS more robust - any heading in modal header gets correct styling automatically
+  - Version: 20260109i
+- **WEBSITE RESTRUCTURING**: Dashboard is now the home page
+  - Renamed dashboard.html → index.html (new home page with HWO and all alerts)
+  - Renamed old index.html → spotters.html (spotter resources and training)
+  - Updated all navigation links across 7 pages (header.js: dashboard → spotters)
+  - Removed NWS Warnings card from new spotters.html (redundant with new home page)
+  - Updated `js/scripts.js`: removed `renderWarningsOnly()` function
+  - Updated `js/loader.js`: removed dashboard.html reference
+  - Updated sitemap.xml and README.md
+  - Deleted old dashboard.html file
+  - Version: 20260109a
+- **REPEATER DATE DISPLAY**: Dynamic last-updated date for repeaters
+  - Added dynamic date display showing when repeaters.json was last modified
+  - Fetches Last-Modified HTTP header from repeaters.json
+  - Formats date with ordinal suffixes (e.g., "January 9th 2026")
+  - Added `updateRepeaterValidationDate()` function to scripts.js
+  - Version: 20260109
 
 ### 2026-01-08
 - **CSV EXPORT FUNCTIONALITY**: Implemented dual-format repeater export system

@@ -80,13 +80,13 @@ georgiaskywarn/
 ├── sitemap.xml             # Site map for SEO
 ├── favicon.ico             # Site favicon
 ├── nws.gif                 # NWS logo
-├── js/                     # JavaScript files
-│   ├── header.js           # Header component (logo, nav, theme toggle)
-│   ├── footer.js           # Footer component (dynamically loaded)
+├── js/                     # JavaScript files (7 consolidated files)
+│   ├── version.js          # Version number for cache busting
+│   ├── loader.js           # Dynamic script loader with versioning
+│   ├── core.js             # Core utilities (merged config + utils)
+│   ├── components.js       # UI components (merged header + footer)
 │   ├── scripts.js          # Page-specific JavaScript (alerts, search)
 │   ├── nws-api.js          # NWS API integration and HWO
-│   ├── config.js           # Centralized configuration
-│   ├── utils.js            # Shared utility functions
 │   └── changelog.js        # Changelog display
 ├── data/                   # Data files
 │   ├── linked-repeaters.json   # Linked repeater data
@@ -117,6 +117,34 @@ See [CLAUDE.md](CLAUDE.md) for detailed documentation.
 ---
 
 ## 🚀 Recent Improvements
+
+### January 9, 2026 - JavaScript Consolidation & Code Deduplication
+
+**Major Refactoring** ✅
+- Reduced JavaScript files from 9 to 7 (-22% file count reduction)
+- Eliminated ~185-270 lines of duplicate code
+- Fixed root cause of modal color inconsistency bug
+- Created `js/core.js` (merged config.js + utils.js)
+- Created `js/components.js` (merged header.js + footer.js)
+- Single source of truth for modal operations (prevents future duplication bugs)
+
+**Consolidated Functions** ✅
+- Moved `openAlertModal()` to UTILS (was duplicated in scripts.js and nws-api.js)
+- Unified `sanitizeHTML()` with optional newline conversion
+- Added `closeModal()`, `getAlertColorClass()`, `applyModalColor()` utilities
+- Consolidated timestamp update functions across all pages
+
+**Modal Styling Consistency** ✅
+- Fixed CSV export modal headers (black text → white text)
+- Standardized all modal header styling (fonts, colors, sizing)
+- Added universal CSS rules for headings in modal headers
+- All modals now match consistent appearance
+
+**Website Restructuring** ✅
+- Dashboard is now the home page (index.html)
+- Renamed old home page to spotters.html
+- Updated all navigation links across site
+- Added dynamic repeater last-updated date display
 
 ### January 2, 2026 - Code Optimization & Enhanced Features
 
@@ -312,6 +340,6 @@ This website is maintained by volunteer amateur radio operators in coordination 
 
 ---
 
-**Last Updated**: January 2, 2026 (v20260102)
+**Last Updated**: January 9, 2026 (v20260109i)
 **Maintained By**: Georgia SKYWARN Team
 **For Questions**: Contact webmaster at kq4jp@pm.me
