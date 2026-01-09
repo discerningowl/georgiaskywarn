@@ -6,8 +6,12 @@
  *          - Fetch functions with timeout and retry logic
  *          - Cache management
  *          - Common constants and configuration
- * Version: 20260106c
+ * Version: 20260109g
  * Change-log:
+ *   • 2026-01-09g – CRITICAL FIX: Added color detection to openAlertModal()
+ *                  - Was missing from nws-api.js causing watches to show red
+ *                  - Now properly applies --red, --yellow, --blue classes
+ *                  - Dashboard alerts now show correct modal colors
  *   • 2026-01-06c – UX: Improved alert formatting - "Expires" now on separate line
  *   • 2026-01-06b – CORS FIX: Removed custom headers that trigger CORS preflight
  *                  - Custom Cache-Control/Pragma headers cause CORS preflight (OPTIONS request)
@@ -455,10 +459,27 @@
     const modal = document.getElementById('alertModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalBody = document.getElementById('modalBody');
+    const modalHeader = modal?.querySelector('.modal-header');
 
-    if (!modal || !modalTitle || !modalBody) return;
+    if (!modal || !modalTitle || !modalBody || !modalHeader) return;
 
     const p = alertData.properties;
+
+    // Determine alert type for modal header color
+    const isWarning = p.event?.toLowerCase().includes('warning');
+    const isWatch = p.event?.toLowerCase().includes('watch');
+
+    // Remove existing color classes
+    modalHeader.classList.remove('modal-header--red', 'modal-header--yellow', 'modal-header--blue', 'modal-header--green');
+
+    // Add appropriate standardized color class based on alert type
+    if (isWarning) {
+      modalHeader.classList.add('modal-header--red');
+    } else if (isWatch) {
+      modalHeader.classList.add('modal-header--yellow');
+    } else {
+      modalHeader.classList.add('modal-header--blue');
+    }
 
     const content = `
       <p><strong>${sanitizeHTML(p.event || 'Weather Alert')}</strong></p>
