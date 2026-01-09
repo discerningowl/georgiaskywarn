@@ -506,9 +506,15 @@
    * @returns {string} - HTML table row
    */
   function renderRepeaterRow(repeater) {
-    const locationHTML = repeater.url
-      ? `<a href="${window.UTILS.sanitizeURL(repeater.url)}" target="_blank" rel="noopener noreferrer">${sanitizeHTML(repeater.location)}</a>`
+    // Location link - always link to RepeaterBook refurl
+    const locationHTML = repeater.refurl
+      ? `<a href="${window.UTILS.sanitizeURL(repeater.refurl)}" target="_blank" rel="noopener noreferrer">${sanitizeHTML(repeater.location)}</a>`
       : sanitizeHTML(repeater.location);
+
+    // Camera icon link (for repeaters with pictures)
+    const cameraIcon = repeater.picUrl
+      ? `<a href="${window.UTILS.sanitizeURL(repeater.picUrl)}" target="_blank" rel="noopener noreferrer" title="View station photos" style="margin-left: 0.5rem; text-decoration: none;">📷</a>`
+      : '';
 
     // Render badges from tags array - displayed below location
     const badges = (repeater.tags && repeater.tags.length > 0)
@@ -529,7 +535,7 @@
 
     return `
       <tr>
-        <td><div>${locationHTML}</div>${badges}</td>
+        <td><div>${locationHTML}${cameraIcon}</div>${badges}</td>
         <td class="freq">${sanitizeHTML(repeater.frequency)}${toneText}</td>
         <td>${sanitizeHTML(repeater.description)}</td>
       </tr>`;
@@ -671,10 +677,10 @@
     // Truncate to 20 chars if needed
     name = name.substring(0, 20);
 
-    // Build comment from tags
+    // Build comment from all tags (or location if no tags)
     const comment = repeater.tags && repeater.tags.length > 0
       ? repeater.tags.join(', ')
-      : '';
+      : repeater.location;
 
     // CHIRP CSV columns:
     // Location,Name,Frequency,Duplex,Offset,Tone,rToneFreq,cToneFreq,DtcsCode,DtcsPolarity,RxDtcsCode,CrossMode,Mode,TStep,Skip,Power,Comment,URCALL,RPT1CALL,RPT2CALL,DVCODE

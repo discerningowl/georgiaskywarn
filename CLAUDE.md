@@ -633,9 +633,9 @@ p.event?.toLowerCase().includes('watch')
 
 ### Adding a New Repeater
 
-**Files**: `linked-repeaters.json` or `nonlinked-repeaters.json`
+**File**: `data/repeaters.json`
 
-Repeater tables are dynamically generated from JSON files. Edit the appropriate file:
+Repeater tables are dynamically generated from the unified repeaters.json file:
 
 **JSON Structure**:
 ```json
@@ -645,9 +645,24 @@ Repeater tables are dynamically generated from JSON files. Edit the appropriate 
   "tone": "141.3 Hz",
   "tags": ["WX4PTC"],
   "description": "Wide coverage, generator backup",
-  "url": "https://www.repeaterbook.com/repeaters/details.php?ID=12345",
   "callsign": "WX4PTC",
-  "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=12345"
+  "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=12345",
+  "linked": true
+}
+```
+
+**Special case for repeaters with photos** (444.600+ and 442.500+):
+```json
+{
+  "location": "Fayetteville",
+  "frequency": "444.600+",
+  "tone": "77.0 Hz",
+  "tags": ["Hub", "WX4PTC"],
+  "description": "Hub and net control repeater. Emergency Power.",
+  "picUrl": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6",
+  "callsign": "WX4PTC",
+  "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=444.6",
+  "linked": true
 }
 ```
 
@@ -657,12 +672,13 @@ Repeater tables are dynamically generated from JSON files. Edit the appropriate 
 - `tone` - CTCSS/PL tone in Hz (e.g., "141.3 Hz") or `null` if no tone (required)
 - `tags` - Array of network affiliations: `["Hub"]`, `["WX4PTC"]`, `["Peach State"]`, `["Cherry Blossom"]` (required, can be empty `[]`)
 - `description` - Coverage area, features, emergency power, etc. (required)
-- `url` - Link to repeater info page (club website, photo, etc.) or `null` (required)
+- `picUrl` - Link to station photos (only for 444.600+ and 442.500+) (optional)
 - `callsign` - Amateur radio callsign (e.g., "WX4PTC", "K4DBN") or "Unknown" if not found (required)
-- `refurl` - RepeaterBook reference URL used to find/verify the repeater (required)
+- `refurl` - RepeaterBook reference URL - single source of truth for repeater info (required)
+- `linked` - Boolean indicating if repeater is part of linked network (required)
 
 **Steps**:
-1. Open `data/linked-repeaters.json` or `data/nonlinked-repeaters.json`
+1. Open `data/repeaters.json`
 2. Add new entry in alphabetical order by location
 3. Follow JSON syntax rules:
    - Entries separated by commas
@@ -675,7 +691,11 @@ Repeater tables are dynamically generated from JSON files. Edit the appropriate 
 7. Verify frequency and callsign are correct
 8. Test on mobile (repeater tables are responsive)
 
-**Important**: The HTML tables on `index.html` and `repeaters.html` are auto-generated from these JSON files via JavaScript. Do NOT edit the HTML tables directly.
+**Important Notes**:
+- The HTML tables on `repeaters.html` are auto-generated from this JSON file via JavaScript. Do NOT edit the HTML tables directly.
+- Location names link to RepeaterBook (using `refurl`) as the single source of truth for repeater information
+- The `picUrl` field is only used for repeaters with station photos (currently 444.600+ and 442.500+). These repeaters will display a camera icon (📷) next to the location name that links to the photo gallery.
+- Do NOT add `picUrl` to other repeaters. If you need specialized URLs for a repeater in the future, create a new specific field.
 
 **For detailed non-technical instructions**, see [ADMIN_GUIDE.md](ADMIN_GUIDE.md) Task 1.
 

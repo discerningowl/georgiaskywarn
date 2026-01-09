@@ -8,10 +8,10 @@
       "WX4PTC"
     ],
     "description": "Hub and net control repeater. Emergency Power. Good south metro coverage and down into Cowetta, Fayette, Henry, Spalding, and Pike Counties. Mobile coverage into parts of north metro Atlanta as well. Generator and large UPS battery backup on site.",
-    "url": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6",
-    "callsign": "WX4PTC",
-    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=444.6",
-    "linked": true
+    "callsign": "W4PSZ",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=405",
+    "linked": true,
+    "picUrl": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6"
   },
   {
     "location": "Tyrone",
@@ -22,7 +22,6 @@
       "WX4PTC"
     ],
     "description": "Backup hub and net control/remote base repeater. Linked to 444.600+ via 220 MHz hardwired link. South metro Atlanta coverage. Battery backup. Also hosts AB4KN-2 APRS digipeater.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=508",
     "callsign": "KN4YZ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=508",
     "linked": true
@@ -35,9 +34,8 @@
       "WX4PTC"
     ],
     "description": "Hardwired to 444.600+ hub repeater controller. Co-located at primary WX4PTC site. South metro Atlanta coverage including Fayette, Coweta, Spalding, and southern Fulton counties. Battery backup.",
-    "url": "https://www.kk4gq.org",
     "callsign": "KK4GQ",
-    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=145.21",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=129",
     "linked": true
   },
   {
@@ -49,10 +47,10 @@
       "WX4PTC"
     ],
     "description": "Backup hub and remote base repeater. Covers Fayette, Coweta, Spalding, and Pike counties with some coverage into southern metro Atlanta. Also serves as net control station for Peachtree City public events requiring communications support.",
-    "url": "https://photos.app.goo.gl/Jvmp4e4xPQx9aAjU8",
-    "callsign": "WX4PTC",
-    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=442.5",
-    "linked": true
+    "callsign": "W4PSZ",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=472",
+    "linked": true,
+    "picUrl": "https://photos.app.goo.gl/Jvmp4e4xPQx9aAjU8"
   },
   {
     "location": "Atlanta",
@@ -60,9 +58,8 @@
     "tone": "146.2 Hz",
     "tags": [],
     "description": "Atlanta Radio Club repeater with excellent metro Atlanta coverage. Links to WX4PTC hub repeaters (444.675+ or 444.600+) for SKYWARN activation.",
-    "url": "https://www.w4doc.org",
     "callsign": "W4DOC",
-    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=146.82",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=6482",
     "linked": true
   },
   {
@@ -71,9 +68,8 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Biskey Mountain near Jasper in Pickens County. Remote base system with autopatch. Covers north Georgia mountains. Emergency power equipped. Part of linked tri-band system (6m/1.25m/70cm).",
-    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=KC4JNN",
     "callsign": "KC4JNN",
-    "refurl": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=KC4JNN",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=13942",
     "linked": true
   },
   {
@@ -82,9 +78,8 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Biskey Mountain near Jasper in Pickens County. Remote base system with autopatch. Covers north Georgia mountains. Emergency power equipped. Part of linked tri-band system (6m/1.25m/70cm).",
-    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=KC4JNN",
     "callsign": "KC4JNN",
-    "refurl": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=KC4JNN",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=259",
     "linked": true
   },
   {
@@ -93,9 +88,8 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Biskey Mountain near Jasper in Pickens County. Remote base system with autopatch. Covers north Georgia mountains. Emergency power equipped. Part of linked tri-band system (6m/1.25m/70cm).",
-    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=KC4JNN",
     "callsign": "KC4JNN",
-    "refurl": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=KC4JNN",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=334",
     "linked": true
   },
   {
@@ -106,7 +100,6 @@
       "Peach State"
     ],
     "description": "Part of Peach State Intertie. Covers Monroe County and surrounding areas. Coverage extends from Forsyth area north to McDonough, bridging central and metro Georgia.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=12976",
     "callsign": "WB4NFG",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=12976",
     "linked": true
@@ -119,7 +112,6 @@
       "Peach State"
     ],
     "description": "Part of Peach State Intertie. Covers Taylor County and surrounding west-central Georgia counties. Located between Columbus and Macon areas.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=20322",
     "callsign": "WR4MG",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=20322",
     "linked": true
@@ -132,7 +124,6 @@
       "Peach State"
     ],
     "description": "Byron Fire Department site. Part of Peach State Intertie. Covers Peach County and surrounding areas in central Georgia.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=16822",
     "callsign": "WX4PCH",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=16822",
     "linked": true
@@ -145,7 +136,6 @@
       "Peach State"
     ],
     "description": "Covers Laurens County (including East Dublin) and surrounding counties such as Treutlen.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=86",
     "callsign": "K4DBN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=86",
     "linked": true
@@ -156,7 +146,6 @@
     "tone": "123.0 Hz",
     "tags": [],
     "description": "Wauka Mountain site at 1,100 ft above average terrain. Full-time link to Commerce 146.850- (KF4DGN). Covers Hall, Dawson, and White counties with partial coverage of Jackson, Habersham, and Gwinnett counties. Generator backup. AllStar connected.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=79",
     "callsign": "KA3JIJ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=79",
     "linked": true
@@ -169,7 +158,6 @@
       "Peach State"
     ],
     "description": "Part of Peach State Intertie. Covers Bleckley County (Cochran area) and surrounding central Georgia counties between Macon and Eastman.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23269",
     "callsign": "K4DBN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23269",
     "linked": true
@@ -180,7 +168,6 @@
     "tone": "131.8 Hz",
     "tags": [],
     "description": "Full-time link to Clermont/Wauka Mountain 145.310- (KA3JIJ). Together these repeaters provide thorough coverage of northeast Georgia. Covers Banks and Jackson counties with partial coverage of Madison, Clarke, and Barrow counties. Generator backup. AllStar connected. 30-mile radius.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23184",
     "callsign": "KF4DGN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23184",
     "linked": true
@@ -191,7 +178,6 @@
     "tone": "110.9 Hz",
     "tags": [],
     "description": "Links to 444.600+ WX4PTC hub. Excellent coverage of south metro Atlanta and I-75 corridor. Covers Fayette, Coweta, Henry, Spalding, Pike, and Troup counties. AllStar node 46796 (linked on demand). Mobile coverage along I-675, I-75, I-85, and major US highways.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=137",
     "callsign": "WB4GWA",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=137",
     "linked": true
@@ -202,9 +188,8 @@
     "tone": "88.5 Hz",
     "tags": [],
     "description": "Links to 444.675+ WX4PTC backup hub. Wide coverage east of Atlanta along I-20 corridor. Covers Newton, Rockdale, and Walton counties with extended reach into north Georgia.",
-    "url": "https://sites.google.com/site/wa4asirepeater/home",
     "callsign": "WA4ASI",
-    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=146.925",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=100",
     "linked": true
   },
   {
@@ -213,9 +198,8 @@
     "tone": "77.0 Hz",
     "tags": [],
     "description": "Links to WX4PTC hub repeaters (444.675+ or 444.600+). Full-time link to co-located 224.880- (1.25m). Covers northwest Georgia from Rome to Carrollton and north Atlanta. Good mobile coverage extending into south metro. Battery backup. Dual-band system (2m/1.25m).",
-    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WD4LUQ",
     "callsign": "WD4LUQ",
-    "refurl": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WD4LUQ",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=104",
     "linked": true
   },
   {
@@ -224,9 +208,8 @@
     "tone": "77.0 Hz",
     "tags": [],
     "description": "Links to WX4PTC hub repeaters (444.675+ or 444.600+). Full-time link to co-located 146.895+ (2m). Covers northwest Georgia from Rome to Carrollton and north Atlanta. Good mobile coverage extending into south metro. Battery backup. Dual-band system (1.25m/2m).",
-    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WD4LUQ",
     "callsign": "WD4LUQ",
-    "refurl": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WD4LUQ",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=299",
     "linked": true
   },
   {
@@ -237,7 +220,6 @@
       "Peach State"
     ],
     "description": "Part of Peach State Intertie. Covers Dodge County (Eastman area) extending into Bleckley County including Cochran. Central Georgia coverage between Macon and Dublin.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=120",
     "callsign": "KB4MQ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=120",
     "linked": true
@@ -248,7 +230,6 @@
     "tone": "88.5 Hz",
     "tags": [],
     "description": "Links to 444.600+ WX4PTC hub. Covers Spalding County and south metro Atlanta area. Good coverage along I-75 and US-41 corridors.",
-    "url": null,
     "callsign": "Unknown",
     "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=146.91",
     "linked": true
@@ -261,7 +242,6 @@
       "Cherry Blossom"
     ],
     "description": "Part of Cherry Blossom Intertie System. Full-time link to Macon hub 145.430- (AA4RI). Covers Jones and Bibb counties including Gray and Round Oak areas north of Macon.",
-    "url": "https://www.repeaterbook.com/repeaters/feature_search.php?system=Cherry+Blossom+Intertie+System&type=systems",
     "callsign": "WB4JOE",
     "refurl": "https://www.repeaterbook.com/repeaters/feature_search.php?system=Cherry+Blossom+Intertie+System&type=systems",
     "linked": true
@@ -275,7 +255,6 @@
       "Cherry Blossom"
     ],
     "description": "Part of both Peach State and Cherry Blossom intertie systems. Wide coverage of central Georgia. Covers Jones, Twiggs, Wilkinson, and Washington counties. Major cities include Dublin, Gordon, McIntyre, and Sandersville.",
-    "url": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25",
     "callsign": "K4DBN",
     "refurl": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25",
     "linked": true
@@ -289,7 +268,6 @@
       "Peach State"
     ],
     "description": "Hub repeater for Peach State Intertie with full-time network link. Wide coverage of central Georgia. Covers Jones, Twiggs, Wilkinson, and Washington counties. Major cities include Dublin, Gordon, McIntyre, and Sandersville.",
-    "url": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25",
     "callsign": "K4DBN",
     "refurl": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25",
     "linked": true
@@ -302,7 +280,6 @@
       "Peach State"
     ],
     "description": "Part of Peach State Intertie. Wide coverage of central Georgia. Covers Jones, Twiggs, Wilkinson, and Washington counties. Major cities include Dublin, Gordon, McIntyre, and Sandersville.",
-    "url": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25",
     "callsign": "K4DBN",
     "refurl": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25",
     "linked": true
@@ -313,7 +290,6 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Links to WX4PTC hub repeaters (444.675+ and 444.600+). Wide north Georgia mountain coverage extending into metro Atlanta. Covers Pickens, Dawson, Gilmer, and Fannin counties. Generator and battery backup.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=147",
     "callsign": "KC4AQS",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=147",
     "linked": true
@@ -324,7 +300,6 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Links to 444.600+ WX4PTC hub. Excellent coverage of LaGrange and west Georgia. Covers Troup County and surrounding areas near the Alabama state line.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=158",
     "callsign": "WB4BXO",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=158",
     "linked": true
@@ -335,7 +310,6 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Tri-States Amateur Radio Club repeater. Primary coverage for Walker, Catoosa, Dade, and Chattooga counties in northwest Georgia. Approximately 50-mile radius from Lookout Mountain covering Chattanooga, TN area. Full-time links to N4LMC repeaters in Tennessee. Secondary repeater: W4ABZ 145.715- (67.0 Hz).",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=163",
     "callsign": "W4GTA",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=163",
     "linked": true
@@ -349,7 +323,6 @@
       "Cherry Blossom"
     ],
     "description": "Hub repeater for Cherry Blossom Intertie System. Full-time link to Gray/Round Oak 145.370- (WB4JOE). Covers Bibb, Jones, Houston, Twiggs, Baldwin, Monroe, and Crawford counties with 34-mile radius from Macon.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=166",
     "callsign": "AA4RI",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=166",
     "linked": true
@@ -362,7 +335,6 @@
       "Peach State"
     ],
     "description": "Part of Peach State Intertie. Covers Bibb County (Macon metro area) and surrounding central Georgia counties including Houston, Jones, and Twiggs.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=176",
     "callsign": "KI4FVI",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=176",
     "linked": true
@@ -375,9 +347,8 @@
       "Peach State"
     ],
     "description": "Part of Peach State Intertie. Covers Bibb County (Macon metro area) and surrounding central Georgia counties. WX4EMA emergency management system.",
-    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WX4EMA",
     "callsign": "WX4EMA",
-    "refurl": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WX4EMA",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3141",
     "linked": true
   },
   {
@@ -386,9 +357,8 @@
     "tone": "88.5 Hz",
     "tags": [],
     "description": "Covers Bibb County (Macon metro area) and surrounding central Georgia counties. WX4EMA emergency management system.",
-    "url": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WX4EMA",
     "callsign": "WX4EMA",
-    "refurl": "https://www.repeaterbook.com/global_repeaters/keyword.php?func=result&keyword=WX4EMA",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=452",
     "linked": true
   },
   {
@@ -397,7 +367,6 @@
     "tone": "123.0 Hz",
     "tags": [],
     "description": "Covers Baldwin County (Milledgeville area) and surrounding central Georgia counties. Covers Georgia College area and Lake Sinclair.",
-    "url": null,
     "callsign": "Unknown",
     "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=147.135",
     "linked": true
@@ -410,7 +379,6 @@
       "Peach State"
     ],
     "description": "Part of Peach State Intertie. Covers Macon County (Montezuma area) and surrounding counties in west-central Georgia between Macon and Americus.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=180",
     "callsign": "KI4BEO",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=180",
     "linked": true
@@ -421,7 +389,6 @@
     "tone": "110.9 Hz",
     "tags": [],
     "description": "Links to 444.600+ WX4PTC hub. Located in Warm Springs area. Excellent coverage of Harris and Meriwether counties southwest of metro Atlanta. Covers Pine Mountain and Callaway Gardens area.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=194",
     "callsign": "WB4ULJ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=194",
     "linked": true
@@ -432,7 +399,6 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Mount Alto site with excellent Rome area coverage. Links to Jasper 146.805+ (KC4AQS) for SKYWARN network access. Covers Floyd County and northwest Georgia mountains.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=10212",
     "callsign": "N4RMG",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=10212",
     "linked": true
@@ -445,7 +411,6 @@
       "Peach State"
     ],
     "description": "Part of Peach State Intertie. Covers Washington County (Sandersville area) and surrounding east-central Georgia counties. Located between Macon and Augusta areas.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=205",
     "callsign": "K3SRC",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=205",
     "linked": true
@@ -456,7 +421,6 @@
     "tone": "141.3 Hz",
     "tags": [],
     "description": "Links to 444.675+ WX4PTC backup hub. Sawnee Mountain site provides wide coverage of north metro Atlanta and Forsyth County. Covers Cumming, Alpharetta, and surrounding suburbs.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3862",
     "callsign": "WB4GQX",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3862",
     "linked": true
@@ -467,7 +431,6 @@
     "tone": "110.9 Hz",
     "tags": [],
     "description": "Links to KK4GQ 145.210- Fayetteville repeater, providing connection to WX4PTC network. Covers Peachtree City and southern Fayette County.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18622",
     "callsign": "W4SCP",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18622",
     "linked": true
@@ -481,7 +444,6 @@
       "Peach State"
     ],
     "description": "Hub repeater connecting WX4PTC network to Peach State Intertie. Links to 444.600+ WX4PTC hub. Covers Upson County and areas south of metro Atlanta. Important gateway between north and central Georgia SKYWARN systems.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=219",
     "callsign": "W4OHH",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=219",
     "linked": true
@@ -492,7 +454,6 @@
     "tone": "110.9 Hz",
     "tags": [],
     "description": "Full-time link to Woodbury 443.800+ (WB4GWA). AllStar node 473360 permanently connected. Covers Meriwether County and Warm Springs/FDR area southwest of Atlanta.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=234",
     "callsign": "KN4FE",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=234",
     "linked": true
@@ -503,7 +464,6 @@
     "tone": "82.5 Hz",
     "tags": [],
     "description": "Covers Houston County and Warner Robins area near Robins Air Force Base. Covers Macon metro southern suburbs and surrounding central Georgia counties.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5525",
     "callsign": "WM4B",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5525",
     "linked": true
@@ -516,7 +476,6 @@
       "Peach State"
     ],
     "description": "Part of Peach State Intertie (part-time link). Covers Jones and Baldwin counties including Gray and Milledgeville. Provides coverage gap fill between Macon and Milledgeville areas.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3139",
     "callsign": "WA4ORT",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3139",
     "linked": true
@@ -527,7 +486,6 @@
     "tone": "82.5 Hz",
     "tags": [],
     "description": "Covers Houston County and Warner Robins area near Robins Air Force Base. UHF companion to 146.670- repeater. Covers Macon metro southern suburbs.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5525",
     "callsign": "WM4B",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5525",
     "linked": true
@@ -540,7 +498,6 @@
       "Cherry Blossom"
     ],
     "description": "Part of Cherry Blossom Intertie System. Covers Jefferson County (Wrens area) and surrounding east Georgia counties between Augusta and Sandersville.",
-    "url": "https://www.repeaterbook.com/repeaters/feature_search.php?system=Cherry+Blossom+Intertie+System&type=systems",
     "callsign": "W4CDC",
     "refurl": "https://www.repeaterbook.com/repeaters/feature_search.php?system=Cherry+Blossom+Intertie+System&type=systems",
     "linked": true
@@ -551,7 +508,6 @@
     "tone": "110.9 Hz",
     "tags": [],
     "description": "Links to 444.600+ WX4PTC hub. AllStar node 48225 (links on demand). Full-time link to Warm Springs 146.985- (KN4FE). Covers Meriwether County west of metro Atlanta.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18030",
     "callsign": "WB4GWA",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18030",
     "linked": true
@@ -562,7 +518,6 @@
     "tone": "110.9 Hz",
     "tags": [],
     "description": "Barrow Amateur Radio Club",
-    "url": "https://www.google.com/maps/preview?q=barrow+county+ga&ie=UTF-8&hq=&hnear=0x88f452c3f822962f:0x4838b967f3ac74e5,Barrow+County,+GA&gl=us&ei=K_M7U7LhI6rSsATP64DYCA&ved=0CIABELYD",
     "callsign": "Unknown",
     "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=145.28",
     "linked": false
@@ -573,9 +528,8 @@
     "tone": "131.8 Hz",
     "tags": [],
     "description": "WX4BCA repeater",
-    "url": "https://www.google.com/maps/place/Butts+County/@33.3124094,-83.9655015,11z/data=!3m1!4b1!4m2!3m1!1s0x88f4145181fc2c57:0x6eaad207c326378c",
     "callsign": "WX4BCA",
-    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=147.285",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=11661",
     "linked": false
   },
   {
@@ -584,7 +538,6 @@
     "tone": "131.8 Hz",
     "tags": [],
     "description": "Covers Douglas & Carroll counties. Reports do come in from adjacent counties as well.",
-    "url": "https://www.google.com/maps/place/Carroll+County/@33.6189315,-85.0735819,11z/data=!3m1!4b1!4m2!3m1!1s0x88f4d1a9e11835b5:0xaa51cf66a234e730",
     "callsign": "Unknown",
     "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=146.64",
     "linked": false
@@ -595,7 +548,6 @@
     "tone": "107.2 Hz",
     "tags": [],
     "description": "Primary - Coverage \u2013 Cherokee, Pickens, Bartow, Cobb \u2013 NW Georgia with occasional check-in's from TN, AL",
-    "url": "https://www.google.com/maps/place/Cherokee+County/@34.242944,-84.4584125,11z/data=!3m1!4b1!4m2!3m1!1s0x88f50ff083db2faf:0x1e94ba1d119f7d06",
     "callsign": "Unknown",
     "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=145.43",
     "linked": false
@@ -606,7 +558,6 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Secondary - Coverage \u2013 Cherokee, Pickens, Bartow, Cobb \u2013 NW Georgia with occasional check-in's from TN, AL",
-    "url": "https://www.google.com/maps/place/Cherokee+County/@34.242944,-84.4584125,11z/data=!3m1!4b1!4m2!3m1!1s0x88f50ff083db2faf:0x1e94ba1d119f7d06",
     "callsign": "Unknown",
     "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=145.27",
     "linked": false
@@ -617,7 +568,6 @@
     "tone": "156.7 Hz",
     "tags": [],
     "description": "Activated by EMA request",
-    "url": "https://www.google.com/maps/place/Coweta+County/@33.3514005,-84.7562004,11z/data=!3m1!4b1!4m2!3m1!1s0x88f4c6e84a90d781:0x5060d84a1f2bc220",
     "callsign": "Unknown",
     "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=145.13",
     "linked": false
@@ -628,9 +578,8 @@
     "tone": null,
     "tags": [],
     "description": "W8JI repeater is located just north of Barnesville. Normally operates with NO Uplink Tone, but will enable 123.0 Hz or 131.8 Hz Uplink Tone depending upon propagation conditions",
-    "url": "https://www.google.com/maps/place/Lamar+County/@33.121831,-84.140409,11z/data=!4m2!3m1!1s0x88f465f64c93765f:0x6a99eac07b5401c5",
     "callsign": "W8JI",
-    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=147.225",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=67",
     "linked": false
   },
   {
@@ -639,7 +588,6 @@
     "tone": "77.0 Hz",
     "tags": [],
     "description": "The repeater covers an area that includes most of Atlanta to the east and Cedartown to the west.",
-    "url": "https://www.google.com/maps/place/Paulding+County/@33.9286835,-84.886773,11z/data=!3m1!4b1!4m2!3m1!1s0x88f52701903803c3:0x10f625bf4e35d05",
     "callsign": "Unknown",
     "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=146.955",
     "linked": false
@@ -650,7 +598,6 @@
     "tone": "88.5 Hz",
     "tags": [],
     "description": "Covers Walton and surrounding counties.",
-    "url": "https://www.google.com/maps/preview?q=walton+county+ga&ie=UTF-8&hq=&hnear=0x88f5c90d8e66bc73:0x7e69bf134b171e81,Walton+County,+GA&gl=us&ei=rxE-U6SfI5besASZ9IGQAg&ved=0CIcBELYD",
     "callsign": "Unknown",
     "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=147.27",
     "linked": false
@@ -661,7 +608,6 @@
     "tone": "88.5 Hz",
     "tags": [],
     "description": "Covers Walton and surrounding counties.",
-    "url": "https://www.google.com/maps/preview?q=walton+county+ga&ie=UTF-8&hq=&hnear=0x88f5c90d8e66bc73:0x7e69bf134b171e81,Walton+County,+GA&gl=us&ei=rxE-U6SfI5besASZ9IGQAg&ved=0CIcBELYD",
     "callsign": "Unknown",
     "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=442.05",
     "linked": false
@@ -672,7 +618,6 @@
     "tone": "100.0 Hz",
     "tags": [],
     "description": "Activated by EMA / EOC requests or severe weather warnings.",
-    "url": "https://www.google.com/maps/place/White+County/@34.6524859,-83.7464674,11z/data=!3m1!4b1!4m2!3m1!1s0x885f464f6dba6c73:0x9dcf2a5724747fd7",
     "callsign": "Unknown",
     "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=146.91",
     "linked": false
@@ -683,7 +628,6 @@
     "tone": "141.3 Hz",
     "tags": [],
     "description": "Dalton \u2022 Dug Gap Mtn \u2022 Whitfield County. Whitfield SKYWARN Coordinator is Alan Bryant, N4ABB, assistant is Greg Williams, N4JGW.",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=107",
     "callsign": "N4BZJ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=107",
     "linked": false
