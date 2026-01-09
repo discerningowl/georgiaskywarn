@@ -12,6 +12,11 @@
  *          - Security hardening (XSS prevention, error handling)
  *          - Performance optimizations (debouncing, caching)
  * Change-log:
+ *   • 2026-01-09 – Enhanced alert modal colors to match alert types
+ *     - Modal headers now change color based on alert type (red/orange/blue)
+ *     - Warning modals: red gradient
+ *     - Watch modals: yellow/orange gradient
+ *     - Other alerts: blue gradient
  *   • 2026-01-09 – Major restructuring: dashboard.html → index.html
  *     - Removed renderWarningsOnly() function (no longer needed)
  *     - Updated initAlerts() to always show all alert types
@@ -77,10 +82,27 @@
 
     const modalTitle = document.getElementById('modalTitle');
     const modalBody = document.getElementById('modalBody');
-    if (!modalTitle || !modalBody) return;
+    const modalHeader = document.querySelector('#alertModal .modal-header');
+    if (!modalTitle || !modalBody || !modalHeader) return;
 
     const p = alertData.properties;
     const sanitize = window.UTILS.sanitizeHTML;
+
+    // Determine alert type for modal header color
+    const isWarning = p.event?.toLowerCase().includes('warning');
+    const isWatch = p.event?.toLowerCase().includes('watch');
+
+    // Remove existing alert type classes
+    modalHeader.classList.remove('modal-header--warning', 'modal-header--watch', 'modal-header--other');
+
+    // Add appropriate class based on alert type
+    if (isWarning) {
+      modalHeader.classList.add('modal-header--warning');
+    } else if (isWatch) {
+      modalHeader.classList.add('modal-header--watch');
+    } else {
+      modalHeader.classList.add('modal-header--other');
+    }
 
     const content = `
       <p><strong>${sanitize(p.event || 'Weather Alert')}</strong></p>

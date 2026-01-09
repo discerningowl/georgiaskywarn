@@ -745,6 +745,19 @@ a:hover, a:focus {
   border-radius: var(--radius) var(--radius) 0 0;
 }
 
+/* Modal header color variants based on alert type */
+.modal-header--warning {
+  background: var(--header-gradient-red);
+}
+
+.modal-header--watch {
+  background: var(--header-gradient-yellow);
+}
+
+.modal-header--other {
+  background: var(--header-gradient-blue);
+}
+
 .modal-title {
   margin: 0;
   font-size: 1.4rem;
