@@ -77,64 +77,24 @@
   // Initialize modal manager using UTILS
   const alertModal = window.UTILS.createModalManager('alertModal', 'modalClose');
 
+  // Use UTILS.openAlertModal directly (no need for local wrapper)
+  // Kept for backwards compatibility, but simply delegates to UTILS
   function openAlertModal(alertData) {
-    if (!alertModal) return;
-
-    const modalTitle = document.getElementById('modalTitle');
-    const modalBody = document.getElementById('modalBody');
-    const modalHeader = document.querySelector('#alertModal .modal-header');
-    if (!modalTitle || !modalBody || !modalHeader) return;
-
-    const p = alertData.properties;
-    const sanitize = window.UTILS.sanitizeHTML;
-
-    // Determine alert type for modal header color
-    const isWarning = p.event?.toLowerCase().includes('warning');
-    const isWatch = p.event?.toLowerCase().includes('watch');
-
-    // Remove existing color classes
-    modalHeader.classList.remove('modal-header--red', 'modal-header--yellow', 'modal-header--blue', 'modal-header--green');
-
-    // Add appropriate standardized color class based on alert type
-    if (isWarning) {
-      modalHeader.classList.add('modal-header--red');
-    } else if (isWatch) {
-      modalHeader.classList.add('modal-header--yellow');
-    } else {
-      modalHeader.classList.add('modal-header--blue');
-    }
-
-    const content = `
-      <p><strong>${sanitize(p.event || 'Weather Alert')}</strong></p>
-      ${p.sent ? `<p><strong>Issued:</strong> ${new Date(p.sent).toLocaleString()}</p>` : ''}
-      ${p.expires ? `<p><strong>Expires:</strong> ${new Date(p.expires).toLocaleString()}</p>` : ''}
-      ${p.areaDesc ? `<p><strong>Areas:</strong> ${sanitize(p.areaDesc)}</p>` : ''}
-      ${p.description ? `<p><strong>Description:</strong><br>${sanitize(p.description)}</p>` : ''}
-      ${p.instruction ? `<p><strong>Instructions:</strong><br>${sanitize(p.instruction)}</p>` : ''}
-      <p style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-primary);">
-        <strong>Source:</strong> ${sanitize(p.senderName || 'NWS')}
-      </p>
-    `;
-
-    modalTitle.textContent = p.headline || p.event || 'Alert Details';
-    modalBody.innerHTML = content;
-    alertModal.open();
-    document.getElementById('modalClose')?.focus();
+    window.UTILS.openAlertModal(alertData, 'alertModal');
   }
 
   // ========================================================================
-  // SECURITY: XSS SANITIZATION (local variant with newline handling)
+  // SECURITY: XSS SANITIZATION (local wrapper for UTILS)
   // ========================================================================
 
   /**
    * Sanitizes HTML content to prevent XSS attacks
-   * Uses UTILS.sanitizeHTML with additional newline-to-br conversion
+   * Uses UTILS.sanitizeHTML with newline conversion enabled
    * @param {string} str - The string to sanitize
    * @returns {string} - HTML-safe string with newlines as <br>
    */
   function sanitizeHTML(str) {
-    if (!str) return '';
-    return window.UTILS.sanitizeHTML(str).replace(/\n/g, '<br>');
+    return window.UTILS.sanitizeHTML(str, true);
   }
 
   // ========================================================================
@@ -170,14 +130,7 @@
    * Updates the timestamp display
    */
   function updateTimestamp() {
-    const timeElement = document.getElementById('alert-last-update');
-    if (timeElement) {
-      const now = new Date().toLocaleTimeString('en-US', {
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-      timeElement.textContent = `Updated: ${now}`;
-    }
+    window.UTILS.updateTimestampElement('alert-last-update');
   }
 
   /**

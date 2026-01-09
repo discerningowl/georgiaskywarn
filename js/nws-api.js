@@ -214,12 +214,10 @@
 
   /**
    * Sanitize HTML to prevent XSS
+   * Uses UTILS.sanitizeHTML with newline conversion
    */
   function sanitizeHTML(str) {
-    if (!str) return '';
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML.replace(/\n/g, '<br>');
+    return window.UTILS.sanitizeHTML(str, true);
   }
 
   /**
@@ -442,74 +440,24 @@
   }
 
   /**
-   * Close the HWO modal
+   * Close HWO outlook modal (uses UTILS.closeModal)
    */
   function closeOutlookModal() {
-    const modal = document.getElementById('outlookModal');
-    if (!modal) return;
-
-    modal.classList.remove('active');
-    document.body.style.overflow = '';
+    window.UTILS.closeModal('outlookModal');
   }
 
   /**
-   * Open alert details modal
+   * Open alert details modal (uses UTILS.openAlertModal)
    */
   function openAlertModal(alertData) {
-    const modal = document.getElementById('alertModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalBody = document.getElementById('modalBody');
-    const modalHeader = modal?.querySelector('.modal-header');
-
-    if (!modal || !modalTitle || !modalBody || !modalHeader) return;
-
-    const p = alertData.properties;
-
-    // Determine alert type for modal header color
-    const isWarning = p.event?.toLowerCase().includes('warning');
-    const isWatch = p.event?.toLowerCase().includes('watch');
-
-    // Remove existing color classes
-    modalHeader.classList.remove('modal-header--red', 'modal-header--yellow', 'modal-header--blue', 'modal-header--green');
-
-    // Add appropriate standardized color class based on alert type
-    if (isWarning) {
-      modalHeader.classList.add('modal-header--red');
-    } else if (isWatch) {
-      modalHeader.classList.add('modal-header--yellow');
-    } else {
-      modalHeader.classList.add('modal-header--blue');
-    }
-
-    const content = `
-      <p><strong>${sanitizeHTML(p.event || 'Weather Alert')}</strong></p>
-      ${p.sent ? `<p><strong>Issued:</strong> ${new Date(p.sent).toLocaleString()}</p>` : ''}
-      ${p.expires ? `<p><strong>Expires:</strong> ${new Date(p.expires).toLocaleString()}</p>` : ''}
-      ${p.areaDesc ? `<p><strong>Areas:</strong> ${sanitizeHTML(p.areaDesc)}</p>` : ''}
-      ${p.description ? `<p><strong>Description:</strong><br>${sanitizeHTML(p.description)}</p>` : ''}
-      ${p.instruction ? `<p><strong>Instructions:</strong><br>${sanitizeHTML(p.instruction)}</p>` : ''}
-      <p style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-primary);">
-        <strong>Source:</strong> ${sanitizeHTML(p.senderName || 'NWS')}
-      </p>
-    `;
-
-    modalTitle.textContent = p.headline || p.event || 'Alert Details';
-    modalBody.innerHTML = content;
-
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    document.getElementById('modalClose')?.focus();
+    window.UTILS.openAlertModal(alertData, 'alertModal');
   }
 
   /**
-   * Close alert modal
+   * Close alert modal (uses UTILS.closeModal)
    */
   function closeAlertModal() {
-    const modal = document.getElementById('alertModal');
-    if (!modal) return;
-
-    modal.classList.remove('active');
-    document.body.style.overflow = '';
+    window.UTILS.closeModal('alertModal');
   }
 
   /**
@@ -636,17 +584,10 @@
   }
 
   /**
-   * Update alerts timestamp
+   * Update alerts timestamp (uses UTILS.updateTimestampElement)
    */
   function updateAlertsTimestamp() {
-    const elem = document.getElementById('alert-last-update');
-    if (elem) {
-      const now = new Date().toLocaleTimeString('en-US', {
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-      elem.textContent = `Updated: ${now}`;
-    }
+    window.UTILS.updateTimestampElement('alert-last-update');
   }
 
   /**
@@ -736,19 +677,10 @@
   }
 
   /**
-   * Update timestamp display
+   * Update timestamp display (uses UTILS.updateTimestampElement)
    */
   function updateTimestamp() {
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
-    });
-    const elem = document.getElementById('dashboard-last-update');
-    if (elem) {
-      elem.textContent = `Updated: ${timeStr}`;
-    }
+    window.UTILS.updateTimestampElement('dashboard-last-update');
   }
 
   /**

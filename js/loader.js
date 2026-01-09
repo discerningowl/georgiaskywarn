@@ -5,6 +5,10 @@
  * Purpose: Dynamically loads ALL JavaScript files with version-based cache busting
  *          To update cache across entire site: just update APP_VERSION in version.js
  * Change-log:
+ *   • 2026-01-09 – CODE CONSOLIDATION: Updated for merged files (9 files → 7 files)
+ *                   - components.js replaces header.js + footer.js
+ *                   - core.js replaces config.js + utils.js
+ *                   - Reduced file count by 22% while maintaining functionality
  *   • 2026-01-03b – CRITICAL FIX: Fixed script loading order for index.html
  *                   - nws-api.js now loads BEFORE scripts.js (was after)
  *                   - Prevents race condition where initAlerts() tries to use
@@ -60,16 +64,12 @@
   function getScriptsForPage() {
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 
-    // Header loads first (injects header component)
-    const headerScripts = ['js/header.js'];
+    // Components loads first (header + footer merged)
+    const componentScripts = ['js/components.js'];
 
-    // Core scripts loaded on every page (in dependency order)
+    // Core scripts loaded on every page (config + utils merged)
     // NOTE: For pages using NWS API, nws-api.js must load BEFORE scripts.js
-    const coreScripts = [
-      'js/config.js',
-      'js/utils.js',
-      'js/footer.js'
-    ];
+    const coreScripts = ['js/core.js'];
 
     // Page-specific scripts that must load BEFORE scripts.js
     const preScripts = {
@@ -81,8 +81,8 @@
       'about.html': ['js/changelog.js']
     };
 
-    // Combine in correct order: header → core → page-specific pre-scripts → scripts.js → post-scripts
-    const scripts = [...headerScripts, ...coreScripts];
+    // Combine in correct order: components → core → page-specific pre-scripts → scripts.js → post-scripts
+    const scripts = [...componentScripts, ...coreScripts];
 
     // Add page-specific pre-scripts (must load before scripts.js)
     if (preScripts[currentPage]) {
@@ -102,17 +102,17 @@
 
   /**
    * Initialize script loading
-   * Header loads immediately (synchronously) to avoid flash of unstyled content
+   * Components loads immediately (synchronously) to avoid flash of unstyled content
    * Other scripts load after DOM is ready
    */
   async function init() {
-    // Load header.js immediately (blocks to prevent FOUC)
-    await loadScript('js/header.js');
+    // Load components.js immediately (blocks to prevent FOUC)
+    await loadScript('js/components.js');
 
     // Load remaining scripts when DOM is ready
     const loadRemaining = () => {
       const allScripts = getScriptsForPage();
-      const remainingScripts = allScripts.slice(1); // Skip header.js (already loaded)
+      const remainingScripts = allScripts.slice(1); // Skip components.js (already loaded)
       loadScriptsInOrder(remainingScripts);
     };
 
