@@ -1101,287 +1101,60 @@ refactor: Simplify alert filtering logic
 ## Changelog
 
 ### 2026-01-09
-- **JAVASCRIPT CONSOLIDATION**: Major code refactoring (9 files → 7 files, -22%)
-  - **Phase 1: Deduplication** - Eliminated ~185-270 lines of duplicate code
-    - Moved `openAlertModal()` to UTILS (was duplicated in scripts.js and nws-api.js)
-    - This fixes the root cause of the modal color bug (watch alerts showing red instead of yellow)
-    - Consolidated `sanitizeHTML()` with optional newline conversion parameter
-    - Added `closeModal()` utility (replaces closeAlertModal, closeOutlookModal)
-    - Added modal color utilities (`getAlertColorClass()`, `applyModalColor()`)
-    - Added `updateTimestampElement()` utility (consolidates 3 timestamp functions)
-    - Updated scripts.js and nws-api.js to use UTILS functions exclusively
-  - **Phase 2: File Merging** - Reduced file count for better organization
-    - Created `js/core.js` (merges config.js + utils.js) - 17KB
-    - Created `js/components.js` (merges header.js + footer.js) - 15KB
-    - Updated `js/loader.js` to load new consolidated files
-    - Fixed footer Quick Links: dashboard.html → spotters.html
-    - Deleted old files: config.js, utils.js, header.js, footer.js
-  - **Benefits**:
-    - Single source of truth for modal operations (prevents future duplication bugs)
-    - Easier maintenance (22% fewer files)
-    - Smaller codebase (~185 lines removed)
-    - Improved code organization with logical grouping
-  - Version: 20260109h
-- **MODAL HEADER STYLING FIX**: Standardized CSS for all modal headers
-  - Problem: CSV export modals had black text instead of white
-  - Root cause: CSS only styled `.modal-title` class, but CSV modals use `<h2>` without class
-  - Solution: Added universal CSS rule for all heading elements (h1-h6) in modal headers
-  - All modals now have consistent appearance:
-    - White text color
-    - 1.4rem font size
-    - 700 font weight (bold)
-    - 1.3 line height
-  - Makes CSS more robust - any heading in modal header gets correct styling automatically
-  - Version: 20260109i
-- **WEBSITE RESTRUCTURING**: Dashboard is now the home page
-  - Renamed dashboard.html → index.html (new home page with HWO and all alerts)
-  - Renamed old index.html → spotters.html (spotter resources and training)
-  - Updated all navigation links across 7 pages (header.js: dashboard → spotters)
-  - Removed NWS Warnings card from new spotters.html (redundant with new home page)
-  - Updated `js/scripts.js`: removed `renderWarningsOnly()` function
-  - Updated `js/loader.js`: removed dashboard.html reference
-  - Updated sitemap.xml and README.md
-  - Deleted old dashboard.html file
-  - Version: 20260109a
-- **REPEATER DATE DISPLAY**: Dynamic last-updated date for repeaters
-  - Added dynamic date display showing when repeaters.json was last modified
-  - Fetches Last-Modified HTTP header from repeaters.json
-  - Formats date with ordinal suffixes (e.g., "January 9th 2026")
-  - Added `updateRepeaterValidationDate()` function to scripts.js
-  - Version: 20260109
+- **JavaScript Consolidation**: Reduced from 9 files → 7 files (-22%), eliminated ~185 lines of duplicate code
+  - Created `core.js` (merged config.js + utils.js) and `components.js` (merged header.js + footer.js)
+  - Moved `openAlertModal()` to UTILS (fixes modal color bug where watch alerts showed red instead of yellow)
+  - Consolidated modal/timestamp functions: `closeModal()`, `getAlertColorClass()`, `applyModalColor()`, `updateTimestampElement()`
+- **Modal Styling Fix**: Standardized CSS for all modal headers (CSV modals had black text instead of white)
+  - Added universal CSS rule for all heading elements (h1-h6) in `.modal-header`
+  - All modals now consistent: white text, 1.4rem font, 700 weight
+- **Website Restructuring**: Dashboard is now home page (index.html), old home page renamed to spotters.html
+  - Updated navigation links across all 7 pages, removed redundant warnings card from spotters page
+- **Repeater Date Display**: Added dynamic last-updated date fetched from repeaters.json Last-Modified header
 
 ### 2026-01-08
-- **CSV EXPORT FUNCTIONALITY**: Implemented dual-format repeater export system
-  - Created CHIRP CSV export for all 58 SKYWARN repeaters (linked + non-linked)
-  - Created RT Systems CSV export with Bank 22: Skywarn organization
-  - Export buttons open modal dialogs with step-by-step import instructions
-  - Download buttons inside modals trigger actual CSV generation
-  - Added channel number editing guidance in modal notes
-  - CSV exports include all tags in comment/notes field
-  - Filename format: `ga-skywarn-repeaters-chirp.csv` and `ga-skywarn-repeaters-rtsystems.csv`
-- **SEARCH BAR ENHANCEMENT**: Improved repeater search UI
-  - Moved search bar into dedicated card with blue header
-  - Updated input ID from `repeater-search` to `repeater-search-input`
-  - Maintained Ctrl/Cmd+K keyboard shortcut functionality
-  - Search results display within card body
-- **REPEATER DATA RESTRUCTURING**: Unified JSON structure and validation
-  - Merged `linked-repeaters.json` and `nonlinked-repeaters.json` into single `data/repeaters.json`
-  - Added `linked` boolean attribute to all 58 repeaters
-  - Renamed `url` field to `picUrl` for 444.600+ and 442.500+ repeaters (station photos)
-  - Removed `url` field from all other repeaters
-  - All location links now point to RepeaterBook `refurl` (single source of truth)
-  - Added camera icon (📷) for repeaters with `picUrl` field
-- **CALLSIGN CORRECTIONS**: Fixed callsigns to match RepeaterBook
-  - 444.600+ Fayetteville: WX4PTC → W4PSZ (FCC license callsign)
-  - 442.500+ Peachtree City: WX4PTC → W4PSZ (FCC license callsign)
-  - 145.270- Sandersville: K3SRC → W4SAN
-  - Updated refurl IDs for 9 repeaters (KC4JNN, WD4LUQ, WX4EMA, WX4BCA, W8JI)
-- **REPEATERBOOK VALIDATION**: Comprehensive validation against official systems
-  - Validated against Georgia SKYWARN Linked Repeaters System (41 official repeaters)
-  - Identified 7 discrepancies (2 fixed, 5 requiring review)
-  - Created `REPEATERBOOK_VALIDATION.md` report with findings and action items
-  - Added validation documentation to CLAUDE.md with three system URLs:
-    - Georgia SKYWARN Linked Repeaters System
-    - Peach State Intertie System
-    - Cherry Blossom Intertie System
-  - Clarified that georgiaskywarn.com is source of truth, RepeaterBook is validation source
-- **DOCUMENTATION UPDATES**: Enhanced developer and maintainer guides
-  - Updated CLAUDE.md with CSV export architecture
-  - Added "Validating Repeater Data" section with process and URLs
-  - Updated JSON field descriptions (picUrl vs refurl usage)
-  - Added guidance on maintaining RepeaterBook as single source of truth
-  - Updated sitemap.xml lastmod date for repeaters.html to 2026-01-08
-- **GITIGNORE UPDATE**: Improved macOS file exclusion
-  - Added `**/.DS_Store` pattern to ignore .DS_Store files in all subdirectories
-  - Organized .gitignore with section comments for clarity
+- **CSV Export**: Dual-format repeater export (CHIRP + RT Systems) with modal instructions for all 58 repeaters
+- **Search Bar Enhancement**: Moved into dedicated card, maintained Ctrl/Cmd+K shortcut
+- **Repeater Data Restructuring**: Merged into single `data/repeaters.json` with `linked` boolean and `picUrl`/`refurl` fields
+- **Callsign Corrections**: Fixed 3 callsigns to match RepeaterBook (444.600+, 442.500+, 145.270-)
 
 ### 2026-01-05
-- **REPEATER CALLSIGN DATA**: Added amateur radio callsigns to all repeater entries
-  - Added `callsign` field to all repeaters in `linked-repeaters.json` and `nonlinked-repeaters.json`
-  - Added `refurl` field documenting RepeaterBook URL used to find/verify each repeater
-  - Successfully identified 46 out of 59 callsigns (78% success rate):
-    - Linked repeaters: 43/48 callsigns found (89.6%)
-    - Non-linked repeaters: 3/12 callsigns found (25.0%)
-  - Data sources: URL keyword extraction (10), RepeaterBook page scraping (27), existing tags/descriptions (9)
-  - Remaining 13 repeaters marked "Unknown" for manual lookup
-  - Updated CLAUDE.md "Adding a New Repeater" section with field descriptions
-- **CHERRY BLOSSOM INTERTIE CORRECTIONS**: Fixed repeater network membership
-  - Added Gray (Round Oak) 145.370- (WB4JOE, 88.5 Hz) - official Cherry Blossom member
-  - Added Wrens 147.120+ (W4CDC, 71.9 Hz) - official Cherry Blossom member
-  - Deleted Forsyth 147.315+ (WB4JOE) - not part of official Cherry Blossom system
-  - Added "Cherry Blossom" tag to Irwinton 147.240+ (K4DBN) - dual membership in both Cherry Blossom and Peach State
-  - Removed "Cherry Blossom" tag from Laurens County 145.150- - not part of official system
-  - Cherry Blossom Intertie now matches RepeaterBook's official listing (4 repeaters)
-  - Total linked repeaters: 48 (net +1 from additions/deletions)
+- **Repeater Callsigns**: Added `callsign` and `refurl` fields to all 59 repeaters (46/59 identified, 13 marked "Unknown")
+- **Cherry Blossom Corrections**: Fixed network membership - added 2 repeaters, deleted 1, corrected 2 tags to match RepeaterBook
 
 ### 2026-01-03
-- **WEATHER RADIO STATIONS**: Added NOAA Weather Radio information to repeaters page
-  - Created `data/weather-stations.json` - 17 NWS weather radio transmitters in Georgia
-  - Added "Weather Stations" section to `repeaters.html` with dedicated table
-  - Stations include: location, WX channel (WX1-WX7), frequency (162.400-162.550 MHz), callsign, coverage area
-  - Integrated with existing repeater search functionality (searchable by location, frequency, or callsign)
-  - Added link to NWS county coverage finder in callout box
-  - Updated page navigation to include "Weather Stations" link
-  - Added `renderWeatherStations()` and `renderWeatherStationRow()` functions to `js/scripts.js`
-  - All stations alphabetically sorted and mobile-responsive
-- **NWS API INTEGRATION FIXES**: Critical bug fixes for spotter activation detection
-  - Fixed inverted logic in RED activation patterns (was showing "will NOT be needed" as activation)
-  - Added negative lookahead `(?!NOT\s+)` to all RED and YELLOW patterns
-  - Fixed `parseSpotterActivation()` to extract `.SPOTTER INFORMATION STATEMENT...` section
-  - Fixed `displayActivationStatus()` checking wrong properties (.activated → .level)
-  - Fixed dark mode invisible alert text (--alert-desc-color was 92% transparent)
-  - Fixed script loading race condition (nws-api.js now loads BEFORE scripts.js via preScripts array)
-  - UX improvements: moved matched text to bottom, removed bold, enlarged "Outlook Issued"
-- **DOCUMENTATION UPDATES**: Updated CLAUDE.md with weather stations feature
-  - Added `weather-stations.json` to Repository Structure section
-  - Updated `repeaters.html` description with weather stations information
-  - Added "Adding a Weather Station" task to Common Tasks section
-  - Version bumps: js/version.js to 20260103d
+- **Weather Radio Stations**: Added 17 NOAA Weather Radio stations to repeaters page with searchable table
+- **Activation Detection Fixes**: Fixed inverted logic bug (showed "will NOT be needed" as activation), added negative lookahead patterns
+- **Script Loading Fix**: Resolved race condition by loading nws-api.js before scripts.js
 
 ### 2026-01-02
-- **CENTRALIZED VERSION MANAGEMENT**: True single-source cache busting system
-  - Created `js/version.js` - Single version number controls all script cache busting
-  - Created `js/loader.js` - Dynamically loads all JavaScript with automatic versioning
-  - All 7 HTML pages now load only 2 scripts: `version.js` + `loader.js`
-  - **To force cache refresh site-wide: update ONE number in `js/version.js` (line 18) - that's it!**
-  - Added version-based localStorage cache invalidation in `js/utils.js` (reads from `window.APP_VERSION`)
-  - Automatic cache clearing when version changes (fixes mobile browser stale cache issue)
-  - Loader maintains correct dependency order: header → config → utils → footer → scripts → page-specific
-  - No duplicate version numbers - utils.js reads from version.js automatically
-- **CODE REORGANIZATION**: Eliminated ~450 lines of duplicate code
-  - Created `js/config.js` for centralized configuration (NWS API settings, zone lists, cache TTL, activation patterns)
-  - Created `js/utils.js` for shared utility functions (cache management, modal abstraction, JSON fetch, DOM helpers)
-  - Moved JavaScript files to `js/` directory, data files to `data/` directory
-  - Refactored `js/nws-api.js`, `js/scripts.js`, and `js/changelog.js` to use shared utilities
-  - Added CSS color variables (--white, --black, --slate-400, etc.) replacing 60+ hardcoded color values
-  - Fixed recursive CSS variable definitions in theme sections
-  - Updated all 7 HTML pages to load scripts in proper dependency order
-- **SPOTTER ACTIVATION ENHANCEMENTS**: Three-level urgency system
-  - Implemented automatic detection of standard, enhanced, and PDS (Particularly Dangerous Situation) activations
-  - Enhanced pattern matching for activation keywords in HWO
-  - Added color-coded visual indicators (yellow/orange/red) for activation urgency
-  - Improved dashboard styling with activation status prominently displayed
-- **RELIABILITY IMPROVEMENTS**: Defensive error handling
-  - Added try-catch blocks and cache diagnostics for configuration loading
-  - Enhanced error handling in NWS API calls with better user feedback
-  - Robust fallbacks for missing or corrupted cache data
-  - Script version bumps to force browser cache refresh (v20260102c)
-- **DASHBOARD CONSOLIDATION**: Unified spotter dashboard
-  - Consolidated alerts.html into dashboard.html with HWO, activation status, and all alerts
-  - Added Quick Maps section with 6 essential weather/situational awareness tools
-  - HWO cached for 4 hours, alerts refresh every 5 minutes
-  - Updated all navigation references from "Alerts" to "Dashboard"
-  - Deleted alerts.html (functionality merged into dashboard.html)
+- **Version Management**: Created `version.js` + `loader.js` for centralized cache busting (update one number to refresh entire site)
+- **Code Reorganization**: Created `config.js` and `utils.js`, eliminated ~450 lines of duplicate code
+- **Spotter Activation**: Three-level urgency system (standard/enhanced/PDS) with color-coded indicators
+- **Dashboard Consolidation**: Merged alerts.html into dashboard.html with HWO, activation status, and Quick Maps
 
 ### 2025-12-30
-- **MAJOR REDESIGN**: Component-based architecture with header.js and footer.js
-  - Created `header.js` component for dynamic header loading (inspired by atlantahamradio.org)
-  - Integrated logo (GeorgiaSkywarnLogo.png), site navigation, and theme toggle into unified header
-  - Created `footer.js` component for dynamic footer loading
-  - Migrated theme toggle, mobile menu, and back-to-top functionality from scripts.js to header.js
-  - All 7 HTML pages updated to load header and footer components
-  - Renamed logo file from `" GeorgiaSkywarnLogo.png"` to `"GeorgiaSkywarnLogo.png"` (removed leading space)
-
-- **HEADER COMPONENT** (header.js):
-  - Sticky dark header with glassmorphism (`rgba(15, 23, 42, 0.95)` with `backdrop-filter: blur(10px)`)
-  - Logo + title/subtitle on left, navigation links + theme toggle on right
-  - Desktop: Horizontal navigation with inline links
-  - Mobile: Full-screen overlay menu with hamburger button
-  - Integrated theme toggle with sun/moon SVG icons
-  - Back-to-top button injection with instant scroll detection (requestAnimationFrame)
-  - Mobile subtitle wrapping to prevent header expansion
-
-- **PAGE NAVIGATION REDESIGN**:
-  - **Desktop**: Sticky horizontal bar below header (`position: sticky`, `top: 90px`)
-    - Blue gradient buttons with glassmorphism
-    - Smooth hover animations (lift 2px with glow)
-  - **Mobile**: Green hamburger menu ("☰ PAGE") with full-screen overlay
-    - "⚡ Jump to Section" header with gradient background
-    - Uniform button sizing (1.15rem font, 1.25rem padding)
-    - Centered vertical layout with 1.5rem gaps
-    - Shimmer effect on button press
-    - Semi-transparent background (`rgba(15, 23, 42, 0.85)` with 16px blur)
-
-- **SCROLL OFFSET FIX**:
-  - Added `scroll-padding-top` to prevent content hiding behind sticky elements
-  - Desktop: 200px offset (header + page-nav)
-  - Mobile: 100px offset (header only)
-  - Smooth anchor link scrolling with proper clearance
-
-- **VISUAL ENHANCEMENTS**:
-  - Enhanced shadows: 4-level graduated system (sm, md, lg, xl)
-  - Gradient backgrounds on navigation buttons and headers
-  - Inset highlights (`inset 0 1px 0 rgba(255, 255, 255, 0.1)`)
-  - Smooth cubic-bezier transitions (`cubic-bezier(0.4, 0, 0.2, 1)`)
-  - Active state animations (scale 0.97, shimmer effect)
-
-- **MOBILE OPTIMIZATIONS**:
-  - Logo text wrapping with `max-width: calc(100vw - 180px)`
-  - Reduced font sizes and padding for compact mobile layout
-  - Hamburger button stays inline with logo (no wrapping)
-  - Page-nav header positioned at `top: 6rem` to clear site header
-
-- **FILES MODIFIED**:
-  - Created: `header.js`, `footer.js`
-  - Updated: `style.css`, `scripts.js` (removed migrated code)
-  - Updated all 7 HTML pages: index.html, dashboard.html, repeaters.html, nwsffclinks.html, wx4ptc.html, about.html, photoarchive.html
-  - Version numbers: header.js (v20251230c), footer.js (v20251230), style.css (v20251230n), scripts.js (v20251230a)
+- **Component Architecture**: Created `header.js` and `footer.js` for dynamic loading with unified navigation and theme toggle
+- **Page Navigation**: Redesigned with sticky horizontal bar (desktop) and full-screen overlay (mobile)
+- **Visual Enhancements**: Added glassmorphism effects, 4-level shadow system, gradient backgrounds, smooth transitions
 
 ### 2025-12-29
-- **MAJOR UPDATE**: Floating sticky page navigation (inspired by atlantahamradio.org)
-  - Converted page-nav from hamburger menu to sticky horizontal bar at top
-  - Added `position: sticky`, `backdrop-filter: blur(10px)` glassmorphism effect
-  - Page-nav now always visible, floating at top on all screen sizes
-  - Site-nav keeps hamburger menu on mobile (blue "☰ SITE" button)
-  - Removed page-nav toggle button and handlers from all pages
-- **BUTTON CONSISTENCY**: Unified all button styling across site
-  - Site-nav, page-nav, and content buttons now share consistent sizing
-  - All buttons: `padding: 0.5rem 1rem`, `font-size: 0.9rem`, `box-shadow: var(--shadow-sm)`
-  - Refined mobile hamburger: smaller, compact styling (0.85rem font, 0.4rem padding)
-  - Content buttons (`.btn`) refined to match nav button appearance
-  - Fixed button hover: keeps white text color, only background darkens
-  - Mobile: all buttons use `0.85rem font` and `0.4rem 0.75rem padding`
-- **THEME SYSTEM FIXES**:
-  - Fixed callouts retaining dark background when theme toggle set to light
-  - Updated dark mode media query to respect manual theme toggle: `:root:not([data-theme="light"])`
-  - Theme toggle z-index increased to 1001 (stays above page-nav at z-index 999)
-- **CONTENT ADDITIONS**:
-  - Added GEMA All Hazards Dashboard to nwsffclinks.html Specialized Weather section
-- **CSS ARCHITECTURE**:
-  - Updated navigation section comments to reflect sticky page-nav (no longer dual toggle)
-  - Removed page-nav toggle styles, added `.page-nav .nav-list` always-visible rules
-  - Updated `scripts.js` header comments: site-nav toggle only, page-nav sticky/always-visible
+- **Sticky Page Navigation**: Converted from hamburger to always-visible sticky bar with glassmorphism
+- **Button Standardization**: Unified sizing and styling across all navigation and content buttons
+- **Theme System Fix**: Fixed dark mode callout backgrounds respecting manual theme toggle
 
 ### 2025-12-05
-- **MAJOR UPDATE**: Implemented dual navigation system
-  - Added site-wide navigation (`.site-nav`) for page links - blue hamburger "☰ SITE"
-  - Added page-specific navigation (`.page-nav`) for section anchors - green hamburger "☰ PAGE"
-  - Differentiated mobile hamburger menus with color coding and text labels
-  - Added navigation button classes: `.nav-btn-alert` (red) and `.nav-btn-link` (blue)
-- **NEW PAGES**: Created dedicated pages for better content organization
-  - `repeaters.html` - Linked and non-linked SKYWARN repeaters
-  - `nwsffclinks.html` - Comprehensive NWS and weather resource links
-- **CSS ENHANCEMENTS**:
-  - Site-nav toggle: Blue background with hover effects
-  - Page-nav toggle: Green background with hover effects
-  - Navigation button styling with smooth transitions
-- **IMPROVED UX**: Mobile navigation now clearly distinguishes between site and page navigation
-- **DOCUMENTATION**: Updated CLAUDE.md to reflect dual navigation system and new site structure
+- **Dual Navigation**: Implemented site-nav (blue, page links) and page-nav (green, section anchors) with color-coded mobile hamburgers
+- **New Pages**: Created `repeaters.html` and `nwsffclinks.html` for dedicated content organization
 
 ### 2025-12-02
-- **CRITICAL UPDATE**: Added explicit directory structure requirements throughout documentation
-- Emphasized that flat directory structure MUST be maintained (no subdirectories)
-- Added warnings about external links dependency on current file paths
-- Updated "Common Pitfalls to Avoid" to prioritize structure preservation
-- Created comprehensive CLAUDE.md file for AI assistant guidance
+- **Documentation**: Added explicit directory structure requirements and AI assistant guidance (CLAUDE.md)
 
 ### 2025-11-09
-- Extracted alerts section into dedicated page (`alerts.html`)
-- Created separate warning-only filter for `index.html`
+- **Alerts Page**: Extracted alerts into dedicated page with warning-only filter for index.html
 
 ### 2025-11-07
-- Added styles for NWS resources grid (3-column layout)
-- Fixed card headers and button consistency
+- **UI Consistency**: Added NWS resources grid styling and standardized card headers
 - Consolidated media queries for better maintainability
 
 ### 2025-11-05
