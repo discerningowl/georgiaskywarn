@@ -337,9 +337,11 @@
   // PAGE-SPECIFIC INITIALIZATION
   // ========================================================================
 
+  // Detect which page we're on for repeater functionality
+  const currentPage = window.UTILS.getCurrentPage();
+
   // Note: Dashboard page (index.html) initialization is handled by nws-api.js
   // which auto-detects dashboard elements and initializes HWO + alerts
-  // No page detection needed here since alert functionality is only on index.html now
 
   // ========================================================================
   // REPEATER SEARCH FUNCTIONALITY (repeaters.html only)
