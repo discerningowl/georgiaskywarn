@@ -67,8 +67,8 @@ A static website providing resources for amateur radio weather spotters in North
 
 ```
 georgiaskywarn/
-├── index.html              # Main landing page
-├── dashboard.html          # Spotter dashboard with HWO and all alerts
+├── index.html              # Spotter dashboard with HWO and all alerts (home page)
+├── spotters.html           # Spotter resources and training
 ├── repeaters.html          # Linked and non-linked repeaters
 ├── nwsffclinks.html        # NWS links and resources
 ├── wx4ptc.html             # WX4PTC station information

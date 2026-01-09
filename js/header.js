@@ -5,6 +5,7 @@
 //          Dynamically loads sticky header with logo, navigation, and theme toggle
 // Based on: atlantahamradio.org header.js structure
 // Change-log:
+//   • 2026-01-09 – Updated navigation: dashboard.html → spotters.html
 //   • 2025-12-30 – Created header component with integrated logo, nav, theme toggle
 // ===========================================================================
 
@@ -22,7 +23,7 @@ function loadHeader() {
                 </a>
                 <nav id="desktopNav">
                     <a href="index.html">Home</a>
-                    <a href="dashboard.html">Dashboard</a>
+                    <a href="spotters.html">Spotters</a>
                     <a href="repeaters.html">Repeaters</a>
                     <a href="wx4ptc.html">WX4PTC</a>
                     <a href="nwsffclinks.html">Resources</a>
@@ -39,7 +40,7 @@ function loadHeader() {
             </div>
             <nav class="mobile-nav" id="mobileNav">
                 <a href="index.html">Home</a>
-                <a href="dashboard.html">Dashboard</a>
+                <a href="spotters.html">Spotters</a>
                 <a href="repeaters.html">Repeaters</a>
                 <a href="wx4ptc.html">WX4PTC</a>
                 <a href="nwsffclinks.html">Resources</a>

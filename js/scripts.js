@@ -12,6 +12,11 @@
  *          - Security hardening (XSS prevention, error handling)
  *          - Performance optimizations (debouncing, caching)
  * Change-log:
+ *   • 2026-01-09 – Major restructuring: dashboard.html → index.html
+ *     - Removed renderWarningsOnly() function (no longer needed)
+ *     - Updated initAlerts() to always show all alert types
+ *     - Removed page detection for old index.html warnings-only view
+ *     - Dashboard initialization now handled by nws-api.js auto-detection
  *   • 2026-01-09 – Added dynamic repeater validation date display
  *     - Fetches Last-Modified header from data/repeaters.json
  *     - Displays formatted date (e.g., "January 9th, 2026") on repeaters.html
@@ -154,71 +159,6 @@
   }
 
   /**
-   * Renders alerts for the main page (warnings only)
-   * @param {Object} data - Alert data from API
-   * @returns {string} - HTML string for alerts
-   */
-  function renderWarningsOnly(data) {
-    const features = (data.features || []).filter(f => {
-      const p = f.properties;
-      // 1. Must be issued by NWS Peachtree City
-      // 2. Event name must contain "Warning" (case-insensitive)
-      return p.senderName?.includes('NWS Peachtree City') &&
-             p.event?.toLowerCase().includes('warning');
-    });
-
-    // Deduplicate alerts by unique ID only
-    // NWS API returns same alert multiple times for different zones
-    const uniqueFeatures = [];
-    const seenIds = new Set();
-
-    features.forEach(f => {
-      const p = f.properties;
-      const id = f.id || p?.id;
-
-      // Skip if we've seen this ID
-      if (id && seenIds.has(id)) {
-        return; // Duplicate by ID
-      }
-
-      // New unique alert
-      if (id) seenIds.add(id);
-      uniqueFeatures.push(f);
-    });
-
-    updateTimestamp();
-
-    if (uniqueFeatures.length === 0) {
-      return `<p class="no-alerts center"><strong>No active warnings in NWS Atlanta (FFC) area.</strong></p>`;
-    }
-
-    return uniqueFeatures.map((f, index) => {
-      alertDataCache[index] = f; // Cache for modal access
-      const p = f.properties;
-      // Truncate BEFORE sanitizing to avoid breaking HTML tags
-      const rawDesc = p.description || '';
-      const truncatedDesc = rawDesc.length > 200 ? rawDesc.substring(0, 200) + '...' : rawDesc;
-      const shortDesc = sanitizeHTML(truncatedDesc);
-      const headline = sanitizeHTML(p.headline || p.event);
-      const areaDesc = sanitizeHTML(p.areaDesc);
-
-      return `
-        <div class="alert-item alert-warning"
-             data-alert-index="${index}"
-             role="button"
-             tabindex="0"
-             aria-label="Click for full alert details">
-          <div class="alert-header">${headline} – <strong>WARNING</strong></div>
-          <div class="alert-description">${shortDesc}</div>
-          <div class="alert-meta">
-            <small><strong>Areas:</strong> ${areaDesc} | <strong>Expires:</strong> ${new Date(p.expires).toLocaleString()}</small>
-          </div>
-          <div class="alert-more">Click for full details →</div>
-        </div>`;
-    }).join('');
-  }
-
-  /**
    * Renders all alerts for the alerts page (warnings, watches, other)
    * @param {Object} data - Alert data from API
    * @returns {string} - HTML string for alerts
@@ -287,10 +227,9 @@
   }
 
   /**
-   * Initializes alert loading for a page
-   * @param {boolean} warningsOnly - If true, show only warnings; if false, show all alerts
+   * Initializes alert loading for a page (displays all alert types)
    */
-  async function initAlerts(warningsOnly = false) {
+  async function initAlerts() {
     const container = document.getElementById('alerts-container');
     const loading = document.getElementById('alerts-loading');
 
@@ -302,7 +241,7 @@
     try {
       const data = await fetchAlerts();
       hide(loading);
-      const rendered = warningsOnly ? renderWarningsOnly(data) : renderAllAlerts(data);
+      const rendered = renderAllAlerts(data);
       show(container, rendered);
 
       // Attach click handlers for modal (CSP-compliant event delegation)
@@ -312,7 +251,7 @@
       alertRefreshInterval = setInterval(async () => {
         try {
           const freshData = await fetchAlerts();
-          const rendered = warningsOnly ? renderWarningsOnly(freshData) : renderAllAlerts(freshData);
+          const rendered = renderAllAlerts(freshData);
           show(container, rendered);
           // Re-attach handlers after refresh (container innerHTML was replaced)
           attachAlertClickHandlers();
@@ -398,16 +337,9 @@
   // PAGE-SPECIFIC INITIALIZATION
   // ========================================================================
 
-  // Detect which page we're on and initialize alerts accordingly
-  const currentPage = window.UTILS.getCurrentPage();
-
-  if (currentPage === 'index.html' || currentPage === '') {
-    // Main page - warnings only
-    initAlerts(true);
-  } else if (currentPage === 'alerts.html') {
-    // Alerts page - all alerts
-    initAlerts(false);
-  }
+  // Note: Dashboard page (index.html) initialization is handled by nws-api.js
+  // which auto-detects dashboard elements and initializes HWO + alerts
+  // No page detection needed here since alert functionality is only on index.html now
 
   // ========================================================================
   // REPEATER SEARCH FUNCTIONALITY (repeaters.html only)

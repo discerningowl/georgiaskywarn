@@ -73,8 +73,7 @@
 
     // Page-specific scripts that must load BEFORE scripts.js
     const preScripts = {
-      'index.html': ['js/nws-api.js'],
-      'dashboard.html': ['js/nws-api.js']
+      'index.html': ['js/nws-api.js']
     };
 
     // Page-specific scripts that load AFTER scripts.js
