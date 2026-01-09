@@ -758,6 +758,19 @@ a:hover, a:focus {
   background: var(--header-gradient-blue);
 }
 
+/* Modal header color variants for HWO activation levels */
+.modal-header--red {
+  background: var(--header-gradient-red);
+}
+
+.modal-header--yellow {
+  background: var(--header-gradient-yellow);
+}
+
+.modal-header--green {
+  background: var(--header-gradient-green);
+}
+
 .modal-title {
   margin: 0;
   font-size: 1.4rem;

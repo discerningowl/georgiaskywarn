@@ -204,6 +204,7 @@
   const dashboardCache = window.UTILS.createCache(CACHE_KEYS.HWO, CACHE_TTL.HWO);
   const alertsCache = window.UTILS.createCache(CACHE_KEYS.ALERTS, CACHE_TTL.ALERTS);
   let currentOutlookData = null;
+  let currentActivationLevel = 'green'; // Track current activation level for modal colors
   let alertDataCache = [];
   const AUTO_REFRESH = window.CONFIG.UI.AUTO_REFRESH_INTERVAL;
 
@@ -296,6 +297,9 @@
 
     if (!container || !header) return;
 
+    // Store current activation level for modal header color
+    currentActivationLevel = activationInfo.level || 'green';
+
     let statusHTML = '';
     let headerClass = 'card-header--green';
 
@@ -386,8 +390,19 @@
     const modal = document.getElementById('outlookModal');
     const modalTitle = document.getElementById('outlookModalTitle');
     const modalBody = document.getElementById('outlookModalBody');
+    const modalHeader = modal?.querySelector('.modal-header');
 
-    if (!modal || !modalTitle || !modalBody || !currentOutlookData) return;
+    if (!modal || !modalTitle || !modalBody || !modalHeader || !currentOutlookData) return;
+
+    // Set modal header color based on current activation level
+    modalHeader.classList.remove('modal-header--red', 'modal-header--yellow', 'modal-header--green');
+    if (currentActivationLevel === 'red') {
+      modalHeader.classList.add('modal-header--red');
+    } else if (currentActivationLevel === 'yellow') {
+      modalHeader.classList.add('modal-header--yellow');
+    } else {
+      modalHeader.classList.add('modal-header--green');
+    }
 
     const formattedTime = new Date(currentOutlookData.issuanceTime).toLocaleString('en-US', {
       weekday: 'short',
