@@ -409,7 +409,7 @@
   // REPEATER SEARCH FUNCTIONALITY (repeaters.html only)
   // ========================================================================
   if (currentPage === 'repeaters.html') {
-    const searchInput = document.getElementById('repeater-search');
+    const searchInput = document.getElementById('repeater-search-input');
     const clearButton = document.getElementById('clear-search');
     const resultsCount = document.getElementById('search-results');
 
@@ -704,9 +704,9 @@
   }
 
   /**
-   * Generates CHIRP CSV file for all SKYWARN repeaters
+   * Downloads CHIRP CSV file for all SKYWARN repeaters
    */
-  async function exportChirpLinked() {
+  async function downloadChirpCSV() {
     try {
       // Fetch all repeaters
       const allRepeaters = await fetchRepeaterData();
@@ -739,13 +739,17 @@
       document.body.removeChild(link);
 
       console.log(`✅ Exported ${allRepeaters.length} SKYWARN repeaters to CHIRP CSV`);
-
-      // Show import instructions modal
-      openChirpInstructionsModal();
     } catch (error) {
       console.error('Error generating CHIRP CSV:', error);
       alert('Error generating CSV file. Please try again.');
     }
+  }
+
+  /**
+   * Opens CHIRP import instructions modal
+   */
+  function exportChirpLinked() {
+    openChirpInstructionsModal();
   }
 
   // ========================================================================
@@ -886,9 +890,9 @@
   }
 
   /**
-   * Generates RT Systems CSV file for all SKYWARN repeaters
+   * Downloads RT Systems CSV file for all SKYWARN repeaters
    */
-  async function exportRTSystemsLinked() {
+  async function downloadRTSystemsCSV() {
     try {
       // Fetch all repeaters
       const allRepeaters = await fetchRepeaterData();
@@ -923,13 +927,17 @@
       document.body.removeChild(link);
 
       console.log(`✅ Exported ${allRepeaters.length} SKYWARN repeaters to RT Systems CSV`);
-
-      // Show import instructions modal
-      openRTSystemsInstructionsModal();
     } catch (error) {
       console.error('Error generating RT Systems CSV:', error);
       alert('Error generating CSV file. Please try again.');
     }
+  }
+
+  /**
+   * Opens RT Systems import instructions modal
+   */
+  function exportRTSystemsLinked() {
+    openRTSystemsInstructionsModal();
   }
 
   // ========================================================================
@@ -961,13 +969,13 @@
       renderWeatherStations()
     ]).then(() => {
       // Re-initialize search after tables are loaded
-      const searchInput = document.getElementById('repeater-search');
+      const searchInput = document.getElementById('repeater-search-input');
       if (searchInput) {
         searchInput.dispatchEvent(new Event('input'));
       }
     });
 
-    // Attach CSV export button handlers
+    // Attach CSV export button handlers (open modals)
     const exportChirpBtn = document.getElementById('export-chirp-linked');
     if (exportChirpBtn) {
       exportChirpBtn.addEventListener('click', exportChirpLinked);
@@ -976,6 +984,17 @@
     const exportRTSystemsBtn = document.getElementById('export-rtsystems-linked');
     if (exportRTSystemsBtn) {
       exportRTSystemsBtn.addEventListener('click', exportRTSystemsLinked);
+    }
+
+    // Attach download button handlers inside modals (trigger actual downloads)
+    const downloadChirpBtn = document.getElementById('download-chirp-csv');
+    if (downloadChirpBtn) {
+      downloadChirpBtn.addEventListener('click', downloadChirpCSV);
+    }
+
+    const downloadRTSystemsBtn = document.getElementById('download-rtsystems-csv');
+    if (downloadRTSystemsBtn) {
+      downloadRTSystemsBtn.addEventListener('click', downloadRTSystemsCSV);
     }
   }
 
