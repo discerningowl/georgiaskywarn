@@ -39,20 +39,6 @@
     "linked": true
   },
   {
-    "location": "Peachtree City",
-    "frequency": "442.500+",
-    "tone": "77.0 Hz",
-    "tags": [
-      "Hub",
-      "WX4PTC"
-    ],
-    "description": "Backup hub and remote base repeater. Covers Fayette, Coweta, Spalding, and Pike counties with some coverage into southern metro Atlanta. Also serves as net control station for Peachtree City public events requiring communications support.",
-    "callsign": "W4PSZ",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=472",
-    "linked": true,
-    "picUrl": "https://photos.app.goo.gl/Jvmp4e4xPQx9aAjU8"
-  },
-  {
     "location": "Atlanta",
     "frequency": "146.820-",
     "tone": "146.2 Hz",

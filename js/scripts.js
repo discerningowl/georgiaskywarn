@@ -12,6 +12,10 @@
  *          - Security hardening (XSS prevention, error handling)
  *          - Performance optimizations (debouncing, caching)
  * Change-log:
+ *   • 2026-01-09 – Added dynamic repeater validation date display
+ *     - Fetches Last-Modified header from data/repeaters.json
+ *     - Displays formatted date (e.g., "January 9th, 2026") on repeaters.html
+ *     - Auto-updates when repeaters.json file is modified
  *   • 2026-01-02 – Security fixes: URL sanitization, tone sanitization
  *   • 2025-12-06 – Created consolidated script file to replace
  *     inline scripts across all pages
@@ -501,6 +505,63 @@
   }
 
   /**
+   * Updates the repeater validation date display with last modified date of repeaters.json
+   */
+  async function updateRepeaterValidationDate() {
+    const dateElement = document.getElementById('repeater-last-updated');
+    if (!dateElement) return;
+
+    try {
+      const response = await fetch('data/repeaters.json');
+
+      // Get Last-Modified header from response
+      const lastModified = response.headers.get('Last-Modified');
+
+      if (lastModified) {
+        const date = new Date(lastModified);
+
+        // Format as "January 9th, 2026"
+        const formatter = new Intl.DateTimeFormat('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+
+        let formattedDate = formatter.format(date);
+
+        // Add ordinal suffix (st, nd, rd, th)
+        const day = date.getDate();
+        const suffix = ['th', 'st', 'nd', 'rd'][
+          (day % 100 > 10 && day % 100 < 14) ? 0 : (day % 10 < 4) ? day % 10 : 0
+        ];
+
+        // Replace day number with day + suffix
+        formattedDate = formattedDate.replace(/\d+/, `${day}${suffix}`);
+
+        dateElement.textContent = formattedDate;
+      } else {
+        // Fallback: use current date if no Last-Modified header
+        const today = new Date();
+        const formatter = new Intl.DateTimeFormat('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        const day = today.getDate();
+        const suffix = ['th', 'st', 'nd', 'rd'][
+          (day % 100 > 10 && day % 100 < 14) ? 0 : (day % 10 < 4) ? day % 10 : 0
+        ];
+        let formattedDate = formatter.format(today);
+        formattedDate = formattedDate.replace(/\d+/, `${day}${suffix}`);
+        dateElement.textContent = formattedDate;
+      }
+    } catch (error) {
+      console.error('Error fetching repeater validation date:', error);
+      dateElement.textContent = 'recently';
+    }
+  }
+
+  /**
    * Renders a repeater table row with badges from tags array
    * @param {Object} repeater - Repeater object from JSON
    * @returns {string} - HTML table row
@@ -969,6 +1030,9 @@
       chirpInstructionsModal = window.UTILS.createModalManager('chirpInstructionsModal', 'chirpModalClose');
       rtSystemsInstructionsModal = window.UTILS.createModalManager('rtSystemsInstructionsModal', 'rtSystemsModalClose');
     }
+
+    // Update repeater validation date
+    updateRepeaterValidationDate();
 
     Promise.all([
       renderAllRepeaters(),

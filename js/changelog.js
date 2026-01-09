@@ -73,7 +73,7 @@
 
     const mainHeader = document.createElement('header');
     mainHeader.className = 'card-header card-header--blue';
-    mainHeader.innerHTML = '<h2 class="card-title">Recent Updates</h2>';
+    mainHeader.innerHTML = '<h2 class="card-title">Recent Site Updates</h2>';
 
     const mainBody = document.createElement('div');
     mainBody.className = 'card-body';
