@@ -1122,6 +1122,21 @@ refactor: Simplify alert filtering logic
   - Added hover effects (blue accent color)
   - Fixed timing issue with click handler (retry logic for async script loading)
   - Modal closes correctly for both same-page and cross-page search results
+- **CSV Export Improvements**: Modified repeater exports to focus on linked network
+  - Both CHIRP and RT Systems exports now filter to linked repeaters only (removed non-linked)
+  - Changed Name column format: `callsign location` (callsign first for truncation visibility)
+  - Changed Comments format: `location - tags` (preserves location info alongside network tags)
+  - Added RT Systems training video button (YouTube link) next to export buttons on repeaters.html
+- **NWS Office Directory**: Replaced forecast area graphic with interactive color-coded list
+  - Converted static image to clickable list of all NWS offices serving Georgia
+  - Color-coded by office: FFC (indigo), JAX (yellow), TAE (magenta), CAE (orange), CHS (green), GSP (blue)
+  - Each office links to their respective SKYWARN program page
+  - Fixed broken SKYWARN URLs: JAX → `/jax/skywarn_schedule`, TAE → `/tae/taeskywarn`, CAE → `/cae/skywarn.html`
+  - Maintains NWS Atlanta coverage map alongside new office directory (about.html)
+- **Dashboard Enhancement**: Added NWS coverage area button to index.html
+  - New button: "📍 View NWS Atlanta Service Area & Other Georgia Coverage Areas"
+  - Links to about.html#forecastarea for geographic context
+  - Helps visitors understand NWS FFC coverage boundaries
 
 ### 2026-01-09
 - **JavaScript Consolidation**: Reduced from 9 files → 7 files (-22%), eliminated ~185 lines of duplicate code
