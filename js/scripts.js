@@ -639,18 +639,21 @@
     const freq = parseFrequency(repeater.frequency);
     const tone = parseTone(repeater.tone);
 
-    // Generate name (location + callsign, max ~20 chars for radio compatibility)
+    // Generate name (callsign + location, max ~20 chars for radio compatibility)
+    // Callsign first so truncation keeps callsign visible
     let name = repeater.location;
     if (repeater.callsign && repeater.callsign !== 'Unknown') {
-      name = `${repeater.location} ${repeater.callsign}`;
+      name = `${repeater.callsign} ${repeater.location}`;
     }
     // Truncate to 20 chars if needed
     name = name.substring(0, 20);
 
-    // Build comment from all tags (or location if no tags)
-    const comment = repeater.tags && repeater.tags.length > 0
-      ? repeater.tags.join(', ')
-      : repeater.location;
+    // Build comment from location + tags
+    let comment = repeater.location;
+    if (repeater.tags && repeater.tags.length > 0) {
+      const tagStr = repeater.tags.join(', ');
+      comment = `${repeater.location} - ${tagStr}`;
+    }
 
     // CHIRP CSV columns:
     // Location,Name,Frequency,Duplex,Offset,Tone,rToneFreq,cToneFreq,DtcsCode,DtcsPolarity,RxDtcsCode,CrossMode,Mode,TStep,Skip,Power,Comment,URCALL,RPT1CALL,RPT2CALL,DVCODE
@@ -684,11 +687,12 @@
    */
   async function downloadChirpCSV() {
     try {
-      // Fetch all repeaters
+      // Fetch all repeaters and filter for linked repeaters only
       const allRepeaters = await fetchRepeaterData();
+      const linkedRepeaters = allRepeaters.filter(r => r.linked === true);
 
-      if (allRepeaters.length === 0) {
-        alert('No repeaters found to export.');
+      if (linkedRepeaters.length === 0) {
+        alert('No linked repeaters found to export.');
         return;
       }
 
@@ -696,7 +700,7 @@
       const header = 'Location,Name,Frequency,Duplex,Offset,Tone,rToneFreq,cToneFreq,DtcsCode,DtcsPolarity,RxDtcsCode,CrossMode,Mode,TStep,Skip,Power,Comment,URCALL,RPT1CALL,RPT2CALL,DVCODE';
 
       // Build CSV rows
-      const rows = allRepeaters.map((r, index) => repeaterToChirpRow(r, index));
+      const rows = linkedRepeaters.map((r, index) => repeaterToChirpRow(r, index));
 
       // Combine header and rows
       const csvContent = [header, ...rows].join('\n');
@@ -714,7 +718,7 @@
       link.click();
       document.body.removeChild(link);
 
-      console.log(`✅ Exported ${allRepeaters.length} SKYWARN repeaters to CHIRP CSV`);
+      console.log(`✅ Exported ${linkedRepeaters.length} linked SKYWARN repeaters to CHIRP CSV`);
     } catch (error) {
       console.error('Error generating CHIRP CSV:', error);
       alert('Error generating CSV file. Please try again.');
@@ -820,20 +824,23 @@
     const tone = parseTone(repeater.tone);
     const baseFreq = parseFloat(freqs.rxFreq);
 
-    // Generate abbreviated name (max 16 chars for most radios)
+    // Generate name (callsign + location, max 16 chars for most radios)
+    // Callsign first so truncation keeps callsign visible
     let name = repeater.location;
     if (repeater.callsign && repeater.callsign !== 'Unknown') {
-      // Use callsign as name for brevity
-      name = repeater.callsign;
+      name = `${repeater.callsign} ${repeater.location}`;
     }
     name = name.substring(0, 16);
 
     // All repeaters go into Bank 22: Skywarn
     const bank = '22: Skywarn';
 
-    // Build comment from location and tags
-    const tagStr = repeater.tags && repeater.tags.length > 0 ? repeater.tags.join(', ') : '';
-    const comment = tagStr || repeater.location;
+    // Build comment from location + tags
+    let comment = repeater.location;
+    if (repeater.tags && repeater.tags.length > 0) {
+      const tagStr = repeater.tags.join(', ');
+      comment = `${repeater.location} - ${tagStr}`;
+    }
 
     // RT Systems CSV columns:
     // Channel Number,Bank,Bank CH #,Receive Frequency,Transmit Frequency,Offset Frequency,Offset Direction,
@@ -870,19 +877,20 @@
    */
   async function downloadRTSystemsCSV() {
     try {
-      // Fetch all repeaters
+      // Fetch all repeaters and filter for linked repeaters only
       const allRepeaters = await fetchRepeaterData();
+      const linkedRepeaters = allRepeaters.filter(r => r.linked === true);
 
-      if (allRepeaters.length === 0) {
-        alert('No repeaters found to export.');
+      if (linkedRepeaters.length === 0) {
+        alert('No linked repeaters found to export.');
         return;
       }
 
       // Build CSV header
       const header = 'Channel Number,Bank,Bank CH #,Receive Frequency,Transmit Frequency,Offset Frequency,Offset Direction,Operating Mode,Name,Tone Mode,CTCSS,Rx CTCSS,DCS,DCS Polarity,Skip,Step,Digital Squelch,Digital Code,Your Callsign,Rpt-1 CallSign,Rpt-2 CallSign,Comment';
 
-      // Build CSV rows - all repeaters in Bank 22: Skywarn
-      const rows = allRepeaters.map((r, index) => {
+      // Build CSV rows - all linked repeaters in Bank 22: Skywarn
+      const rows = linkedRepeaters.map((r, index) => {
         return repeaterToRTSystemsRow(r, index, index);
       });
 
@@ -902,7 +910,7 @@
       link.click();
       document.body.removeChild(link);
 
-      console.log(`✅ Exported ${allRepeaters.length} SKYWARN repeaters to RT Systems CSV`);
+      console.log(`✅ Exported ${linkedRepeaters.length} linked SKYWARN repeaters to RT Systems CSV`);
     } catch (error) {
       console.error('Error generating RT Systems CSV:', error);
       alert('Error generating CSV file. Please try again.');
