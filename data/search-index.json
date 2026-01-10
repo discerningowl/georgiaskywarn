@@ -1,0 +1,212 @@
+{
+  "index.html": {
+    "title": "Georgia SKYWARN Spotter Dashboard",
+    "description": "Main dashboard with Hazardous Weather Outlook, spotter activation status, and active alerts",
+    "sections": [
+      {
+        "id": "dashboard-header",
+        "heading": "Georgia SKYWARN Spotter Dashboard",
+        "keywords": ["dashboard", "spotter", "real-time", "weather", "alerts", "activation"],
+        "preview": "Real-time dashboard for Georgia SKYWARN weather spotters. Displays current Hazardous Weather Outlook from NWS Atlanta, spotter activation status, and all active weather alerts."
+      },
+      {
+        "id": "activation-status",
+        "heading": "Spotter Activation Status",
+        "keywords": ["activation", "spotter", "status", "red", "yellow", "green", "activated", "monitor", "standby", "HWO", "hazardous weather outlook"],
+        "preview": "Shows current spotter activation level (Activated/Monitor/Standby) based on NWS Hazardous Weather Outlook. Auto-refreshes every 4 hours."
+      },
+      {
+        "id": "active-alerts",
+        "heading": "Active Area Alerts",
+        "keywords": ["alerts", "warnings", "watches", "advisories", "NWS", "FFC", "Atlanta", "severe weather", "tornado", "thunderstorm"],
+        "preview": "Displays all active warnings (red), watches (orange), and alerts (blue) from NWS Atlanta forecast office. Auto-refreshes every 5 minutes."
+      },
+      {
+        "id": "quick-maps",
+        "heading": "Quick Maps & Radar",
+        "keywords": ["radar", "maps", "KFFC", "repeater map", "NWSChat", "ARES", "GEMA", "situational awareness", "weather hazards"],
+        "preview": "Essential weather and situational awareness tools including NWS Atlanta Radar, Linked Repeater Map, NWSChat Map, ARES Southeast Map, GEMA Dashboard, and NWS Weather Hazards."
+      }
+    ]
+  },
+  "spotters.html": {
+    "title": "Spotter Resources & Training",
+    "description": "Comprehensive spotter resources including training materials, reporting guidelines, and NWS contacts",
+    "sections": [
+      {
+        "id": "nwscard",
+        "heading": "NWS Spotter Resources",
+        "keywords": ["training", "spotter", "SKYWARN", "resources", "guidebook", "handout", "reference", "radar", "maps", "social media"],
+        "preview": "Spotter training schedules, quick reference handouts, SKYWARN guidebook, storm report submission, radar access, repeater maps, and NWS Atlanta social media connections."
+      },
+      {
+        "id": "SKYWARNcard",
+        "heading": "SKYWARN Information",
+        "keywords": ["SKYWARN", "volunteer", "program", "NWS", "severe weather", "spotting", "WX4PTC", "net activation", "reporting"],
+        "preview": "What is SKYWARN? Volunteer program by NWS that trains citizens to spot and report severe weather. Learn about net activation protocol and reporting best practices."
+      },
+      {
+        "id": "reportcard",
+        "heading": "Reporting Requirements",
+        "keywords": ["report", "tornado", "funnel cloud", "hail", "wind", "flood", "winter weather", "lightning", "requirements", "what to report"],
+        "preview": "Learn what to report: tornadoes, funnel clouds, hail (with size), damaging winds (≥50 mph), flooding, winter weather, and lightning. Includes reporting guidelines and format."
+      },
+      {
+        "id": "submitcard",
+        "heading": "Submit Reports",
+        "keywords": ["submit", "report", "phone", "866-763-4466", "770-486-1133", "online", "form", "WX4PTC", "EchoLink", "KK4GQ-R"],
+        "preview": "Submit storm reports via NWS website, phone (866-763-4466 for severe weather, 770-486-1133 main office), or EchoLink node KK4GQ-R connected to 145.210- (131.8 Hz)."
+      }
+    ]
+  },
+  "repeaters.html": {
+    "title": "SKYWARN Repeaters",
+    "description": "Complete list of Georgia SKYWARN linked and non-linked repeaters plus NOAA Weather Radio stations",
+    "sections": [
+      {
+        "id": "repeater-search",
+        "heading": "Search Repeaters",
+        "keywords": ["search", "repeater", "frequency", "location", "callsign", "find", "lookup"],
+        "preview": "Search all SKYWARN repeaters and weather stations by location, frequency, or callsign. Use Ctrl+K (Cmd+K on Mac) keyboard shortcut."
+      },
+      {
+        "id": "repeater-table",
+        "heading": "Georgia SKYWARN Linked Repeater System",
+        "keywords": ["linked", "repeater", "network", "SKYWARN", "WX4PTC", "hub", "Peach State", "Cherry Blossom", "Southeastern Linked Repeater", "Wednesday", "9pm"],
+        "preview": "Primary Georgia SKYWARN linked repeater network. Many repeaters part of Southeastern Linked Repeater Net (meets Wednesdays at 9 PM Eastern since 1993)."
+      },
+      {
+        "id": "nonlinkcard",
+        "heading": "Local SKYWARN Nets (Not-Linked)",
+        "keywords": ["non-linked", "not-linked", "local", "county", "EMA", "emergency management", "SKYWARN coordinator"],
+        "preview": "Local county SKYWARN repeaters activated by County SKYWARN coordinators or EMA. Not linked to state-wide network. Reports passed to WX4PTC or NWS."
+      },
+      {
+        "id": "weathercard",
+        "heading": "NOAA Weather Radio Stations",
+        "keywords": ["NOAA", "weather radio", "NWR", "162.400", "162.425", "162.450", "162.475", "162.500", "162.525", "162.550", "WX1", "WX2", "WX3", "WX4", "WX5", "WX6", "WX7", "broadcast", "transmitter"],
+        "preview": "NOAA Weather Radio transmitters (17 stations) operated by NWS. Continuous weather broadcasts, warnings, watches, and forecasts 24/7 on VHF frequencies 162.400-162.550 MHz."
+      },
+      {
+        "id": "csv-export-card",
+        "heading": "Export to Radio Programming Software",
+        "keywords": ["export", "CSV", "CHIRP", "RT Systems", "programming", "radio", "download", "import"],
+        "preview": "Export SKYWARN repeater data to CSV format for CHIRP or RT Systems radio programming software. Includes import instructions and download links."
+      }
+    ]
+  },
+  "nwsffclinks.html": {
+    "title": "NWS Useful Links",
+    "description": "Comprehensive collection of NWS Atlanta and national weather resources",
+    "sections": [
+      {
+        "id": "core-resources",
+        "heading": "Core NWS Atlanta Resources",
+        "keywords": ["NWS", "Atlanta", "Peachtree City", "FFC", "forecast", "radar", "IDSS", "observations", "safety", "weather.gov"],
+        "preview": "Essential NWS Atlanta resources: main FFC webpage, national radar, IDSS point forecasts, weather observations, and weather safety information."
+      },
+      {
+        "id": "decision-support",
+        "heading": "Decision Support Tools",
+        "keywords": ["decision support", "DSS", "IDSS", "damage assessment", "toolkit", "emergency management", "DAT"],
+        "preview": "NWS Atlanta Decision Support Services for emergency managers and the Damage Assessment Toolkit (DAT) for viewing and reporting storm damage."
+      },
+      {
+        "id": "river-flooding",
+        "heading": "River & Flooding Information",
+        "keywords": ["river", "flooding", "flood", "FIM", "inundation mapping", "water levels", "AHPS", "gauges"],
+        "preview": "River levels, flood forecasts, Flood Inundation Mapping (FIM), and training resources for NWS Atlanta area waterways and flood prediction."
+      },
+      {
+        "id": "specialized-weather",
+        "heading": "Specialized Weather Information",
+        "keywords": ["winter weather", "snow", "ice", "fire weather", "red flag", "GDOT", "road conditions", "RWIS", "GEMA", "all hazards"],
+        "preview": "Specialized weather info: winter weather forecasts, fire weather/red flag warnings, GDOT road weather stations, and GEMA All Hazards Dashboard."
+      },
+      {
+        "id": "national-centers",
+        "heading": "National Weather Centers",
+        "keywords": ["SPC", "Storm Prediction Center", "WPC", "Weather Prediction Center", "NHC", "National Hurricane Center", "tropical", "severe weather", "outlook"],
+        "preview": "National weather centers: Storm Prediction Center (severe weather outlooks), Weather Prediction Center (national forecasts), National Hurricane Center (tropical storms)."
+      }
+    ]
+  },
+  "wx4ptc.html": {
+    "title": "WX4PTC - NWS Peachtree City Amateur Radio Station",
+    "description": "Information about the WX4PTC SKYWARN Net Control station at NWS Peachtree City",
+    "sections": [
+      {
+        "id": "overview",
+        "heading": "Station Overview",
+        "keywords": ["WX4PTC", "amateur radio", "ham radio", "net control", "NWS", "Peachtree City", "SKYWARN", "444.600", "VHF", "UHF", "HF"],
+        "preview": "WX4PTC is the amateur radio call sign for SKYWARN Net Control at NWS Peachtree City. Equipped with dual-band VHF/UHF radios, HF transceiver, and hub repeater on 444.600 MHz (+5 MHz, 77.0 Hz PL)."
+      },
+      {
+        "id": "activation",
+        "heading": "Spotter Activation",
+        "keywords": ["activation", "HWO", "Hazardous Weather Outlook", "warnings coordinator", "ARES", "SKYWARN operators", "net control", "severe weather"],
+        "preview": "NWS issues Hazardous Weather Outlook when severe weather expected. Warnings Coordinator contacts WX4PTC team. ARES/SKYWARN volunteers staff the station and open the net."
+      },
+      {
+        "id": "net-flow",
+        "heading": "Activation Flow",
+        "keywords": ["activation flow", "process", "procedure", "linked repeater", "phone", "866-763-4466", "online form", "report submission"],
+        "preview": "Activation process: NWS issues statement → Warnings Coordinator activates WX4PTC → Net operates on linked repeaters → Spotters submit reports via radio, phone (866-763-4466), or online."
+      },
+      {
+        "id": "operation",
+        "heading": "Net Operations",
+        "keywords": ["net operations", "directed net", "net control", "NCS", "check-in", "linked repeaters", "traffic", "priority reports"],
+        "preview": "SKYWARN net is a directed net. All traffic goes through net control. Spotters check-in on linked repeaters. Priority reports relayed directly to NWS to avoid congestion."
+      },
+      {
+        "id": "photo-archive",
+        "heading": "Photo Archive",
+        "keywords": ["photos", "pictures", "archive", "station photos", "equipment", "antenna", "operating position"],
+        "preview": "View archived photos of the WX4PTC station including operating positions, equipment, antennas, and station setup (circa 2002)."
+      }
+    ]
+  },
+  "about.html": {
+    "title": "About Georgia SKYWARN",
+    "description": "Information about the Georgia SKYWARN website, site structure, and contacts",
+    "sections": [
+      {
+        "id": "overview",
+        "heading": "About This Site",
+        "keywords": ["about", "purpose", "mission", "features", "mobile-first", "accessibility", "WCAG", "technical", "HTML5", "CSS3", "JavaScript"],
+        "preview": "Central hub for Georgia SKYWARN linked repeater system coordinating severe weather reporting across 96 counties. Mobile-first design, WCAG 2.1 AA compliant, built with HTML5/CSS3/vanilla JavaScript."
+      },
+      {
+        "id": "contactcard",
+        "heading": "Contacts",
+        "keywords": ["contacts", "Robert Burton", "KD4YDC", "DEC ARES", "Lynn Bianco", "KN4YZ", "Fayette County", "David Christie", "N5JEY", "David Nadler", "NWS", "warnings coordinator", "Jack Parks", "KQ4JP", "webmaster"],
+        "preview": "Key contacts: Robert Burton (KD4YDC) DEC ARES/NWS, Lynn Bianco (KN4YZ) Fayette County EC, David Christie (N5JEY) Assistant DEC, David Nadler NWS Warnings Coordinator, Jack Parks (KQ4JP) Webmaster."
+      },
+      {
+        "id": "forecastarea",
+        "heading": "Service Area of NWS Atlanta",
+        "keywords": ["forecast area", "CWA", "county warning area", "96 counties", "North Georgia", "Central Georgia", "coverage", "service area"],
+        "preview": "NWS Atlanta issues warnings for 96 counties in northern and central Georgia (CWA - County Warning Area). View forecast area maps and coverage zones."
+      },
+      {
+        "id": "changelog",
+        "heading": "Site Update Log",
+        "keywords": ["changelog", "updates", "changes", "history", "recent updates", "version history"],
+        "preview": "Recent website updates, new features, bug fixes, and improvements to the Georgia SKYWARN site."
+      }
+    ]
+  },
+  "photoarchive.html": {
+    "title": "WX4PTC Station Photo Archive",
+    "description": "Historical photos of the WX4PTC amateur radio station at NWS Peachtree City (circa 2002)",
+    "sections": [
+      {
+        "id": "photo-gallery",
+        "heading": "Station Photo Gallery (circa 2002)",
+        "keywords": ["photos", "pictures", "WX4PTC", "station", "equipment", "radio", "Icom IC207", "Kenwood TS570SG", "antenna", "tower", "Rohn 45", "Cushcraft", "Diamond X-50", "grounding", "operating position", "APRS", "packet", "monitor"],
+        "preview": "Visual tour of WX4PTC station: operating positions with Icom IC207 and Kenwood TS570SG radios, dual-monitor system with radar/EMWIN/APRS, packet station, antenna array on 40 ft Rohn 45 tower, and grounding system."
+      }
+    ]
+  }
+}

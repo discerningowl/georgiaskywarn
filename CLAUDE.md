@@ -26,18 +26,20 @@ georgiaskywarn/
 ├── georgiaskywarnlogo.png  # Site logo (500x500px)
 ├── favicon.ico             # Site favicon
 ├── nws.gif                 # NWS logo
-├── js/                     # JavaScript files directory (7 files total)
+├── js/                     # JavaScript files directory (8 files total)
 │   ├── version.js          # **CRITICAL** - Single version number for cache busting
 │   ├── loader.js           # **CRITICAL** - Dynamically loads all scripts with versioning
 │   ├── core.js             # Core utilities (merged config.js + utils.js)
 │   ├── components.js       # UI components (merged header.js + footer.js)
 │   ├── scripts.js          # Page-specific JavaScript (alerts, modals, repeater search)
 │   ├── nws-api.js          # NWS API integration and HWO
+│   ├── search.js           # Sitewide search with fuzzy matching (added 2026-01-10)
 │   └── changelog.js        # Changelog display
 ├── data/                   # Data files directory
 │   ├── linked-repeaters.json   # Linked repeater data (dynamically loaded)
 │   ├── nonlinked-repeaters.json # Non-linked repeater data (dynamically loaded)
 │   ├── weather-stations.json   # NOAA Weather Radio stations (dynamically loaded)
+│   ├── search-index.json   # Sitewide search index (32 sections, 7 pages)
 │   └── changelog.json      # Website changelog/updates
 ├── archive/                # Photo archive directory
 │   └── WX4PTC*.jpg         # Station photos (1-8)
@@ -52,11 +54,11 @@ georgiaskywarn/
 
 **HTML files and CSS MUST remain in the root directory. This is a hard requirement.**
 
-**Current Structure** (as of January 9, 2026):
+**Current Structure** (as of January 10, 2026):
 - ✅ **HTML files**: All in root directory
 - ✅ **CSS files**: `style.css` in root directory
-- ✅ **JavaScript files**: Organized in `js/` directory (7 consolidated files)
-- ✅ **Data files**: JSON files in `data/` directory
+- ✅ **JavaScript files**: Organized in `js/` directory (8 files including search.js)
+- ✅ **Data files**: JSON files in `data/` directory (includes search-index.json)
 - ✅ **Images**: In root directory (except photo archive in `archive/`)
 - ✅ **Legacy redirects**: `www/` and `wx4ptc/` directories preserved
 
@@ -81,7 +83,7 @@ georgiaskywarn/
 3. All HTML pages MUST remain in the root directory
 4. All HTML pages share the same `style.css` stylesheet (root level)
 5. **Component architecture**: Header and footer loaded via `js/components.js` (merged for efficiency)
-6. **JavaScript organization**: Consolidated to 7 files (reduced from 9 in 2026-01-09 refactor)
+6. **JavaScript organization**: 8 files total (reduced from 9 in 2026-01-09 refactor, added search.js in 2026-01-10)
 7. **Data organization**: All JSON data files in `data/` directory
 8. Images and assets remain in root directory except for historical photos in `archive/`
 
@@ -1100,6 +1102,27 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-01-10
+- **Sitewide Search Feature**: Added comprehensive client-side search with fuzzy matching
+  - Created `js/search.js` (fuzzy search algorithm, 24-hour cache, keyboard shortcut Ctrl+Shift+K)
+  - Created `data/search-index.json` (32 searchable sections across all 7 pages)
+  - Added search icon to header navigation (desktop and mobile)
+  - Search modal with live results, match type badges, and highlighted terms
+  - Maintained by AI assistant (just ask to update when content changes)
+- **CRITICAL FIX - Alert API**: Changed from zone-based to area-based queries
+  - Now queries `?area=GA` instead of `?zone=GAZ001,...` to capture ALL Georgia alerts
+  - Flash flood warnings use county codes (GAC###), not zone codes - were being missed
+  - Fixed missing flash flood warnings and other county-based alerts
+- **Dynamic Alert Header Colors**: Active Area Alerts card header now changes color based on severity
+  - Red (warnings present), Yellow (watches only), Blue (advisories only), Green (no alerts)
+  - Matches spotter activation card behavior for consistent UX
+  - Updates automatically on refresh
+- **Search UI Fixes**: Fixed search button color and click functionality
+  - Search icon now matches nav text color (white in dark mode, light gray in light mode)
+  - Added hover effects (blue accent color)
+  - Fixed timing issue with click handler (retry logic for async script loading)
+  - Modal closes correctly for both same-page and cross-page search results
+
 ### 2026-01-09
 - **JavaScript Consolidation**: Reduced from 9 files → 7 files (-22%), eliminated ~185 lines of duplicate code
   - Created `core.js` (merged config.js + utils.js) and `components.js` (merged header.js + footer.js)
@@ -1323,6 +1346,6 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 
 ---
 
-**Last Updated**: 2026-01-08
+**Last Updated**: 2026-01-10
 **Maintained By**: Claude AI Assistant (based on codebase analysis)
 **For Questions**: Contact Jack Parks (KQ4JP) <kq4jp@pm.me>

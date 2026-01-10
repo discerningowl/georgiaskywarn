@@ -6,8 +6,17 @@
  *          - Fetch functions with timeout and retry logic
  *          - Cache management
  *          - Common constants and configuration
- * Version: 20260109g
+ * Version: 20260110b
  * Change-log:
+ *   • 2026-01-10b – ENHANCEMENT: Dynamic alert card header color based on severity
+ *                  - Header now changes color: red (warnings), yellow (watches), blue (other), green (none)
+ *                  - Matches spotter activation card behavior
+ *                  - Updates on both initial load and auto-refresh
+ *   • 2026-01-10 – CRITICAL FIX: Changed alert query from zone-based to area-based
+ *                  - Now queries ?area=GA instead of ?zone=GAZ001,...
+ *                  - Flash flood warnings use COUNTY codes (GAC###), not zone codes
+ *                  - Previous zone query missed county-based warnings
+ *                  - Now retrieves ALL GA alerts, filters to FFC on client side
  *   • 2026-01-09g – CRITICAL FIX: Added color detection to openAlertModal()
  *                  - Was missing from nws-api.js causing watches to show red
  *                  - Now properly applies --red, --yellow, --blue classes
@@ -106,18 +115,21 @@
 
   /**
    * Fetches active alerts from NWS API with retry logic and exponential backoff
-   * @param {string} zones - Comma-separated zone list (default: FFC_ZONES)
+   * Query by area=GA to get ALL Georgia alerts (both zone and county-based)
+   * Filter to NWS Peachtree City alerts on client side
    * @param {number} retries - Number of retry attempts
    * @returns {Promise<Object>} - Alert data from API
    */
-  async function fetchAlerts(zones = FFC_ZONES, retries = 3) {
+  async function fetchAlerts(retries = 3) {
     console.log('[NWS API] Fetching alerts...');
 
     // Fetch from API with retry logic
+    // IMPORTANT: Query by area=GA to get BOTH zone-based AND county-based alerts
+    // (Flash flood warnings use county codes, not zone codes)
     for (let i = 0; i < retries; i++) {
       try {
-        const url = `${NWS_API.BASE_URL}/alerts/active?zone=${zones}`;
-        console.log('[NWS API] Fetching fresh alerts (cache: reload)...');
+        const url = `${NWS_API.BASE_URL}/alerts/active?area=GA`;
+        console.log('[NWS API] Fetching fresh Georgia alerts (cache: reload)...');
         const resp = await fetchWithTimeout(url);
 
         // Handle rate limiting and service unavailability
@@ -324,7 +336,7 @@
           <div class="alert-more">Click to view full outlook →</div>
         </div>
         <div style="margin-top: 1rem;">
-          <a href="index.html#submitcard" class="btn btn-red">How to Submit Reports →</a>
+          <a href="spotters.html#submitcard" class="btn btn-red">How to Submit Reports →</a>
         </div>
       `;
     } else if (activationInfo.level === 'yellow') {
@@ -346,7 +358,7 @@
           <div class="alert-more">Click to view full outlook →</div>
         </div>
         <div style="margin-top: 1rem;">
-          <a href="index.html#submitcard" class="btn btn-yellow">How to Submit Reports →</a>
+          <a href="spotters.html#submitcard" class="btn btn-yellow">How to Submit Reports →</a>
         </div>
       `;
     } else {
@@ -501,10 +513,14 @@
 
   /**
    * Render all alerts for dashboard
+   * Filters to show only NWS Peachtree City (FFC) alerts
+   * Handles both "NWS Peachtree City" and "NWS Peachtree City GA" sender names
+   * @returns {Object} - {html: string, severity: 'red'|'yellow'|'blue'|'green'}
    */
   function renderAllAlerts(data) {
     const features = (data.features || []).filter(f => {
       const p = f.properties;
+      // Filter for NWS Peachtree City/FFC alerts (includes both zone and county-based alerts)
       return p.senderName?.includes('NWS Peachtree City');
     });
 
@@ -522,10 +538,35 @@
     updateAlertsTimestamp();
 
     if (uniqueFeatures.length === 0) {
-      return `<p class="no-alerts center"><strong>No active alerts in NWS Atlanta (FFC) area.</strong></p>`;
+      return {
+        html: `<p class="no-alerts center"><strong>No active alerts in NWS Atlanta (FFC) area.</strong></p>`,
+        severity: 'green'
+      };
     }
 
-    return uniqueFeatures.map((f, index) => {
+    // Determine highest severity for header color
+    // Priority: warning (red) > watch (yellow) > other (blue)
+    let highestSeverity = 'blue'; // Default to blue for advisories/other
+    let hasWarning = false;
+    let hasWatch = false;
+
+    uniqueFeatures.forEach(f => {
+      const p = f.properties;
+      const isWarning = p.event?.toLowerCase().includes('warning');
+      const isWatch = p.event?.toLowerCase().includes('watch');
+
+      if (isWarning) hasWarning = true;
+      if (isWatch) hasWatch = true;
+    });
+
+    // Set severity based on highest priority alert type
+    if (hasWarning) {
+      highestSeverity = 'red';
+    } else if (hasWatch) {
+      highestSeverity = 'yellow';
+    }
+
+    const html = uniqueFeatures.map((f, index) => {
       alertDataCache[index] = f;
       const p = f.properties;
       const isWarning = p.event?.toLowerCase().includes('warning');
@@ -553,6 +594,8 @@
           <div class="alert-more">Click for full details →</div>
         </div>`;
     }).join('');
+
+    return { html, severity: highestSeverity };
   }
 
   /**
@@ -591,7 +634,25 @@
   }
 
   /**
+   * Update alert card header color based on severity
+   * @param {string} severity - 'red'|'yellow'|'blue'|'green'
+   */
+  function updateAlertHeaderColor(severity) {
+    const header = document.querySelector('#active-alerts .card-header');
+    if (!header) return;
+
+    // Remove all color classes
+    header.classList.remove('card-header--red', 'card-header--yellow', 'card-header--blue', 'card-header--green');
+
+    // Apply new color class based on severity
+    header.classList.add(`card-header--${severity}`);
+
+    console.log(`[Dashboard] Alert header color set to ${severity}`);
+  }
+
+  /**
    * Load and display alerts
+   * Updates both alert content and card header color based on highest severity
    */
   async function loadAlerts() {
     const container = document.getElementById('alerts-container');
@@ -604,7 +665,9 @@
       const cached = alertsCache.get();
       if (cached) {
         loading.style.display = 'none';
-        container.innerHTML = renderAllAlerts(cached);
+        const result = renderAllAlerts(cached);
+        container.innerHTML = result.html;
+        updateAlertHeaderColor(result.severity);
         attachAlertClickHandlers();
         return;
       }
@@ -614,7 +677,9 @@
       alertsCache.set(data);
 
       loading.style.display = 'none';
-      container.innerHTML = renderAllAlerts(data);
+      const result = renderAllAlerts(data);
+      container.innerHTML = result.html;
+      updateAlertHeaderColor(result.severity);
       attachAlertClickHandlers();
 
     } catch (err) {
@@ -629,6 +694,8 @@
           </p>
         </div>
       `;
+      // Set header to gray/neutral on error
+      updateAlertHeaderColor('blue');
     }
   }
 

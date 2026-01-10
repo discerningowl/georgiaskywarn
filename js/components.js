@@ -6,6 +6,11 @@
  *          Merged from header.js + footer.js for better code organization
  * Based on: atlantahamradio.org header structure
  * Change-log:
+ *   • 2026-01-10b – BUGFIX: Fixed search button color and click functionality
+ *                  - Added white color to match nav text (was dark gray)
+ *                  - Added retry logic for click handler (timing issue with search.js loading)
+ *                  - Added hover effects matching nav link behavior
+ *   • 2026-01-10 – Added sitewide search button and modal to header
  *   • 2026-01-09 – Created by merging header.js + footer.js
  *                  - Reduced total file count from 9 to 7 (-22%)
  *                  - Fixed footer Quick Links: dashboard.html → spotters.html
@@ -37,6 +42,9 @@ function loadHeader() {
                     <a href="wx4ptc.html">WX4PTC</a>
                     <a href="nwsffclinks.html">Resources</a>
                     <a href="about.html">About</a>
+                    <button id="site-search-button" aria-label="Search site (Ctrl+Shift+K)" title="Search site (Ctrl+Shift+K)" style="background: none; border: none; cursor: pointer; padding: 0.5rem; display: flex; align-items: center; color: white; transition: opacity 0.3s ease;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    </button>
                     <button id="themeToggle" aria-label="Toggle theme" style="background: none; border: none; cursor: pointer; padding: 0.5rem; display: flex; align-items: center;">
                         <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
                         <svg id="moonIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
@@ -54,6 +62,10 @@ function loadHeader() {
                 <a href="wx4ptc.html">WX4PTC</a>
                 <a href="nwsffclinks.html">Resources</a>
                 <a href="about.html">About</a>
+                <button id="site-search-button-mobile" aria-label="Search site">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                    <span>Search Site</span>
+                </button>
                 <button id="themeToggleMobile" aria-label="Toggle theme">
                     <svg id="sunIconMobile" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
                     <svg id="moonIconMobile" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
@@ -61,6 +73,30 @@ function loadHeader() {
                 </button>
             </nav>
         </header>
+
+        <!-- Search Modal -->
+        <div class="modal-backdrop" id="searchModal">
+            <div class="modal-content modal-content--search">
+                <div class="modal-header modal-header--blue">
+                    <h2 class="modal-title">Search Georgia SKYWARN</h2>
+                    <button class="modal-close" id="searchModalClose" aria-label="Close search">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="search-input-container">
+                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                        <input
+                            type="search"
+                            id="site-search-input"
+                            placeholder="Search pages, sections, and content..."
+                            aria-label="Search site"
+                            autocomplete="off"
+                        >
+                        <kbd class="search-shortcut">Ctrl+Shift+K</kbd>
+                    </div>
+                    <div id="searchModalBody"></div>
+                </div>
+            </div>
+        </div>
     `;
 
     document.body.insertAdjacentHTML('afterbegin', headerHTML);
@@ -75,10 +111,11 @@ function loadHeader() {
     `;
     document.body.insertAdjacentHTML('beforeend', backToTopHTML);
 
-    // Initialize mobile menu, theme toggle, and back to top after DOM insertion
+    // Initialize mobile menu, theme toggle, back to top, and search after DOM insertion
     initMobileMenu();
     initThemeToggle();
     initBackToTop();
+    initSearchButton();
 }
 
 /**
@@ -230,6 +267,61 @@ function initBackToTop() {
             behavior: 'smooth'
         });
     });
+}
+
+/**
+ * Search button functionality (connects to search.js)
+ * Handles timing issue where search.js loads after components.js
+ */
+function initSearchButton() {
+    const searchButton = document.getElementById('site-search-button');
+    const searchButtonMobile = document.getElementById('site-search-button-mobile');
+    const mobileNav = document.getElementById('mobileNav');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+
+    // Function to open search modal
+    function openSearch() {
+        if (window.SEARCH && typeof window.SEARCH.openSearch === 'function') {
+            window.SEARCH.openSearch();
+
+            // Close mobile menu if open
+            if (mobileNav && mobileNav.classList.contains('active')) {
+                mobileNav.classList.remove('active');
+                const hamburgerIcon = mobileMenuBtn?.querySelector('.hamburger-icon');
+                const closeIcon = mobileMenuBtn?.querySelector('.close-icon');
+                if (hamburgerIcon && closeIcon) {
+                    hamburgerIcon.style.display = 'block';
+                    closeIcon.style.display = 'none';
+                }
+                document.body.style.overflow = '';
+            }
+        } else {
+            console.warn('[SEARCH] Search functionality not yet loaded, retrying...');
+            // Retry after short delay (search.js should be loading)
+            setTimeout(() => {
+                if (window.SEARCH && typeof window.SEARCH.openSearch === 'function') {
+                    window.SEARCH.openSearch();
+                } else {
+                    console.error('[SEARCH] Search module failed to load');
+                }
+            }, 500);
+        }
+    }
+
+    // Add click listeners
+    if (searchButton) {
+        searchButton.addEventListener('click', openSearch);
+        // Add hover effect
+        searchButton.addEventListener('mouseenter', () => {
+            searchButton.style.opacity = '0.8';
+        });
+        searchButton.addEventListener('mouseleave', () => {
+            searchButton.style.opacity = '1';
+        });
+    }
+    if (searchButtonMobile) {
+        searchButtonMobile.addEventListener('click', openSearch);
+    }
 }
 
 /**
