@@ -34,7 +34,6 @@
       <li><a href="#repeater-search">Search Repeaters</a></li>
       <li><a href="#repeater-table">Linked Repeaters</a></li>
       <li><a href="#nonlinkcard">Non-Linked Repeaters</a></li>
-      <li><a href="#weathercard">Weather Stations</a></li>
       <li><a href="#csv-export-card">Export CSV</a></li>
     </ul>
   </nav>
@@ -83,14 +82,16 @@
             <table class="repeater-table">
                 <thead>
                     <tr>
-                        <th class="center"><em><strong>Location</strong></em></th>
-                        <th class="center"><em><strong>Frequency</strong></em></th>
-                        <th class="center"><em><strong>Notes</strong></em></th>
+                        <th><em><strong>Location &amp; Callsign</strong></em></th>
+                        <th class="center"><em><strong>Frequency &amp; Tone</strong></em></th>
+                        <th class="center"><em><strong>Tags</strong></em></th>
+                        <th class="center"><em><strong>Internet Links</strong></em></th>
+                        <th class="center"><em><strong>Radio Links</strong></em></th>
                     </tr>
                 </thead>
                 <tbody id="linked-repeaters-tbody">
-                    <tr><td colspan="3" class="center">Loading linked repeaters...</td></tr>
-                </tbody>            
+                    <tr><td colspan="5" class="center">Loading linked repeaters...</td></tr>
+                </tbody>
             </table>
       </div>
         <p class="scroll-hint">← Scroll horizontally on mobile →</p>
@@ -113,43 +114,15 @@
           <table class="repeater-table">
               <thead>
                   <tr>
-                      <th class="center"><em><strong>Location</strong></em></th>
-                      <th class="center"><em><strong>Frequency</strong></em></th>
-                      <th class="center"><em><strong>Notes</strong></em></th>
+                      <th><em><strong>Location &amp; Callsign</strong></em></th>
+                      <th class="center"><em><strong>Frequency &amp; Tone</strong></em></th>
+                      <th class="center"><em><strong>Tags</strong></em></th>
+                      <th class="center"><em><strong>Internet Links</strong></em></th>
+                      <th class="center"><em><strong>Radio Links</strong></em></th>
                   </tr>
               </thead>
               <tbody id="nonlinked-repeaters-tbody">
-                  <tr><td colspan="3" class="center">Loading non-linked repeaters...</td></tr>
-              </tbody>
-          </table>
-        </div>
-        <p class="scroll-hint">← Scroll horizontally on mobile →</p>
-      </div>
-    </section>
-
-    <!-- Weather Station Repeaters Card -->
-    <section class="card table-card" id="weathercard">
-      <header class="card-header card-header--blue">
-        <h2 class="card-title">NWS Weather Radio Stations (NOAA Weather Radio)</h2>
-      </header>
-      <div class="card-body">
-        <aside class="callout note">
-        	<p class="net-info center">
-         		These are <strong>NOAA Weather Radio</strong> transmitters operated by the National Weather Service. They broadcast continuous weather information, warnings, watches, and forecasts 24/7. You can receive these stations with a weather radio or scanner. Most stations transmit on one of seven VHF frequencies between 162.400 and 162.550 MHz.
-        	</p>
-        	<p class="center"><a href="https://www.weather.gov/nwr/county_coverage?State=GA" target="_blank" rel="noopener noreferrer">Find your closest NOAA WX Station</a></p>
-        </aside>
-        <div class="table-wrapper">
-          <table class="repeater-table">
-              <thead>
-                  <tr>
-                      <th class="center"><em><strong>Location</strong></em></th>
-                      <th class="center"><em><strong>Frequency / Channel</strong></em></th>
-                      <th class="center"><em><strong>Coverage Area</strong></em></th>
-                  </tr>
-              </thead>
-              <tbody id="weather-stations-tbody">
-                  <tr><td colspan="3" class="center">Loading weather stations...</td></tr>
+                  <tr><td colspan="5" class="center">Loading non-linked repeaters...</td></tr>
               </tbody>
           </table>
         </div>
@@ -185,6 +158,19 @@
     </section>
 
   </main>
+
+  <!-- Repeater Detail Modal -->
+  <div id="repeaterDetailModal" class="repeater-detail-modal" role="dialog" aria-labelledby="repeaterModalTitle" aria-hidden="true">
+    <div class="repeater-detail-content">
+      <div class="repeater-detail-header">
+        <h2 id="repeaterModalTitle">Repeater Details</h2>
+        <button id="repeaterDetailClose" class="repeater-detail-close" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="repeater-detail-body" id="repeaterDetailBody">
+        <!-- Content populated by JavaScript -->
+      </div>
+    </div>
+  </div>
 
   <!-- CHIRP Import Instructions Modal -->
   <div id="chirpInstructionsModal" class="modal-backdrop" role="dialog" aria-labelledby="chirpModalTitle" aria-hidden="true">

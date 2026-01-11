@@ -1102,6 +1102,39 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-01-11
+- **Repeater Detail Modal**: Added interactive modal popup for detailed repeater information
+  - Click any repeater row to view full details (basic info, description, club info, IP/RF links)
+  - Modal displays: callsign, location, frequency, tone, RepeaterBook link, sponsor club
+  - Internet Linking table: system, node/extension, callsign, connection type
+  - Radio Linking table: callsign, location, frequency, link type, method (rf/direct/inet)
+  - Status indicators: linked/non-linked, RepeaterBook verified
+  - Network tag badges with color coding (Hub, WX4PTC, Peach State, Cherry Blossom)
+- **New Repeater Table Structure**: Redesigned table with 5 columns for better information density
+  - Location & Callsign (combined column with callsign in smaller text)
+  - Frequency & Tone (combined column with tone in smaller text)
+  - Tags (network affiliations as colored badges)
+  - Internet Links (system names as badges: AllStar, EchoLink, etc.)
+  - Radio Links (callsigns listed as comma-separated text)
+  - Entire rows are clickable to open detail modal
+- **Enhanced Repeater Data**: Added IP and RF linking information
+  - IP links: AllStar, EchoLink, HAMs Over IP, Amateur Wire VOIP systems with node numbers
+  - RF links: full-time and on-demand radio links between repeaters
+  - Club sponsorship information (scraped from RepeaterBook, 86.5% coverage)
+  - Unique repeater IDs format: CALLSIGN-FREQUENCY (e.g., W4GTA-145.350)
+- **Weather Stations Removed**: Removed NOAA Weather Radio section from repeaters.html
+  - Section was cluttering the page and not core to amateur radio repeater information
+  - Users can find NOAA stations via NWS website link if needed
+- **Data Consolidation**: Merged all repeater data into single repeaters.json file
+  - Single source of truth with 57 repeaters (45 linked, 12 non-linked)
+  - JavaScript filters and renders separate linked/non-linked tables dynamically
+  - Simplified data management and reduced file duplication
+- **CSS Additions**: Added ~130 lines of modal styling to style.css
+  - Repeater detail modal styles (backdrop, content, header, body, close button)
+  - Detail section grid layout for modal content
+  - Clickable table row styles (hover effects, pointer cursor)
+  - Responsive modal design with max-width 800px and scrollable content
+
 ### 2026-01-10
 - **Sitewide Search Feature**: Added comprehensive client-side search with fuzzy matching
   - Created `js/search.js` (fuzzy search algorithm, 24-hour cache, keyboard shortcut Ctrl+Shift+K)

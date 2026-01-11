@@ -471,43 +471,51 @@
   }
 
   /**
-   * Renders a repeater table row with badges from tags array
+   * Renders a repeater table row with new multi-column structure
    * @param {Object} repeater - Repeater object from JSON
    * @returns {string} - HTML table row
    */
   function renderRepeaterRow(repeater) {
-    // Location link - always link to RepeaterBook refurl
-    const locationHTML = repeater.refurl
-      ? `<a href="${window.UTILS.sanitizeURL(repeater.refurl)}" target="_blank" rel="noopener noreferrer">${sanitizeHTML(repeater.location)}</a>`
-      : sanitizeHTML(repeater.location);
+    const toneDisplay = repeater.tone || 'None';
 
-    // Camera icon link (for repeaters with pictures)
-    const cameraIcon = repeater.picUrl
-      ? `<a href="${window.UTILS.sanitizeURL(repeater.picUrl)}" target="_blank" rel="noopener noreferrer" title="View station photos" style="margin-left: 0.5rem; text-decoration: none;">📷</a>`
-      : '';
-
-    // Render badges from tags array - displayed below location
-    const badges = (repeater.tags && repeater.tags.length > 0)
-      ? '<div class="repeater-badges">' + repeater.tags.map(tag => {
+    // Network tags as badges
+    const tags = (repeater.tags && repeater.tags.length > 0)
+      ? repeater.tags.map(tag => {
           const tagLower = tag.toLowerCase();
           let badgeClass = 'badge';
 
           if (tagLower === 'hub') badgeClass = 'badge-hub';
           else if (tagLower === 'wx4ptc') badgeClass = 'badge-wx4ptc';
-          else if (tagLower === 'peach state') badgeClass = 'badge-peach-state';
-          else if (tagLower === 'cherry blossom') badgeClass = 'badge-cherry-blossom';
+          else if (tagLower === 'peach state' || tagLower === 'peach state intertie') badgeClass = 'badge-peach-state';
+          else if (tagLower === 'cherry blossom' || tagLower === 'cherry blossom intertie') badgeClass = 'badge-cherry-blossom';
 
           return `<span class="${badgeClass}">${sanitizeHTML(tag)}</span>`;
-        }).join('') + '</div>'
-      : '';
+        }).join(' ')
+      : '—';
 
-    const toneText = repeater.tone ? ` (${sanitizeHTML(repeater.tone)})` : '';
+    // Internet Links - show system names as badges
+    const ipLinks = (repeater.iplinks && repeater.iplinks.length > 0)
+      ? repeater.iplinks.map(link => `<span class="badge">${sanitizeHTML(link.system)}</span>`).join(' ')
+      : '—';
+
+    // Radio Links - list callsigns
+    const rfLinks = (repeater.rflinks && repeater.rflinks.length > 0)
+      ? repeater.rflinks.map(link => sanitizeHTML(link.callsign)).join(', ')
+      : '—';
 
     return `
-      <tr>
-        <td><div>${locationHTML}${cameraIcon}</div>${badges}</td>
-        <td class="freq">${sanitizeHTML(repeater.frequency)}${toneText}</td>
-        <td>${sanitizeHTML(repeater.description)}</td>
+      <tr class="repeater-row" data-repeater-id="${sanitizeHTML(repeater.id)}">
+        <td>
+          <strong>${sanitizeHTML(repeater.location)}</strong><br>
+          <span style="color: var(--text-secondary); font-size: 0.9rem;">${sanitizeHTML(repeater.callsign)}</span>
+        </td>
+        <td class="center">
+          <strong>${sanitizeHTML(repeater.frequency)}</strong><br>
+          <span style="font-size: 0.9rem;">${sanitizeHTML(toneDisplay)}</span>
+        </td>
+        <td class="center">${tags}</td>
+        <td class="center">${ipLinks}</td>
+        <td class="center" style="font-size: 0.9rem;">${rfLinks}</td>
       </tr>`;
   }
 
@@ -517,13 +525,16 @@
   async function renderAllRepeaters() {
     const allRepeaters = await fetchRepeaterData();
 
+    // Store globally for modal access
+    window.repeatersData = allRepeaters;
+
     // Render linked repeaters
     const linkedContainer = document.getElementById('linked-repeaters-tbody');
     if (linkedContainer) {
       const linked = allRepeaters.filter(r => r.linked === true);
       linkedContainer.innerHTML = linked.length > 0
         ? linked.map(r => renderRepeaterRow(r)).join('')
-        : '<tr><td colspan="3">No linked repeaters available.</td></tr>';
+        : '<tr><td colspan="5">No linked repeaters available.</td></tr>';
     }
 
     // Render non-linked repeaters
@@ -532,8 +543,11 @@
       const nonLinked = allRepeaters.filter(r => r.linked === false);
       nonLinkedContainer.innerHTML = nonLinked.length > 0
         ? nonLinked.map(r => renderRepeaterRow(r)).join('')
-        : '<tr><td colspan="3">No non-linked repeaters available.</td></tr>';
+        : '<tr><td colspan="5">No non-linked repeaters available.</td></tr>';
     }
+
+    // Set up modal click handlers for all repeater rows
+    setupRepeaterModalHandlers();
   }
 
   /**
@@ -575,6 +589,215 @@
       console.error(`Error loading weather stations: ${error}`);
       container.innerHTML = '<tr><td colspan="3">Error loading weather stations.</td></tr>';
     }
+  }
+
+  // ========================================================================
+  // REPEATER DETAIL MODAL FUNCTIONALITY
+  // ========================================================================
+
+  /**
+   * Opens the repeater detail modal with full information
+   * @param {string} repeaterId - The repeater ID to display
+   */
+  function openRepeaterModal(repeaterId) {
+    const repeater = window.repeatersData.find(r => r.id === repeaterId);
+    if (!repeater) {
+      console.error('Repeater not found:', repeaterId);
+      return;
+    }
+
+    const modal = document.getElementById('repeaterDetailModal');
+    const modalBody = document.getElementById('repeaterDetailBody');
+    const modalTitle = document.getElementById('repeaterModalTitle');
+
+    modalTitle.textContent = `${repeater.location} - ${repeater.frequency}`;
+
+    // Build modal content
+    let html = '';
+
+    // Status messages at top
+    html += '<div style="margin-bottom: 1.5rem;">';
+    if (repeater.linked) {
+      html += '<p style="color: var(--accent-green); font-weight: 700; font-size: 1.1rem;">📡 On demand linking to GA SKYWARN linked repeater system</p>';
+    } else {
+      html += '<p style="color: var(--accent-orange); font-weight: 700; font-size: 1.1rem;">🏛️ County SKYWARN Only</p>';
+    }
+    if (repeater.verified === true) {
+      html += '<p style="color: var(--accent-blue); font-weight: 700;">✓ RepeaterBook Verified</p>';
+    }
+    html += '</div>';
+
+    // Tags as badges
+    if (repeater.tags && repeater.tags.length > 0) {
+      html += '<div style="margin-bottom: 1.5rem;">';
+      repeater.tags.forEach(tag => {
+        const tagLower = tag.toLowerCase();
+        let badgeClass = 'badge';
+        if (tagLower === 'hub') badgeClass = 'badge-hub';
+        else if (tagLower === 'wx4ptc') badgeClass = 'badge-wx4ptc';
+        else if (tagLower === 'peach state' || tagLower === 'peach state intertie') badgeClass = 'badge-peach-state';
+        else if (tagLower === 'cherry blossom' || tagLower === 'cherry blossom intertie') badgeClass = 'badge-cherry-blossom';
+        html += `<span class="${badgeClass}">${sanitizeHTML(tag)}</span>`;
+      });
+      html += '</div>';
+    }
+
+    // Basic Info
+    html += `
+      <div class="detail-section">
+        <h3>Basic Information</h3>
+        <div class="detail-grid">
+          <div class="detail-label">Callsign:</div>
+          <div class="detail-value">${sanitizeHTML(repeater.callsign)}</div>
+          <div class="detail-label">Location:</div>
+          <div class="detail-value">${sanitizeHTML(repeater.location)}</div>
+          <div class="detail-label">Frequency:</div>
+          <div class="detail-value">${sanitizeHTML(repeater.frequency)}</div>
+          <div class="detail-label">Tone:</div>
+          <div class="detail-value">${sanitizeHTML(repeater.tone || 'None')}</div>
+          <div class="detail-label">RepeaterBook:</div>
+          <div class="detail-value"><a href="${window.UTILS.sanitizeURL(repeater.refurl)}" target="_blank" rel="noopener noreferrer">View on RepeaterBook →</a></div>`;
+
+    if (repeater.clubName && repeater.clubUrl) {
+      html += `
+          <div class="detail-label">Sponsor Club:</div>
+          <div class="detail-value"><a href="${window.UTILS.sanitizeURL(repeater.clubUrl)}" target="_blank" rel="noopener noreferrer">${sanitizeHTML(repeater.clubName)} →</a></div>`;
+    } else if (repeater.clubName) {
+      html += `
+          <div class="detail-label">Sponsor Club:</div>
+          <div class="detail-value">${sanitizeHTML(repeater.clubName)}</div>`;
+    }
+
+    html += `
+        </div>
+      </div>`;
+
+    // Description
+    html += `
+      <div class="detail-section">
+        <h3>Description</h3>
+        <p>${sanitizeHTML(repeater.description)}</p>
+      </div>`;
+
+    // Internet Links
+    if (repeater.iplinks && repeater.iplinks.length > 0) {
+      html += '<div class="detail-section">';
+      html += '<h3>Internet Linking</h3>';
+      html += '<div class="table-wrapper">';
+      html += '<table class="repeater-table" style="width: 100%;">';
+      html += `
+        <thead>
+          <tr>
+            <th>System</th>
+            <th>Node/Extension</th>
+            <th>Callsign</th>
+            <th>Connection</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+      repeater.iplinks.forEach(link => {
+        const nodeInfo = link.node ? `Node ${link.node}` :
+                        link.extension ? `Ext ${link.extension}` : '—';
+        const callsign = link.callsign || '—';
+        html += `
+          <tr>
+            <td>${sanitizeHTML(link.system)}</td>
+            <td class="center">${sanitizeHTML(nodeInfo)}</td>
+            <td class="center">${sanitizeHTML(callsign)}</td>
+            <td class="center">${sanitizeHTML(link.connectionType)}</td>
+          </tr>`;
+      });
+
+      html += '</tbody></table></div></div>';
+    }
+
+    // Radio Links
+    if (repeater.rflinks && repeater.rflinks.length > 0) {
+      html += '<div class="detail-section">';
+      html += '<h3>Radio Linking</h3>';
+      html += '<div class="table-wrapper">';
+      html += '<table class="repeater-table" style="width: 100%;">';
+      html += `
+        <thead>
+          <tr>
+            <th>Callsign</th>
+            <th>Location</th>
+            <th>Frequency</th>
+            <th>Link Type</th>
+            <th>Method</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+      repeater.rflinks.forEach(link => {
+        html += `
+          <tr>
+            <td class="center">${sanitizeHTML(link.callsign)}</td>
+            <td>${sanitizeHTML(link.location)}</td>
+            <td class="center">${sanitizeHTML(link.frequency)}</td>
+            <td class="center">${sanitizeHTML(link.linkType)}</td>
+            <td class="center">${sanitizeHTML(link.linkMethod)}</td>
+          </tr>`;
+      });
+
+      html += '</tbody></table></div></div>';
+    }
+
+    // Photo URL
+    if (repeater.picUrl) {
+      html += `
+        <div class="detail-section">
+          <h3>Station Photos</h3>
+          <p><a href="${window.UTILS.sanitizeURL(repeater.picUrl)}" target="_blank" rel="noopener noreferrer">📷 View Photos →</a></p>
+        </div>`;
+    }
+
+    modalBody.innerHTML = html;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  /**
+   * Sets up modal handlers for repeater detail popup
+   */
+  function setupRepeaterModalHandlers() {
+    const modal = document.getElementById('repeaterDetailModal');
+    if (!modal) return;
+
+    const closeBtn = document.getElementById('repeaterDetailClose');
+
+    // Close button
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+      });
+    }
+
+    // Click outside modal to close
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    // Escape key to close
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    // Add click handlers to all repeater rows
+    document.querySelectorAll('.repeater-row').forEach(row => {
+      row.addEventListener('click', () => {
+        const repeaterId = row.getAttribute('data-repeater-id');
+        openRepeaterModal(repeaterId);
+      });
+    });
   }
 
   // ========================================================================

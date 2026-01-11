@@ -3287,6 +3287,128 @@ a:hover, a:focus {
 }
 
 /* ==========================================================================
+   REPEATER DETAIL MODAL
+   ========================================================================== */
+
+.repeater-detail-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.repeater-detail-modal.open {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.repeater-detail-content {
+  background: var(--card-bg);
+  border: 2px solid var(--card-border);
+  border-radius: var(--radius);
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.repeater-detail-header {
+  background: var(--accent-indigo);
+  color: white;
+  padding: 1.5rem;
+  border-radius: var(--radius) var(--radius) 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.repeater-detail-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: white;
+}
+
+.repeater-detail-close {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  line-height: 1;
+  transition: transform 0.2s;
+}
+
+.repeater-detail-close:hover {
+  transform: scale(1.2);
+}
+
+.repeater-detail-body {
+  padding: 2rem;
+}
+
+.detail-section {
+  margin-bottom: 2rem;
+}
+
+.detail-section h3 {
+  color: var(--accent-indigo);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  border-bottom: 2px solid var(--accent-indigo);
+  padding-bottom: 0.5rem;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.detail-label {
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.detail-value {
+  color: var(--text-primary);
+}
+
+.detail-value a {
+  color: var(--accent-indigo);
+  text-decoration: underline;
+}
+
+.detail-value a:hover {
+  color: var(--accent-blue);
+}
+
+/* Clickable table rows for modal */
+.repeater-table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.repeater-table tbody tr:hover {
+  background-color: rgba(92, 107, 192, 0.1);
+}
+
+.repeater-table tbody tr:active {
+  background-color: rgba(92, 107, 192, 0.2);
+}
+
+/* ==========================================================================
    PRINT STYLESHEET – Optimized for printing
    ========================================================================== */
 @media print {
