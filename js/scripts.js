@@ -478,24 +478,34 @@
   function renderRepeaterRow(repeater) {
     const toneDisplay = repeater.tone || 'None';
 
-    // Network tags as badges
-    const tags = (repeater.tags && repeater.tags.length > 0)
-      ? repeater.tags.map(tag => {
-          const tagLower = tag.toLowerCase();
-          let badgeClass = 'badge';
+    // Build tags array including County Only for non-linked
+    let allTags = [];
 
-          if (tagLower === 'hub') badgeClass = 'badge-hub';
-          else if (tagLower === 'wx4ptc') badgeClass = 'badge-wx4ptc';
-          else if (tagLower === 'peach state' || tagLower === 'peach state intertie') badgeClass = 'badge-peach-state';
-          else if (tagLower === 'cherry blossom' || tagLower === 'cherry blossom intertie') badgeClass = 'badge-cherry-blossom';
+    // Add County Only badge for non-linked repeaters
+    if (!repeater.linked) {
+      allTags.push('<span class="badge-county-only">County Only</span>');
+    }
 
-          return `<span class="${badgeClass}">${sanitizeHTML(tag)}</span>`;
-        }).join(' ')
-      : '—';
+    // Add network tags
+    if (repeater.tags && repeater.tags.length > 0) {
+      repeater.tags.forEach(tag => {
+        const tagLower = tag.toLowerCase();
+        let badgeClass = 'badge';
 
-    // Internet Links - show system names as badges
+        if (tagLower === 'wx4ema' || tagLower === 'wx4ema system') badgeClass = 'badge-wx4ema';
+        else if (tagLower === 'wx4ptc' || tagLower === 'wx4ptc system') badgeClass = 'badge-wx4ptc';
+        else if (tagLower === 'peach state' || tagLower === 'peach state intertie') badgeClass = 'badge-peach-state';
+        else if (tagLower === 'cherry blossom' || tagLower === 'cherry blossom intertie') badgeClass = 'badge-cherry-blossom';
+
+        allTags.push(`<span class="${badgeClass}">${sanitizeHTML(tag)}</span>`);
+      });
+    }
+
+    const tags = allTags.length > 0 ? allTags.join(' ') : '—';
+
+    // Internet Links - show system names as badges with indigo color
     const ipLinks = (repeater.iplinks && repeater.iplinks.length > 0)
-      ? repeater.iplinks.map(link => `<span class="badge">${sanitizeHTML(link.system)}</span>`).join(' ')
+      ? repeater.iplinks.map(link => `<span class="badge-iplink">${sanitizeHTML(link.system)}</span>`).join(' ')
       : '—';
 
     // Radio Links - list callsigns
@@ -624,6 +634,8 @@
     }
     if (repeater.verified === true) {
       html += '<p style="color: var(--accent-blue); font-weight: 700;">✓ RepeaterBook Verified</p>';
+    } else if (repeater.verified === false) {
+      html += '<p style="color: var(--accent-red); font-weight: 700;">✗ Needs Verification</p>';
     }
     html += '</div>';
 
@@ -633,8 +645,8 @@
       repeater.tags.forEach(tag => {
         const tagLower = tag.toLowerCase();
         let badgeClass = 'badge';
-        if (tagLower === 'hub') badgeClass = 'badge-hub';
-        else if (tagLower === 'wx4ptc') badgeClass = 'badge-wx4ptc';
+        if (tagLower === 'wx4ema' || tagLower === 'wx4ema system') badgeClass = 'badge-wx4ema';
+        else if (tagLower === 'wx4ptc' || tagLower === 'wx4ptc system') badgeClass = 'badge-wx4ptc';
         else if (tagLower === 'peach state' || tagLower === 'peach state intertie') badgeClass = 'badge-peach-state';
         else if (tagLower === 'cherry blossom' || tagLower === 'cherry blossom intertie') badgeClass = 'badge-cherry-blossom';
         html += `<span class="${badgeClass}">${sanitizeHTML(tag)}</span>`;

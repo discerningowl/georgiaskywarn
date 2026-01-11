@@ -563,7 +563,16 @@
     "linked": true,
     "verified": true,
     "clubName": "Southeast Linked Repeater Net",
-    "clubUrl": "http://www.selinkedrepeater.net/"
+    "clubUrl": "http://www.selinkedrepeater.net/",
+    "rflinks": [
+      {
+        "frequency": "443.200+",
+        "location": "Rome",
+        "callsign": "N4RMG",
+        "linkType": "on-demand",
+        "linkMethod": "rf"
+      }
+    ]
   },
   {
     "id": "WB4BXO-147.330",
@@ -699,7 +708,7 @@
     "frequency": "147.015+",
     "tone": "88.5 Hz",
     "tags": [
-      "Peach State Intertie"
+      "WX4EMA", "Peach State Intertie"
     ],
     "description": "Part of Peach State Intertie. Covers Bibb County (Macon metro area) and surrounding central Georgia counties. WX4EMA emergency management system.",
     "callsign": "WX4EMA",
@@ -714,7 +723,7 @@
     "location": "Macon",
     "frequency": "443.075+",
     "tone": "88.5 Hz",
-    "tags": [],
+    "tags": [ "WX4EMA" ],
     "description": "Covers Bibb County (Macon metro area) and surrounding central Georgia counties. WX4EMA emergency management system.",
     "callsign": "WX4EMA",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=452",
@@ -786,7 +795,16 @@
     "linked": true,
     "verified": true,
     "clubName": "Northwest Georgia Repeater Club (NWGRC)",
-    "clubUrl": "https://w4vo.org/local_repeaters.html"
+    "clubUrl": "https://w4vo.org/local_repeaters.html",
+    "rflinks": [
+      {
+        "frequency": "146.805+",
+        "location": "Jasper",
+        "callsign": "KC4AQS",
+        "linkType": "on-demand",
+        "linkMethod": "rf"
+      }
+    ]  
   },
   {
     "id": "W4SAN-145.270",
@@ -839,7 +857,16 @@
     "linked": true,
     "verified": true,
     "clubName": "Sun City Amateur Radio (SCAR)",
-    "clubUrl": "https://w4scp.wordpress.com/"
+    "clubUrl": "https://w4scp.wordpress.com/",
+    "rflinks": [
+      {
+        "frequency": "145.210-",
+        "location": "WX4PTC System",
+        "callsign": "KK4GQ",
+        "linkType": "on-demand",
+        "linkMethod": "rf"
+      }
+    ]  
   },
   {
     "id": "W4OHH-147.390",
@@ -847,7 +874,6 @@
     "frequency": "147.390+",
     "tone": "131.8 Hz",
     "tags": [
-      "Hub",
       "Peach State Intertie"
     ],
     "description": "Hub repeater connecting WX4PTC network to Peach State Intertie. Links to 444.600+ WX4PTC hub. Covers Upson County and areas south of metro Atlanta. Important gateway between north and central Georgia SKYWARN systems.",
@@ -910,7 +936,16 @@
     "linked": true,
     "verified": true,
     "clubName": "Amateur Radio Station WM4B",
-    "clubUrl": "http://wm4b.wikidot.com/"
+    "clubUrl": "http://wm4b.wikidot.com/",
+    "rflinks": [
+      {
+        "frequency": "443.150+",
+        "location": "Warner Robins",
+        "callsign": "WM4B",
+        "linkType": "full-time",
+        "linkMethod": "rf"
+      }
+    ]  
   },
   {
     "id": "WA4ORT-146.850",
@@ -940,7 +975,16 @@
     "linked": true,
     "verified": true,
     "clubName": "Amateur Radio Station WM4B",
-    "clubUrl": "http://wm4b.wikidot.com/"
+    "clubUrl": "http://wm4b.wikidot.com/",
+    "rflinks": [
+      {
+        "frequency": "146.670-",
+        "location": "Warner Robins",
+        "callsign": "WM4B",
+        "linkType": "full-time",
+        "linkMethod": "rf"
+      }
+    ]  
   },
   {
     "id": "W4CDC-147.120",
@@ -991,6 +1035,7 @@
         "frequency": "444.600+",
         "location": "WX4PTC System",
         "callsign": "W4PSZ",
+        "linkType": "on-demand",
         "linkMethod": "rf"
       }
     ]

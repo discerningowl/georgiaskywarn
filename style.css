@@ -1985,10 +1985,12 @@ a:hover, a:focus {
 }
 
 /* Base badge styling - shared properties */
-.badge-hub,
+.badge-wx4ema,
 .badge-wx4ptc,
 .badge-peach-state,
-.badge-cherry-blossom {
+.badge-cherry-blossom,
+.badge-county-only,
+.badge-iplink {
   display: inline-block;
   padding: 0.15rem 0.5rem;
   border-radius: 4px;
@@ -1999,14 +2001,14 @@ a:hover, a:focus {
   transition: var(--transition);
 }
 
-/* Hub badge - green (primary network hub) */
-.badge-hub {
+/* WX4EMA badge - green (Macon-Bibb County Emergency Management) */
+.badge-wx4ema {
   background: var(--accent-green);
 }
 
-/* WX4PTC badge - red (official NWS station) */
+/* WX4PTC badge - bright blue (card header color) */
 .badge-wx4ptc {
-  background: var(--accent-red);
+  background: var(--accent-blue);
 }
 
 /* Peach State Intertie - orange */
@@ -2017,6 +2019,16 @@ a:hover, a:focus {
 /* Cherry Blossom Intertie - pink */
 .badge-cherry-blossom {
   background: var(--accent-pink);
+}
+
+/* County Only badge - orange (non-linked repeaters) */
+.badge-county-only {
+  background: var(--accent-orange);
+}
+
+/* IP Link badge - indigo (internet linking systems) */
+.badge-iplink {
+  background: var(--accent-indigo);
 }
 
 /* ==========================================================================

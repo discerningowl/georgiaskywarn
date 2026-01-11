@@ -378,7 +378,7 @@ function loadFooter() {
                     <div class="footer-section">
                         <h4>Quick Links</h4>
                         <ul class="footer-nav">
-                            <li><a href="spotters.html">Spotters</a></li>
+                            <li><a href="spotters.html">Spotter Information</a></li>
                             <li><a href="repeaters.html">SKYWARN Repeaters</a></li>
                             <li><a href="wx4ptc.html">WX4PTC Station</a></li>
                             <li><a href="nwsffclinks.html">NWS Resources</a></li>
