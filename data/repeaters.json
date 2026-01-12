@@ -360,11 +360,26 @@
     "clubUrl": "http://ncrcga.org/",
     "rflinks": [
       {
+        "frequency": "444.800+",
+        "location": "Covington Fire Tower",
+        "callsign": "WA4ASI",
+        "linkType": "full-time",
+        "linkMethod": "rf"
+      },
+      {
         "frequency": "444.675+",
         "location": "WX4PTC System",
         "callsign": "KN4YZ",
         "linkType": "on-demand",
         "linkMethod": "rf"
+      }
+    ],
+    "iplinks": [
+      {
+        "system": "Allstar",
+        "node": "29795",
+        "type": "allstar",
+        "connectionType": "available"
       }
     ]
   },
@@ -951,7 +966,7 @@
     "id": "WA4ORT-146.850",
     "location": "Warner Robins",
     "frequency": "146.850-",
-    "tone": "88.5 Hz",
+    "tone": "82.5 Hz",
     "tags": [
       "Peach State Intertie"
     ],
