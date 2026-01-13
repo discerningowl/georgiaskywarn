@@ -316,7 +316,7 @@
   },
   {
     "id": "WB4GWA-145.390",
-    "location": "Concord",
+    "location": "Griffin",
     "frequency": "145.390-",
     "tone": "110.9 Hz",
     "tags": [],
@@ -380,6 +380,29 @@
         "node": "29795",
         "type": "allstar",
         "connectionType": "available"
+      }
+    ]
+  },
+  {
+    "id": "WA4ASI-444.800",
+    "location": "Covington",
+    "frequency": "444.800=",
+    "tone": "88.5 Hz",
+    "tags": [],
+    "description": "Links to 146.925- Covington, Newton County Forestry Fire Tower, GA. Covers Newton, Rockdale, and Walton counties with extended reach into north Georgia.",
+    "callsign": "WA4ASI",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=372",
+    "linked": true,
+    "verified": true,
+    "clubName": "Newton County Radio Club (NCARC)",
+    "clubUrl": "http://ncrcga.org/",
+    "rflinks": [
+      {
+        "frequency": "146.925+",
+        "location": "Covington Fire Tower",
+        "callsign": "WA4ASI",
+        "linkType": "full-time",
+        "linkMethod": "rf"
       }
     ]
   },
