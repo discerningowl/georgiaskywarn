@@ -14,11 +14,11 @@
     "verified": true,
     "rflinks": [
       {
-        "frequency": "444.600+",
-        "location": "Fayetteville",
-        "callsign": "W4PSZ",
         "linkType": "full-time",
-        "linkMethod": "direct"
+        "linkMethod": "direct",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "Fayetteville",
+        "linksToCall": "W4PSZ"
       }
     ],
     "iplinks": [
@@ -26,7 +26,6 @@
         "system": "EchoLink",
         "node": "897538",
         "callsign": "KK4GQ-R",
-        "type": "echolink",
         "connectionType": "available"
       }
     ],
@@ -51,11 +50,11 @@
     "clubUrl": "https://kk4gq.org/",
     "rflinks": [
       {
-        "frequency": "145.210-",
-        "location": "Fayetteville",
-        "callsign": "KK4GQ",
         "linkType": "full-time",
-        "linkMethod": "direct"
+        "linkMethod": "direct",
+        "linksToFreq": "145.210-",
+        "linksToLoc": "Fayetteville",
+        "linksToCall": "KK4GQ"
       }
     ]
   },
@@ -76,11 +75,11 @@
     "clubUrl": "https://kk4gq.org/",
     "rflinks": [
       {
-        "frequency": "444.600+",
-        "location": "Fayetteville",
-        "callsign": "W4PSZ",
         "linkType": "full-time",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "Fayetteville",
+        "linksToCall": "W4PSZ"
       }
     ]
   },
@@ -102,24 +101,23 @@
         "system": "EchoLink",
         "node": "691899",
         "callsign": "W4DOC-R",
-        "type": "echolink",
         "connectionType": "available"
       }
     ],
     "rflinks": [
       {
-        "frequency": "444.600+",
-        "location": "WX4PTC System",
-        "callsign": "W4PSZ",
         "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "W4PSZ"
       },
       {
-        "frequency": "444.675+",
-        "location": "WX4PTC System",
-        "callsign": "KN4YZ",
         "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "444.675+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "KN4YZ"
       }
     ]
   },
@@ -277,7 +275,7 @@
     "frequency": "145.270-",
     "tone": "100.0 Hz",
     "tags": [],
-    "description": "Coverage – Cherokee, Pickens, Bartow, Cobb – NW Georgia with occasional check-in's from TN, AL",
+    "description": "Coverage \u2013 Cherokee, Pickens, Bartow, Cobb \u2013 NW Georgia with occasional check-in's from TN, AL",
     "callsign": "KG4VUB",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=232",
     "linked": false,
@@ -291,7 +289,7 @@
     "frequency": "443.075+",
     "tone": "107.2 Hz",
     "tags": [],
-    "description": "Secondary Coverage – Cherokee, Pickens, Bartow, Cobb – NW Georgia with occasional check-in's from TN, AL",
+    "description": "Secondary Coverage \u2013 Cherokee, Pickens, Bartow, Cobb \u2013 NW Georgia with occasional check-in's from TN, AL",
     "callsign": "WX4NN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=347",
     "linked": false,
@@ -316,24 +314,22 @@
       {
         "system": "AllStar",
         "node": "43135",
-        "type": "allstar",
         "connectionType": "available"
       },
       {
         "system": "EchoLink",
         "node": "245250",
         "callsign": "KA3JIJ-R",
-        "type": "echolink",
         "connectionType": "available"
       }
     ],
     "rflinks": [
       {
-        "frequency": "146.850-",
-        "location": "Commerce",
-        "callsign": "KF4DGN",
         "linkType": "full-time",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "146.850-",
+        "linksToLoc": "Commerce",
+        "linksToCall": "KF4DGN"
       }
     ]
   },
@@ -370,48 +366,16 @@
       {
         "system": "AllStar",
         "node": "43135",
-        "type": "allstar",
         "connectionType": "available"
       }
     ],
     "rflinks": [
       {
-        "frequency": "145.310-",
-        "location": "Clermont/Wauka Mountain",
-        "callsign": "KA3JIJ",
         "linkType": "full-time",
-        "linkMethod": "rf"
-      }
-    ]
-  },
-  {
-    "id": "WB4GWA-145.390",
-    "location": "Griffin",
-    "frequency": "145.390-",
-    "tone": "110.9 Hz",
-    "tags": [],
-    "description": "Links to 444.600+ WX4PTC hub. Excellent coverage of south metro Atlanta and I-75 corridor. Covers Fayette, Coweta, Henry, Spalding, Pike, and Troup counties. AllStar node 46796 (linked on demand). Mobile coverage along I-675, I-75, I-85, and major US highways.",
-    "callsign": "WB4GWA",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=137",
-    "linked": true,
-    "verified": true,
-    "clubName": "Concord Amateur Radio Society (CARS)",
-    "clubUrl": "http://www.arrl.org/Groups/view/concord-amateur-radio-society/type:club",
-    "iplinks": [
-      {
-        "system": "AllStar",
-        "node": "46796",
-        "type": "allstar",
-        "connectionType": "on-demand"
-      }
-    ],
-    "rflinks": [
-      {
-        "frequency": "444.600+",
-        "location": "WX4PTC System",
-        "callsign": "W4PSZ",
-        "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "145.310-",
+        "linksToLoc": "Clermont/Wauka Mountain",
+        "linksToCall": "KA3JIJ"
       }
     ]
   },
@@ -430,26 +394,48 @@
     "clubUrl": "http://ncrcga.org/",
     "rflinks": [
       {
-        "frequency": "444.800+",
-        "location": "Covington Fire Tower",
-        "callsign": "WA4ASI",
         "linkType": "full-time",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "444.800+",
+        "linksToLoc": "Covington Fire Tower",
+        "linksToCall": "WA4ASI"
       },
       {
-        "frequency": "444.675+",
-        "location": "WX4PTC System",
-        "callsign": "KN4YZ",
         "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "444.675+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "KN4YZ"
       }
     ],
     "iplinks": [
       {
         "system": "Allstar",
         "node": "29795",
-        "type": "allstar",
         "connectionType": "available"
+      }
+    ]
+  },
+  {
+    "id": "WA4ASI-444.800",
+    "location": "Covington",
+    "frequency": "444.800=",
+    "tone": "88.5 Hz",
+    "tags": [],
+    "description": "Links to 146.925- Covington, Newton County Forestry Fire Tower, GA. Covers Newton, Rockdale, and Walton counties with extended reach into north Georgia.",
+    "callsign": "WA4ASI",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=372",
+    "linked": true,
+    "verified": true,
+    "clubName": "Newton County Radio Club (NCARC)",
+    "clubUrl": "http://ncrcga.org/",
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "146.925+",
+        "linksToLoc": "Covington Fire Tower",
+        "linksToCall": "WA4ASI"
       }
     ]
   },
@@ -468,29 +454,6 @@
     "clubUrl": "https://nrarc.org/"
   },
   {
-    "id": "WA4ASI-444.800",
-    "location": "Covington",
-    "frequency": "444.800=",
-    "tone": "88.5 Hz",
-    "tags": [],
-    "description": "Links to 146.925- Covington, Newton County Forestry Fire Tower, GA. Covers Newton, Rockdale, and Walton counties with extended reach into north Georgia.",
-    "callsign": "WA4ASI",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=372",
-    "linked": true,
-    "verified": true,
-    "clubName": "Newton County Radio Club (NCARC)",
-    "clubUrl": "http://ncrcga.org/",
-    "rflinks": [
-      {
-        "frequency": "146.925+",
-        "location": "Covington Fire Tower",
-        "callsign": "WA4ASI",
-        "linkType": "full-time",
-        "linkMethod": "rf"
-      }
-    ]
-  },
-  {
     "id": "WD4LUQ-146.895",
     "location": "Dallas",
     "frequency": "146.895+",
@@ -505,25 +468,25 @@
     "clubUrl": "http://www.pauldingarc.club/",
     "rflinks": [
       {
-        "frequency": "224.880-",
-        "location": "co-located",
-        "callsign": "WD4LUQ",
         "linkType": "full-time",
-        "linkMethod": "direct"
+        "linkMethod": "direct",
+        "linksToFreq": "224.880-",
+        "linksToLoc": "co-located",
+        "linksToCall": "WD4LUQ"
       },
       {
-        "frequency": "444.600+",
-        "location": "WX4PTC System",
-        "callsign": "W4PSZ",
         "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "W4PSZ"
       },
       {
-        "frequency": "444.675+",
-        "location": "WX4PTC System",
-        "callsign": "KN4YZ",
         "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "444.675+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "KN4YZ"
       }
     ]
   },
@@ -542,25 +505,25 @@
     "clubUrl": "http://www.pauldingarc.club/",
     "rflinks": [
       {
-        "frequency": "146.895+",
-        "location": "co-located",
-        "callsign": "WD4LUQ",
         "linkType": "full-time",
-        "linkMethod": "direct"
+        "linkMethod": "direct",
+        "linksToFreq": "146.895+",
+        "linksToLoc": "co-located",
+        "linksToCall": "WD4LUQ"
       },
       {
-        "frequency": "444.600+",
-        "location": "WX4PTC System",
-        "callsign": "W4PSZ",
         "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "W4PSZ"
       },
       {
-        "frequency": "444.675+",
-        "location": "WX4PTC System",
-        "callsign": "KN4YZ",
         "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "444.675+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "KN4YZ"
       }
     ]
   },
@@ -597,11 +560,41 @@
     "clubUrl": null,
     "rflinks": [
       {
-        "frequency": "145.430-",
-        "location": "Macon hub",
-        "callsign": "AA4RI",
         "linkType": "full-time",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "145.430-",
+        "linksToLoc": "Macon hub",
+        "linksToCall": "AA4RI"
+      }
+    ]
+  },
+  {
+    "id": "WB4GWA-145.390",
+    "location": "Griffin",
+    "frequency": "145.390-",
+    "tone": "110.9 Hz",
+    "tags": [],
+    "description": "Links to 444.600+ WX4PTC hub. Excellent coverage of south metro Atlanta and I-75 corridor. Covers Fayette, Coweta, Henry, Spalding, Pike, and Troup counties. AllStar node 46796 (linked on demand). Mobile coverage along I-675, I-75, I-85, and major US highways.",
+    "callsign": "WB4GWA",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=137",
+    "linked": true,
+    "verified": true,
+    "clubName": "Concord Amateur Radio Society (CARS)",
+    "clubUrl": "http://www.arrl.org/Groups/view/concord-amateur-radio-society/type:club",
+    "iplinks": [
+      {
+        "system": "AllStar",
+        "node": "46796",
+        "connectionType": "on-demand"
+      }
+    ],
+    "rflinks": [
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "W4PSZ"
       }
     ]
   },
@@ -618,11 +611,11 @@
     "verified": false,
     "rflinks": [
       {
-        "frequency": "444.600+",
-        "location": "WX4PTC System",
-        "callsign": "W4PSZ",
         "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "W4PSZ"
       }
     ]
   },
@@ -688,11 +681,11 @@
     "clubUrl": "http://www.selinkedrepeater.net/",
     "rflinks": [
       {
-        "frequency": "443.200+",
-        "location": "Rome",
-        "callsign": "N4RMG",
         "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "443.200+",
+        "linksToLoc": "Rome",
+        "linksToCall": "N4RMG"
       }
     ]
   },
@@ -711,11 +704,11 @@
     "clubUrl": null,
     "rflinks": [
       {
-        "frequency": "444.600+",
-        "location": "WX4PTC System",
-        "callsign": "W4PSZ",
         "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "W4PSZ"
       }
     ]
   },
@@ -748,50 +741,46 @@
       {
         "system": "AllStar",
         "node": "46331",
-        "type": "allstar",
         "connectionType": "full-time"
       },
       {
         "system": "Amateur Wire VOIP",
         "extension": "90013",
-        "type": "voip",
         "connectionType": "on-demand"
       },
       {
         "system": "Hams Over IP",
         "extension": "15014",
-        "type": "voip",
         "connectionType": "on-demand"
       },
       {
         "system": "EchoLink",
         "node": "9058",
         "callsign": "W4EDP-R",
-        "type": "echolink",
         "connectionType": "available"
       }
     ],
     "rflinks": [
       {
-        "frequency": "146.640-",
-        "location": "Signal Mountain",
-        "callsign": "N4LMC",
         "linkType": "full-time",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "146.640-",
+        "linksToLoc": "Signal Mountain",
+        "linksToCall": "N4LMC"
       },
       {
-        "frequency": "443.525+",
-        "location": "White Oak Mountain",
-        "callsign": "N4LMC",
         "linkType": "full-time",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "443.525+",
+        "linksToLoc": "White Oak Mountain",
+        "linksToCall": "N4LMC"
       },
       {
-        "frequency": "146.715-",
-        "location": "South White Oak Mountain",
-        "callsign": "W4ABZ",
         "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "146.715-",
+        "linksToLoc": "South White Oak Mountain",
+        "linksToCall": "W4ABZ"
       }
     ],
     "clubName": "Tri-States Amateur Radio Club (TSARC)",
@@ -814,11 +803,11 @@
     "clubUrl": null,
     "rflinks": [
       {
-        "frequency": "145.370-",
-        "location": "Gray/Round Oak",
-        "callsign": "WB4JOE",
         "linkType": "full-time",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "145.370-",
+        "linksToLoc": "Gray/Round Oak",
+        "linksToCall": "WB4JOE"
       }
     ]
   },
@@ -928,11 +917,11 @@
     "clubUrl": "http://selinkedrepeater.net/",
     "rflinks": [
       {
-        "frequency": "444.600+",
-        "location": "WX4PTC System",
-        "callsign": "W4PSZ",
         "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "W4PSZ"
       }
     ]
   },
@@ -951,11 +940,11 @@
     "clubUrl": "https://w4vo.org/local_repeaters.html",
     "rflinks": [
       {
-        "frequency": "146.805+",
-        "location": "Jasper",
-        "callsign": "KC4AQS",
         "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "146.805+",
+        "linksToLoc": "Jasper",
+        "linksToCall": "KC4AQS"
       }
     ]
   },
@@ -990,11 +979,11 @@
     "clubUrl": "https://sawneeradio.org/",
     "rflinks": [
       {
-        "frequency": "444.675+",
-        "location": "WX4PTC System",
-        "callsign": "KN4YZ",
         "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "444.675+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "KN4YZ"
       }
     ]
   },
@@ -1013,11 +1002,11 @@
     "clubUrl": "https://w4scp.wordpress.com/",
     "rflinks": [
       {
-        "frequency": "145.210-",
-        "location": "WX4PTC System",
-        "callsign": "KK4GQ",
         "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "145.210-",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "KK4GQ"
       }
     ]
   },
@@ -1038,11 +1027,11 @@
     "clubUrl": null,
     "rflinks": [
       {
-        "frequency": "444.600+",
-        "location": "WX4PTC System",
-        "callsign": "W4PSZ",
         "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "W4PSZ"
       }
     ]
   },
@@ -1055,7 +1044,8 @@
     "description": "Covers Walton and surrounding counties.",
     "callsign": "WC4RG",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5522",
-    "linked": false
+    "linked": false,
+    "verified": false
   },
   {
     "id": "WC4RG-442.050",
@@ -1088,17 +1078,16 @@
       {
         "system": "AllStar",
         "node": "473360",
-        "type": "allstar",
         "connectionType": "full-time"
       }
     ],
     "rflinks": [
       {
-        "frequency": "443.800+",
-        "location": "Woodbury",
-        "callsign": "WB4GWA",
         "linkType": "full-time",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "443.800+",
+        "linksToLoc": "Woodbury",
+        "linksToCall": "WB4GWA"
       }
     ]
   },
@@ -1133,11 +1122,11 @@
     "clubUrl": "http://wm4b.wikidot.com/",
     "rflinks": [
       {
-        "frequency": "443.150+",
-        "location": "Warner Robins",
-        "callsign": "WM4B",
         "linkType": "full-time",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "443.150+",
+        "linksToLoc": "Warner Robins",
+        "linksToCall": "WM4B"
       }
     ]
   },
@@ -1156,11 +1145,11 @@
     "clubUrl": "http://wm4b.wikidot.com/",
     "rflinks": [
       {
-        "frequency": "146.670-",
-        "location": "Warner Robins",
-        "callsign": "WM4B",
         "linkType": "full-time",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "146.670-",
+        "linksToLoc": "Warner Robins",
+        "linksToCall": "WM4B"
       }
     ]
   },
@@ -1184,7 +1173,7 @@
     "frequency": "147.135+",
     "tone": "141.3 Hz",
     "tags": [],
-    "description": "Dalton • Dug Gap Mtn • Whitfield County. Whitfield SKYWARN Coordinator is Alan Bryant, N4ABB, assistant is Greg Williams, N4JGW.",
+    "description": "Dalton \u2022 Dug Gap Mtn \u2022 Whitfield County. Whitfield SKYWARN Coordinator is Alan Bryant, N4ABB, assistant is Greg Williams, N4JGW.",
     "callsign": "N4BZJ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=107",
     "linked": false,
@@ -1209,24 +1198,23 @@
       {
         "system": "AllStar",
         "node": "48225",
-        "type": "allstar",
         "connectionType": "on-demand"
       }
     ],
     "rflinks": [
       {
-        "frequency": "146.985-",
-        "location": "Warm Springs",
-        "callsign": "KN4FE",
         "linkType": "full-time",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "146.985-",
+        "linksToLoc": "Warm Springs",
+        "linksToCall": "KN4FE"
       },
       {
-        "frequency": "444.600+",
-        "location": "WX4PTC System",
-        "callsign": "W4PSZ",
         "linkType": "on-demand",
-        "linkMethod": "rf"
+        "linkMethod": "rf",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "W4PSZ"
       }
     ]
   },

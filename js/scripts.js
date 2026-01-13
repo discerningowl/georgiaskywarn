@@ -510,7 +510,7 @@
 
     // Radio Links - list callsigns
     const rfLinks = (repeater.rflinks && repeater.rflinks.length > 0)
-      ? repeater.rflinks.map(link => sanitizeHTML(link.callsign)).join(', ')
+      ? repeater.rflinks.map(link => sanitizeHTML(link.linksToCall)).join(', ')
       : '—';
 
     return `
@@ -745,9 +745,9 @@
       repeater.rflinks.forEach(link => {
         html += `
           <tr>
-            <td class="center">${sanitizeHTML(link.callsign)}</td>
-            <td>${sanitizeHTML(link.location)}</td>
-            <td class="center">${sanitizeHTML(link.frequency)}</td>
+            <td class="center">${sanitizeHTML(link.linksToCall)}</td>
+            <td>${sanitizeHTML(link.linksToLoc)}</td>
+            <td class="center">${sanitizeHTML(link.linksToFreq)}</td>
             <td class="center">${sanitizeHTML(link.linkType)}</td>
             <td class="center">${sanitizeHTML(link.linkMethod)}</td>
           </tr>`;
