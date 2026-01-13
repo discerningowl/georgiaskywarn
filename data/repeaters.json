@@ -1,5 +1,39 @@
 [
   {
+    "id": "KK4GQ-145.210",
+    "location": "Fayetteville",
+    "frequency": "145.210-",
+    "tone": "131.8 Hz",
+    "tags": [
+      "WX4PTC System"
+    ],
+    "description": "Hardwired to 444.600+ hub repeater controller. Co-located at primary WX4PTC site. South metro Atlanta coverage including Fayette, Coweta, Spalding, and southern Fulton counties. Battery backup.",
+    "callsign": "KK4GQ",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=129",
+    "linked": true,
+    "verified": true,
+    "rflinks": [
+      {
+        "frequency": "444.600+",
+        "location": "Fayetteville",
+        "callsign": "W4PSZ",
+        "linkType": "full-time",
+        "linkMethod": "direct"
+      }
+    ],
+    "iplinks": [
+      {
+        "system": "EchoLink",
+        "node": "897538",
+        "callsign": "KK4GQ-R",
+        "type": "echolink",
+        "connectionType": "available"
+      }
+    ],
+    "clubName": "Fayette County Amateur Radio Club, Inc. (FCARC)",
+    "clubUrl": "https://www.kk4gq.org"
+  },
+  {
     "id": "W4PSZ-444.600",
     "location": "Fayetteville",
     "frequency": "444.600+",
@@ -49,40 +83,6 @@
         "linkMethod": "rf"
       }
     ]
-  },
-  {
-    "id": "KK4GQ-145.210",
-    "location": "Fayetteville",
-    "frequency": "145.210-",
-    "tone": "131.8 Hz",
-    "tags": [
-      "WX4PTC System"
-    ],
-    "description": "Hardwired to 444.600+ hub repeater controller. Co-located at primary WX4PTC site. South metro Atlanta coverage including Fayette, Coweta, Spalding, and southern Fulton counties. Battery backup.",
-    "callsign": "KK4GQ",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=129",
-    "linked": true,
-    "verified": true,
-    "rflinks": [
-      {
-        "frequency": "444.600+",
-        "location": "Fayetteville",
-        "callsign": "W4PSZ",
-        "linkType": "full-time",
-        "linkMethod": "direct"
-      }
-    ],
-    "iplinks": [
-      {
-        "system": "EchoLink",
-        "node": "897538",
-        "callsign": "KK4GQ-R",
-        "type": "echolink",
-        "connectionType": "available"
-      }
-    ],
-    "clubName": "Fayette County Amateur Radio Club, Inc. (FCARC)",
-    "clubUrl": "https://www.kk4gq.org"
   },
   {
     "id": "W4DOC-146.820",
@@ -272,20 +272,6 @@
     "clubUrl": "http://peachstateintertie.com/repeaters.html"
   },
   {
-    "id": "WX4NN-443.075",
-    "location": "Cherokee County",
-    "frequency": "443.075+",
-    "tone": "107.2 Hz",
-    "tags": [],
-    "description": "Secondary Coverage – Cherokee, Pickens, Bartow, Cobb – NW Georgia with occasional check-in's from TN, AL",
-    "callsign": "WX4NN",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=347",
-    "linked": false,
-    "verified": true,
-    "clubName": null,
-    "clubUrl": null
-  },
-  {
     "id": "KG4VUB-145.270",
     "location": "Cherokee County",
     "frequency": "145.270-",
@@ -298,6 +284,20 @@
     "verified": true,
     "clubName": "Cherokee Amateur Radio Society (CARS)",
     "clubUrl": "https://www.wx4car.org/"
+  },
+  {
+    "id": "WX4NN-443.075",
+    "location": "Cherokee County",
+    "frequency": "443.075+",
+    "tone": "107.2 Hz",
+    "tags": [],
+    "description": "Secondary Coverage – Cherokee, Pickens, Bartow, Cobb – NW Georgia with occasional check-in's from TN, AL",
+    "callsign": "WX4NN",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=347",
+    "linked": false,
+    "verified": true,
+    "clubName": null,
+    "clubUrl": null
   },
   {
     "id": "KA3JIJ-145.310",
@@ -1101,6 +1101,22 @@
     ]
   },
   {
+    "id": "WA4ORT-146.850",
+    "location": "Warner Robins",
+    "frequency": "146.850-",
+    "tone": "82.5 Hz",
+    "tags": [
+      "Peach State Intertie"
+    ],
+    "description": "Part of Peach State Intertie (part-time link). Covers Jones and Baldwin counties including Gray and Milledgeville. Provides coverage gap fill between Macon and Milledgeville areas.",
+    "callsign": "WA4ORT",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3139",
+    "linked": true,
+    "verified": true,
+    "clubName": "Central Georgia Amateur Radio Club (CGARC)",
+    "clubUrl": "http://www.wa4ort.com"
+  },
+  {
     "id": "WM4B-146.670",
     "location": "Warner Robins",
     "frequency": "146.670-",
@@ -1122,22 +1138,6 @@
         "linkMethod": "rf"
       }
     ]
-  },
-  {
-    "id": "WA4ORT-146.850",
-    "location": "Warner Robins",
-    "frequency": "146.850-",
-    "tone": "82.5 Hz",
-    "tags": [
-      "Peach State Intertie"
-    ],
-    "description": "Part of Peach State Intertie (part-time link). Covers Jones and Baldwin counties including Gray and Milledgeville. Provides coverage gap fill between Macon and Milledgeville areas.",
-    "callsign": "WA4ORT",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3139",
-    "linked": true,
-    "verified": true,
-    "clubName": "Central Georgia Amateur Radio Club (CGARC)",
-    "clubUrl": "http://www.wa4ort.com"
   },
   {
     "id": "WM4B-443.150",
