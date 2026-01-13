@@ -466,6 +466,8 @@
     "verified": true,
     "clubName": "Newnan Regional Amateur Radio Club",
     "clubUrl": "https://nrarc.org/"
+  },
+  {
     "id": "WA4ASI-444.800",
     "location": "Covington",
     "frequency": "444.800=",
