@@ -124,6 +124,20 @@
     ]
   },
   {
+    "id": "WR4BC-145.280",
+    "location": "Barrow County",
+    "frequency": "145.280-",
+    "tone": "110.9 Hz",
+    "tags": [],
+    "description": "Barrow Amateur Radio Club",
+    "callsign": "WR4BC",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=21766",
+    "linked": false,
+    "verified": true,
+    "clubName": "Barrow Amateur Radio Club (BARC)",
+    "clubUrl": "http://barrowamateurradioclub.godaddysites.com"
+  },
+  {
     "id": "KC4JNN-53.050",
     "location": "Biskey Mtn",
     "frequency": "53.050-",
@@ -198,6 +212,20 @@
     "clubUrl": "http://www.wr4mg.us/"
   },
   {
+    "id": "WX4BCA-147.285",
+    "location": "Butts County",
+    "frequency": "147.285+",
+    "tone": "131.8 Hz",
+    "tags": [],
+    "description": "WX4BCA repeater",
+    "callsign": "WX4BCA",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=11661",
+    "linked": false,
+    "verified": true,
+    "clubName": "Amateur Radio Club of Butts County (ARCBC)",
+    "clubUrl": "http://www.bcgaares.org"
+  },
+  {
     "id": "WX4PCH-145.290",
     "location": "Byron",
     "frequency": "145.290-",
@@ -214,6 +242,20 @@
     "clubUrl": "http://www.peachstateintertie.com/repeaters.html"
   },
   {
+    "id": "W4FWD-146.640",
+    "location": "Carroll County",
+    "frequency": "146.640-",
+    "tone": "131.8 Hz",
+    "tags": [],
+    "description": "Covers Douglas & Carroll counties. Reports do come in from adjacent counties as well.",
+    "callsign": "W4FWD",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=85",
+    "linked": false,
+    "verified": true,
+    "clubName": "West Georgia Amateur Radio Society (WGARS)",
+    "clubUrl": "http://www.wgars.com/"
+  },
+  {
     "id": "K4DBN-147.150",
     "location": "Cedar Grove (Dublin)",
     "frequency": "147.150+",
@@ -228,6 +270,34 @@
     "verified": true,
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://peachstateintertie.com/repeaters.html"
+  },
+  {
+    "id": "WX4NN-443.075",
+    "location": "Cherokee County",
+    "frequency": "443.075+",
+    "tone": "107.2 Hz",
+    "tags": [],
+    "description": "Secondary Coverage – Cherokee, Pickens, Bartow, Cobb – NW Georgia with occasional check-in's from TN, AL",
+    "callsign": "WX4NN",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=347",
+    "linked": false,
+    "verified": true,
+    "clubName": null,
+    "clubUrl": null
+  },
+  {
+    "id": "KG4VUB-145.270",
+    "location": "Cherokee County",
+    "frequency": "145.270-",
+    "tone": "100.0 Hz",
+    "tags": [],
+    "description": "Coverage – Cherokee, Pickens, Bartow, Cobb – NW Georgia with occasional check-in's from TN, AL",
+    "callsign": "KG4VUB",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=232",
+    "linked": false,
+    "verified": true,
+    "clubName": "Cherokee Amateur Radio Society (CARS)",
+    "clubUrl": "https://www.wx4car.org/"
   },
   {
     "id": "KA3JIJ-145.310",
@@ -384,6 +454,20 @@
     ]
   },
   {
+    "id": "K4NRC-145.130",
+    "location": "Coweta County",
+    "frequency": "145.130-",
+    "tone": "156.7 Hz",
+    "tags": [],
+    "description": "Activated by EMA request",
+    "callsign": "K4NRC",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=184",
+    "linked": false,
+    "verified": true,
+    "clubName": "Newnan Regional Amateur Radio Club",
+    "clubUrl": "https://nrarc.org/"
+  },
+  {
     "id": "WD4LUQ-146.895",
     "location": "Dallas",
     "frequency": "146.895+",
@@ -474,27 +558,6 @@
     "clubUrl": "http://www.arrl.org/Groups/view/three-rivers-arc-1/type:club"
   },
   {
-    "id": "n0call-146.910",
-    "location": "Griffin",
-    "frequency": "146.910-",
-    "tone": "88.5 Hz",
-    "tags": [],
-    "description": "Links to 444.600+ WX4PTC hub. Covers Spalding County and south metro Atlanta area. Good coverage along I-75 and US-41 corridors.",
-    "callsign": "n0call",
-    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=146.91",
-    "linked": true,
-    "verified": false,
-    "rflinks": [
-      {
-        "frequency": "444.600+",
-        "location": "WX4PTC System",
-        "callsign": "W4PSZ",
-        "linkType": "on-demand",
-        "linkMethod": "rf"
-      }
-    ]
-  },
-  {
     "id": "WB4JOE-145.370",
     "location": "Gray (Round Oak)",
     "frequency": "145.370-",
@@ -515,6 +578,27 @@
         "location": "Macon hub",
         "callsign": "AA4RI",
         "linkType": "full-time",
+        "linkMethod": "rf"
+      }
+    ]
+  },
+  {
+    "id": "n0call-146.910",
+    "location": "Griffin",
+    "frequency": "146.910-",
+    "tone": "88.5 Hz",
+    "tags": [],
+    "description": "Links to 444.600+ WX4PTC hub. Covers Spalding County and south metro Atlanta area. Good coverage along I-75 and US-41 corridors.",
+    "callsign": "n0call",
+    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=146.91",
+    "linked": true,
+    "verified": false,
+    "rflinks": [
+      {
+        "frequency": "444.600+",
+        "location": "WX4PTC System",
+        "callsign": "W4PSZ",
+        "linkType": "on-demand",
         "linkMethod": "rf"
       }
     ]
@@ -611,6 +695,20 @@
         "linkMethod": "rf"
       }
     ]
+  },
+  {
+    "id": "W8JI-147.225",
+    "location": "Lamar County",
+    "frequency": "147.225+",
+    "tone": null,
+    "tags": [],
+    "description": "W8JI repeater is located just north of Barnesville. Normally operates with NO Uplink Tone, but will enable 123.0 Hz or 131.8 Hz Uplink Tone depending upon propagation conditions",
+    "callsign": "W8JI",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=67",
+    "linked": false,
+    "verified": true,
+    "clubName": "Charles T. Rauch, Jr. (Trustee)",
+    "clubUrl": "http://www.w8ji.com/"
   },
   {
     "id": "W4GTA-145",
@@ -723,7 +821,8 @@
     "frequency": "147.015+",
     "tone": "88.5 Hz",
     "tags": [
-      "WX4EMA", "Peach State Intertie"
+      "WX4EMA",
+      "Peach State Intertie"
     ],
     "description": "Part of Peach State Intertie. Covers Bibb County (Macon metro area) and surrounding central Georgia counties. WX4EMA emergency management system.",
     "callsign": "WX4EMA",
@@ -738,7 +837,9 @@
     "location": "Macon",
     "frequency": "443.075+",
     "tone": "88.5 Hz",
-    "tags": [ "WX4EMA" ],
+    "tags": [
+      "WX4EMA"
+    ],
     "description": "Covers Bibb County (Macon metro area) and surrounding central Georgia counties. WX4EMA emergency management system.",
     "callsign": "WX4EMA",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=452",
@@ -774,6 +875,20 @@
     "verified": true,
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://www.peachstateintertie.com"
+  },
+  {
+    "id": "WX4PCA-146.955",
+    "location": "Paulding County",
+    "frequency": "146.955-",
+    "tone": "77.0 Hz",
+    "tags": [],
+    "description": "The repeater covers an area that includes most of Atlanta to the east and Cedartown to the west.",
+    "callsign": "WX4PCA",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=105",
+    "linked": false,
+    "verified": true,
+    "clubName": "Paulding County ARES",
+    "clubUrl": "http://www.pauldingares.com/"
   },
   {
     "id": "WB4ULJ-145.190",
@@ -819,7 +934,7 @@
         "linkType": "on-demand",
         "linkMethod": "rf"
       }
-    ]  
+    ]
   },
   {
     "id": "W4SAN-145.270",
@@ -881,7 +996,7 @@
         "linkType": "on-demand",
         "linkMethod": "rf"
       }
-    ]  
+    ]
   },
   {
     "id": "W4OHH-147.390",
@@ -907,6 +1022,31 @@
         "linkMethod": "rf"
       }
     ]
+  },
+  {
+    "id": "WC4RG-147.270",
+    "location": "Walton County",
+    "frequency": "147.270+",
+    "tone": "88.5 Hz",
+    "tags": [],
+    "description": "Covers Walton and surrounding counties.",
+    "callsign": "WC4RG",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5522",
+    "linked": false
+  },
+  {
+    "id": "WC4RG-442.050",
+    "location": "Walton County",
+    "frequency": "442.050+",
+    "tone": "88.5 Hz",
+    "tags": [],
+    "description": "Covers Walton and surrounding counties.",
+    "callsign": "WC4RG",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=464",
+    "linked": false,
+    "verified": true,
+    "clubName": "Walton County Repeater Group (WCRG)",
+    "clubUrl": "https://wc4rg.org/repeaters/"
   },
   {
     "id": "KN4FE-146.985",
@@ -960,7 +1100,7 @@
         "linkType": "full-time",
         "linkMethod": "rf"
       }
-    ]  
+    ]
   },
   {
     "id": "WA4ORT-146.850",
@@ -999,23 +1139,35 @@
         "linkType": "full-time",
         "linkMethod": "rf"
       }
-    ]  
+    ]
   },
   {
-    "id": "W4CDC-147.120",
-    "location": "Wrens",
-    "frequency": "147.120+",
-    "tone": "71.9 Hz",
-    "tags": [
-      "Cherry Blossom Intertie"
-    ],
-    "description": "Part of Cherry Blossom Intertie System. Covers Jefferson County (Wrens area) and surrounding east Georgia counties between Augusta and Sandersville.",
-    "callsign": "W4CDC",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=244",
-    "linked": true,
+    "id": "K4GAR-146.910",
+    "location": "White County",
+    "frequency": "146.910-",
+    "tone": "100.0 Hz",
+    "tags": [],
+    "description": "Activated by EMA / EOC requests or severe weather warnings.",
+    "callsign": "K4GAR",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=91",
+    "linked": false,
     "verified": true,
-    "clubName": "ARCCC, Inc.",
-    "clubUrl": "https://www.arccc.org/"
+    "clubName": "Gateway Amateur Radio Club (GARC)",
+    "clubUrl": "https://www.k4gar.com"
+  },
+  {
+    "id": "N4BZJ-147.135",
+    "location": "Whitfield County",
+    "frequency": "147.135+",
+    "tone": "141.3 Hz",
+    "tags": [],
+    "description": "Dalton • Dug Gap Mtn • Whitfield County. Whitfield SKYWARN Coordinator is Alan Bryant, N4ABB, assistant is Greg Williams, N4JGW.",
+    "callsign": "N4BZJ",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=107",
+    "linked": false,
+    "verified": true,
+    "clubName": null,
+    "clubUrl": null
   },
   {
     "id": "WB4GWA-443.800",
@@ -1056,168 +1208,19 @@
     ]
   },
   {
-    "id": "WR4BC-145.280",
-    "location": "Barrow County",
-    "frequency": "145.280-",
-    "tone": "110.9 Hz",
-    "tags": [],
-    "description": "Barrow Amateur Radio Club",
-    "callsign": "WR4BC",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=21766",
-    "linked": false,
+    "id": "W4CDC-147.120",
+    "location": "Wrens",
+    "frequency": "147.120+",
+    "tone": "71.9 Hz",
+    "tags": [
+      "Cherry Blossom Intertie"
+    ],
+    "description": "Part of Cherry Blossom Intertie System. Covers Jefferson County (Wrens area) and surrounding east Georgia counties between Augusta and Sandersville.",
+    "callsign": "W4CDC",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=244",
+    "linked": true,
     "verified": true,
-    "clubName": "Barrow Amateur Radio Club (BARC)",
-    "clubUrl": "http://barrowamateurradioclub.godaddysites.com"
-  },
-  {
-    "id": "WX4BCA-147.285",
-    "location": "Butts County",
-    "frequency": "147.285+",
-    "tone": "131.8 Hz",
-    "tags": [],
-    "description": "WX4BCA repeater",
-    "callsign": "WX4BCA",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=11661",
-    "linked": false,
-    "verified": true,
-    "clubName": "Amateur Radio Club of Butts County (ARCBC)",
-    "clubUrl": "http://www.bcgaares.org"
-  },
-  {
-    "id": "W4FWD-146.640",
-    "location": "Carroll County",
-    "frequency": "146.640-",
-    "tone": "131.8 Hz",
-    "tags": [],
-    "description": "Covers Douglas & Carroll counties. Reports do come in from adjacent counties as well.",
-    "callsign": "W4FWD",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=85",
-    "linked": false,
-    "verified": true,
-    "clubName": "West Georgia Amateur Radio Society (WGARS)",
-    "clubUrl": "http://www.wgars.com/"
-  },
-  {
-    "id": "WX4NN-443.075",
-    "location": "Cherokee County",
-    "frequency": "443.075+",
-    "tone": "107.2 Hz",
-    "tags": [],
-    "description": "Secondary Coverage \u2013 Cherokee, Pickens, Bartow, Cobb \u2013 NW Georgia with occasional check-in's from TN, AL",
-    "callsign": "WX4NN",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=347",
-    "linked": false,
-    "verified": true,
-    "clubName": null,
-    "clubUrl": null
-  },
-  {
-    "id": "KG4VUB-145.270",
-    "location": "Cherokee County",
-    "frequency": "145.270-",
-    "tone": "100.0 Hz",
-    "tags": [],
-    "description": "Coverage \u2013 Cherokee, Pickens, Bartow, Cobb \u2013 NW Georgia with occasional check-in's from TN, AL",
-    "callsign": "KG4VUB",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=232",
-    "linked": false,
-    "verified": true,
-    "clubName": "Cherokee Amateur Radio Society (CARS)",
-    "clubUrl": "https://www.wx4car.org/"
-  },
-  {
-    "id": "K4NRC-145.130",
-    "location": "Coweta County",
-    "frequency": "145.130-",
-    "tone": "156.7 Hz",
-    "tags": [],
-    "description": "Activated by EMA request",
-    "callsign": "K4NRC",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=184",
-    "linked": false,
-    "verified": true,
-    "clubName": "Newnan Regional Amateur Radio Club",
-    "clubUrl": "https://nrarc.org/"
-  },
-  {
-    "id": "W8JI-147.225",
-    "location": "Lamar County",
-    "frequency": "147.225+",
-    "tone": null,
-    "tags": [],
-    "description": "W8JI repeater is located just north of Barnesville. Normally operates with NO Uplink Tone, but will enable 123.0 Hz or 131.8 Hz Uplink Tone depending upon propagation conditions",
-    "callsign": "W8JI",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=67",
-    "linked": false,
-    "verified": true,
-    "clubName": "Charles T. Rauch, Jr. (Trustee)",
-    "clubUrl": "http://www.w8ji.com/"
-  },
-  {
-    "id": "WX4PCA-146.955",
-    "location": "Paulding County",
-    "frequency": "146.955-",
-    "tone": "77.0 Hz",
-    "tags": [],
-    "description": "The repeater covers an area that includes most of Atlanta to the east and Cedartown to the west.",
-    "callsign": "WX4PCA",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=105",
-    "linked": false,
-    "verified": true,
-    "clubName": "Paulding County ARES",
-    "clubUrl": "http://www.pauldingares.com/"
-  },
-  {
-    "id": "WC4RG-147.270",
-    "location": "Walton County",
-    "frequency": "147.270+",
-    "tone": "88.5 Hz",
-    "tags": [],
-    "description": "Covers Walton and surrounding counties.",
-    "callsign": "WC4RG",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5522",
-    "linked": false
-  },
-  {
-    "id": "WC4RG-442.050",
-    "location": "Walton County",
-    "frequency": "442.050+",
-    "tone": "88.5 Hz",
-    "tags": [],
-    "description": "Covers Walton and surrounding counties.",
-    "callsign": "WC4RG",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=464",
-    "linked": false,
-    "verified": true,
-    "clubName": "Walton County Repeater Group (WCRG)",
-    "clubUrl": "https://wc4rg.org/repeaters/"
-  },
-  {
-    "id": "K4GAR-146.910",
-    "location": "White County",
-    "frequency": "146.910-",
-    "tone": "100.0 Hz",
-    "tags": [],
-    "description": "Activated by EMA / EOC requests or severe weather warnings.",
-    "callsign": "K4GAR",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=91",
-    "linked": false,
-    "verified": true,
-    "clubName": "Gateway Amateur Radio Club (GARC)",
-    "clubUrl": "https://www.k4gar.com"
-  },
-  {
-    "id": "N4BZJ-147.135",
-    "location": "Whitfield County",
-    "frequency": "147.135+",
-    "tone": "141.3 Hz",
-    "tags": [],
-    "description": "Dalton \u2022 Dug Gap Mtn \u2022 Whitfield County. Whitfield SKYWARN Coordinator is Alan Bryant, N4ABB, assistant is Greg Williams, N4JGW.",
-    "callsign": "N4BZJ",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=107",
-    "linked": false,
-    "verified": true,
-    "clubName": null,
-    "clubUrl": null
+    "clubName": "ARCCC, Inc.",
+    "clubUrl": "https://www.arccc.org/"
   }
 ]
