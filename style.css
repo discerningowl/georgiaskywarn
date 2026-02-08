@@ -2076,6 +2076,10 @@ a:hover, a:focus {
   letter-spacing: 0.5px;
 }
 
+.repeater-table th.center {
+  text-align: center;
+}
+
 .repeater-table td {
   padding: 0.85rem 1rem;
   border-bottom: 1px solid var(--card-border);
