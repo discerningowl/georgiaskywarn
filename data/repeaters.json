@@ -962,7 +962,15 @@
     "linked": false,
     "verified": true,
     "clubName": "Paulding County ARES",
-    "clubUrl": "http://www.pauldingares.com/"
+    "clubUrl": "http://www.pauldingares.com/",
+    "iplinks": [
+      {
+        "system": "EchoLink",
+        "node": "3026",
+        "callsign": "WB4QOJ-R",
+        "connectionType": "available"
+      }
+    ]    
   },
   {
     "id": "WB4ULJ-145.190",
