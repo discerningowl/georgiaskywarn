@@ -384,7 +384,9 @@
    * @returns {string} - Current page filename (e.g., 'index.html')
    */
   function getCurrentPage() {
-    return window.location.pathname.split('/').pop() || 'index.html';
+    const page = window.location.pathname.split('/').pop() || 'index.html';
+    // Cloudflare Pages serves /repeaters without .html extension
+    return page.includes('.') ? page : page + '.html';
   }
 
   /**

@@ -63,7 +63,9 @@
    * Determines which scripts to load based on current page
    */
   function getScriptsForPage() {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const page = window.location.pathname.split('/').pop() || 'index.html';
+    // Cloudflare Pages serves pages without .html extension
+    const currentPage = page.includes('.') ? page : page + '.html';
 
     // Components loads first (header + footer merged)
     const componentScripts = ['js/components.js'];
