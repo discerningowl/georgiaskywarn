@@ -419,6 +419,12 @@
         "system": "Allstar",
         "node": "29795",
         "connectionType": "available"
+      }, 
+      {
+        "system": "EchoLink",
+        "node": "6925",
+        "callsign": "WA4ASI-R",
+        "connectionType": "available"
       }
     ],
     "rflinks": [
