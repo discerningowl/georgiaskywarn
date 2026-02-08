@@ -45,6 +45,7 @@
   --accent-green-dark: #42ba7f;
   --accent-indigo: #5C6BC0;
   --accent-indigo-dark: #90CAF9;
+  --accent-lightblue: #4FC3F7;
   --accent-orange: #FF9800;
   --accent-orange-dark: #FFB74D;
   --accent-peach: #FF8A65;
@@ -111,6 +112,7 @@
     --accent-green-dark: #42ba7f;
     --accent-indigo: #5C6BC0;
     --accent-indigo-dark: #90CAF9;
+    --accent-lightblue: #81D4FA;
     --accent-orange: #FF9800;
     --accent-orange-dark: #FFB74D;
     --accent-peach: #FFAB91;
@@ -2024,9 +2026,10 @@ a:hover, a:focus {
   background: var(--accent-pink);
 }
 
-/* SE Linked Repeater - indigo (Southeastern Linked Repeater System) */
+/* SE Linked Repeater - light blue (Southeastern Linked Repeater System) */
 .badge-se-linked {
-  background: var(--accent-indigo);
+  background: var(--accent-lightblue);
+  color: #1a1a2e;
 }
 
 /* County Only badge - orange (non-linked repeaters) */
