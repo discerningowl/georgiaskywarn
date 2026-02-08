@@ -56,6 +56,13 @@
         "linksToLoc": "Fayetteville",
         "linksToCall": "KK4GQ"
       }
+    ],
+    "iplinks": [
+      {
+        "system": "AllStar",
+        "node": "43135",
+        "connectionType": "available"
+      },
     ]
   },
   {
