@@ -12,15 +12,8 @@
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=129",
     "linked": true,
     "verified": true,
-    "rflinks": [
-      {
-        "linkType": "full-time",
-        "linkMethod": "direct",
-        "linksToFreq": "444.600+",
-        "linksToLoc": "Fayetteville",
-        "linksToCall": "W4PSZ"
-      }
-    ],
+    "clubName": "Fayette County Amateur Radio Club, Inc. (FCARC)",
+    "clubUrl": "https://www.kk4gq.org",
     "iplinks": [
       {
         "system": "EchoLink",
@@ -29,8 +22,15 @@
         "connectionType": "available"
       }
     ],
-    "clubName": "Fayette County Amateur Radio Club, Inc. (FCARC)",
-    "clubUrl": "https://www.kk4gq.org"
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "direct",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "Fayetteville",
+        "linksToCall": "W4PSZ"
+      }
+    ]
   },
   {
     "id": "W4PSZ-444.600",
@@ -48,6 +48,13 @@
     "picUrl": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6",
     "clubName": "Fayette County Amateur Radio Club (FCARC)",
     "clubUrl": "https://kk4gq.org/",
+    "iplinks": [
+      {
+        "system": "AllStar",
+        "node": "684140",
+        "connectionType": "available"
+      }
+    ],
     "rflinks": [
       {
         "linkType": "full-time",
@@ -55,13 +62,6 @@
         "linksToFreq": "145.210-",
         "linksToLoc": "Fayetteville",
         "linksToCall": "KK4GQ"
-      }
-    ],
-    "iplinks": [
-      {
-        "system": "AllStar",
-        "node": "684140",
-        "connectionType": "available"
       }
     ]
   },
@@ -147,7 +147,9 @@
     "location": "Biskey Mtn",
     "frequency": "53.050-",
     "tone": "100.0 Hz",
-    "tags": [],
+    "tags": [
+      "SE Linked Repeater"
+    ],
     "description": "Biskey Mountain near Jasper in Pickens County. Remote base system with autopatch. Covers north Georgia mountains. Emergency power equipped. Part of linked tri-band system (6m/1.25m/70cm).",
     "callsign": "KC4JNN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=13942",
@@ -161,7 +163,9 @@
     "location": "Biskey Mtn",
     "frequency": "224.160-",
     "tone": "100.0 Hz",
-    "tags": [],
+    "tags": [
+      "SE Linked Repeater"
+    ],
     "description": "Biskey Mountain near Jasper in Pickens County. Remote base system with autopatch. Covers north Georgia mountains. Emergency power equipped. Part of linked tri-band system (6m/1.25m/70cm).",
     "callsign": "KC4JNN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=259",
@@ -175,7 +179,9 @@
     "location": "Biskey Mtn",
     "frequency": "443.500+",
     "tone": "100.0 Hz",
-    "tags": [],
+    "tags": [
+      "SE Linked Repeater"
+    ],
     "description": "Biskey Mountain near Jasper in Pickens County. Remote base system with autopatch. Covers north Georgia mountains. Emergency power equipped. Part of linked tri-band system (6m/1.25m/70cm).",
     "callsign": "KC4JNN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=334",
@@ -282,7 +288,7 @@
     "frequency": "145.270-",
     "tone": "100.0 Hz",
     "tags": [],
-    "description": "Coverage \u2013 Cherokee, Pickens, Bartow, Cobb \u2013 NW Georgia with occasional check-in's from TN, AL",
+    "description": "Coverage – Cherokee, Pickens, Bartow, Cobb – NW Georgia with occasional check-in's from TN, AL",
     "callsign": "KG4VUB",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=232",
     "linked": false,
@@ -296,7 +302,7 @@
     "frequency": "443.075+",
     "tone": "107.2 Hz",
     "tags": [],
-    "description": "Secondary Coverage \u2013 Cherokee, Pickens, Bartow, Cobb \u2013 NW Georgia with occasional check-in's from TN, AL",
+    "description": "Secondary Coverage – Cherokee, Pickens, Bartow, Cobb – NW Georgia with occasional check-in's from TN, AL",
     "callsign": "WX4NN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=347",
     "linked": false,
@@ -399,6 +405,13 @@
     "verified": true,
     "clubName": "Newton County Radio Club (NCARC)",
     "clubUrl": "http://ncrcga.org/",
+    "iplinks": [
+      {
+        "system": "Allstar",
+        "node": "29795",
+        "connectionType": "available"
+      }
+    ],
     "rflinks": [
       {
         "linkType": "full-time",
@@ -414,19 +427,12 @@
         "linksToLoc": "WX4PTC System",
         "linksToCall": "KN4YZ"
       }
-    ],
-    "iplinks": [
-      {
-        "system": "Allstar",
-        "node": "29795",
-        "connectionType": "available"
-      }
     ]
   },
   {
     "id": "WA4ASI-444.800",
     "location": "Covington",
-    "frequency": "444.800=",
+    "frequency": "444.800+",
     "tone": "88.5 Hz",
     "tags": [],
     "description": "Links to 146.925- Covington, Newton County Forestry Fire Tower, GA. Covers Newton, Rockdale, and Walton counties with extended reach into north Georgia.",
@@ -616,6 +622,8 @@
     "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=146.91",
     "linked": true,
     "verified": false,
+    "clubName": null,
+    "clubUrl": null,
     "rflinks": [
       {
         "linkType": "on-demand",
@@ -671,14 +679,18 @@
     "callsign": "K4DBN",
     "refurl": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25",
     "linked": true,
-    "verified": false
+    "verified": false,
+    "clubName": null,
+    "clubUrl": null
   },
   {
     "id": "KC4AQS-146.805",
     "location": "Jasper",
     "frequency": "146.805+",
     "tone": "100.0 Hz",
-    "tags": [],
+    "tags": [
+      "SE Linked Repeater"
+    ],
     "description": "Links to WX4PTC hub repeaters (444.675+ and 444.600+). Wide north Georgia mountain coverage extending into metro Atlanta. Covers Pickens, Dawson, Gilmer, and Fannin counties. Generator and battery backup.",
     "callsign": "KC4AQS",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=147",
@@ -744,6 +756,8 @@
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=163",
     "linked": true,
     "verified": true,
+    "clubName": "Tri-States Amateur Radio Club (TSARC)",
+    "clubUrl": "https://tristatesarc.com/club/",
     "iplinks": [
       {
         "system": "AllStar",
@@ -789,9 +803,7 @@
         "linksToLoc": "South White Oak Mountain",
         "linksToCall": "W4ABZ"
       }
-    ],
-    "clubName": "Tri-States Amateur Radio Club (TSARC)",
-    "clubUrl": "https://tristatesarc.com/club/"
+    ]
   },
   {
     "id": "AA4RI-145.430",
@@ -877,7 +889,9 @@
     "callsign": "n0call",
     "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=147.135",
     "linked": true,
-    "verified": false
+    "verified": false,
+    "clubName": null,
+    "clubUrl": null
   },
   {
     "id": "KI4BEO-146.640",
@@ -914,7 +928,9 @@
     "location": "Pine Mountain",
     "frequency": "145.190-",
     "tone": "110.9 Hz",
-    "tags": [],
+    "tags": [
+      "SE Linked Repeater"
+    ],
     "description": "Links to 444.600+ WX4PTC hub. Located in Warm Springs area. Excellent coverage of Harris and Meriwether counties southwest of metro Atlanta. Covers Pine Mountain and Callaway Gardens area.",
     "callsign": "WB4ULJ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=194",
@@ -1052,7 +1068,9 @@
     "callsign": "WC4RG",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5522",
     "linked": false,
-    "verified": false
+    "verified": false,
+    "clubName": null,
+    "clubUrl": null
   },
   {
     "id": "WC4RG-442.050",
@@ -1180,7 +1198,7 @@
     "frequency": "147.135+",
     "tone": "141.3 Hz",
     "tags": [],
-    "description": "Dalton \u2022 Dug Gap Mtn \u2022 Whitfield County. Whitfield SKYWARN Coordinator is Alan Bryant, N4ABB, assistant is Greg Williams, N4JGW.",
+    "description": "Dalton • Dug Gap Mtn • Whitfield County. Whitfield SKYWARN Coordinator is Alan Bryant, N4ABB, assistant is Greg Williams, N4JGW.",
     "callsign": "N4BZJ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=107",
     "linked": false,

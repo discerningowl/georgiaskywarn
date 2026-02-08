@@ -638,65 +638,91 @@ p.event?.toLowerCase().includes('watch')
 
 Repeater tables are dynamically generated from the unified repeaters.json file:
 
-**JSON Structure**:
+**JSON Structure** (fields MUST appear in this exact order):
 ```json
 {
+  "id": "WX4PTC-147.390",
   "location": "Peachtree City",
   "frequency": "147.390+",
   "tone": "141.3 Hz",
-  "tags": ["WX4PTC"],
+  "tags": ["WX4PTC System"],
   "description": "Wide coverage, generator backup",
   "callsign": "WX4PTC",
   "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=12345",
-  "linked": true
+  "linked": true,
+  "verified": true,
+  "clubName": "Club Name Here",
+  "clubUrl": "https://example.com",
+  "iplinks": [
+    {
+      "system": "AllStar",
+      "node": "12345",
+      "connectionType": "available"
+    }
+  ],
+  "rflinks": [
+    {
+      "linkType": "full-time",
+      "linkMethod": "rf",
+      "linksToFreq": "444.600+",
+      "linksToLoc": "Fayetteville",
+      "linksToCall": "W4PSZ"
+    }
+  ]
 }
 ```
 
-**Special case for repeaters with photos** (444.600+ and 442.500+):
-```json
-{
-  "location": "Fayetteville",
-  "frequency": "444.600+",
-  "tone": "77.0 Hz",
-  "tags": ["Hub", "WX4PTC"],
-  "description": "Hub and net control repeater. Emergency Power.",
-  "picUrl": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6",
-  "callsign": "WX4PTC",
-  "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=444.6",
-  "linked": true
-}
-```
+**Field Descriptions** (in required order):
 
-**Field Descriptions**:
-- `location` - City or geographic location (required)
-- `frequency` - Frequency with offset (e.g., "147.390+", "444.600+") (required)
-- `tone` - CTCSS/PL tone in Hz (e.g., "141.3 Hz") or `null` if no tone (required)
-- `tags` - Array of network affiliations: `["Hub"]`, `["WX4PTC"]`, `["Peach State"]`, `["Cherry Blossom"]` (required, can be empty `[]`)
-- `description` - Coverage area, features, emergency power, etc. (required)
-- `picUrl` - Link to station photos (only for 444.600+ and 442.500+) (optional)
-- `callsign` - Amateur radio callsign (e.g., "WX4PTC", "K4DBN") or "Unknown" if not found (required)
-- `refurl` - RepeaterBook reference URL - single source of truth for repeater info (required)
-- `linked` - Boolean indicating if repeater is part of linked network (required)
+| # | Field | Type | Required | Description |
+|---|-------|------|----------|-------------|
+| 1 | `id` | string | Yes | Unique identifier: `CALLSIGN-FREQUENCY` (e.g., `W4PSZ-444.600`) |
+| 2 | `location` | string | Yes | City or geographic location |
+| 3 | `frequency` | string | Yes | Frequency with offset (e.g., `"147.390+"`, `"145.210-"`) |
+| 4 | `tone` | string/null | Yes | CTCSS/PL tone in Hz (e.g., `"141.3 Hz"`) or `null` if no tone |
+| 5 | `tags` | array | Yes | Network affiliations (can be empty `[]`). Valid values: `"WX4PTC System"`, `"Peach State Intertie"`, `"Cherry Blossom Intertie"`, `"SE Linked Repeater"`, `"WX4EMA"` |
+| 6 | `description` | string | Yes | Coverage area, features, emergency power, etc. |
+| 7 | `callsign` | string | Yes | Amateur radio callsign (e.g., `"WX4PTC"`) or `"n0call"` if unknown |
+| 8 | `refurl` | string | Yes | RepeaterBook reference URL (single source of truth) |
+| 9 | `linked` | boolean | Yes | `true` if part of linked SKYWARN network, `false` otherwise |
+| 10 | `verified` | boolean | Yes | `true` if verified against RepeaterBook, `false` if needs verification |
+| 11 | `picUrl` | string | Only when applicable | Link to station photos (currently only 444.600+ and 442.500+). Omit if not applicable. |
+| 12 | `clubName` | string/null | Yes | Sponsoring club name, or `null` if unknown |
+| 13 | `clubUrl` | string/null | Yes | Sponsoring club URL, or `null` if unknown |
+| 14 | `iplinks` | array | No | Internet linking info (AllStar, EchoLink, etc.). Omit entirely if none. |
+| 15 | `rflinks` | array | No | Radio frequency links to other repeaters. Omit entirely if none. |
+
+**Tag Badge Colors** (CSS classes):
+
+| Tag Value | CSS Class | Color |
+|-----------|-----------|-------|
+| `WX4PTC System` | `.badge-wx4ptc` | Blue (`--accent-blue`) |
+| `WX4EMA` | `.badge-wx4ema` | Green (`--accent-green`) |
+| `Peach State Intertie` | `.badge-peach-state` | Orange (`--accent-orange`) |
+| `Cherry Blossom Intertie` | `.badge-cherry-blossom` | Pink (`--accent-pink`) |
+| `SE Linked Repeater` | `.badge-se-linked` | Indigo (`--accent-indigo`) |
 
 **Steps**:
 1. Open `data/repeaters.json`
 2. Add new entry in alphabetical order by location
-3. Follow JSON syntax rules:
+3. Follow the field order exactly as documented above
+4. Follow JSON syntax rules:
    - Entries separated by commas
    - Last entry has NO trailing comma
    - All strings in double quotes
-   - Tags array: `["Hub"]`, `["WX4PTC"]`, `["Peach State"]`, `["Cherry Blossom"]`, or combinations
-4. Look up callsign on [RepeaterBook.com](https://www.repeaterbook.com/)
-5. Set `refurl` to the RepeaterBook URL used to find the repeater
-6. Validate JSON at [jsonlint.com](https://jsonlint.com/)
-7. Verify frequency and callsign are correct
-8. Test on mobile (repeater tables are responsive)
+5. Look up callsign on [RepeaterBook.com](https://www.repeaterbook.com/)
+6. Set `refurl` to the RepeaterBook URL used to find the repeater
+7. Validate JSON at [jsonlint.com](https://jsonlint.com/)
+8. Verify frequency and callsign are correct
+9. Test on mobile (repeater tables are responsive)
 
 **Important Notes**:
 - The HTML tables on `repeaters.html` are auto-generated from this JSON file via JavaScript. Do NOT edit the HTML tables directly.
 - Location names link to RepeaterBook (using `refurl`) as the single source of truth for repeater information
 - The `picUrl` field is only used for repeaters with station photos (currently 444.600+ and 442.500+). These repeaters will display a camera icon (📷) next to the location name that links to the photo gallery.
 - Do NOT add `picUrl` to other repeaters. If you need specialized URLs for a repeater in the future, create a new specific field.
+- Fields `iplinks` and `rflinks` should be omitted entirely when not applicable (do NOT include them as `null` or empty arrays).
+- Fields `clubName` and `clubUrl` should always be present, set to `null` if unknown.
 
 **For detailed non-technical instructions**, see [ADMIN_GUIDE.md](ADMIN_GUIDE.md) Task 1.
 
@@ -808,6 +834,12 @@ Use these official RepeaterBook system pages to validate repeater membership and
    - URL: https://www.repeaterbook.com/repeaters/feature_search.php?system=Cherry+Blossom+Intertie+System&type=systems
    - Use for: Validating repeaters with "Cherry Blossom" tag
    - Regional linked system in central Georgia
+
+4. **Southeastern Linked Repeater System**
+   - URL: https://www.repeaterbook.com/repeaters/feature_search.php?system=Southeastern+Linked+Repeater+System&type=systems
+   - Use for: Validating repeaters with "SE Linked Repeater" tag
+   - Multi-state RF-linked system covering GA, TN, NC, SC, AL, KY
+   - Net: Wednesday nights at 9:00 PM ET
 
 #### Validation Process
 

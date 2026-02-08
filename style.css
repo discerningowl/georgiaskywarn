@@ -1989,6 +1989,7 @@ a:hover, a:focus {
 .badge-wx4ptc,
 .badge-peach-state,
 .badge-cherry-blossom,
+.badge-se-linked,
 .badge-county-only,
 .badge-iplink {
   display: inline-block;
@@ -2019,6 +2020,11 @@ a:hover, a:focus {
 /* Cherry Blossom Intertie - pink */
 .badge-cherry-blossom {
   background: var(--accent-pink);
+}
+
+/* SE Linked Repeater - indigo (Southeastern Linked Repeater System) */
+.badge-se-linked {
+  background: var(--accent-indigo);
 }
 
 /* County Only badge - orange (non-linked repeaters) */

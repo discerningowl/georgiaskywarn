@@ -89,8 +89,9 @@ georgiaskywarn/
 │   ├── nws-api.js          # NWS API integration and HWO
 │   └── changelog.js        # Changelog display
 ├── data/                   # Data files
-│   ├── linked-repeaters.json   # Linked repeater data
-│   ├── nonlinked-repeaters.json # Non-linked repeater data
+│   ├── repeaters.json      # Unified repeater data (linked + non-linked)
+│   ├── weather-stations.json # NOAA Weather Radio stations
+│   ├── search-index.json   # Sitewide search index
 │   └── changelog.json      # Website changelog/updates
 ├── CLAUDE.md               # Technical documentation for developers
 ├── ADMIN_GUIDE.md          # Administrator's guide for non-technical users
@@ -113,6 +114,47 @@ georgiaskywarn/
 3. **Static Hosting**: Deployment configuration depends on this structure
 
 See [CLAUDE.md](CLAUDE.md) for detailed documentation.
+
+---
+
+## 📡 Repeater Data (`data/repeaters.json`)
+
+All repeater data is stored in a single unified JSON file. Fields appear in the following order for every entry:
+
+| # | Field | Type | Required | Description |
+|---|-------|------|----------|-------------|
+| 1 | `id` | string | Yes | Unique identifier: `CALLSIGN-FREQUENCY` (e.g., `W4PSZ-444.600`) |
+| 2 | `location` | string | Yes | City or geographic location |
+| 3 | `frequency` | string | Yes | Frequency with offset (e.g., `"147.390+"`, `"145.210-"`) |
+| 4 | `tone` | string/null | Yes | CTCSS/PL tone in Hz (e.g., `"141.3 Hz"`) or `null` if no tone |
+| 5 | `tags` | array | Yes | Network affiliations (can be empty `[]`) |
+| 6 | `description` | string | Yes | Coverage area, features, emergency power, etc. |
+| 7 | `callsign` | string | Yes | Amateur radio callsign or `"n0call"` if unknown |
+| 8 | `refurl` | string | Yes | RepeaterBook reference URL |
+| 9 | `linked` | boolean | Yes | `true` if part of linked SKYWARN network |
+| 10 | `verified` | boolean | Yes | `true` if verified against RepeaterBook |
+| 11 | `picUrl` | string | When applicable | Station photo link (only select repeaters) |
+| 12 | `clubName` | string/null | Yes | Sponsoring club name, or `null` if unknown |
+| 13 | `clubUrl` | string/null | Yes | Sponsoring club URL, or `null` if unknown |
+| 14 | `iplinks` | array | No | Internet linking (AllStar, EchoLink, etc.). Omit if none. |
+| 15 | `rflinks` | array | No | Radio frequency links. Omit if none. |
+
+### Network Tags
+
+| Tag Value | Badge Color | System |
+|-----------|-------------|--------|
+| `WX4PTC System` | Blue | Primary SKYWARN hub system |
+| `WX4EMA` | Green | Macon-Bibb County Emergency Management |
+| `Peach State Intertie` | Orange | Central Georgia linked system |
+| `Cherry Blossom Intertie` | Pink | Central Georgia linked system |
+| `SE Linked Repeater` | Indigo | Southeastern Linked Repeater System (multi-state RF network) |
+
+### Validation Sources
+
+- [Georgia SKYWARN Linked Repeaters System](https://www.repeaterbook.com/repeaters/feature_search.php?system=Georgia+SKYWARN+Linked+Repeaters+System&type=systems)
+- [Peach State Intertie System](https://www.repeaterbook.com/repeaters/feature_search.php?system=Peach+State+Intertie+System&type=systems)
+- [Cherry Blossom Intertie System](https://www.repeaterbook.com/repeaters/feature_search.php?system=Cherry+Blossom+Intertie+System&type=systems)
+- [Southeastern Linked Repeater System](https://www.repeaterbook.com/repeaters/feature_search.php?system=Southeastern+Linked+Repeater+System&type=systems)
 
 ---
 
@@ -340,6 +382,6 @@ This website is maintained by volunteer amateur radio operators in coordination 
 
 ---
 
-**Last Updated**: January 9, 2026 (v20260109i)
+**Last Updated**: February 8, 2026 (v20260208a)
 **Maintained By**: Georgia SKYWARN Team
 **For Questions**: Contact webmaster at kq4jp@pm.me
