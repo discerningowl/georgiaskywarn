@@ -485,7 +485,15 @@
     "linked": false,
     "verified": true,
     "clubName": "Newnan Regional Amateur Radio Club",
-    "clubUrl": "https://nrarc.org/"
+    "clubUrl": "https://nrarc.org/",
+    "iplinks": [
+      {
+        "system": "EchoLink",
+        "node": "313887",
+        "callsign": "K4NRC-R",
+        "connectionType": "available"
+      }
+    ]
   },
   {
     "id": "WD4LUQ-146.895",
