@@ -55,6 +55,12 @@
         "system": "AllStar",
         "node": "684140",
         "connectionType": "available"
+      },
+      {
+        "system": "EchoLink",
+        "node": "512427",
+        "callsign": "KD4YDC-L",
+        "connectionType": "available"
       }
     ],
     "rflinks": [
