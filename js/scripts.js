@@ -502,7 +502,7 @@
       });
     }
 
-    const tags = allTags.length > 0 ? allTags.join(' ') : '—';
+    const tags = allTags.length > 0 ? `<div class="tags-container">${allTags.join('')}</div>` : '—';
 
     // Internet Links - show system names as badges with indigo color
     const ipLinks = (repeater.iplinks && repeater.iplinks.length > 0)

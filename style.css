@@ -1988,6 +1988,14 @@ a:hover, a:focus {
   margin-top: 0.25rem;
 }
 
+/* Tags container for repeater table - max 2 per row */
+.tags-container {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 0.25rem;
+  justify-content: center;
+}
+
 /* Base badge styling - shared properties */
 .badge-wx4ema,
 .badge-wx4ptc,
