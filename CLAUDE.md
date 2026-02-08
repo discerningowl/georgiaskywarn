@@ -1134,6 +1134,16 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-02-08
+- **Clickable IP Links**: Made AllStar and EchoLink rows clickable in the repeater detail modal
+  - AllStar nodes link to `https://stats.allstarlink.org/stats/<nodeid>`
+  - EchoLink nodes link to `https://www.repeaterbook.com/repeaters/echolink/node_status.php?node=<nodeid>&type=search`
+  - Added external link icon (↗) to indicate clickable rows
+  - Event delegation for reliable click handling on dynamically-added content
+- **CSS Enhancements**: Added styling for clickable IP link rows
+  - `.iplink-row` class with pointer cursor and hover highlight
+  - `.external-link-icon` styling with opacity transitions
+
 ### 2026-01-11
 - **Repeater Detail Modal**: Added interactive modal popup for detailed repeater information
   - Click any repeater row to view full details (basic info, description, club info, IP/RF links)
@@ -1426,6 +1436,6 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 
 ---
 
-**Last Updated**: 2026-01-10
+**Last Updated**: 2026-02-08
 **Maintained By**: Claude AI Assistant (based on codebase analysis)
 **For Questions**: Contact Jack Parks (KQ4JP) <kq4jp@pm.me>

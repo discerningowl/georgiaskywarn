@@ -2,8 +2,8 @@
 
 **Quick Start Guide for Website Administrators**
 
-**Version**: 1.0
-**Last Updated**: December 31, 2025
+**Version**: 1.2
+**Last Updated**: February 8, 2026
 **Maintained By**: Georgia SKYWARN Website Team
 - Jim Lynch (K4GVO) - Site Administrator
 - Robert Burton (KD4YDC) - Content Moderator & SKYWARN EC
@@ -1145,6 +1145,10 @@ If you want to learn more:
 
 ## Changelog
 
+### Version 1.2 (February 8, 2026)
+- Added clickable IP links feature documentation
+- Updated version references throughout guide
+
 ### Version 1.1 (January 2, 2026)
 - Updated directory structure documentation (js/ and data/ folders)
 - Updated file references throughout guide
@@ -1172,6 +1176,6 @@ If you have ideas for improving this guide, please contact:
 
 ---
 
-**Last Updated**: January 2, 2026
-**Document Version**: 1.1
+**Last Updated**: February 8, 2026
+**Document Version**: 1.2
 **Website Version**: See [README.md](README.md) for current production status

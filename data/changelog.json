@@ -1,6 +1,21 @@
 {
   "updates": [
     {
+      "month": "February",
+      "year": 2026,
+      "date": "2026-02-08",
+      "items": [
+        {
+          "title": "Clickable IP Links in Repeater Details",
+          "description": "AllStar and EchoLink nodes in the repeater detail modal are now clickable. AllStar links open the AllStar Stats page, and EchoLink links open the RepeaterBook node status page."
+        },
+        {
+          "title": "Enhanced Repeater Detail Modal",
+          "description": "Improved repeater detail modal with visual indicators for clickable IP links, including external link icons and hover effects for better user experience."
+        }
+      ]
+    },
+    {
       "month": "January",
       "year": 2026,
       "date": "2026-01-02",

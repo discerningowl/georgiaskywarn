@@ -160,6 +160,15 @@ All repeater data is stored in a single unified JSON file. Fields appear in the 
 
 ## 🚀 Recent Improvements
 
+### February 8, 2026 - Clickable IP Links in Repeater Details
+
+**Enhanced User Experience** ✅
+- AllStar and EchoLink nodes in repeater detail modal are now clickable
+- AllStar links open the AllStar Stats page for real-time node status
+- EchoLink links open the RepeaterBook node status page
+- External link icons (↗) indicate clickable rows
+- Improved hover effects and visual feedback for interactive elements
+
 ### January 9, 2026 - JavaScript Consolidation & Code Deduplication
 
 **Major Refactoring** ✅
@@ -382,6 +391,6 @@ This website is maintained by volunteer amateur radio operators in coordination 
 
 ---
 
-**Last Updated**: February 8, 2026 (v20260208a)
+**Last Updated**: February 8, 2026 (v20260208g)
 **Maintained By**: Georgia SKYWARN Team
 **For Questions**: Contact webmaster at kq4jp@pm.me
