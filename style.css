@@ -3443,6 +3443,15 @@ a:hover, a:focus {
   opacity: 1;
 }
 
+/* Clickable IP link rows in modal */
+.iplink-row {
+  cursor: pointer;
+}
+
+.iplink-row:hover {
+  background-color: rgba(92, 107, 192, 0.15);
+}
+
 /* ==========================================================================
    PRINT STYLESHEET – Optimized for printing
    ========================================================================== */

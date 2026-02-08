@@ -716,21 +716,21 @@
         const callsign = link.callsign || '—';
 
         // Generate clickable URL for AllStar and EchoLink
-        let linkUrl = null;
+        let linkUrl = '';
         if (link.system && link.node) {
           const systemLower = link.system.toLowerCase();
           if (systemLower === 'allstar') {
-            linkUrl = `https://stats.allstarlink.org/stats/${link.node}`;
+            linkUrl = 'https://stats.allstarlink.org/stats/' + link.node;
           } else if (systemLower === 'echolink') {
-            linkUrl = `https://www.repeaterbook.com/repeaters/echolink/node_status.php?node=${link.node}&type=search`;
+            linkUrl = 'https://www.repeaterbook.com/repeaters/echolink/node_status.php?node=' + link.node + '&type=search';
           }
         }
 
-        const clickableClass = linkUrl ? ' class="clickable-row"' : '';
-        const clickHandler = linkUrl ? ` onclick="window.open('${linkUrl}', '_blank')" style="cursor: pointer;"` : '';
+        const dataAttr = linkUrl ? ` data-iplink-url="${linkUrl}"` : '';
+        const clickableClass = linkUrl ? ' class="clickable-row iplink-row"' : '';
 
         html += `
-          <tr${clickableClass}${clickHandler}>
+          <tr${clickableClass}${dataAttr}>
             <td>${sanitizeHTML(link.system)}${linkUrl ? ' <span class="external-link-icon">↗</span>' : ''}</td>
             <td class="center">${sanitizeHTML(nodeInfo)}</td>
             <td class="center">${sanitizeHTML(callsign)}</td>
@@ -809,6 +809,18 @@
       if (e.target === modal) {
         modal.classList.remove('open');
         modal.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    // Handle clicks on IP link rows (AllStar, EchoLink)
+    modal.addEventListener('click', (e) => {
+      const row = e.target.closest('.iplink-row');
+      if (row) {
+        const url = row.getAttribute('data-iplink-url');
+        if (url) {
+          e.stopPropagation();
+          window.open(url, '_blank');
+        }
       }
     });
 
