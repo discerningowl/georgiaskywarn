@@ -3431,6 +3431,18 @@ a:hover, a:focus {
   background-color: rgba(92, 107, 192, 0.2);
 }
 
+/* External link icon for clickable IP links */
+.external-link-icon {
+  font-size: 0.75rem;
+  color: var(--accent-indigo);
+  margin-left: 0.25rem;
+  opacity: 0.7;
+}
+
+.clickable-row:hover .external-link-icon {
+  opacity: 1;
+}
+
 /* ==========================================================================
    PRINT STYLESHEET – Optimized for printing
    ========================================================================== */

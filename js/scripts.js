@@ -714,9 +714,24 @@
         const nodeInfo = link.node ? `Node ${link.node}` :
                         link.extension ? `Ext ${link.extension}` : '—';
         const callsign = link.callsign || '—';
+
+        // Generate clickable URL for AllStar and EchoLink
+        let linkUrl = null;
+        if (link.system && link.node) {
+          const systemLower = link.system.toLowerCase();
+          if (systemLower === 'allstar') {
+            linkUrl = `https://stats.allstarlink.org/stats/${link.node}`;
+          } else if (systemLower === 'echolink') {
+            linkUrl = `https://www.repeaterbook.com/repeaters/echolink/node_status.php?node=${link.node}&type=search`;
+          }
+        }
+
+        const clickableClass = linkUrl ? ' class="clickable-row"' : '';
+        const clickHandler = linkUrl ? ` onclick="window.open('${linkUrl}', '_blank')" style="cursor: pointer;"` : '';
+
         html += `
-          <tr>
-            <td>${sanitizeHTML(link.system)}</td>
+          <tr${clickableClass}${clickHandler}>
+            <td>${sanitizeHTML(link.system)}${linkUrl ? ' <span class="external-link-icon">↗</span>' : ''}</td>
             <td class="center">${sanitizeHTML(nodeInfo)}</td>
             <td class="center">${sanitizeHTML(callsign)}</td>
             <td class="center">${sanitizeHTML(link.connectionType)}</td>
