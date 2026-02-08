@@ -506,7 +506,7 @@
 
     // Internet Links - show system names as badges with indigo color
     const ipLinks = (repeater.iplinks && repeater.iplinks.length > 0)
-      ? repeater.iplinks.map(link => `<span class="badge-iplink">${sanitizeHTML(link.system)}</span>`).join(' ')
+      ? `<div class="tags-container">${repeater.iplinks.map(link => `<span class="badge-iplink">${sanitizeHTML(link.system)}</span>`).join('')}</div>`
       : '—';
 
     // Radio Links - list callsigns
