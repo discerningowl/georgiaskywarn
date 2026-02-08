@@ -412,8 +412,8 @@
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=100",
     "linked": true,
     "verified": true,
-    "clubName": "Newton County Radio Club (NCARC)",
-    "clubUrl": "http://ncrcga.org/",
+    "clubName": "WA4ASI Repeater System",
+    "clubUrl": "https://sites.google.com/site/wa4asirepeater/home",
     "iplinks": [
       {
         "system": "Allstar",
@@ -449,8 +449,8 @@
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=372",
     "linked": true,
     "verified": true,
-    "clubName": "Newton County Radio Club (NCARC)",
-    "clubUrl": "http://ncrcga.org/",
+    "clubName": "WA4ASI Repeater System",
+    "clubUrl": "https://sites.google.com/site/wa4asirepeater/home",
     "rflinks": [
       {
         "linkType": "full-time",
