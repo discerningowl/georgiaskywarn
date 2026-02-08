@@ -47,6 +47,7 @@
   --accent-indigo-dark: #90CAF9;
   --accent-orange: #FF9800;
   --accent-orange-dark: #FFB74D;
+  --accent-peach: #FF8A65;
   --accent-yellow: #FFC107;
   --accent-yellow-dark: #E0A800;
   --accent-pink: #ec4899;
@@ -112,6 +113,7 @@
     --accent-indigo-dark: #90CAF9;
     --accent-orange: #FF9800;
     --accent-orange-dark: #FFB74D;
+    --accent-peach: #FFAB91;
     --accent-yellow: #FFC107;
     --accent-yellow-dark: #E0A800;
     --accent-pink: #f9a8d4;
@@ -2012,9 +2014,9 @@ a:hover, a:focus {
   background: var(--accent-blue);
 }
 
-/* Peach State Intertie - orange */
+/* Peach State Intertie - peach */
 .badge-peach-state {
-  background: var(--accent-orange);
+  background: var(--accent-peach);
 }
 
 /* Cherry Blossom Intertie - pink */
