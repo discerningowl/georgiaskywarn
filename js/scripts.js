@@ -496,6 +496,7 @@
         else if (tagLower === 'wx4ptc' || tagLower === 'wx4ptc system') badgeClass = 'badge-wx4ptc';
         else if (tagLower === 'peach state' || tagLower === 'peach state intertie') badgeClass = 'badge-peach-state';
         else if (tagLower === 'cherry blossom' || tagLower === 'cherry blossom intertie') badgeClass = 'badge-cherry-blossom';
+        else if (tagLower === 'se linked repeater') badgeClass = 'badge-se-linked';
 
         allTags.push(`<span class="${badgeClass}">${sanitizeHTML(tag)}</span>`);
       });
@@ -649,6 +650,7 @@
         else if (tagLower === 'wx4ptc' || tagLower === 'wx4ptc system') badgeClass = 'badge-wx4ptc';
         else if (tagLower === 'peach state' || tagLower === 'peach state intertie') badgeClass = 'badge-peach-state';
         else if (tagLower === 'cherry blossom' || tagLower === 'cherry blossom intertie') badgeClass = 'badge-cherry-blossom';
+        else if (tagLower === 'se linked repeater') badgeClass = 'badge-se-linked';
         html += `<span class="${badgeClass}">${sanitizeHTML(tag)}</span>`;
       });
       html += '</div>';
