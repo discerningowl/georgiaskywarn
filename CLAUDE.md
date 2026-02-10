@@ -196,26 +196,34 @@ For scripts that only load on specific pages:
 
 ## Page-by-Page Breakdown
 
-### index.html (Main Page)
-**Purpose**: Primary entry point with comprehensive SKYWARN information
+### index.html (Main Page / Dashboard)
+**Purpose**: Primary entry point — spotter dashboard with HWO, activation status, active alerts, and quick maps
 
 **Navigation**:
-- **Site-nav**: Links to other pages (dashboard, repeaters, wx4ptc, nwsffclinks, about)
-- **Page-nav**: Internal page links (NWS Resources, SKYWARN Info, Reporting, Submit Reports, Repeaters, Contacts)
+- **Site-nav**: Links to other pages (spotters, repeaters, wx4ptc, nwsffclinks, about)
+- **Page-nav**: Links to page sections (Spotter Status, Active Alerts, Quick Maps)
 
-**Key Sections**:
-- Active Warnings (NWS Atlanta WARNINGS only - red card, links to dashboard for all alerts)
-- NWS Resources
-- SKYWARN Information & Spotter Resources
-- Reporting Requirements (what to report and how)
-- Submit Reports (contact methods)
+**Key Features**:
+- Hazardous Weather Outlook (HWO) from NWS Atlanta with spotter activation detection
+- Shows all alert types: warnings (red), watches (orange), and advisories (teal)
+- Quick Maps section with essential weather/situational awareness tools
+- HWO cached for 4 hours, alerts refresh every 5 minutes
+- Modal popups for HWO details and individual alert details
 
-**JavaScript Features**:
-- Fetches active NWS warnings from `api.weather.gov/alerts`
-- Filters for NWS Peachtree City (FFC) warnings only
-- 5-minute cache in localStorage
-- Auto-refresh every 10 minutes
-- Dual navigation toggle handlers for site-nav and page-nav
+### spotters.html
+**Purpose**: Spotter resources, training materials, reporting guidelines, and NWS contacts
+
+**Navigation**:
+- **Site-nav**: Links to other pages
+- **Page-nav**: Links to page sections (SKYWARN Info, Spotter Resources, Reporting Requirements, Submit Reports)
+
+**Key Sections** (ordered as learn → prepare → understand → act):
+1. **SKYWARN Information** — What is SKYWARN, net activation protocol, reporting best practices (sub-cards)
+2. **Spotter Resources** — Training links, guidebooks, maps, situational awareness tools, NWS social media (sub-cards + action buttons)
+3. **Reporting Requirements** — Checklist of what to include, NWS guidebook link, color-coded "What to Report" grid (sub-cards)
+4. **Submit Reports** — Local network info, EchoLink access, phone numbers, NWS web form (sub-cards + action buttons)
+
+**Design Pattern**: Uses `.sub-cards` / `.sub-card` grid throughout for consistent nested card layout
 
 ### dashboard.html
 **Purpose**: Spotter dashboard showing HWO outlook, activation status, and all active alerts
@@ -252,12 +260,14 @@ For scripts that only load on specific pages:
 - **Site-nav**: Links to other pages (back to index, alerts, repeaters, wx4ptc, about)
 - **Page-nav**: Links to page sections (Core Resources, Decision Support, River/Flood Info, Specialized Weather, National Centers)
 
-**Contains**:
-- Core NWS Atlanta resources
-- Decision support tools
-- River and flooding information
-- Specialized weather information (fire, winter, aviation)
-- National weather centers
+**Contains** (each section uses color-coded card headers with `.sub-cards` grid inside):
+- Core NWS Atlanta resources (blue header)
+- Decision support tools (indigo header)
+- River and flooding information (blue header)
+- Specialized weather information — fire, winter, road conditions, GEMA (orange header)
+- National weather centers — SPC, WPC, NHC (green header)
+
+**Design Pattern**: Uses `.sub-cards` / `.sub-card` grid for all link sections (2-col responsive)
 
 ### wx4ptc.html
 **Purpose**: Information about the NWS Peachtree City amateur radio station
@@ -325,9 +335,14 @@ For scripts that only load on specific pages:
    - Flexbox and CSS Grid for layouts
 
 3. **Component Classes**:
-   - `.card` - Reusable content container
-   - `.callout` - Highlighted tip/warning boxes
-   - `.btn` - Button component with color modifiers
+   - `.card` - Reusable content container (outer card with header)
+   - `.sub-cards` - Grid container for nested sub-cards inside a `.card-body` (2-col responsive)
+   - `.sub-card` - Nested content card with border, hover lift, used for grouping related info
+   - `.sub-card--full` - Modifier to span full width across all grid columns
+   - `.sub-cards--3col` - Modifier for 3-column grid at 1024px+ (e.g., weather report types)
+   - `.callout` - Highlighted tip/warning boxes (used in repeaters.html, JS error states)
+   - `.btn` - Button component with color modifiers (`btn-blue`, `btn-red`, `btn-green`, `btn-indigo`)
+   - `.action-buttons` - Flex container for rows of action buttons
    - `.repeater-table` - Styled tables for repeater info
    - `.alert-item` - Weather alert display cards
    - `.site-nav` - Site-wide navigation container
@@ -1134,6 +1149,34 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-02-09
+- **Spotters Page Cleanup**: Comprehensive redesign of `spotters.html` for readability and consistency
+  - Reordered sections to follow learn→act flow: SKYWARN Info → Resources → Reporting → Submit
+  - Fixed stray `</div>` tag and removed inline `style="color: red;"` (uses callout box instead)
+  - Deduplicated "advisable to first bring reports" text (single copy in SKYWARN Info)
+  - Fixed consistent indentation across all sections
+  - Added `target="_blank"` to NWS SKYWARN link
+- **Sub-Card Design System**: New `.sub-cards` / `.sub-card` CSS component for nested card grids
+  - Responsive grid: 1-column mobile → 2-column tablet/desktop
+  - `.sub-card--full` modifier for full-width spanning
+  - `.sub-cards--3col` modifier for 3-column layouts at 1024px+
+  - Hover effect: blue border highlight, subtle lift + shadow
+  - Applied across `spotters.html` and `nwsffclinks.html`
+- **Reporting Requirements Redesign**: Converted to sub-card layout
+  - "How to Report" section: checklist sub-card + NWS Spotter Guidebook link side-by-side
+  - "What to Report" section: 6 color-coded sub-cards with top borders (3-col grid on desktop)
+  - New `.report-checklist` CSS with green checkmarks
+  - New `.report-card-*` classes for color-coded top borders (tornado=red, hail=orange, etc.)
+- **Submit Reports Redesign**: Converted callouts to sub-cards
+  - Local SKYWARN Network + EchoLink Access as side-by-side sub-cards
+  - "Can't Get Through?" as full-width sub-card
+  - Action buttons under "Contact NWS Atlanta" subheader
+- **NWS Links Page**: Converted all 5 sections in `nwsffclinks.html` from `.link-item` to `.sub-card` grid
+- **Social Media Compact Row**: NWS social links as SVG icon buttons (globe, Facebook, X, YouTube)
+- **CSS Cleanup**: Removed unused classes
+  - Removed: `.link-item`, `.link-title`, `.link-description`, `.resource-description`, `.resource-item`, `.resource-icon`, `.resource-content`, `.resource-title`, `.resource-note`, `.report-top-row`, `.report-include`, `.report-guide`, `.report-section-title`, `.report-what-section`, `.report-items-grid`, `.report-item` (all variants)
+  - Cleaned `.report-include` from compound selectors (kept `.include-col` for wx4ptc.html)
+
 ### 2026-02-08
 - **Clickable IP Links**: Made AllStar and EchoLink rows clickable in the repeater detail modal
   - AllStar nodes link to `https://stats.allstarlink.org/stats/<nodeid>`
@@ -1436,6 +1479,6 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 
 ---
 
-**Last Updated**: 2026-02-08
+**Last Updated**: 2026-02-09
 **Maintained By**: Claude AI Assistant (based on codebase analysis)
 **For Questions**: Contact Jack Parks (KQ4JP) <kq4jp@pm.me>

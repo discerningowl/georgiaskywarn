@@ -1477,17 +1477,72 @@ a:hover, a:focus {
   padding: 1.5rem;
 }
 
+/* ---------- Sub-Cards (nested cards inside card-body) ---------- */
+.sub-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .sub-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .sub-cards--3col {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.sub-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: var(--transition);
+}
+
+.sub-card:hover {
+  border-color: var(--accent-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.1);
+}
+
+.sub-card h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.sub-card p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.sub-card .btn {
+  margin-top: 0.75rem;
+}
+
+.sub-card .link-url {
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+/* Full-width sub-card spanning all columns */
+.sub-card--full {
+  grid-column: 1 / -1;
+}
+
 /* ---------- Links List Component ---------- */
 .links-list {
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
-}
-
-.link-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
 }
 
 /* Section subheaders for visual separation */
@@ -1506,21 +1561,6 @@ a:hover, a:focus {
 
 .section-subheader:first-of-type {
   margin-top: 0;
-}
-
-.link-title {
-  margin: 0;
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  line-height: 1.3;
-}
-
-.link-description {
-  margin: 0.25rem 0;
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  line-height: 1.5;
 }
 
 .link-url {
@@ -1840,68 +1880,6 @@ a:hover, a:focus {
   display: grid;
   gap: 2rem;
   margin-top: 2rem;
-}
-
-.resource-item {
-  display: flex;
-  gap: 1.25rem;
-  padding: 1.75rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  transition: var(--transition);
-}
-
-.resource-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--accent-blue);
-  box-shadow: 0 6px 16px rgba(0, 102, 204, 0.15);
-  transform: translateY(-3px);
-}
-
-.resource-icon {
-  font-size: 2.5rem;
-  flex-shrink: 0;
-  width: 70px;
-  height: 70px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, rgba(0, 102, 204, 0.1), rgba(0, 102, 204, 0.05));
-  border-radius: 50%;
-}
-
-.resource-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.resource-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0;
-  line-height: 1.3;
-}
-
-.resource-description {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--text-secondary);
-  margin: 0;
-}
-
-.resource-note {
-  margin: 0;
-  color: var(--text-secondary);
-  opacity: 0.8;
-}
-
-.resource-item .btn {
-  align-self: flex-start;
-  margin-top: 0.5rem;
 }
 
 /* ==========================================================================
@@ -2306,118 +2284,40 @@ a:hover, a:focus {
    REPORTING REQUIREMENTS – IMPROVED LAYOUT
    ========================================================================== */
 
-/* Top row: Please Include + Detailed Guide (side by side) */
-.report-top-row {
-  display: grid;
-  gap: 1.5rem;
-  grid-template-columns: 1fr;
-  margin-bottom: 2rem;
-}
-
-@media (min-width: 768px) {
-  .report-top-row {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.report-include,
-.report-guide {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  padding: 1.5rem;
-  transition: var(--transition);
-}
-
-.report-include:hover,
-.report-guide:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--accent-blue);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.1);
-}
-
-.report-section-title {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0 0 1rem 0;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--accent-blue);
-}
-
-.report-guide p {
-  margin: 0 0 1rem 0;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-.report-guide .btn {
-  width: 100%;
-}
-
-/* Bottom section: What to Report (full width) */
-.report-what-section {
-  margin-top: 2rem;
-  padding-top: 2rem;
-  border-top: 2px solid var(--card-border);
-}
-
-.report-items-grid {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: 1fr;
-  margin-top: 1rem;
-}
-
-@media (min-width: 640px) {
-  .report-items-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .report-items-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.report-item {
-  background: rgba(255, 255, 255, 0.05);
-  border-left: 4px solid;
-  padding: 1rem;
-  border-radius: 0 12px 12px 0;
-  transition: var(--transition);
-}
-
-.report-item:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateX(4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.report-item strong {
-  display: block;
-  font-size: 1rem;
-  color: var(--text-primary);
-  margin-bottom: 0.5rem;
-  line-height: 1.3;
-}
-
-.report-item p {
+/* Report checklist inside sub-card */
+.report-checklist {
+  list-style: none;
   margin: 0;
-  font-size: 0.9rem;
+  padding: 0;
+}
+
+.report-checklist li {
+  position: relative;
+  padding-left: 1.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
   line-height: 1.5;
 }
 
-/* Color-coded left border */
-.report-item.tornado   { border-left-color: #d32f2f; }
-.report-item.hail      { border-left-color: #f57c00; }
-.report-item.wind      { border-left-color: #fbc02d; }
-.report-item.flood     { border-left-color: #1976d2; }
-.report-item.winter    { border-left-color: #5e35b1; }
-.report-item.lightning { border-left-color: #7cb342; }
+.report-checklist li::before {
+  content: "\2714";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: bold;
+  color: var(--accent-green);
+  font-size: 1.1rem;
+  line-height: 1.4;
+}
+
+/* Color-coded top border for report sub-cards */
+.report-card-tornado   { border-top: 4px solid #d32f2f; }
+.report-card-hail      { border-top: 4px solid #f57c00; }
+.report-card-wind      { border-top: 4px solid #fbc02d; }
+.report-card-flood     { border-top: 4px solid #1976d2; }
+.report-card-winter    { border-top: 4px solid #5e35b1; }
+.report-card-lightning  { border-top: 4px solid #7cb342; }
 
 
 /* ==========================================================================
@@ -2554,23 +2454,20 @@ a:hover, a:focus {
    ------------------------------------------------- */
 
 /* Target the specific list – keeps the rule scoped */
-.include-col .include-list,
-.report-include .include-list {
+.include-col .include-list {
   list-style: none;               /* remove the default bullet */
   margin: 0;
   padding: 0;
 }
 
 /* List items with checkmarks */
-.include-col .include-list li,
-.report-include .include-list li {
+.include-col .include-list li {
   position: relative;             /* needed for absolute positioning of ::after */
   padding-left: 2rem;             /* space for the checkmark icon */
   margin-bottom: 0.6rem;          /* vertical rhythm */
 }
 
-.include-col .include-list li::after,
-.report-include .include-list li::after {
+.include-col .include-list li::after {
   content: "\2714"; /* Checkmark */
   position: absolute;
   left: 0;
@@ -3145,18 +3042,6 @@ a:hover, a:focus {
       box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
     }
     .contact-icon {
-      background: linear-gradient(135deg, rgba(0, 102, 204, 0.2), rgba(0, 102, 204, 0.1));
-    }
-
-    /* Resource items */
-    .resource-item {
-      background: rgba(255, 255, 255, 0.03);
-    }
-    .resource-item:hover {
-      background: rgba(255, 255, 255, 0.08);
-      box-shadow: 0 6px 16px rgba(0, 102, 204, 0.25);
-    }
-    .resource-icon {
       background: linear-gradient(135deg, rgba(0, 102, 204, 0.2), rgba(0, 102, 204, 0.1));
     }
 

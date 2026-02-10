@@ -5,6 +5,10 @@
   Purpose: Spotter resources page for Georgia SKYWARN, focusing on spotter training,
            reporting weather events for severe weather threats in North and Central Georgia.
   Change‑log:
+    • 2026‑02‑09 – Cleanup: reordered sections (learn→act flow), fixed stray </div>,
+                   removed inline styles, deduplicated content, improved EchoLink callout,
+                   moved Detailed Reporting Guide into Spotter Resources, consolidated
+                   social media into compact list, added target="_blank" to SKYWARN link
     • 2026‑02‑08 – Reordered sections, updated header colors (dark blue headers, light blue subheaders)
     • 2026‑01‑09 – Converted index.html to spotters.html, removed warnings card
     • 2025‑11‑05 – Semantic layout, shared stylesheet, mobile nav, minimal JS for drawer.
@@ -43,65 +47,17 @@
   <!-- Page navigation (sticky horizontal bar) -->
   <nav class="page-nav" role="navigation" aria-label="Page navigation">
     <ul id="page-nav-list" class="nav-list">
-      <li><a href="#submitcard">Submit Reports</a></li>
       <li><a href="#SKYWARNcard">SKYWARN Info</a></li>
-      <li><a href="#reportcard">Reporting Requirements</a></li>
       <li><a href="#nwscard">Spotter Resources</a></li>
+      <li><a href="#reportcard">Reporting Requirements</a></li>
+      <li><a href="#submitcard">Submit Reports</a></li>
     </ul>
   </nav>
 
   <!-- Main content area (ARIA landmark) -->
   <main class="site-main" role="main">
 
-    <!-- Submit Reports Card -->
-    <section class="card" id="submitcard">
-      <header class="card-header">
-        <h2 class="card-title">Submit Reports</h2>
-      </header>
-      <div class="card-body">
-        <h3 class="section-subheader">Report to Your Local Network First</h3>
-        <p class="center">
-          <strong>It's advisable to first bring severe weather reports to your local SKYWARN network if possible.</strong>
-        </p>
-        <p class="center">
-          The NWS forecast office operates under the <a href="wx4ptc.html"><strong>WX4PTC</strong></a> call sign so it can coordinate SKYWARN severe‑weather reporting nets.
-        </p>
-        <p class="center">
-            I cannot stress the following point enough. Ham radio is a hobby and is of great service to public services
-            such as the <a href="https://www.weather.gov/atlanta" target="_blank" rel="noopener noreferrer">National Weather Service</a>.<br>
-            Remember if you have a severe weather report and cannot get it in by the above means.....
-            <strong style="color: red;">
-    			CALL ON THE PHONE! Others down the road may benefit.
-			</strong>
-        </p>
-        <aside class="callout note">
-          <h4>EchoLink Access</h4>
-          <p class="center">
-            You may connect to EchoLink node <strong><em>KK4GQ-R</em></strong> to reach <strong>WX4PTC</strong>.<br>
-            This is connected to the repeater <strong>145.210- (131.8 Hz) in Fayetteville, GA</strong>.<br>
-            <em>EchoLink is on full time unless technical difficulties require the control ops to turn it off.</em>
-          </p>
-      	</aside>
-      </div>
-      <div class="action-buttons">
-        <a href="https://www.weather.gov/ffc/SubmitStormReport" class="btn btn-red" target="_blank" rel="noopener noreferrer">
-          Submit Storm Reports
-          <small>via NWS website</small>
-        </a>
-        <a href="tel:8667634466" class="btn btn-red">
-          866-763-4466
-          <small>Severe Weather Only</small>
-        </a>
-        <a href="tel:7704861133" class="btn btn-red">
-          770-486-1133
-          <small>Main Office</small>
-        </a>
-      </div>
-
-      </div>
-    </section>
-
-    <!-- SKYWARN Information Card -->
+    <!-- ════ 1. SKYWARN Information Card ════ -->
     <section class="card SKYWARN-card" id="SKYWARNcard">
       <header class="card-header">
         <h2 class="card-title">SKYWARN Information</h2>
@@ -120,224 +76,251 @@
           </p>
         </div>
 
-        <!-- Net Activation Notice -->
-        <aside class="callout warning">
-          <h4>Net Activation Protocol</h4>
-          <p>
-            Upon request by NWS Atlanta warnings coordinator,
-            <a href="wx4ptc.html"><strong>WX4PTC</strong></a> will be stood up as a net control station
-            to take storm reports over Georgia Linked Repeater net. We will coordinate with repeater
-            owners if activation is required.
-          </p>
-        </aside>
-
-        <!-- Reporting Best Practices -->
-        <aside class="callout">
-          <h4>Reporting Best Practices</h4>
-          <p>
-            <strong>It's advisable to first bring severe weather reports to your local SKYWARN network
-            if possible.</strong> From there, the local SKYWARN networks should establish a "liaison"
-            between the STATE network listed below and their local network. Regardless, reports should
-            be sent to the NCS at the NWS as soon as possible. This setup helps manage congestion during
-            severe weather outbreaks and ensures that severe reports are prioritized.
-          </p>
-        </aside>
-
-    <!-- NWS SKYWARN Page -->
-        <aside class="callout tip">
-          <h4>NWS SKYWARN Page</h4>
-			<p class="resource-description">
-                Official NWS Atlanta SKYWARN page with training schedules, spotter information, and program details.
+        <div class="sub-cards">
+          <div class="sub-card">
+            <h4>Net Activation Protocol</h4>
+            <p>
+              Upon request by NWS Atlanta warnings coordinator,
+              <a href="wx4ptc.html"><strong>WX4PTC</strong></a> will be stood up as a net control station
+              to take storm reports over Georgia Linked Repeater net. We will coordinate with repeater
+              owners if activation is required.
             </p>
-            <a href="https://www.weather.gov/ffc/SKYWARN" style="font-size: 1.1rem; font-weight: 600; color: var(--accent-blue); text-decoration: none;" rel="noopener noreferrer">
-                Visit SKYWARN Page →
-            </a>
-        </aside>
+          </div>
+
+          <div class="sub-card">
+            <h4>Reporting Best Practices</h4>
+            <p>
+              It's advisable to first bring severe weather reports to your local SKYWARN network
+              if possible. Local networks should establish a "liaison" between the STATE network
+              and their local network. Reports should be sent to the NCS at the NWS as soon as
+              possible to manage congestion and prioritize severe reports.
+            </p>
+          </div>
+
+          <div class="sub-card sub-card--full">
+            <h4>NWS SKYWARN Page</h4>
+            <p>
+              Official NWS Atlanta SKYWARN page with training schedules, spotter information, and program details.
+            </p>
+            <a href="https://www.weather.gov/ffc/SKYWARN" target="_blank" rel="noopener noreferrer" class="link-url">www.weather.gov/ffc/SKYWARN</a>
+          </div>
+        </div>
 
       </div>
     </section>
 
-    <!-- SKYWARN Reporting Card -->
+    <!-- ════ 2. Spotter Resources Card ════ -->
+    <section class="card" id="nwscard">
+      <header class="card-header">
+        <h2 class="card-title">Spotter Resources</h2>
+      </header>
+      <div class="card-body">
+
+        <!-- Training & Resources Section -->
+        <h3 class="section-subheader">Spotter Training &amp; Resources</h3>
+        <div class="sub-cards">
+
+          <div class="sub-card">
+            <h4>SKYWARN Spotter Training</h4>
+            <p>Current schedule for spotter training sessions offered by NWS Atlanta. Learn to identify and report severe weather safely and effectively.</p>
+            <a href="https://www.weather.gov/ffc/SKYWARNsched" target="_blank" rel="noopener noreferrer" class="link-url">www.weather.gov/ffc/SKYWARNsched</a>
+          </div>
+
+          <div class="sub-card">
+            <h4>Spotter Quick Reference Handout</h4>
+            <p>Single-page reference guide with essential information for weather spotters including what to report and how to report it.</p>
+            <a href="https://www.weather.gov/media/ffc/Education_Outreach/spotterhandout_Updated.pdf" target="_blank" rel="noopener noreferrer" class="link-url">Spotter Reference PDF</a>
+          </div>
+
+          <div class="sub-card">
+            <h4>SKYWARN Spotter Guidebook</h4>
+            <p>The definitive comprehensive guide for weather spotters covering cloud types, severe weather identification, safety procedures, and reporting protocols.</p>
+            <a href="https://www.weather.gov/media/owlie/SGJune6-11.pdf" target="_blank" rel="noopener noreferrer" class="link-url">Spotter Guidebook PDF</a>
+          </div>
+
+          <div class="sub-card">
+            <h4>NWS Detailed Reporting Guide</h4>
+            <p>Comprehensive NWS guidelines for submitting accurate and useful weather reports, including what qualifies as reportable and how to describe observations.</p>
+            <a href="https://www.weather.gov/spotterguide/reports" target="_blank" rel="noopener noreferrer" class="link-url">www.weather.gov/spotterguide/reports</a>
+          </div>
+
+        </div>
+
+        <!-- Maps & Tools Section -->
+        <h3 class="section-subheader">Maps &amp; Situational Awareness Tools</h3>
+        <div class="sub-cards">
+
+          <div class="sub-card">
+            <h4>NWS Atlanta Radar (KFFC)</h4>
+            <p>Live Doppler weather radar from the KFFC radar site covering Atlanta metro and surrounding regions with real-time precipitation and storm tracking.</p>
+            <a href="https://radar.weather.gov/station/kffc" target="_blank" rel="noopener noreferrer" class="link-url">radar.weather.gov/station/kffc</a>
+          </div>
+
+          <div class="sub-card">
+            <h4>Georgia SKYWARN Linked Repeater Map</h4>
+            <p>Interactive map showing Southeast Linked Repeater Network, Peach State Intertie, and Cherry Blossom Intertie locations with optional weather data layers.</p>
+            <a href="https://arcg.is/0Lfvfb1" target="_blank" rel="noopener noreferrer" class="link-url">View Repeater Map</a>
+          </div>
+
+          <div class="sub-card">
+            <h4>NWSChat 2.0 Companion Map</h4>
+            <p>Interactive map with NOAA/NWS weather feeds, active watches/warnings, and radar. Developed by W8BYH for ARES/EMCOMM operations.</p>
+            <a href="https://arcg.is/XrrLP" target="_blank" rel="noopener noreferrer" class="link-url">Open NWSChat Map</a>
+          </div>
+
+          <div class="sub-card">
+            <h4>ARES Southeast Situational Map (Desktop Only)</h4>
+            <p>Amateur Radio Emergency Service situational awareness map for southeastern US with operational data and tools. Developed by W8BYH.</p>
+            <a href="https://georgia-ares-oldtopographer.hub.arcgis.com/apps/9695e774a1c64971b43bb89a8bae766e/explore" target="_blank" rel="noopener noreferrer" class="link-url">Open ARES Map</a>
+          </div>
+
+        </div>
+
+        <!-- Connect with NWS Atlanta -->
+        <h3 class="section-subheader">Connect with NWS Atlanta</h3>
+        <div class="action-buttons">
+          <a href="https://www.weather.gov/ffc/" class="btn btn-blue" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            NWS Website
+            <small>weather.gov/ffc</small>
+          </a>
+          <a href="https://www.facebook.com/NWSAtlanta" class="btn btn-blue" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Facebook
+            <small>NWSAtlanta</small>
+          </a>
+          <a href="https://x.com/NWSAtlanta" class="btn btn-blue" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            X (Twitter)
+            <small>@NWSAtlanta</small>
+          </a>
+          <a href="https://www.youtube.com/@NWSPeachtreeCity" class="btn btn-blue" target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12z"/></svg>
+            YouTube
+            <small>NWSPeachtreeCity</small>
+          </a>
+        </div>
+
+        <!-- More Resources Link -->
+        <div class="nws-more-resources">
+          <p class="nws-more-text">Looking for additional NWS resources and tools?</p>
+          <a href="nwsffclinks.html" class="btn btn-blue">View All NWS Links →</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════ 3. Reporting Requirements Card ════ -->
     <section class="card report-card" id="reportcard">
       <header class="card-header">
         <h2 class="card-title">Reporting Requirements</h2>
       </header>
-
       <div class="card-body">
-        <!-- Top row: Please Include + Detailed Guide (side by side) -->
-        <div class="report-top-row">
-          <div class="report-include">
-            <h3 class="section-subheader">Please Include</h3>
-            <ul class="include-list">
-              <li>Name</li>
-              <li>Callsign (or phone number)</li>
-              <li><em>Keep your report brief</em></li>
+
+        <!-- Top row: Include checklist + Spotter Guide link -->
+        <h3 class="section-subheader">How to Report</h3>
+        <div class="sub-cards">
+          <div class="sub-card">
+            <h4>Please Include in Your Report</h4>
+            <ul class="report-checklist">
+              <li>Your name and callsign (or phone number)</li>
               <li>Identify yourself as a trained spotter</li>
-              <li>Tell us what you saw</li>
-              <li>Provide your exact location or cross streets</li>
-              <li>Give the event's time</li>
+              <li>What you saw — keep it brief</li>
+              <li>Exact location or cross streets</li>
+              <li>Time of the event</li>
             </ul>
           </div>
-
-          <div class="report-guide">
-            <h3 class="section-subheader">Detailed Reporting Guide</h3>
-            <p>The NWS provides comprehensive guidelines for submitting accurate and useful weather reports.</p>
-            <a href="https://www.weather.gov/spotterguide/reports" class="btn btn-blue" target="_blank" rel="noopener noreferrer">
-              View Official Guide →
-            </a>
+          <div class="sub-card">
+            <h4>NWS Spotter Guidebook</h4>
+            <p>The definitive guide for weather spotters — cloud identification, severe weather recognition, safety procedures, and reporting protocols.</p>
+            <a href="https://www.weather.gov/media/owlie/SGJune6-11.pdf" target="_blank" rel="noopener noreferrer" class="link-url">Download Spotter Guidebook (PDF)</a>
           </div>
         </div>
 
-        <!-- Bottom section: What to Report (full width) -->
-        <div class="report-what-section">
-          <h3 class="section-subheader">What to Report</h3>
-          <div class="report-items-grid">
-            <div class="report-item tornado">
-              <strong>Tornadoes / Funnel Clouds / Wall Clouds</strong>
-              <p>Organized, persistent rotation</p>
-            </div>
-            <div class="report-item hail">
-              <strong>Hail</strong>
-              <p>Report the size of the largest stone and any damage. Compare to coins or balls, or measure with a ruler.</p>
-            </div>
-            <div class="report-item wind">
-              <strong>Damaging Winds</strong>
-              <p>Wind speeds ≥50 mph • Large branches/trees down • Roof or structure damage</p>
-            </div>
-            <div class="report-item flood">
-              <strong>Flooding</strong>
-              <p>Flooded roadways/rivers • Water depth • Standing or flowing • Rising/steady/falling • Known flood area • Damage</p>
-            </div>
-            <div class="report-item winter">
-              <strong>Winter Weather</strong>
-              <p>Any ice/snow accumulation</p>
-            </div>
-            <div class="report-item lightning">
-              <strong>Lightning</strong>
-              <p>Injuries or damage caused</p>
-            </div>
+        <!-- What to Report grid -->
+        <h3 class="section-subheader">What to Report</h3>
+        <div class="sub-cards sub-cards--3col">
+          <div class="sub-card report-card-tornado">
+            <h4>Tornadoes / Funnel Clouds / Wall Clouds</h4>
+            <p>Organized, persistent rotation</p>
+          </div>
+          <div class="sub-card report-card-hail">
+            <h4>Hail</h4>
+            <p>Report the size of the largest stone and any damage. Compare to coins or balls, or measure with a ruler.</p>
+          </div>
+          <div class="sub-card report-card-wind">
+            <h4>Damaging Winds</h4>
+            <p>Wind speeds ≥50 mph • Large branches/trees down • Roof or structure damage</p>
+          </div>
+          <div class="sub-card report-card-flood">
+            <h4>Flooding</h4>
+            <p>Flooded roadways/rivers • Water depth • Standing or flowing • Rising/steady/falling • Known flood area • Damage</p>
+          </div>
+          <div class="sub-card report-card-winter">
+            <h4>Winter Weather</h4>
+            <p>Any ice/snow accumulation</p>
+          </div>
+          <div class="sub-card report-card-lightning">
+            <h4>Lightning</h4>
+            <p>Injuries or damage caused</p>
           </div>
         </div>
+
       </div>
     </section>
 
-<!-- ==== NWS SPOTTER RESOURCES CARD ==== -->
-<section class="card" id="nwscard">
-  <header class="card-header">
-    <h2 class="card-title">Spotter Resources</h2>
-  </header>
-  <div class="card-body">
+    <!-- ════ 4. Submit Reports Card ════ -->
+    <section class="card" id="submitcard">
+      <header class="card-header">
+        <h2 class="card-title">Submit Reports</h2>
+      </header>
+      <div class="card-body">
 
-    <!-- Training & Resources Section -->
-    <h3 class="section-subheader">Spotter Training &amp; Resources</h3>
-    <div class="links-list">
+        <h3 class="section-subheader">Report to Your Local Network First</h3>
+        <div class="sub-cards">
+          <div class="sub-card">
+            <h4>Local SKYWARN Network</h4>
+            <p>
+              The NWS forecast office operates under the <a href="wx4ptc.html"><strong>WX4PTC</strong></a> call sign
+              to coordinate SKYWARN severe-weather reporting nets. Bring reports to your local SKYWARN network first
+              when possible.
+            </p>
+          </div>
+          <div class="sub-card">
+            <h4>EchoLink Access to WX4PTC</h4>
+            <p>
+              <strong>Node:</strong> KK4GQ-R → WX4PTC<br>
+              <strong>Repeater:</strong> 145.210- (131.8 Hz), Fayetteville, GA<br>
+              <strong>Status:</strong> Full-time (unless technical difficulties require control ops to disconnect)
+            </p>
+          </div>
+          <div class="sub-card sub-card--full">
+            <h4>Can't Get Through on the Radio?</h4>
+            <p>
+              If you have a severe weather report and cannot submit it via radio or online,
+              <strong>call on the phone.</strong> Others down the road may benefit from your report.
+            </p>
+          </div>
+        </div>
 
-      <!-- SKYWARN Training -->
-      <div class="link-item">
-        <h4 class="link-title">SKYWARN Spotter Training</h4>
-        <p class="link-description">Current schedule for spotter training sessions offered by NWS Atlanta. Learn to identify and report severe weather safely and effectively.</p>
-        <a href="https://www.weather.gov/ffc/SKYWARNsched" target="_blank" rel="noopener noreferrer" class="link-url">www.weather.gov/ffc/SKYWARNsched</a>
+        <h3 class="section-subheader">Contact NWS Atlanta</h3>
+        <div class="action-buttons">
+          <a href="https://www.weather.gov/ffc/SubmitStormReport" class="btn btn-red" target="_blank" rel="noopener noreferrer">
+            Submit Storm Reports
+            <small>via NWS website</small>
+          </a>
+          <a href="tel:8667634466" class="btn btn-red">
+            866-763-4466
+            <small>Severe Weather Only</small>
+          </a>
+          <a href="tel:7704861133" class="btn btn-red">
+            770-486-1133
+            <small>Main Office</small>
+          </a>
+        </div>
+
       </div>
-
-      <!-- Quick Reference -->
-      <div class="link-item">
-        <h4 class="link-title">Spotter Quick Reference Handout</h4>
-        <p class="link-description">Single-page reference guide with essential information for weather spotters including what to report and how to report it.</p>
-        <a href="https://www.weather.gov/media/ffc/Education_Outreach/spotterhandout_Updated.pdf" target="_blank" rel="noopener noreferrer" class="link-url">Spotter Reference PDF</a>
-      </div>
-
-      <!-- Spotter Guidebook -->
-      <div class="link-item">
-        <h4 class="link-title">SKYWARN Spotter Guidebook</h4>
-        <p class="link-description">The definitive comprehensive guide for weather spotters covering cloud types, severe weather identification, safety procedures, and reporting protocols.</p>
-        <a href="https://www.weather.gov/media/owlie/SGJune6-11.pdf" target="_blank" rel="noopener noreferrer" class="link-url">Spotter Guidebook PDF</a>
-      </div>
-
-      <!-- Submit Report -->
-      <div class="link-item">
-        <h4 class="link-title">Submit Storm Report Online</h4>
-        <p class="link-description">Official NWS web form for submitting severe weather reports including location, time, event type, and damage observations.</p>
-        <a href="https://www.weather.gov/ffc/strmsubm1" target="_blank" rel="noopener noreferrer" class="link-url">www.weather.gov/ffc/strmsubm1</a>
-      </div>
-
-    </div>
-
-    <!-- Maps & Tools Section -->
-    <h3 class="section-subheader">Maps &amp; Situational Awareness Tools</h3>
-    <div class="links-list">
-
-      <!-- Radar -->
-      <div class="link-item">
-        <h4 class="link-title">NWS Atlanta Radar (KFFC)</h4>
-        <p class="link-description">Live Doppler weather radar from the KFFC radar site covering Atlanta metro and surrounding regions with real-time precipitation and storm tracking.</p>
-        <a href="https://radar.weather.gov/station/kffc" target="_blank" rel="noopener noreferrer" class="link-url">radar.weather.gov/station/kffc</a>
-      </div>
-
-      <!-- Linked Repeater Map -->
-      <div class="link-item">
-        <h4 class="link-title">Georgia SKYWARN Linked Repeater Map</h4>
-        <p class="link-description">Interactive map showing Southeast Linked Repeater Network, Peach State Intertie, and Cherry Blossom Intertie locations with optional weather data layers. Works on all devices.</p>
-        <a href="https://arcg.is/0Lfvfb1" target="_blank" rel="noopener noreferrer" class="link-url">View Repeater Map</a>
-      </div>
-
-      <!-- NWSChat Map -->
-      <div class="link-item">
-        <h4 class="link-title">NWSChat 2.0 Companion Map</h4>
-        <p class="link-description">Interactive map with NOAA/NWS weather feeds, active watches/warnings, and radar. Developed by W8BYH for ARES/EMCOMM operations.</p>
-        <a href="https://arcg.is/XrrLP" target="_blank" rel="noopener noreferrer" class="link-url">Open NWSChat Map</a>
-      </div>
-
-      <!-- ARES Map -->
-      <div class="link-item">
-        <h4 class="link-title">ARES Southeast Situational Map (Desktop Only)</h4>
-        <p class="link-description">Amateur Radio Emergency Service situational awareness map for southeastern US with operational data and tools. Developed by W8BYH. Desktop Only - poor performance on Mobile.</p>
-        <a href="https://georgia-ares-oldtopographer.hub.arcgis.com/apps/9695e774a1c64971b43bb89a8bae766e/explore" target="_blank" rel="noopener noreferrer" class="link-url">Open ARES Map</a>
-      </div>
-
-    </div>
-
-    <!-- Social Media Section -->
-    <h3 class="section-subheader">Connect with NWS Atlanta</h3>
-    <div class="links-list">
-
-      <!-- NWS Website -->
-      <div class="link-item">
-        <h4 class="link-title">NWS Peachtree City Website</h4>
-        <p class="link-description">Official National Weather Service Atlanta/Peachtree City forecast office website with forecasts, warnings, and local weather information.</p>
-        <a href="https://www.weather.gov/ffc/" target="_blank" rel="noopener noreferrer" class="link-url">www.weather.gov/ffc</a>
-      </div>
-
-      <!-- Facebook -->
-      <div class="link-item">
-        <h4 class="link-title">NWS Atlanta on Facebook</h4>
-        <p class="link-description">Follow US National Weather Service Peachtree City on Facebook for weather updates, forecast information, and severe weather alerts.</p>
-        <a href="https://www.facebook.com/NWSAtlanta" target="_blank" rel="noopener noreferrer" class="link-url">facebook.com/NWSAtlanta</a>
-      </div>
-
-      <!-- X/Twitter -->
-      <div class="link-item">
-        <h4 class="link-title">NWS Atlanta on X (Twitter)</h4>
-        <p class="link-description">Follow @NWSAtlanta on X for real-time weather updates, warnings, and forecast information from the Peachtree City office.</p>
-        <a href="https://x.com/NWSAtlanta" target="_blank" rel="noopener noreferrer" class="link-url">x.com/NWSAtlanta</a>
-      </div>
-
-      <!-- YouTube -->
-      <div class="link-item">
-        <h4 class="link-title">NWS Peachtree City on YouTube</h4>
-        <p class="link-description">Subscribe to NWS Peachtree City YouTube channel for weather briefings, educational videos, and severe weather coverage.</p>
-        <a href="https://www.youtube.com/@NWSPeachtreeCity" target="_blank" rel="noopener noreferrer" class="link-url">youtube.com/@NWSPeachtreeCity</a>
-      </div>
-
-    </div>
-
-    <!-- More Resources Link -->
-    <div class="nws-more-resources">
-      <p class="nws-more-text">Looking for additional NWS resources and tools?</p>
-      <a href="nwsffclinks.html" class="btn btn-blue">View All NWS Links →</a>
-    </div>
-
-  </div>
-</section>
+    </section>
 
   </main>
 
