@@ -748,7 +748,7 @@
   {
     "id": "WB4BXO-147.330",
     "location": "LaGrange",
-    "frequency": "147.330-",
+    "frequency": "147.330+",
     "tone": "100.0 Hz",
     "tags": [
       "SE Linked Repeater"
