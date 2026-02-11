@@ -760,6 +760,14 @@
     "verified": true,
     "clubName": null,
     "clubUrl": null,
+    "iplinks": [
+      {
+        "system": "EchoLink",
+        "node": "481355",
+        "callsign": "WB4BXO-R",
+        "connectionType": "available"
+      }
+    ],
     "rflinks": [
       {
         "linkType": "on-demand",
