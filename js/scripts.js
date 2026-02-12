@@ -297,6 +297,43 @@
   }
 
   // ========================================================================
+  // PAGE LAST-UPDATED DATE (all pages except repeaters.html)
+  // ========================================================================
+  async function updatePageLastUpdated() {
+    const dateElement = document.getElementById('page-last-updated');
+    if (!dateElement) return;
+
+    try {
+      const response = await fetch(window.location.pathname, { method: 'HEAD' });
+      const lastModified = response.headers.get('Last-Modified');
+
+      if (lastModified) {
+        const date = new Date(lastModified);
+        const formatter = new Intl.DateTimeFormat('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+
+        let formattedDate = formatter.format(date);
+        const day = date.getDate();
+        const suffix = ['th', 'st', 'nd', 'rd'][
+          (day % 100 > 10 && day % 100 < 14) ? 0 : (day % 10 < 4) ? day % 10 : 0
+        ];
+        formattedDate = formattedDate.replace(/\d+/, `${day}${suffix}`);
+        dateElement.textContent = formattedDate;
+      } else {
+        dateElement.textContent = 'recently';
+      }
+    } catch (error) {
+      console.error('Error fetching page last-updated date:', error);
+      dateElement.textContent = 'recently';
+    }
+  }
+
+  updatePageLastUpdated();
+
+  // ========================================================================
   // NOTE: Footer injection is now handled in footer.js
   // ========================================================================
 
