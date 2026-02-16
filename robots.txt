@@ -1,7 +1,26 @@
 # robots.txt for georgiaskywarn.com
-# Allow all search engines to crawl the site
+# Allow all search engines and AI crawlers to access the site
 
 User-agent: *
+Allow: /
+
+# AI Search Crawlers - explicitly allowed
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot-Extended
 Allow: /
 
 # Sitemap location

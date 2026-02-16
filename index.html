@@ -17,6 +17,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Georgia SKYWARN - Amateur Radio Weather Spotter Dashboard</title>
   <meta name="description" content="Georgia SKYWARN dashboard displaying current Hazardous Weather Outlook from NWS Atlanta, spotter activation status, and active weather alerts for North and Central Georgia.">
+  <meta name="author" content="Jack Parks (KQ4JP)">
+  <link rel="canonical" href="https://georgiaskywarn.com/">
 
   <!-- Security headers -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://api.weather.gov; font-src 'self'; base-uri 'self'; form-action 'self'">
@@ -33,10 +35,74 @@
   <meta property="og:image" content="https://georgiaskywarn.com/ganwsareacoverage.png">
   <meta property="og:url" content="https://georgiaskywarn.com/">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Georgia SKYWARN">
 
   <!-- Stylesheet and favicon -->
   <link rel="stylesheet" href="style.css?v=20260103b">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+  <!-- Structured data for AI search and rich results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://georgiaskywarn.com/#organization",
+    "name": "Georgia SKYWARN",
+    "alternateName": "Georgia SKYWARN Linked Repeater System",
+    "url": "https://georgiaskywarn.com",
+    "logo": "https://georgiaskywarn.com/georgiaskywarnlogo.png",
+    "description": "Volunteer amateur radio weather spotter network coordinating severe weather reporting across 96 counties in North and Central Georgia with the National Weather Service.",
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": "North and Central Georgia"
+    },
+    "parentOrganization": {
+      "@type": "GovernmentOrganization",
+      "name": "National Weather Service",
+      "url": "https://www.weather.gov"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "kq4jp@pm.me",
+      "contactType": "webmaster"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://georgiaskywarn.com/#website",
+    "name": "Georgia SKYWARN",
+    "url": "https://georgiaskywarn.com",
+    "publisher": { "@id": "https://georgiaskywarn.com/#organization" },
+    "description": "Central hub for the Georgia SKYWARN linked repeater system, coordinating severe weather reporting with NWS Peachtree City."
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Georgia SKYWARN Spotter Dashboard",
+    "description": "Real-time dashboard displaying Hazardous Weather Outlook, spotter activation status, and active weather alerts from NWS Atlanta for North and Central Georgia.",
+    "url": "https://georgiaskywarn.com/",
+    "isPartOf": { "@id": "https://georgiaskywarn.com/#website" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://georgiaskywarn.com/"
+      }
+    ]
+  }
+  </script>
 
 </head>
 
