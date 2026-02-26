@@ -1560,6 +1560,18 @@ a:hover, a:focus {
   grid-column: 1 / -1;
 }
 
+/* Ordered list inside a sub-card */
+.sub-card ol {
+  margin: 0;
+  padding-left: 1.5rem;
+  line-height: 1.8;
+}
+
+/* Action buttons inside a sub-card need top breathing room */
+.sub-card .action-buttons {
+  margin-top: 1rem;
+}
+
 /* ---------- Links List Component ---------- */
 .links-list {
   display: grid;

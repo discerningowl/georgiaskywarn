@@ -110,6 +110,10 @@
    * Other scripts load after DOM is ready
    */
   async function init() {
+    // Stamp the stylesheet with the current version for cache busting
+    const cssLink = document.querySelector('link[rel="stylesheet"][href^="style.css"]');
+    if (cssLink) cssLink.href = `style.css?v=${window.APP_VERSION || 'default'}`;
+
     // Load components.js immediately (blocks to prevent FOUC)
     await loadScript('js/components.js');
 
