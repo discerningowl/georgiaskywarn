@@ -1473,6 +1473,28 @@ a:hover, a:focus {
   background: var(--card-bg); /* fallback bg if image has transparency */
 }
 
+/* ---------- Photo Archive Grid ---------- */
+.photo-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin: 1.5rem auto;
+  max-width: 1200px;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .photo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Uniform tile height for consistent grid appearance */
+.photo-grid .card-img {
+  height: 240px;
+  object-fit: cover;
+}
+
 .card-body {
   padding: 1.5rem;
 }
