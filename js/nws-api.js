@@ -512,10 +512,52 @@
   }
 
   /**
+   * Format an ISO expiry timestamp as absolute time + relative offset
+   * e.g. "5:45 PM EST (in 18 min)" or "5:45 PM EST (expired)"
+   * @param {string} isoString - ISO 8601 expiry timestamp
+   * @returns {string}
+   */
+  function formatRelativeExpiry(isoString) {
+    if (!isoString) return 'Unknown';
+    const expires = new Date(isoString);
+    const diffMin = Math.round((expires - Date.now()) / 60000);
+
+    const absTime = expires.toLocaleString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      timeZoneName: 'short'
+    });
+
+    if (diffMin <= 0) return `${absTime} (expired)`;
+    if (diffMin < 60) return `${absTime} (in ${diffMin} min)`;
+    const h = Math.floor(diffMin / 60);
+    const m = diffMin % 60;
+    return `${absTime} (in ${m === 0 ? `${h}h` : `${h}h ${m}m`})`;
+  }
+
+  /**
+   * Update the alert-count-summary span in the status bar with live counts
+   * @param {{warnings: number, watches: number, advisories: number}} counts
+   */
+  function updateAlertCountSummary(counts) {
+    const el = document.getElementById('alert-count-summary');
+    if (!el) return;
+    const { warnings, watches, advisories } = counts;
+    if (warnings + watches + advisories === 0) {
+      el.textContent = '🔴 Warnings | 🟠 Watches | 🔵 Alerts';
+      return;
+    }
+    const w = warnings === 1 ? 'Warning' : 'Warnings';
+    const wt = watches === 1 ? 'Watch' : 'Watches';
+    const a = advisories === 1 ? 'Advisory' : 'Advisories';
+    el.textContent = `🔴 ${warnings} ${w} | 🟠 ${watches} ${wt} | 🔵 ${advisories} ${a}`;
+  }
+
+  /**
    * Render all alerts for dashboard
    * Filters to show only NWS Peachtree City (FFC) alerts
    * Handles both "NWS Peachtree City" and "NWS Peachtree City GA" sender names
-   * @returns {Object} - {html: string, severity: 'red'|'yellow'|'blue'|'green'}
+   * @returns {Object} - {html: string, severity: 'red'|'yellow'|'blue'|'green', counts: Object}
    */
   function renderAllAlerts(data) {
     const features = (data.features || []).filter(f => {
@@ -540,24 +582,27 @@
     if (uniqueFeatures.length === 0) {
       return {
         html: `<p class="no-alerts center"><strong>No active alerts in NWS Atlanta (FFC) area.</strong></p>`,
-        severity: 'green'
+        severity: 'green',
+        counts: { warnings: 0, watches: 0, advisories: 0 }
       };
     }
 
-    // Determine highest severity for header color
+    // Determine highest severity for header color and count each type
     // Priority: warning (red) > watch (yellow) > other (blue)
     let highestSeverity = 'blue'; // Default to blue for advisories/other
-    let hasWarning = false;
-    let hasWatch = false;
+    let warningCount = 0;
+    let watchCount = 0;
+    let advisoryCount = 0;
 
     uniqueFeatures.forEach(f => {
       const p = f.properties;
-      const isWarning = p.event?.toLowerCase().includes('warning');
-      const isWatch = p.event?.toLowerCase().includes('watch');
-
-      if (isWarning) hasWarning = true;
-      if (isWatch) hasWatch = true;
+      if (p.event?.toLowerCase().includes('warning')) warningCount++;
+      else if (p.event?.toLowerCase().includes('watch')) watchCount++;
+      else advisoryCount++;
     });
+
+    const hasWarning = warningCount > 0;
+    const hasWatch = watchCount > 0;
 
     // Set severity based on highest priority alert type
     if (hasWarning) {
@@ -589,13 +634,13 @@
           <div class="alert-header">${headline} – <strong>${type}</strong></div>
           <div class="alert-description">${shortDesc}</div>
           <div class="alert-meta">
-            <small><strong>Areas:</strong> ${areaDesc}<br><strong>Expires:</strong> ${new Date(p.expires).toLocaleString()}</small>
+            <small><strong>Areas:</strong> ${areaDesc}<br><strong>Expires:</strong> ${formatRelativeExpiry(p.expires)}</small>
           </div>
           <div class="alert-more">Click for full details →</div>
         </div>`;
     }).join('');
 
-    return { html, severity: highestSeverity };
+    return { html, severity: highestSeverity, counts: { warnings: warningCount, watches: watchCount, advisories: advisoryCount } };
   }
 
   /**
@@ -668,6 +713,7 @@
         const result = renderAllAlerts(cached);
         container.innerHTML = result.html;
         updateAlertHeaderColor(result.severity);
+        updateAlertCountSummary(result.counts);
         attachAlertClickHandlers();
         return;
       }
@@ -680,6 +726,7 @@
       const result = renderAllAlerts(data);
       container.innerHTML = result.html;
       updateAlertHeaderColor(result.severity);
+      updateAlertCountSummary(result.counts);
       attachAlertClickHandlers();
 
     } catch (err) {
