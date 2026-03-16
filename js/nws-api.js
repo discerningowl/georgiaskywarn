@@ -766,7 +766,7 @@
   }
 
   /**
-   * Initialize dashboard (call from dashboard.html)
+   * Initialize dashboard (called from index.html via loader.js auto-detection)
    */
   function initDashboard() {
     console.log('[Dashboard] Initializing...');

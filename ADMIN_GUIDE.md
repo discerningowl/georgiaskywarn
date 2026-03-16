@@ -115,8 +115,7 @@ The Georgia SKYWARN website uses a **flat directory structure** - all important 
 
 ```
 georgiaskywarn/
-├── index.html              ← Main page (what visitors see first)
-├── dashboard.html          ← Spotter dashboard with HWO and all alerts
+├── index.html              ← Main page / spotter dashboard with HWO and all alerts
 ├── repeaters.html          ← Repeater directory page (displays data from JSON)
 ├── nwsffclinks.html        ← NWS links and resources page
 ├── wx4ptc.html             ← WX4PTC station information page
@@ -521,7 +520,7 @@ Update a link in about.html:
 
 ### Understanding Weather Alerts and Dashboard (Automatic - No Manual Updates Needed)
 
-**Important**: Weather alerts on `index.html` and `dashboard.html` are **automatically fetched from the NWS API**. You should NOT manually update these.
+**Important**: Weather alerts on `index.html` are **automatically fetched from the NWS API**. You should NOT manually update these.
 
 **How Weather Alerts and Dashboard Work**:
 - The site automatically fetches live weather alerts from the National Weather Service API
@@ -608,8 +607,8 @@ georgiaskywarn/                    ← Root directory on server
 ├── index.html                     ← Redirect file (points to non-www version)
 │
 └── public_html/                   ← MAIN WEBSITE FOLDER
-    ├── index.html                 ← Actual homepage
-    ├── dashboard.html
+    ├── index.html                 ← Actual homepage / spotter dashboard
+    ├── spotters.html
     ├── repeaters.html
     ├── nwsffclinks.html
     ├── wx4ptc.html
@@ -620,16 +619,18 @@ georgiaskywarn/                    ← Root directory on server
     ├── favicon.ico
     ├── nws.gif
     ├── js/
-    │   ├── header.js
-    │   ├── footer.js
+    │   ├── version.js
+    │   ├── loader.js
+    │   ├── core.js
+    │   ├── components.js
     │   ├── scripts.js
     │   ├── nws-api.js
-    │   ├── config.js
-    │   ├── utils.js
+    │   ├── search.js
     │   └── changelog.js
     ├── data/
-    │   ├── linked-repeaters.json
-    │   ├── nonlinked-repeaters.json
+    │   ├── repeaters.json
+    │   ├── weather-stations.json
+    │   ├── search-index.json
     │   └── changelog.json
     ├── archive/
     │   └── WX4PTC*.jpg
@@ -705,7 +706,7 @@ This is the standard deployment method for the Georgia SKYWARN website.
    - ❌ `CLAUDE.md`, `README.md`, `ADMIN_GUIDE.md` (documentation files)
 3. Upload the selected files to `public_html/`
 4. **IMPORTANT**: Make sure to include:
-   - ✅ All HTML files (index.html, dashboard.html, etc.)
+   - ✅ All HTML files (index.html, spotters.html, repeaters.html, etc.)
    - ✅ `js/` folder with all JavaScript files
    - ✅ `data/` folder with all JSON data files
    - ✅ style.css
@@ -727,9 +728,9 @@ This is the standard deployment method for the Georgia SKYWARN website.
 GitHub Folder → Server Location
 
 /index.html              → georgiaskywarn/public_html/index.html
-/dashboard.html          → georgiaskywarn/public_html/dashboard.html
+/spotters.html           → georgiaskywarn/public_html/spotters.html
 /style.css               → georgiaskywarn/public_html/style.css
-/js/header.js            → georgiaskywarn/public_html/js/header.js
+/js/core.js              → georgiaskywarn/public_html/js/core.js
 /js/nws-api.js           → georgiaskywarn/public_html/js/nws-api.js
 /data/changelog.json     → georgiaskywarn/public_html/data/changelog.json
 /archive/*.jpg           → georgiaskywarn/public_html/archive/*.jpg
@@ -908,7 +909,7 @@ document.documentElement.setAttribute('data-theme', 'light');
 | Mobile responsive | ☐ | Test on phone or use DevTools |
 | Dark mode works | ☐ | Check colors and readability |
 | Light mode works | ☐ | Check colors and readability |
-| Weather alerts load | ☐ | Check index.html and dashboard.html |
+| Weather alerts load | ☐ | Check index.html |
 | No console errors | ☐ | F12 → Console (should be empty) |
 | Contact emails work | ☐ | Click mailto: links |
 | External links open | ☐ | Should open in new tabs |
