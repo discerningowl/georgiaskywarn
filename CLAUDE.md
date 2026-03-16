@@ -15,8 +15,7 @@ The **Georgia SKYWARN** website (`georgiaskywarn.com`) is a static HTML/CSS webs
 
 ```
 georgiaskywarn/
-├── index.html              # Main landing page with SKYWARN info and active warnings
-├── dashboard.html          # Spotter dashboard with HWO, activation status, and all alerts
+├── index.html              # Main landing page / spotter dashboard with HWO, activation status, and all alerts
 ├── repeaters.html          # Dedicated page for linked and non-linked repeaters
 ├── nwsffclinks.html        # Useful NWS links and resources page
 ├── wx4ptc.html             # Information about WX4PTC station
@@ -172,7 +171,6 @@ For scripts that only load on specific pages:
    ```javascript
    const pageScripts = {
      'index.html': ['js/nws-api.js'],
-     'dashboard.html': ['js/nws-api.js'],
      'about.html': ['js/changelog.js'],
      'photoarchive.html': ['js/gallery.js']  // ← Add here
    };
@@ -225,25 +223,11 @@ For scripts that only load on specific pages:
 
 **Design Pattern**: Uses `.sub-cards` / `.sub-card` grid throughout for consistent nested card layout
 
-### dashboard.html
-**Purpose**: Spotter dashboard showing HWO outlook, activation status, and all active alerts
-
-**Navigation**:
-- **Site-nav**: Links to other pages (back to index, repeaters, wx4ptc, nwsffclinks, about)
-- **Page-nav**: Links to page sections (Spotter Status, Active Alerts, Quick Maps)
-
-**Key Features**:
-- Hazardous Weather Outlook (HWO) from NWS Atlanta with spotter activation detection
-- Shows all alert types: warnings (red), watches (orange), and advisories (teal)
-- Quick Maps section with 6 essential weather/situational awareness tools
-- HWO cached for 4 hours, alerts refresh every 5 minutes
-- Modal popups for HWO details and individual alert details
-
 ### repeaters.html
 **Purpose**: Dedicated page for SKYWARN repeater and weather radio information
 
 **Navigation**:
-- **Site-nav**: Links to other pages (back to index, dashboard, wx4ptc, nwsffclinks, about)
+- **Site-nav**: Links to other pages (back to index, wx4ptc, nwsffclinks, about)
 - **Page-nav**: Links to page sections (Search Repeaters, Linked Repeaters, Non-Linked Repeaters, Weather Stations)
 
 **Contains**:
@@ -367,7 +351,7 @@ The site uses a **two-tier navigation system**:
    - Desktop: Horizontal button bar
    - Mobile toggle: Blue hamburger button labeled "☰ SITE"
    - Button styling: `background: var(--accent-blue)` with darker hover state
-   - Contains links to: dashboard.html, repeaters.html, wx4ptc.html, nwsffclinks.html, about.html
+   - Contains links to: repeaters.html, wx4ptc.html, nwsffclinks.html, about.html, spotters.html
 
 2. **Page Navigation (`.page-nav`)** - **Sticky Floating Bar**:
    - Purpose: Navigate to sections within the current page
@@ -939,9 +923,9 @@ Use these official RepeaterBook system pages to validate repeater membership and
   ```
 
 **Styling navigation links**:
-- Use `.nav-btn-alert` for high-priority links (e.g., dashboard page):
+- Use `.nav-btn-alert` for high-priority links (e.g., linking back to the main dashboard from another page):
   ```html
-  <a href="dashboard.html" class="nav-btn-alert">Dashboard</a>
+  <a href="index.html" class="nav-btn-alert">Dashboard</a>
   ```
 - Use `.nav-btn-link` for standard navigation links:
   ```html
@@ -964,13 +948,7 @@ Use these official RepeaterBook system pages to validate repeater membership and
 
 ### Modifying the Alert Display Logic
 
-**index.html** (warnings only):
-```javascript
-return p.senderName?.includes('NWS Peachtree City') &&
-       p.event?.toLowerCase().includes('warning');
-```
-
-**dashboard.html** (all alerts):
+**index.html** (all alerts — shows warnings, watches, and advisories):
 ```javascript
 return p.senderName && p.senderName.includes('NWS Peachtree City');
 ```
