@@ -1523,6 +1523,28 @@ a:hover, a:focus {
   white-space: nowrap;
   flex-shrink: 0;
   display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  line-height: 1;
+  background: var(--accent-red);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.search-clear:hover {
+  background: var(--accent-red-dark);
+}
+
+.search-clear:focus-visible {
+  outline: 3px solid var(--accent-red);
+  outline-offset: 2px;
 }
 
 .search-clear.visible {
