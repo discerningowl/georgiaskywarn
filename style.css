@@ -1,26 +1,4 @@
-/* ==========================================================================
-   style.css – shared design for Georgia Skywarn & WX4PTC pages
-   Author: Georgia SKYWARN Development Team
-   Purpose: Unified, accessible, responsive design system using CSS Grid/Flexbox.
-            Supports light/dark mode, mobile-first layout, and semantic styling.
-   Change-log:
-     • 2026-01-03b – CRITICAL FIX: Fixed alert text readability in dark mode
-       - Changed --alert-desc-color from var(--border-secondary) to var(--text-secondary)
-       - Border-secondary was 92% transparent (invisible), text-secondary is readable
-       - Fixes unreadable alerts in dark mode on dashboard
-     • 2026-01-02 – Added yellow gradient and card-header--yellow for three-level
-       spotter activation urgency system (RED/YELLOW/GREEN).
-     • 2025-11-05 – Full refactor: mobile-first, Grid/Flexbox, ARIA-ready,
-       reduced specificity, removed unused legacy styles.
-     • 2025-11-05 – Merged "What to Report" grid (no table), NWS resources grid,
-       added --event-bg.
-     • 2025-11-07 – CLEANUP: Fixed card headers & buttons, removed dead code,
-       consolidated media queries, introduced --btn-bg variable, ensured
-       scroll-hint visibility in dark mode.
-     • 2025-11-07 – Added styles for NWS resources grid to fix messed up columns:
-       3-column desktop layout (logo + links + social), stacks on mobile,
-       with proper alignment and spacing.
-   ========================================================================== */
+/* style.css – Georgia SKYWARN shared stylesheet. Mobile-first, light/dark mode. */
 
 /* ---------- CSS Custom Properties (Light / Dark) ---------- */
 :root {
@@ -30,7 +8,6 @@
   --slate-400: #94a3b8;
   --blue-400: #60a5fa;
   --green-500: #4caf50;
-
   /* Light mode defaults */
   --bg-body: #f8f9fa;
   --text-primary: #1a1a1a;
@@ -53,7 +30,6 @@
   --accent-yellow-dark: #E0A800;
   --accent-pink: #ec4899;
   --accent-pink-dark: #f472b6;
-
   /* Enhanced shadow system - graduated levels */
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -65,14 +41,11 @@
   --bg-primary: #f8f9fa;
   --bg-secondary: var(--white);
   --bg-tertiary: #f3f4f6;
-
   /* Border system */
   --border-primary: #e2e8f0;
   --border-secondary: #d1d5db;
-
   /* Text variations */
   --text-muted: #6b7280;
-
   --glow: 0 0 15px rgba(0, 102, 204, 0.2);
   --header-gradient: linear-gradient(135deg, #001f3f 0%, #003366 100%);
   --header-gradient-red: linear-gradient(135deg, #FB2C36 0%, #FF6467 100%);
@@ -120,7 +93,6 @@
     --accent-yellow-dark: #E0A800;
     --accent-pink: #f9a8d4;
     --accent-pink-dark: #fbcfe8;
-
     /* Enhanced shadows for dark mode */
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
     --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -132,14 +104,11 @@
     --bg-primary: #0f1419;
     --bg-secondary: #1a1f2e;
     --bg-tertiary: #22293a;
-
     /* Borders */
     --border-primary: rgba(255, 255, 255, 0.1);
     --border-secondary: rgba(255, 255, 255, 0.08);
-
     /* Text */
     --text-muted: #6b7280;
-
     --glow: 0 0 20px rgba(96, 165, 250, 0.3);
     --header-gradient: linear-gradient(135deg, #0a3d62 0%, #1e40af 100%);
     --header-gradient-red: linear-gradient(135deg, #FB2C36 0%, #FF6467 100%);
@@ -160,72 +129,7 @@
     --nav-btn-border: rgba(255, 255, 255, 0.1);
     --nav-btn-bg-hover: rgba(96, 165, 250, 0.2);
     --nav-btn-color-hover: var(--blue-400);
-	}
-	.alert-item {
-	    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.1); /* Inner glow for depth in dark mode */
-	  }
-
-	  /* Fix header and navigation visibility in dark mode */
-	  .logo-text h1 {
-	    color: var(--white) !important;
-	  }
-
-	  .logo-text p {
-	    color: var(--text-secondary) !important;
-	  }
-
-	  #desktopNav a {
-	    color: var(--text-primary) !important;
-	  }
-
-	  #desktopNav a:hover,
-	  #desktopNav a:focus {
-	    color: var(--blue-400) !important;
-	  }
-
-	  .mobile-menu-btn {
-	    color: var(--text-primary) !important;
-	  }
-
-	  #themeToggle,
-	  #themeToggleMobile {
-	    color: var(--text-primary) !important;
-	  }
-
-	  #themeToggle svg,
-	  #themeToggleMobile svg {
-	    stroke: var(--text-primary) !important;
-	  }
-
-	  .page-nav .nav-list a {
-	    color: var(--text-primary) !important;
-	  }
-
-	  .page-nav .nav-list a:hover,
-	  .page-nav .nav-list a:focus {
-	    color: var(--white) !important;
-	  }
-
-	  /* Fix footer visibility in dark mode */
-	  .footer-content {
-	    color: var(--text-secondary) !important;
-	  }
-
-	  .footer-section p {
-	    color: var(--text-secondary) !important;
-	  }
-
-	  .footer-nav a {
-	    color: var(--text-secondary) !important;
-	  }
-
-	  .footer-nav a:hover {
-	    color: var(--blue-400) !important;
-	  }
-
-	  .footer-bottom p {
-	    color: var(--text-secondary) !important;
-	  }
+  }
 }
 
 /* ---------- Manual Theme Override (takes precedence over system preference) ---------- */
@@ -258,77 +162,6 @@ html[data-theme="light"] {
   --alert-desc-color: var(--text-secondary);
 }
 
-/* Restore original light mode colors for header, nav, and footer */
-html[data-theme="light"] .logo-text h1 {
-  color: var(--border-primary) !important;
-}
-
-html[data-theme="light"] .logo-text p {
-  color: var(--slate-400) !important;
-}
-
-html[data-theme="light"] #desktopNav a {
-  color: var(--border-primary) !important;
-}
-
-html[data-theme="light"] #desktopNav a:hover,
-html[data-theme="light"] #desktopNav a:focus {
-  color: var(--blue-400) !important;
-}
-
-html[data-theme="light"] .mobile-menu-btn {
-  color: var(--border-primary) !important;
-}
-
-html[data-theme="light"] #themeToggle,
-html[data-theme="light"] #themeToggleMobile,
-html[data-theme="light"] #site-search-button {
-  color: var(--border-primary) !important;
-}
-
-html[data-theme="light"] #themeToggle svg,
-html[data-theme="light"] #themeToggleMobile svg,
-html[data-theme="light"] #site-search-button svg {
-  stroke: var(--border-primary) !important;
-}
-
-html[data-theme="light"] #site-search-button:hover {
-  color: var(--blue-400) !important;
-}
-
-html[data-theme="light"] #site-search-button:hover svg {
-  stroke: var(--blue-400) !important;
-}
-
-html[data-theme="light"] .page-nav .nav-list a {
-  color: var(--border-primary) !important;
-}
-
-html[data-theme="light"] .page-nav .nav-list a:hover,
-html[data-theme="light"] .page-nav .nav-list a:focus {
-  color: var(--white) !important;
-}
-
-html[data-theme="light"] .footer-content {
-  color: var(--text-muted) !important;
-}
-
-html[data-theme="light"] .footer-section p {
-  color: var(--text-muted) !important;
-}
-
-html[data-theme="light"] .footer-nav a {
-  color: var(--text-muted) !important;
-}
-
-html[data-theme="light"] .footer-nav a:hover {
-  color: var(--accent-blue) !important;
-}
-
-html[data-theme="light"] .footer-bottom p {
-  color: var(--text-muted) !important;
-}
-
 html[data-theme="dark"] {
   --bg-body: #0f172a;
   --text-primary: #e2e8f0;
@@ -356,78 +189,6 @@ html[data-theme="dark"] {
   --alert-other-bg: rgba(96, 165, 250, 0.25);
   --alert-header-color: var(--white);
   --alert-desc-color: var(--text-secondary);
-}
-
-/* Fix header and navigation visibility in manual dark mode */
-html[data-theme="dark"] .logo-text h1 {
-  color: var(--white) !important;
-}
-
-html[data-theme="dark"] .logo-text p {
-  color: var(--text-secondary) !important;
-}
-
-html[data-theme="dark"] #desktopNav a {
-  color: var(--text-primary) !important;
-}
-
-html[data-theme="dark"] #desktopNav a:hover,
-html[data-theme="dark"] #desktopNav a:focus {
-  color: var(--blue-400) !important;
-}
-
-html[data-theme="dark"] .mobile-menu-btn {
-  color: var(--text-primary) !important;
-}
-
-html[data-theme="dark"] #themeToggle,
-html[data-theme="dark"] #themeToggleMobile,
-html[data-theme="dark"] #site-search-button {
-  color: var(--text-primary) !important;
-}
-
-html[data-theme="dark"] #themeToggle svg,
-html[data-theme="dark"] #themeToggleMobile svg,
-html[data-theme="dark"] #site-search-button svg {
-  stroke: var(--text-primary) !important;
-}
-
-html[data-theme="dark"] #site-search-button:hover {
-  color: var(--accent-blue) !important;
-}
-
-html[data-theme="dark"] #site-search-button:hover svg {
-  stroke: var(--accent-blue) !important;
-}
-
-html[data-theme="dark"] .page-nav .nav-list a {
-  color: var(--text-primary) !important;
-}
-
-html[data-theme="dark"] .page-nav .nav-list a:hover,
-html[data-theme="dark"] .page-nav .nav-list a:focus {
-  color: var(--white) !important;
-}
-
-/* Fix footer visibility in manual dark mode */
-html[data-theme="dark"] .footer-content {
-  color: var(--text-secondary) !important;
-}
-
-html[data-theme="dark"] .footer-section p {
-  color: var(--text-secondary) !important;
-}
-
-html[data-theme="dark"] .footer-nav a {
-  color: var(--text-secondary) !important;
-}
-
-html[data-theme="dark"] .footer-nav a:hover {
-  color: var(--blue-400) !important;
-}
-
-html[data-theme="dark"] .footer-bottom p {
-  color: var(--text-secondary) !important;
 }
 
 /* ---------- Global Reset & Base ---------- */
@@ -492,10 +253,7 @@ a:hover, a:focus {
 
 .center { text-align: center; }
 
-/* ==========================================================================
-   HEADER COMPONENT - Sticky header with logo, nav, theme toggle
-   Based on atlantahamradio.org header design
-   ========================================================================== */
+/* --- HEADER COMPONENT --- */
 
 .header {
   background: rgba(15, 23, 42, 0.95);
@@ -529,9 +287,7 @@ a:hover, a:focus {
   transition: var(--transition);
 }
 
-.logo:hover {
-  opacity: 0.85;
-}
+.logo:hover { opacity: 0.85; }
 
 .logo-image {
   width: 64px;
@@ -548,7 +304,7 @@ a:hover, a:focus {
   font-weight: 800;
   margin: 0;
   line-height: 1.2;
-  color: var(--border-primary);
+  color: #e2e8f0;
 }
 
 .logo-text p {
@@ -566,7 +322,7 @@ a:hover, a:focus {
 }
 
 #desktopNav a {
-  color: var(--border-primary);
+  color: #e2e8f0;
   text-decoration: none;
   font-weight: 600;
   transition: var(--transition);
@@ -583,31 +339,29 @@ a:hover, a:focus {
 
 /* Theme toggle in nav */
 #themeToggle,
-#themeToggleMobile {
+#themeToggleMobile,
+#site-search-button {
   transition: var(--transition);
-  color: var(--border-primary) !important; /* Ensure icons are always visible */
+  color: #e2e8f0;
 }
 
 #themeToggle svg,
-#themeToggleMobile svg {
-  stroke: var(--border-primary); /* Explicit stroke color for sun/moon icons */
-}
+#themeToggleMobile svg,
+#site-search-button svg { stroke: #e2e8f0; }
 
 #themeToggle:hover {
   color: var(--blue-400);
   transform: scale(1.1);
 }
 
-#themeToggle:hover svg {
-  stroke: var(--blue-400);
-}
+#themeToggle:hover svg { stroke: var(--blue-400); }
 
 /* Mobile hamburger button */
 .mobile-menu-btn {
   display: none;
   background: none;
   border: none;
-  color: var(--border-primary);
+  color: #e2e8f0;
   cursor: pointer;
   padding: 0.75rem;
   min-width: 44px;
@@ -671,13 +425,9 @@ a:hover, a:focus {
 }
 
 /* Ensure theme toggle icons in mobile menu are white */
-.mobile-nav button svg {
-  stroke: var(--white);
-}
+.mobile-nav button svg { stroke: var(--white); }
 
-.mobile-nav button:hover svg {
-  stroke: var(--blue-400);
-}
+.mobile-nav button:hover svg { stroke: var(--blue-400); }
 
 /* Responsive behavior */
 @media (max-width: 768px) {
@@ -722,9 +472,7 @@ a:hover, a:focus {
   }
 }
 
-/* ==========================================================================
-   MODAL SYSTEM
-   ========================================================================== */
+/* --- MODAL SYSTEM --- */
 
 .modal-backdrop {
   position: fixed;
@@ -785,21 +533,13 @@ a:hover, a:focus {
 
 /* Standardized modal header color variants */
 /* Used by both alert modals and HWO modal */
-.modal-header--red {
-  background: var(--header-gradient-red);
-}
+.modal-header--red { background: var(--header-gradient-red); }
 
-.modal-header--yellow {
-  background: var(--header-gradient-yellow);
-}
+.modal-header--yellow { background: var(--header-gradient-yellow); }
 
-.modal-header--blue {
-  background: var(--header-gradient-blue);
-}
+.modal-header--blue { background: var(--header-gradient-blue); }
 
-.modal-header--green {
-  background: var(--header-gradient-green);
-}
+.modal-header--green { background: var(--header-gradient-green); }
 
 .modal-title {
   margin: 0;
@@ -834,33 +574,19 @@ a:hover, a:focus {
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* ==========================================================================
-   SITEWIDE SEARCH MODAL
-   ========================================================================== */
+/* --- SITEWIDE SEARCH MODAL --- */
 
 /* Special styling for search modal */
-.modal-content--search {
-  max-width: 48rem;
-}
+.modal-content--search { max-width: 48rem; }
 
 #searchModal.open {
   display: flex;
@@ -1032,9 +758,7 @@ a:hover, a:focus {
   color: var(--text-secondary);
 }
 
-.search-no-results p {
-  margin: 0.5rem 0;
-}
+.search-no-results p { margin: 0.5rem 0; }
 
 .search-no-results p:first-child {
   font-size: 1.1rem;
@@ -1085,80 +809,9 @@ a:hover, a:focus {
   }
 }
 
-/* ==========================================================================
-   ENHANCED SEARCH BOX
-   ========================================================================== */
+/* --- REPEATER TABLE SEARCH BOX (also handles clear button) --- */
 
-.search-container {
-  position: relative;
-  margin-bottom: 1.5rem;
-}
-
-.search-container input[type="text"],
-.search-container input[type="search"] {
-  width: 100%;
-  padding: 0.75rem 3rem 0.75rem 1rem;
-  font-size: 1rem;
-  border: 2px solid var(--border-primary);
-  border-radius: 12px;
-  background: var(--card-bg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: var(--text-primary);
-  transition: var(--transition);
-  font-family: inherit;
-}
-
-.search-container input:focus {
-  outline: none;
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
-}
-
-.search-container::before {
-  content: "🔍";
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.2rem;
-  opacity: 0.5;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.search-clear {
-  position: absolute;
-  right: 0.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background: var(--accent-red);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  cursor: pointer;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  transition: var(--transition);
-  z-index: 2;
-}
-
-.search-clear.visible {
-  display: flex;
-}
-
-.search-clear:hover {
-  background: var(--accent-red-dark);
-  transform: translateY(-50%) scale(1.1);
-}
-
-/* ==========================================================================
-   PAGE NAVIGATION - Sticky horizontal bar (below header)
-   ========================================================================== */
+/* --- PAGE NAVIGATION - Sticky horizontal bar (below header) --- */
 
 .page-nav {
   position: sticky;
@@ -1196,7 +849,7 @@ a:hover, a:focus {
   text-decoration: none;
   border-radius: 8px;
   background: rgba(96, 165, 250, 0.15);
-  color: var(--border-primary);
+  color: #e2e8f0;
   border: 1px solid rgba(96, 165, 250, 0.3);
   transition: var(--transition);
   text-align: center;
@@ -1214,9 +867,7 @@ a:hover, a:focus {
 }
 
 /* Hide toggle button on desktop - only visible on mobile */
-.page-nav-toggle {
-  display: none;
-}
+.page-nav-toggle { display: none; }
 
 /* Mobile adjustments for page-nav - hamburger menu */
 @media (max-width: 768px) {
@@ -1368,9 +1019,7 @@ a:hover, a:focus {
   }
 }
 
-/* ==========================================================================
-   CALLOUT – <aside class="callout"> for tips, warnings, notes
-   ========================================================================== */
+/* --- CALLOUT – <aside class="callout"> for tips, warnings, notes --- */
 
 .callout {
   background: var(--card-bg);
@@ -1403,9 +1052,7 @@ a:hover, a:focus {
   pointer-events: none;
 }
 
-.callout:hover::before {
-  opacity: 1;
-}
+.callout:hover::before { opacity: 1; }
 
 .callout::after {
   content: "";
@@ -1454,16 +1101,7 @@ a:hover, a:focus {
   font-weight: 700;
 }
 
-/* Color modifiers – only the background changes */
-/* -------------------------------------------------
-   Card header – base + color modifiers (BEM style)
-   .card-header         → base
-   .card-header--red    → red background
-   .card-header--green  → green background
-   .card-header--blue   → blue background
-   .card-header--yellow → yellow background
-   .card-header--indigo → indigo background
-   ------------------------------------------------- */
+/* Card header color modifiers */
 .card-header--red    { background: var(--header-gradient-red); }
 .card-header--green  { background: var(--header-gradient-green); }
 .card-header--blue   { background: var(--header-gradient-blue); }
@@ -1503,9 +1141,7 @@ a:hover, a:focus {
   object-fit: cover;
 }
 
-.card-body {
-  padding: 1.5rem;
-}
+.card-body { padding: 1.5rem; }
 
 /* ---------- Sub-Cards (nested cards inside card-body) ---------- */
 .sub-cards {
@@ -1564,9 +1200,7 @@ a:hover, a:focus {
 }
 
 /* Full-width sub-card spanning all columns */
-.sub-card--full {
-  grid-column: 1 / -1;
-}
+.sub-card--full { grid-column: 1 / -1; }
 
 /* Ordered list inside a sub-card */
 .sub-card ol {
@@ -1578,13 +1212,6 @@ a:hover, a:focus {
 /* Action buttons inside a sub-card need top breathing room */
 .sub-card .action-buttons {
   margin-top: 1rem;
-}
-
-/* ---------- Links List Component ---------- */
-.links-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
 }
 
 /* Section subheaders for visual separation */
@@ -1601,9 +1228,7 @@ a:hover, a:focus {
   letter-spacing: 0.025em;
 }
 
-.section-subheader:first-of-type {
-  margin-top: 0;
-}
+.section-subheader:first-of-type { margin-top: 0; }
 
 .link-url {
   display: inline-block;
@@ -1620,12 +1245,6 @@ a:hover, a:focus {
 .link-url:focus {
   color: var(--accent-blue-dark);
   text-decoration: underline;
-}
-
-@media (min-width: 1024px) {
-  .links-list {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
 /* ---------- Content Buttons (refined to match nav buttons) ---------- */
@@ -1825,77 +1444,23 @@ a:hover, a:focus {
   font-style: italic;
 }
 
-/* Color-coded offices to match forecast map graphic */
-.nws-office-ffc {
-  background: linear-gradient(135deg, rgba(92, 107, 192, 0.15), rgba(92, 107, 192, 0.05));
-  border-color: rgba(92, 107, 192, 0.3);
-}
-
-.nws-office-ffc:hover {
-  background: linear-gradient(135deg, rgba(92, 107, 192, 0.25), rgba(92, 107, 192, 0.1));
-  border-color: rgba(92, 107, 192, 0.5);
-  transform: translateX(4px);
-}
-
-.nws-office-jax {
-  background: linear-gradient(135deg, rgba(255, 235, 59, 0.2), rgba(255, 235, 59, 0.08));
-  border-color: rgba(255, 193, 7, 0.4);
-}
-
-.nws-office-jax:hover {
-  background: linear-gradient(135deg, rgba(255, 235, 59, 0.3), rgba(255, 235, 59, 0.15));
-  border-color: rgba(255, 193, 7, 0.6);
-  transform: translateX(4px);
-}
-
-.nws-office-tae {
-  background: linear-gradient(135deg, rgba(233, 30, 99, 0.15), rgba(233, 30, 99, 0.05));
-  border-color: rgba(233, 30, 99, 0.3);
-}
-
-.nws-office-tae:hover {
-  background: linear-gradient(135deg, rgba(233, 30, 99, 0.25), rgba(233, 30, 99, 0.1));
-  border-color: rgba(233, 30, 99, 0.5);
-  transform: translateX(4px);
-}
-
-.nws-office-cae {
-  background: linear-gradient(135deg, rgba(255, 152, 0, 0.15), rgba(255, 152, 0, 0.05));
-  border-color: rgba(255, 152, 0, 0.3);
-}
-
-.nws-office-cae:hover {
-  background: linear-gradient(135deg, rgba(255, 152, 0, 0.25), rgba(255, 152, 0, 0.1));
-  border-color: rgba(255, 152, 0, 0.5);
-  transform: translateX(4px);
-}
-
-.nws-office-chs {
-  background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(76, 175, 80, 0.05));
-  border-color: rgba(76, 175, 80, 0.3);
-}
-
-.nws-office-chs:hover {
-  background: linear-gradient(135deg, rgba(76, 175, 80, 0.25), rgba(76, 175, 80, 0.1));
-  border-color: rgba(76, 175, 80, 0.5);
-  transform: translateX(4px);
-}
-
-.nws-office-gsp {
-  background: linear-gradient(135deg, rgba(33, 150, 243, 0.15), rgba(33, 150, 243, 0.05));
-  border-color: rgba(33, 150, 243, 0.3);
-}
-
-.nws-office-gsp:hover {
-  background: linear-gradient(135deg, rgba(33, 150, 243, 0.25), rgba(33, 150, 243, 0.1));
-  border-color: rgba(33, 150, 243, 0.5);
-  transform: translateX(4px);
-}
+/* Color-coded offices – hover shift is shared */
+[class^="nws-office-"]:hover { transform: translateX(4px); }
+.nws-office-ffc { background: linear-gradient(135deg, rgba(92,107,192,0.15), rgba(92,107,192,0.05)); border-color: rgba(92,107,192,0.3); }
+.nws-office-ffc:hover { background: linear-gradient(135deg, rgba(92,107,192,0.25), rgba(92,107,192,0.1)); border-color: rgba(92,107,192,0.5); }
+.nws-office-jax { background: linear-gradient(135deg, rgba(255,235,59,0.2), rgba(255,235,59,0.08)); border-color: rgba(255,193,7,0.4); }
+.nws-office-jax:hover { background: linear-gradient(135deg, rgba(255,235,59,0.3), rgba(255,235,59,0.15)); border-color: rgba(255,193,7,0.6); }
+.nws-office-tae { background: linear-gradient(135deg, rgba(233,30,99,0.15), rgba(233,30,99,0.05)); border-color: rgba(233,30,99,0.3); }
+.nws-office-tae:hover { background: linear-gradient(135deg, rgba(233,30,99,0.25), rgba(233,30,99,0.1)); border-color: rgba(233,30,99,0.5); }
+.nws-office-cae { background: linear-gradient(135deg, rgba(255,152,0,0.15), rgba(255,152,0,0.05)); border-color: rgba(255,152,0,0.3); }
+.nws-office-cae:hover { background: linear-gradient(135deg, rgba(255,152,0,0.25), rgba(255,152,0,0.1)); border-color: rgba(255,152,0,0.5); }
+.nws-office-chs { background: linear-gradient(135deg, rgba(76,175,80,0.15), rgba(76,175,80,0.05)); border-color: rgba(76,175,80,0.3); }
+.nws-office-chs:hover { background: linear-gradient(135deg, rgba(76,175,80,0.25), rgba(76,175,80,0.1)); border-color: rgba(76,175,80,0.5); }
+.nws-office-gsp { background: linear-gradient(135deg, rgba(33,150,243,0.15), rgba(33,150,243,0.05)); border-color: rgba(33,150,243,0.3); }
+.nws-office-gsp:hover { background: linear-gradient(135deg, rgba(33,150,243,0.25), rgba(33,150,243,0.1)); border-color: rgba(33,150,243,0.5); }
 
 /* ---------- SKYWARN Information Styles ---------- */
-.skywarn-intro {
-  margin-bottom: 2rem;
-}
+.skywarn-intro { margin-bottom: 2rem; }
 
 .skywarn-intro h3 {
   font-size: 1.4rem;
@@ -1917,22 +1482,14 @@ a:hover, a:focus {
   margin: 0 0 0.5rem 0;
 }
 
-/* ---------- Resource Grid Component ---------- */
-.resource-grid {
-  display: grid;
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-/* ==========================================================================
-   REPEATER SEARCH – FILTER AND SEARCH FUNCTIONALITY
-   ========================================================================== */
+/* --- REPEATER SEARCH – FILTER AND SEARCH FUNCTIONALITY --- */
 
 .search-container {
   display: flex;
   gap: 1rem;
   align-items: center;
   flex-wrap: wrap;
+  margin-bottom: 1rem;
 }
 
 .search-input {
@@ -1962,22 +1519,11 @@ a:hover, a:focus {
 .search-clear {
   white-space: nowrap;
   flex-shrink: 0;
+  display: none;
 }
 
-.search-results-count {
-  margin-top: 0.75rem;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  font-style: italic;
-  text-align: center;
-}
-
-/* Highlight matching text in search results */
-.search-highlight {
-  background-color: rgba(255, 193, 7, 0.3);
-  font-weight: 600;
-  padding: 0 2px;
-  border-radius: 2px;
+.search-clear.visible {
+  display: inline-flex;
 }
 
 /* Hidden row when filtered out */
@@ -1996,9 +1542,7 @@ a:hover, a:focus {
   margin: 1rem 0;
 }
 
-/* ==========================================================================
-   REPEATER BADGE SYSTEM - Multi-tag support
-   ========================================================================== */
+/* --- REPEATER BADGE SYSTEM - Multi-tag support --- */
 
 /* Badge container - displays below location for all viewing modes */
 .repeater-badges {
@@ -2034,45 +1578,15 @@ a:hover, a:focus {
   transition: var(--transition);
 }
 
-/* WX4EMA badge - green (Macon-Bibb County Emergency Management) */
-.badge-wx4ema {
-  background: var(--accent-green);
-}
+.badge-wx4ema   { background: var(--accent-green); }
+.badge-wx4ptc   { background: var(--accent-blue); }
+.badge-peach-state { background: var(--accent-peach); }
+.badge-cherry-blossom { background: var(--accent-pink); }
+.badge-se-linked { background: var(--accent-lightblue); color: #f0f0f0; }
+.badge-county-only { background: var(--accent-orange); }
+.badge-iplink   { background: var(--accent-indigo); }
 
-/* WX4PTC badge - bright blue (card header color) */
-.badge-wx4ptc {
-  background: var(--accent-blue);
-}
-
-/* Peach State Intertie - peach */
-.badge-peach-state {
-  background: var(--accent-peach);
-}
-
-/* Cherry Blossom Intertie - pink */
-.badge-cherry-blossom {
-  background: var(--accent-pink);
-}
-
-/* SE Linked Repeater - light blue (Southeastern Linked Repeater System) */
-.badge-se-linked {
-  background: var(--accent-lightblue);
-  color: #f0f0f0;
-}
-
-/* County Only badge - orange (non-linked repeaters) */
-.badge-county-only {
-  background: var(--accent-orange);
-}
-
-/* IP Link badge - indigo (internet linking systems) */
-.badge-iplink {
-  background: var(--accent-indigo);
-}
-
-/* ==========================================================================
-   REPEATER TABLES – UNIFORM, RESPONSIVE, BEAUTIFUL
-   ========================================================================== */
+/* --- REPEATER TABLES – UNIFORM, RESPONSIVE, BEAUTIFUL --- */
 
 .table-wrapper {
   overflow-x: auto;
@@ -2149,13 +1663,11 @@ a:hover, a:focus {
   text-decoration: underline;
   font-weight: 600;
 }
-.repeater-table a:hover {
-  color: var(--accent-blue-dark);
-}
+.repeater-table a:hover { color: var(--accent-blue-dark); }
 .repeater-table tbody tr td:first-child strong {
     /* example: change colour or weight */
     color: var(--accent-blue);
-    font-weight: 700;   
+    font-weight: 700;
 }
 
 /* Scroll hint */
@@ -2322,9 +1834,7 @@ a:hover, a:focus {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ==========================================================================
-   REPORTING REQUIREMENTS – IMPROVED LAYOUT
-   ========================================================================== */
+/* --- REPORTING REQUIREMENTS – IMPROVED LAYOUT --- */
 
 /* Report checklist inside sub-card */
 .report-checklist {
@@ -2354,12 +1864,12 @@ a:hover, a:focus {
 }
 
 /* Color-coded top border for report sub-cards */
-.report-card-tornado   { border-top: 4px solid #d32f2f; }
-.report-card-hail      { border-top: 4px solid #f57c00; }
-.report-card-wind      { border-top: 4px solid #fbc02d; }
-.report-card-flood     { border-top: 4px solid #1976d2; }
-.report-card-winter    { border-top: 4px solid #5e35b1; }
-.report-card-lightning  { border-top: 4px solid #7cb342; }
+.report-card-tornado  { border-top: 4px solid #d32f2f; }
+.report-card-hail     { border-top: 4px solid #f57c00; }
+.report-card-wind     { border-top: 4px solid #fbc02d; }
+.report-card-flood    { border-top: 4px solid #1976d2; }
+.report-card-winter   { border-top: 4px solid #5e35b1; }
+.report-card-lightning { border-top: 4px solid #7cb342; }
 
 /* Clickable report cards */
 .report-card-clickable {
@@ -2367,9 +1877,7 @@ a:hover, a:focus {
   user-select: none;
 }
 
-.report-card-clickable:hover {
-  transform: translateY(-3px);
-}
+.report-card-clickable:hover { transform: translateY(-3px); }
 
 .report-card-clickable:focus-visible {
   outline: 3px solid var(--accent-blue);
@@ -2397,17 +1905,7 @@ a:hover, a:focus {
 .modal-header--wind .modal-title,
 .modal-header--wind .modal-close { color: #1a1a1a; }
 
-
-/* ==========================================================================
-   NWS RESOURCES SECTION – Compact & Professional
-   ========================================================================== */
-
-.nws-resources-grid {
-  display: grid;
-  gap: 2rem;
-  grid-template-columns: 1fr;
-  align-items: start;
-}
+/* --- NWS RESOURCES SECTION – Compact & Professional --- */
 
 /* Logo Section */
 .nws-logo-section {
@@ -2427,9 +1925,7 @@ a:hover, a:focus {
   transition: var(--transition);
 }
 
-.nws-logo-link:hover {
-  transform: scale(1.05);
-}
+.nws-logo-link:hover { transform: scale(1.05); }
 
 .nws-logo {
   width: 100%;
@@ -2470,9 +1966,7 @@ a:hover, a:focus {
   gap: 0.5rem;
 }
 
-.nws-links li {
-  margin: 0;
-}
+.nws-links li { margin: 0; }
 
 .nws-links a {
   display: block;
@@ -2503,68 +1997,12 @@ a:hover, a:focus {
   font-weight: 500;
 }
 
-/* Tablet Layout - 2 columns with logo on top */
-@media (min-width: 600px) and (max-width: 767px) {
-  .nws-resources-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-  }
-
-  .nws-logo-section {
-    grid-column: 1 / -1;
-    padding: 0.5rem 0 1rem 0;
-  }
-
-  .nws-logo {
-    max-width: 150px;
-  }
-}
-
 /* Larger desktop - slightly bigger logo */
 @media (min-width: 1200px) {
-  .nws-logo {
-    max-width: 180px;
-  }
+  .nws-logo { max-width: 180px; }
 }
 
-/* ==========================================================================
-   SYSTEM ACTIONS – SCALABLE, RESPONSIVE BUTTONS
-   ========================================================================== */
-
-.system-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  margin: 2rem 0;
-  padding: 0 1rem;
-}
-
-/* Base button – let it grow with content */
-.system-actions .btn {
-  min-width: auto;
-  width: auto;
-  max-width: 100%;
-  padding: 0.9rem 1.5rem;
-  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-  line-height: 1.4;
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Device label – smaller, subtle */
-.system-actions .device-label {
-  display: block;
-  font-size: 0.75rem;
-  opacity: 0.8;
-  margin-top: 0.25rem;
-}
-
-/* ==========================================================================
-   ACTION BUTTONS – HORIZONTAL GROUP (Responsive)
-   ========================================================================== */
+/* --- ACTION BUTTONS – HORIZONTAL GROUP (Responsive) --- */
 
 .action-buttons {
   display: flex;
@@ -2592,9 +2030,7 @@ a:hover, a:focus {
   margin-top: 0.25rem;
 }
 
-/* ==========================================================================
-   MAP GRID - Dashboard Quick Maps
-   ========================================================================== */
+/* --- MAP GRID - Dashboard Quick Maps --- */
 
 .map-grid {
   display: grid;
@@ -2670,9 +2106,7 @@ a:hover, a:focus {
   opacity: 0.8;
 }
 
-/* ==========================================================================
-   CHANGELOG GRID - Recent Updates Display
-   ========================================================================== */
+/* --- CHANGELOG GRID - Recent Updates Display --- */
 
 .changelog-grid {
   display: grid;
@@ -2709,35 +2143,12 @@ a:hover, a:focus {
   border-bottom: 2px solid;
 }
 
-.changelog-month-header--green {
-  color: var(--accent-green);
-  border-bottom-color: var(--accent-green);
-}
-
-.changelog-month-header--blue {
-  color: var(--accent-blue);
-  border-bottom-color: var(--accent-blue);
-}
-
-.changelog-month-header--indigo {
-  color: var(--accent-indigo);
-  border-bottom-color: var(--accent-indigo);
-}
-
-.changelog-month-header--orange {
-  color: var(--accent-orange);
-  border-bottom-color: var(--accent-orange);
-}
-
-.changelog-month-header--red {
-  color: var(--accent-red);
-  border-bottom-color: var(--accent-red);
-}
-
-.changelog-month-header--yellow {
-  color: var(--accent-yellow);
-  border-bottom-color: var(--accent-yellow);
-}
+.changelog-month-header--green  { color: var(--accent-green);  border-bottom-color: var(--accent-green); }
+.changelog-month-header--blue   { color: var(--accent-blue);   border-bottom-color: var(--accent-blue); }
+.changelog-month-header--indigo { color: var(--accent-indigo); border-bottom-color: var(--accent-indigo); }
+.changelog-month-header--orange { color: var(--accent-orange); border-bottom-color: var(--accent-orange); }
+.changelog-month-header--red    { color: var(--accent-red);    border-bottom-color: var(--accent-red); }
+.changelog-month-header--yellow { color: var(--accent-yellow); border-bottom-color: var(--accent-yellow); }
 
 .changelog-list {
   list-style: none;
@@ -2761,13 +2172,9 @@ a:hover, a:focus {
   font-size: 1.2rem;
 }
 
-.changelog-list li:last-child {
-  margin-bottom: 0;
-}
+.changelog-list li:last-child { margin-bottom: 0; }
 
-/* ==========================================================================
-   RESPONSIVE MAP BUTTONS – Show only one per device
-   ========================================================================== */
+/* --- RESPONSIVE MAP BUTTONS – Show only one per device --- */
 
 .map-link {
   width: 100%;
@@ -2776,102 +2183,12 @@ a:hover, a:focus {
   text-align: center;
 }
 
-.device-label {
-  font-size: 0.7rem;
-  opacity: 0.6;
-  display: block;
-  margin-top: 0.25rem;
-}
-
-/* ==========================================================================
-   SPOTTER RESOURCES – LEFT BUTTON, RIGHT TEXT (Responsive)
-   ========================================================================== */
-
-.spotter-resources {
-  margin: 2rem 0;
-}
-
-.section-title {
-  margin-bottom: 1.5rem;
-  font-size: 1.8rem;
-}
-
-/* Each pair: Button (left) + Text (right) */
-.resource-pair {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-  padding: 0 1rem;
-  align-items: center;
-}
-
-/* Button Column */
-.resources-button {
-  flex: 1;
-  min-width: 260px;
-  max-width: 380px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.resources-button .btn {
-  width: 100%;
-  padding: 0.9rem 1.2rem;
-  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-  white-space: normal;
-  text-align: center;
-}
-
-.resources-button .device-label {
-  font-size: 0.75rem;
-  opacity: 0.8;
-  display: block;
-  margin-top: 0.25rem;
-}
-
-/* Text Column */
-.resources-text {
-  flex: 2;
-  min-width: 300px;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--text-secondary);
-}
 .site-footer {
   display: flex;
   flex-direction: column;      /* stack the <p> elements vertically */
   align-items: center;         /* <-- horizontally centre everything */
   justify-content: center;     /* optional – centre vertically within its own height */
   padding: 1rem 0;
-}
-
-/* ==========================================================================
-   ABOUT DIAGRAM – Clean, responsive, monospace, card-integrated
-   ========================================================================== */
-.about-diagram-wrapper {
-  margin: 1.5rem 0;
-  overflow-x: auto;
-  display: flex;
-  justify-content: center;   /* horizontal centering */
-  align-items: center; 
-}
-
-.about-diagram {
-  display: block;
-  font-family: 'Courier New', monospace;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--text-primary);
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  margin: 0 auto;
-  white-space: pre;
-  min-width: 500px;           /* prevents squishing */
-  overflow-x: auto;
 }
 
 /* Show only on desktop – hide on mobile */
@@ -2881,9 +2198,7 @@ a:hover, a:focus {
 @media (min-width: 768px) { .map-desktop { display: inline-flex; } }
 @media (max-width: 767px)  { .map-mobile  { display: inline-flex; } .map-desktop { display: none; } }
 
-/* ==========================================================================
-   MOBILE RESPONSIVE (<768px) - Consolidated
-   ========================================================================== */
+/* --- MOBILE RESPONSIVE (<768px) - Consolidated --- */
 @media (max-width: 767px) {
   /* Layout */
   .site-main { padding: 0 .5rem; }
@@ -2920,11 +2235,6 @@ a:hover, a:focus {
     font-size: 0.85rem;
     padding: 0.4rem 0.75rem;
   }
-  .system-actions .btn {
-    width: 100%;
-    max-width: 340px;
-  }
-
   /* Action buttons */
   .action-buttons {
     flex-direction: column;
@@ -2945,19 +2255,6 @@ a:hover, a:focus {
     display: none;
   }
 
-  /* Resource pairs */
-  .resource-pair {
-    flex-direction: column;
-    text-align: center;
-  }
-  .resources-button,
-  .resources-text {
-    max-width: 100%;
-  }
-  .resources-button .btn {
-    max-width: 340px;
-    margin: 0 auto;
-  }
 }
 
 @media (max-width: 480px) {
@@ -2967,31 +2264,12 @@ a:hover, a:focus {
   .card-header h2 { font-size: 1.2rem; }
 }
 
-/* ==========================================================================
-   DESKTOP/TABLET RESPONSIVE (≥768px) - Consolidated
-   ========================================================================== */
+/* --- DESKTOP/TABLET RESPONSIVE (≥768px) - Consolidated --- */
 @media (min-width: 768px) {
   /* Grid layouts - 2 columns */
-  .links-list {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2.5rem;
-  }
-
   .contact-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
-  }
-
-  .resource-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2.5rem;
-  }
-
-  /* NWS Resources - 3 columns */
-  .nws-resources-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
-    align-items: stretch;
   }
 
   .nws-logo-section {
@@ -3016,21 +2294,9 @@ a:hover, a:focus {
     padding-top: 1rem;
   }
 
-  /* Resource pairs */
-  .resource-pair {
-    flex-direction: row;
-    justify-content: flex-start;
-    text-align: left;
-  }
-
-  .resources-button {
-    margin-right: 1rem;
-  }
 }
 
-/* ==========================================================================
-   LOADING SKELETON – Modern loading animation
-   ========================================================================== */
+/* --- LOADING SKELETON – Modern loading animation --- */
 .skeleton-loader {
   background: linear-gradient(
     90deg,
@@ -3050,9 +2316,7 @@ a:hover, a:focus {
   100% { background-position: -200% 0; }
 }
 
-/* ==========================================================================
-   DARK MODE - Consolidated (respects manual theme toggle)
-   ========================================================================== */
+/* --- DARK MODE - Consolidated (respects manual theme toggle) --- */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     /* Callouts */
@@ -3075,9 +2339,6 @@ a:hover, a:focus {
     /* Search components */
     .search-input {
       background: rgba(255, 255, 255, 0.05);
-    }
-    .search-highlight {
-      background-color: rgba(255, 193, 7, 0.25);
     }
     .no-results-message {
       background: rgba(255, 255, 255, 0.03);
@@ -3113,9 +2374,7 @@ a:hover, a:focus {
   }
 }
 
-/* ==========================================================================
-   BACK TO TOP BUTTON – Floating button to scroll to top
-   ========================================================================== */
+/* --- BACK TO TOP BUTTON – Floating button to scroll to top --- */
 .back-to-top {
   position: fixed;
   bottom: 2rem;
@@ -3152,13 +2411,9 @@ a:hover, a:focus {
   box-shadow: var(--shadow-xl);
 }
 
-.back-to-top:active {
-  transform: translateY(-2px);
-}
+.back-to-top:active { transform: translateY(-2px); }
 
-/* ==========================================================================
-   ENHANCED FOOTER
-   ========================================================================== */
+/* --- ENHANCED FOOTER --- */
 .site-footer {
   background: var(--bg-secondary);
   border-top: 1px solid var(--border-primary);
@@ -3201,9 +2456,7 @@ a:hover, a:focus {
   margin: 0;
 }
 
-.footer-nav li {
-  margin-bottom: 0.5rem;
-}
+.footer-nav li { margin-bottom: 0.5rem; }
 
 .footer-nav a {
   color: var(--text-muted);
@@ -3212,9 +2465,7 @@ a:hover, a:focus {
   font-size: 0.9rem;
 }
 
-.footer-nav a:hover {
-  color: var(--accent-blue);
-}
+.footer-nav a:hover { color: var(--accent-blue); }
 
 .footer-bottom {
   text-align: center;
@@ -3233,9 +2484,7 @@ a:hover, a:focus {
   }
 }
 
-/* ==========================================================================
-   REPEATER DETAIL MODAL
-   ========================================================================== */
+/* --- REPEATER DETAIL MODAL --- */
 
 .repeater-detail-modal {
   display: none;
@@ -3296,17 +2545,11 @@ a:hover, a:focus {
   transition: transform 0.2s;
 }
 
-.repeater-detail-close:hover {
-  transform: scale(1.2);
-}
+.repeater-detail-close:hover { transform: scale(1.2); }
 
-.repeater-detail-body {
-  padding: 2rem;
-}
+.repeater-detail-body { padding: 2rem; }
 
-.detail-section {
-  margin-bottom: 2rem;
-}
+.detail-section { margin-bottom: 2rem; }
 
 .detail-section h3 {
   color: var(--accent-indigo);
@@ -3328,18 +2571,14 @@ a:hover, a:focus {
   color: var(--text-secondary);
 }
 
-.detail-value {
-  color: var(--text-primary);
-}
+.detail-value { color: var(--text-primary); }
 
 .detail-value a {
   color: var(--accent-indigo);
   text-decoration: underline;
 }
 
-.detail-value a:hover {
-  color: var(--accent-blue);
-}
+.detail-value a:hover { color: var(--accent-blue); }
 
 /* Clickable table rows for modal */
 .repeater-table tbody tr {
@@ -3347,13 +2586,9 @@ a:hover, a:focus {
   transition: background-color 0.2s ease;
 }
 
-.repeater-table tbody tr:hover {
-  background-color: rgba(92, 107, 192, 0.1);
-}
+.repeater-table tbody tr:hover { background-color: rgba(92, 107, 192, 0.1); }
 
-.repeater-table tbody tr:active {
-  background-color: rgba(92, 107, 192, 0.2);
-}
+.repeater-table tbody tr:active { background-color: rgba(92, 107, 192, 0.2); }
 
 /* External link icon for clickable IP links */
 .external-link-icon {
@@ -3368,17 +2603,11 @@ a:hover, a:focus {
 }
 
 /* Clickable IP link rows in modal */
-.iplink-row {
-  cursor: pointer;
-}
+.iplink-row { cursor: pointer; }
 
-.iplink-row:hover {
-  background-color: rgba(92, 107, 192, 0.15);
-}
+.iplink-row:hover { background-color: rgba(92, 107, 192, 0.15); }
 
-/* ==========================================================================
-   PRINT STYLESHEET – Optimized for printing
-   ========================================================================== */
+/* --- PRINT STYLESHEET – Optimized for printing --- */
 @media print {
   /* Hide navigation and interactive elements */
   .nav-toggle,
