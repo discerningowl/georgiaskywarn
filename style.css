@@ -83,7 +83,7 @@
   --title-grad-start: #99ACAF;
   --title-grad-end: #99A1AF;
   --title-solid: #381aff;
-  --radius: 20px;
+  --radius: 12px;
   --transition: all 0.3s ease;
   --alert-warning-bg: #ffe6e6;
   --alert-watch-bg: #fff4e6;
@@ -1213,6 +1213,11 @@ a:hover, a:focus {
   box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
 }
 
+/* Hide toggle button on desktop - only visible on mobile */
+.page-nav-toggle {
+  display: none;
+}
+
 /* Mobile adjustments for page-nav - hamburger menu */
 @media (max-width: 768px) {
   .page-nav {
@@ -1229,9 +1234,8 @@ a:hover, a:focus {
     padding: 0;
   }
 
-  /* Page-nav toggle button (hamburger) */
-  .page-nav::before {
-    content: "☰ PAGE";
+  /* Page-nav toggle button (real button for accessibility) */
+  .page-nav-toggle {
     position: fixed;
     bottom: 1rem;
     left: 1rem;
@@ -1247,9 +1251,13 @@ a:hover, a:focus {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 2px solid rgba(255, 255, 255, 0.15);
     letter-spacing: 0.05em;
+    font-family: inherit;
   }
 
-  .page-nav::before:active {
+  .page-nav-toggle:active,
+  .page-nav-toggle:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.6);
+    outline-offset: 2px;
     transform: scale(0.95);
     box-shadow: 0 3px 12px rgba(22, 163, 74, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.2);
   }
@@ -2352,6 +2360,42 @@ a:hover, a:focus {
 .report-card-flood     { border-top: 4px solid #1976d2; }
 .report-card-winter    { border-top: 4px solid #5e35b1; }
 .report-card-lightning  { border-top: 4px solid #7cb342; }
+
+/* Clickable report cards */
+.report-card-clickable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.report-card-clickable:hover {
+  transform: translateY(-3px);
+}
+
+.report-card-clickable:focus-visible {
+  outline: 3px solid var(--accent-blue);
+  outline-offset: 2px;
+}
+
+.report-card-hint {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Modal header color variants for report modals */
+.modal-header--tornado  { background: linear-gradient(135deg, #b71c1c 0%, #d32f2f 100%); }
+.modal-header--hail     { background: linear-gradient(135deg, #e65100 0%, #f57c00 100%); }
+.modal-header--wind     { background: linear-gradient(135deg, #f9a825 0%, #fbc02d 100%); color: #1a1a1a; }
+.modal-header--flood    { background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%); }
+.modal-header--winter   { background: linear-gradient(135deg, #4527a0 0%, #5e35b1 100%); }
+.modal-header--lightning { background: linear-gradient(135deg, #558b2f 0%, #7cb342 100%); }
+
+.modal-header--wind h1,
+.modal-header--wind h2,
+.modal-header--wind .modal-title,
+.modal-header--wind .modal-close { color: #1a1a1a; }
 
 
 /* ==========================================================================
