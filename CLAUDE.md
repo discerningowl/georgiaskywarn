@@ -1127,6 +1127,16 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-03-20
+- **Stylesheet Cleanup**: Removed dead code and fixed duplicate definitions in `style.css`
+  - Removed duplicate `@keyframes fadeIn` — kept the slide version (`translateY(-10px) → 0`), dropped the plain opacity-only copy
+  - Removed three unused classes: `.desktop-only`, `.map-mobile`, `.map-desktop` (no references in any HTML or JS)
+  - Consolidated two conflicting `.repeater-table tbody tr:hover` rules into one at the detail modal block (preserving `transform` + `box-shadow`)
+  - Removed redundant `@media (min-width: 1200px) { .nws-logo { max-width: 180px } }` — duplicated the base value
+  - Fixed `.badge-se-linked` hardcoded `color: #f0f0f0` → `color: var(--white)`
+  - Trimmed verbose comment headers
+  - Net result: 2718 → 2696 lines, ~0.7KB smaller
+
 ### 2026-02-09
 - **Spotters Page Cleanup**: Comprehensive redesign of `spotters.html` for readability and consistency
   - Reordered sections to follow learn→act flow: SKYWARN Info → Resources → Reporting → Submit
@@ -1457,6 +1467,6 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 
 ---
 
-**Last Updated**: 2026-02-09
+**Last Updated**: 2026-03-20
 **Maintained By**: Claude AI Assistant (based on codebase analysis)
 **For Questions**: Contact Jack Parks (KQ4JP) <kq4jp@pm.me>

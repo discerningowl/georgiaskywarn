@@ -1,6 +1,17 @@
 {
   "updates": [
     {
+      "month": "March",
+      "year": 2026,
+      "date": "2026-03-20",
+      "items": [
+        {
+          "title": "Stylesheet Cleanup & Optimization",
+          "description": "Removed dead code and fixed duplicate definitions in style.css: eliminated a duplicate @keyframes fadeIn animation, removed three unused CSS classes, consolidated conflicting repeater table hover rules, deleted a redundant media query, and replaced a hardcoded color value with a CSS custom property."
+        }
+      ]
+    },
+    {
       "month": "February",
       "year": 2026,
       "date": "2026-02-08",
