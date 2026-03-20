@@ -1287,34 +1287,299 @@
   }
 
   // ========================================================================
-  // PAGE NAVIGATION TOGGLE (Mobile Hamburger Menu)
+  // PAGE NAVIGATION TOGGLE (Mobile - accessible real button)
   // ========================================================================
   const pageNav = document.querySelector('.page-nav');
+  const pageNavToggle = pageNav ? pageNav.querySelector('.page-nav-toggle') : null;
 
-  if (pageNav) {
-    // Toggle page-nav menu on mobile when clicking the page-nav container
-    pageNav.addEventListener('click', (e) => {
-      // Only toggle if clicking on the page-nav itself (not links) and on mobile
-      if (window.innerWidth <= 768 && !e.target.closest('a')) {
-        pageNav.classList.toggle('active');
-      }
+  if (pageNav && pageNavToggle) {
+    // Toggle on button click (keyboard and pointer accessible)
+    pageNavToggle.addEventListener('click', () => {
+      const isOpen = pageNav.classList.toggle('active');
+      pageNavToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
 
-    // Close page-nav when clicking a link
-    const pageNavLinks = pageNav.querySelectorAll('a');
-    pageNavLinks.forEach(link => {
+    // Close when a link is clicked
+    pageNav.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         pageNav.classList.remove('active');
+        pageNavToggle.setAttribute('aria-expanded', 'false');
       });
     });
 
-    // Close page-nav when clicking outside (on mobile)
+    // Close when clicking outside the nav
     document.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768 &&
-          !pageNav.contains(e.target) &&
-          pageNav.classList.contains('active')) {
+      if (!pageNav.contains(e.target) && pageNav.classList.contains('active')) {
         pageNav.classList.remove('active');
+        pageNavToggle.setAttribute('aria-expanded', 'false');
       }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && pageNav.classList.contains('active')) {
+        pageNav.classList.remove('active');
+        pageNavToggle.setAttribute('aria-expanded', 'false');
+        pageNavToggle.focus();
+      }
+    });
+  }
+
+  // ========================================================================
+  // WHAT TO REPORT MODALS (spotters.html)
+  // ========================================================================
+
+  const REPORT_DATA = {
+    tornado: {
+      title: 'Tornadoes, Funnel Clouds & Wall Clouds',
+      colorClass: 'modal-header--tornado',
+      sections: [
+        {
+          heading: 'What to Report',
+          items: [
+            '<strong>Tornado</strong> — A rotating column of air in contact with the ground. Report immediately.',
+            '<strong>Funnel cloud</strong> — Rotating condensation funnel not touching the ground.',
+            '<strong>Wall cloud</strong> — A persistent, lowering cloud base with visible rotation.'
+          ]
+        },
+        {
+          heading: 'Information to Include',
+          items: [
+            'Your location (county, nearest cross streets)',
+            'Direction of movement and approximate speed',
+            'Estimated width and appearance (rope, wedge, stovepipe)',
+            'Any damage observed (structures, trees, vehicles)',
+            'Time of observation'
+          ]
+        },
+        {
+          heading: 'Safety Reminder',
+          items: [
+            'Never chase a tornado. Report from a safe, sturdy shelter.',
+            'Do not attempt to photograph if it puts you at risk.',
+            'Move to an interior room on the lowest floor if a tornado is approaching.'
+          ]
+        }
+      ]
+    },
+    hail: {
+      title: 'Hail',
+      colorClass: 'modal-header--hail',
+      sections: [
+        {
+          heading: 'Reportable Threshold',
+          items: [
+            'Quarter size (1 inch) or larger is the official NWS reporting threshold for severe hail.',
+            'Smaller hail is still worth reporting if it causes damage.'
+          ]
+        },
+        {
+          heading: 'Size Reference Chart',
+          items: [
+            'Pea — 1/4 inch',
+            'Marble / Mothball — 1/2 inch',
+            'Penny — 3/4 inch',
+            'Nickel — 7/8 inch',
+            '<strong>Quarter — 1 inch (severe threshold)</strong>',
+            'Half Dollar — 1 1/4 inch',
+            'Ping Pong Ball — 1 1/2 inch',
+            'Golf Ball — 1 3/4 inch',
+            'Tennis Ball — 2 1/2 inch',
+            'Baseball — 2 3/4 inch',
+            'Softball — 4 inch'
+          ]
+        },
+        {
+          heading: 'Information to Include',
+          items: [
+            'Size of the <em>largest</em> stone observed (use reference above)',
+            'Measured diameter if possible (ruler is best)',
+            'Any damage — vehicles, crops, windows, roofing',
+            'Your location and time of observation'
+          ]
+        }
+      ]
+    },
+    wind: {
+      title: 'Damaging Winds',
+      colorClass: 'modal-header--wind',
+      sections: [
+        {
+          heading: 'Reportable Threshold',
+          items: [
+            'Measured gusts of <strong>58 mph or greater</strong> qualify as severe.',
+            'Any wind causing structural damage should be reported regardless of measured speed.'
+          ]
+        },
+        {
+          heading: 'What Qualifies',
+          items: [
+            'Measured gust ≥58 mph from an anemometer or weather station',
+            'Large branches (3 inches diameter or greater) broken or downed',
+            'Entire trees uprooted or snapped',
+            'Roof damage — shingles, panels, or structural damage',
+            'Downed power lines (do NOT approach — call 911 and report to NWS)',
+            'Vehicles pushed off road or overturned',
+            'Any structural damage to buildings'
+          ]
+        },
+        {
+          heading: 'Information to Include',
+          items: [
+            'Measured wind speed and instrument used, if available',
+            'Type and extent of damage',
+            'Whether damage is isolated or widespread',
+            'Your location and time of observation'
+          ]
+        }
+      ]
+    },
+    flood: {
+      title: 'Flooding',
+      colorClass: 'modal-header--flood',
+      sections: [
+        {
+          heading: 'What to Report',
+          items: [
+            'Water over any roadway — even a few inches is dangerous and reportable.',
+            'Rising river or stream levels approaching or exceeding banks.',
+            'Water entering structures or threatening property.',
+            'Vehicles or people stranded by floodwater.'
+          ]
+        },
+        {
+          heading: 'Information to Include',
+          items: [
+            'Exact location — road name/number, mile marker, or cross streets',
+            'Estimated water depth on roadway (ankle, knee, waist, etc.)',
+            'Whether water is <strong>rising, steady, or falling</strong>',
+            'Whether flow is standing or moving (and approximate speed)',
+            'Any vehicles stranded or structures threatened',
+            'Time flooding began or was first observed'
+          ]
+        },
+        {
+          heading: 'Safety Reminder',
+          items: [
+            '<strong>Turn Around, Don\'t Drown.</strong> Never drive through flooded roads.',
+            'Just 6 inches of fast-moving water can knock a person down.',
+            '12 inches of water can carry away a small vehicle.',
+            'Report from a safe location — do not enter floodwater.'
+          ]
+        }
+      ]
+    },
+    winter: {
+      title: 'Winter Weather',
+      colorClass: 'modal-header--winter',
+      sections: [
+        {
+          heading: 'What to Report',
+          items: [
+            'Snow accumulation (any measurable amount)',
+            'Ice accumulation on roads, trees, or power lines',
+            'Sleet or freezing rain affecting travel',
+            'Visibility reductions due to blowing snow'
+          ]
+        },
+        {
+          heading: 'Measurement Guidelines',
+          items: [
+            '<strong>Snow depth:</strong> Measure from an unobstructed, flat surface away from drifts. Take multiple measurements and average them.',
+            '<strong>Ice glaze:</strong> Estimate thickness on a horizontal surface (e.g., car hood, deck railing).',
+            '<strong>Sleet:</strong> Report accumulation depth the same as snow.',
+            'Report new accumulation since your last observation, not total seasonal depth.'
+          ]
+        },
+        {
+          heading: 'Information to Include',
+          items: [
+            'Type of precipitation (snow, sleet, freezing rain, mixed)',
+            'Accumulation depth in inches (snow/sleet) or ice thickness',
+            'Road conditions — bare, wet, slushy, snow-covered, icy',
+            'Visibility if significantly reduced',
+            'Your location and time of observation'
+          ]
+        }
+      ]
+    },
+    lightning: {
+      title: 'Lightning',
+      colorClass: 'modal-header--lightning',
+      sections: [
+        {
+          heading: 'What to Report',
+          items: [
+            'Lightning-caused injury or death',
+            'Structure fire caused by lightning strike',
+            'Significant property damage from a lightning strike',
+            'Power outage or utility equipment damage caused by lightning'
+          ]
+        },
+        {
+          heading: 'Information to Include',
+          items: [
+            'Nature of damage or injury',
+            'Number of injuries or fatalities (if any)',
+            'Address or location of structure/equipment affected',
+            'Whether emergency services have been notified (911)',
+            'Time of the strike'
+          ]
+        },
+        {
+          heading: 'Safety Reminder',
+          items: [
+            'If someone is struck, call 911 immediately — lightning strike victims are safe to touch.',
+            'Do not shelter under trees, near metal fences, or in open water.',
+            'The 30-30 rule: if thunder follows lightning in under 30 seconds, seek shelter.'
+          ]
+        }
+      ]
+    }
+  };
+
+  function buildReportModalContent(data) {
+    return data.sections.map(section => {
+      const items = section.items.map(item => `<li style="margin-bottom:0.4rem;">${item}</li>`).join('');
+      return `<h4 style="margin:1rem 0 0.5rem; color:var(--text-primary);">${section.heading}</h4><ul style="margin:0 0 0 1.25rem; padding:0;">${items}</ul>`;
+    }).join('');
+  }
+
+  const reportModal = document.getElementById('reportModal');
+  const reportModalClose = document.getElementById('reportModalClose');
+  const reportModalTitle = document.getElementById('reportModalTitle');
+  const reportModalHeader = document.getElementById('reportModalHeader');
+  const reportModalBody = document.getElementById('reportModalBody');
+
+  if (reportModal) {
+    // Open modal when clicking a report card
+    document.querySelectorAll('.report-card-clickable').forEach(card => {
+      const openModal = () => {
+        const key = card.dataset.report;
+        const data = REPORT_DATA[key];
+        if (!data) return;
+        reportModalTitle.textContent = data.title;
+        reportModalHeader.className = `modal-header ${data.colorClass}`;
+        reportModalBody.innerHTML = buildReportModalContent(data);
+        reportModal.classList.add('active');
+        reportModal.setAttribute('aria-hidden', 'false');
+        reportModalClose.focus();
+      };
+      card.addEventListener('click', openModal);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(); }
+      });
+    });
+
+    // Close modal
+    const closeReportModal = () => {
+      reportModal.classList.remove('active');
+      reportModal.setAttribute('aria-hidden', 'true');
+    };
+    reportModalClose.addEventListener('click', closeReportModal);
+    reportModal.addEventListener('click', (e) => { if (e.target === reportModal) closeReportModal(); });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && reportModal.classList.contains('active')) closeReportModal();
     });
   }
 

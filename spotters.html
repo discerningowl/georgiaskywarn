@@ -121,6 +121,7 @@
 
   <!-- Page navigation (sticky horizontal bar) -->
   <nav class="page-nav" role="navigation" aria-label="Page navigation">
+    <button class="page-nav-toggle" aria-expanded="false" aria-controls="page-nav-list">☰ PAGE</button>
     <ul id="page-nav-list" class="nav-list">
       <li><a href="#SKYWARNcard">SKYWARN Info</a></li>
       <li><a href="#nwscard">Spotter Resources</a></li>
@@ -336,31 +337,37 @@
         </div>
 
         <!-- What to Report grid -->
-        <h3 class="section-subheader">What to Report</h3>
+        <h3 class="section-subheader">What to Report <span style="font-size: 0.85rem; font-weight: 400; color: var(--text-muted);">(click any card for full criteria)</span></h3>
         <div class="sub-cards sub-cards--3col">
-          <div class="sub-card report-card-tornado">
+          <div class="sub-card report-card-tornado report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="tornado">
             <h4>Tornadoes / Funnel Clouds / Wall Clouds</h4>
             <p>Organized, persistent rotation</p>
+            <span class="report-card-hint">Tap for full criteria →</span>
           </div>
-          <div class="sub-card report-card-hail">
+          <div class="sub-card report-card-hail report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="hail">
             <h4>Hail</h4>
             <p>Report the size of the largest stone and any damage. Compare to coins or balls, or measure with a ruler.</p>
+            <span class="report-card-hint">Tap for full criteria →</span>
           </div>
-          <div class="sub-card report-card-wind">
+          <div class="sub-card report-card-wind report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="wind">
             <h4>Damaging Winds</h4>
-            <p>Wind speeds ≥50 mph • Large branches/trees down • Roof or structure damage</p>
+            <p>Wind speeds ≥58 mph • Large branches/trees down • Roof or structure damage</p>
+            <span class="report-card-hint">Tap for full criteria →</span>
           </div>
-          <div class="sub-card report-card-flood">
+          <div class="sub-card report-card-flood report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="flood">
             <h4>Flooding</h4>
             <p>Flooded roadways/rivers • Water depth • Standing or flowing • Rising/steady/falling • Known flood area • Damage</p>
+            <span class="report-card-hint">Tap for full criteria →</span>
           </div>
-          <div class="sub-card report-card-winter">
+          <div class="sub-card report-card-winter report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="winter">
             <h4>Winter Weather</h4>
             <p>Any ice/snow accumulation</p>
+            <span class="report-card-hint">Tap for full criteria →</span>
           </div>
-          <div class="sub-card report-card-lightning">
+          <div class="sub-card report-card-lightning report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="lightning">
             <h4>Lightning</h4>
             <p>Injuries or damage caused</p>
+            <span class="report-card-hint">Tap for full criteria →</span>
           </div>
         </div>
 
@@ -426,6 +433,17 @@
 
   <!-- Site footer - calls on footer.html via script-->
   <div id="footer-placeholder"></div>
+
+<!-- What to Report detail modal -->
+<div class="modal-backdrop" id="reportModal">
+  <div class="modal-content">
+    <div class="modal-header" id="reportModalHeader">
+      <h2 class="modal-title" id="reportModalTitle">Reporting Criteria</h2>
+      <button class="modal-close" id="reportModalClose" aria-label="Close modal">×</button>
+    </div>
+    <div class="modal-body" id="reportModalBody"></div>
+  </div>
+</div>
 
 <!-- Centralized script loading - to update cache, only edit js/version.js -->
 <script src="js/version.js"></script>
