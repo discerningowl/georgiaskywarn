@@ -574,8 +574,8 @@ a:hover, a:focus {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideUp {
@@ -808,8 +808,6 @@ a:hover, a:focus {
     max-height: 60vh;
   }
 }
-
-/* --- REPEATER TABLE SEARCH BOX (also handles clear button) --- */
 
 /* --- PAGE NAVIGATION - Sticky horizontal bar (below header) --- */
 
@@ -1587,11 +1585,11 @@ a:hover, a:focus {
 .badge-wx4ptc   { background: var(--accent-blue); }
 .badge-peach-state { background: var(--accent-peach); }
 .badge-cherry-blossom { background: var(--accent-pink); }
-.badge-se-linked { background: var(--accent-lightblue); color: #f0f0f0; }
+.badge-se-linked { background: var(--accent-lightblue); color: var(--white); }
 .badge-county-only { background: var(--accent-orange); }
 .badge-iplink   { background: var(--accent-indigo); }
 
-/* --- REPEATER TABLES – UNIFORM, RESPONSIVE, BEAUTIFUL --- */
+/* --- REPEATER TABLES --- */
 
 .table-wrapper {
   overflow-x: auto;
@@ -1632,12 +1630,6 @@ a:hover, a:focus {
   border-bottom: 1px solid var(--card-border);
   vertical-align: top;
   transition: background 0.2s ease;
-}
-
-.repeater-table tbody tr:hover {
-  background: rgba(0, 102, 204, 0.08);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
 /* Zebra striping */
@@ -1834,11 +1826,6 @@ a:hover, a:focus {
   50% { opacity: 0.5; transform: scale(1.2); }
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
 /* --- REPORTING REQUIREMENTS – IMPROVED LAYOUT --- */
 
 /* Report checklist inside sub-card */
@@ -2000,11 +1987,6 @@ a:hover, a:focus {
   color: var(--text-secondary);
   margin: 0 0 1rem 0;
   font-weight: 500;
-}
-
-/* Larger desktop - slightly bigger logo */
-@media (min-width: 1200px) {
-  .nws-logo { max-width: 180px; }
 }
 
 /* --- ACTION BUTTONS – HORIZONTAL GROUP (Responsive) --- */
@@ -2196,18 +2178,10 @@ a:hover, a:focus {
   padding: 1rem 0;
 }
 
-/* Show only on desktop – hide on mobile */
-.desktop-only { display: inline-flex; }
-/* ---------- Map button visibility ---------- */
-.map-mobile { display: none; }
-@media (min-width: 768px) { .map-desktop { display: inline-flex; } }
-@media (max-width: 767px)  { .map-mobile  { display: inline-flex; } .map-desktop { display: none; } }
-
 /* --- MOBILE RESPONSIVE (<768px) - Consolidated --- */
 @media (max-width: 767px) {
   /* Layout */
   .site-main { padding: 0 .5rem; }
-  .desktop-only { display: none; }
   .site-header {
     min-height: 25vh;
     padding: 1rem;
@@ -2321,7 +2295,7 @@ a:hover, a:focus {
   100% { background-position: -200% 0; }
 }
 
-/* --- DARK MODE - Consolidated (respects manual theme toggle) --- */
+/* --- DARK MODE --- */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     /* Callouts */
@@ -2586,13 +2560,17 @@ a:hover, a:focus {
 
 .detail-value a:hover { color: var(--accent-blue); }
 
-/* Clickable table rows for modal */
+/* Clickable table rows */
 .repeater-table tbody tr {
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.repeater-table tbody tr:hover { background-color: rgba(92, 107, 192, 0.1); }
+.repeater-table tbody tr:hover {
+  background-color: rgba(92, 107, 192, 0.1);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
 
 .repeater-table tbody tr:active { background-color: rgba(92, 107, 192, 0.2); }
 
