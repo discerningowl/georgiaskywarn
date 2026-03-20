@@ -3,7 +3,7 @@
 **Quick Start Guide for Website Administrators**
 
 **Version**: 1.2
-**Last Updated**: February 8, 2026
+**Last Updated**: March 20, 2026
 **Maintained By**: Georgia SKYWARN Website Team
 - Jim Lynch (K4GVO) - Site Administrator
 - Robert Burton (KD4YDC) - Content Moderator & SKYWARN EC
@@ -1177,6 +1177,6 @@ If you have ideas for improving this guide, please contact:
 
 ---
 
-**Last Updated**: February 8, 2026
+**Last Updated**: March 20, 2026
 **Document Version**: 1.2
 **Website Version**: See [README.md](README.md) for current production status
