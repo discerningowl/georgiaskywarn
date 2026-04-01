@@ -57,7 +57,7 @@ A static website providing resources for amateur radio weather spotters in North
 
 ### Architecture
 - **Static Site**: No backend, no build process
-- **Flat Directory Structure**: Simple deployment and hosting
+- **Standard Directory Layout**: `css/`, `js/`, `data/`, `assets/` with HTML in root
 - **Component-Based CSS**: BEM naming conventions
 - **Progressive Enhancement**: Works without JavaScript (footer excluded)
 
@@ -74,30 +74,32 @@ georgiaskywarn/
 ├── wx4ptc.html             # WX4PTC station information
 ├── about.html              # Site overview and structure
 ├── photoarchive.html       # Historical station photos
-├── style.css               # Shared stylesheet (all pages)
-├── georgiaskywarnlogo.png  # Site logo
 ├── robots.txt              # Search engine directives
 ├── sitemap.xml             # Site map for SEO
-├── favicon.ico             # Site favicon
-├── nws.gif                 # NWS logo
-├── js/                     # JavaScript files (7 consolidated files)
+├── css/                    # Stylesheets
+│   └── style.css           # Shared stylesheet (all pages)
+├── js/                     # JavaScript files (8 files)
 │   ├── version.js          # Version number for cache busting
 │   ├── loader.js           # Dynamic script loader with versioning
 │   ├── core.js             # Core utilities (merged config + utils)
 │   ├── components.js       # UI components (merged header + footer)
-│   ├── scripts.js          # Page-specific JavaScript (alerts, search)
+│   ├── scripts.js          # Page-specific JavaScript (alerts, repeaters)
 │   ├── nws-api.js          # NWS API integration and HWO
+│   ├── search.js           # Sitewide search with fuzzy matching
 │   └── changelog.js        # Changelog display
 ├── data/                   # Data files
 │   ├── repeaters.json      # Unified repeater data (linked + non-linked)
-│   ├── weather-stations.json # NOAA Weather Radio stations
 │   ├── search-index.json   # Sitewide search index
 │   └── changelog.json      # Website changelog/updates
+├── assets/                 # Static assets
+│   ├── favicon.ico         # Site favicon
+│   ├── georgiaskywarnlogo.png  # Site logo
+│   ├── nws.gif             # NWS logo
+│   └── archive/            # Historical station photos
+│       └── WX4PTC*.jpg
 ├── CLAUDE.md               # Technical documentation for developers
 ├── ADMIN_GUIDE.md          # Administrator's guide for non-technical users
 ├── README.md               # This file - project overview
-├── archive/                # Historical photos
-│   └── WX4PTC*.jpg
 ├── www/                    # Legacy redirect (DO NOT REMOVE)
 │   └── index.html
 └── wx4ptc/                 # Legacy redirect (DO NOT REMOVE)
@@ -107,11 +109,11 @@ georgiaskywarn/
 
 ### ⚠️ Important: Directory Structure
 
-**HTML files and CSS MUST remain in the root directory.** The `js/` and `data/` subdirectories organize code and data files, but HTML pages must stay in root. Do not create additional subdirectories (`pages/`, `css/`, `images/`, etc.) or rename existing directories. This structure is required for:
+**HTML files MUST remain in the root directory.** CSS, JS, data, and static assets are organized into named subdirectories. Do not move HTML files into subdirectories, or rename/remove existing directories. This structure is required for:
 
-1. **External Links**: Many websites link directly to these file paths
+1. **External Links**: NWS, RepeaterBook, and ham radio forums link directly to HTML file paths
 2. **Legacy Redirects**: The `wx4ptc/` and `www/` directories handle old URLs still in use
-3. **Static Hosting**: Deployment configuration depends on this structure
+3. **Static Hosting**: Deployment configuration depends on HTML files being in root
 
 See [CLAUDE.md](CLAUDE.md) for detailed documentation.
 
@@ -265,7 +267,7 @@ npx http-server -p 8000
 2. **Mobile-first CSS** - Base styles for mobile, then desktop overrides
 3. **Use existing patterns** - Follow IIFE, BEM naming, semantic HTML
 4. **Test accessibility** - Keyboard navigation, screen readers, color contrast
-5. **Maintain flat structure** - DO NOT reorganize files or directories
+5. **Respect directory layout** - HTML in root; assets/CSS/JS/data in their subdirectories
 
 ### Testing Checklist
 
@@ -296,7 +298,7 @@ This site works with any static hosting provider:
 
 ### Deployment Steps
 
-1. Ensure all files are in the root directory (flat structure)
+1. Ensure HTML files are in root; `css/`, `js/`, `data/`, `assets/` in their subdirectories
 2. Verify `sitemap.xml` has correct domain
 3. Update `robots.txt` if needed
 4. Upload all files maintaining directory structure
@@ -344,7 +346,7 @@ refactor: Simplify API error handling
 
 ### What NOT to Do
 
-- ❌ Don't reorganize the directory structure
+- ❌ Don't move HTML files out of root or rename `css/`, `js/`, `data/`, `assets/`
 - ❌ Don't add external libraries (jQuery, Bootstrap, etc.)
 - ❌ Don't create new CSS/JS files (use existing ones)
 - ❌ Don't remove ARIA attributes
@@ -391,6 +393,6 @@ This website is maintained by volunteer amateur radio operators in coordination 
 
 ---
 
-**Last Updated**: March 20, 2026
+**Last Updated**: April 1, 2026
 **Maintained By**: Georgia SKYWARN Team
 **For Questions**: Contact webmaster at kq4jp@pm.me
