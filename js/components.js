@@ -29,7 +29,7 @@ function loadHeader() {
         <header class="header">
             <div class="header-content">
                 <a href="index.html" class="logo">
-                    <img src="georgiaskywarnlogo.png" alt="Georgia SKYWARN Logo" class="logo-image">
+                    <img src="assets/georgiaskywarnlogo.png" alt="Georgia SKYWARN Logo" class="logo-image">
                     <div class="logo-text">
                         <h1>Georgia SKYWARN</h1>
                         <p>Linked Repeater System for Amateur Radio Spotters</p>
