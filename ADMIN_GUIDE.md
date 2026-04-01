@@ -121,24 +121,27 @@ georgiaskywarn/
 ├── wx4ptc.html             ← WX4PTC station information page
 ├── about.html              ← About the site page
 ├── photoarchive.html       ← Historical photos page
-├── style.css               ← Stylesheet (colors, layout, design)
-├── georgiaskywarnlogo.png  ← Site logo
-├── favicon.ico             ← Browser tab icon
-├── nws.gif                 ← NWS logo image
+├── spotters.html           ← Spotter resources and training
+├── css/                    ← Stylesheets
+│   └── style.css           ← Stylesheet (colors, layout, design)
 ├── js/                     ← JavaScript files
-│   ├── header.js           ← Header component (logo, navigation, theme toggle)
-│   ├── footer.js           ← Footer component
+│   ├── version.js          ← Version number for cache busting
+│   ├── loader.js           ← Dynamic script loader
+│   ├── core.js             ← Core utilities
+│   ├── components.js       ← Header and footer components
 │   ├── scripts.js          ← Page-specific JavaScript (alerts, search)
 │   ├── nws-api.js          ← NWS API integration and HWO
-│   ├── config.js           ← Centralized configuration
-│   ├── utils.js            ← Shared utility functions
+│   ├── search.js           ← Sitewide search
 │   └── changelog.js        ← Changelog display
 ├── data/                   ← Data files
-│   ├── linked-repeaters.json   ← **YOU EDIT THIS** - Linked repeater data
-│   ├── nonlinked-repeaters.json ← **YOU EDIT THIS** - Non-linked repeater data
+│   ├── repeaters.json      ← **YOU EDIT THIS** - All repeater data (linked + non-linked)
 │   └── changelog.json      ← Website changelog/updates
-├── archive/                ← Historical photos folder
-│   └── WX4PTC*.jpg         ← Station photos
+├── assets/                 ← Static assets
+│   ├── favicon.ico         ← Browser tab icon
+│   ├── georgiaskywarnlogo.png  ← Site logo
+│   ├── nws.gif             ← NWS logo image
+│   └── archive/            ← Historical photos folder
+│       └── WX4PTC*.jpg     ← Station photos
 ├── www/                    ← DO NOT DELETE (legacy redirects)
 │   └── index.html
 └── wx4ptc/                 ← DO NOT DELETE (legacy redirects)
@@ -160,11 +163,10 @@ georgiaskywarn/
 
 | File | What It Contains | How Often Updated |
 |------|------------------|-------------------|
-| `data/linked-repeaters.json` | **Linked repeater data** | When repeaters change |
-| `data/nonlinked-repeaters.json` | **Non-linked repeater data** | When repeaters change |
+| `data/repeaters.json` | **All repeater data** (linked + non-linked) | When repeaters change |
 | `about.html` | Contact information | When contacts change |
 | `nwsffclinks.html` | NWS resource links | Annual check |
-| `style.css` | Visual design and colors | Rarely |
+| `css/style.css` | Visual design and colors | Rarely |
 
 **Important**: You do NOT directly edit `index.html` or `repeaters.html` for repeater information. These pages automatically load data from the JSON files.
 
@@ -545,9 +547,9 @@ Only experienced developers should modify the weather alert system. For all aler
 
 ### Task 4: Changing Site Colors or Appearance
 
-**File to edit**: `style.css`
+**File to edit**: `css/style.css`
 
-The site uses "CSS Custom Properties" (variables) for colors. Find this section near the top of `style.css`:
+The site uses "CSS Custom Properties" (variables) for colors. Find this section near the top of `css/style.css`:
 
 ```css
 :root {
@@ -584,7 +586,7 @@ This is more advanced. Refer to [CLAUDE.md](CLAUDE.md) section "Adding a New Pag
 
 **File to edit**: `photoarchive.html`
 
-1. Upload new photos to the `archive/` folder (use descriptive names)
+1. Upload new photos to the `assets/archive/` folder (use descriptive names)
 2. Edit `photoarchive.html` to add the new photos
 3. Follow the existing pattern for photo display
 
@@ -614,10 +616,8 @@ georgiaskywarn/                    ← Root directory on server
     ├── wx4ptc.html
     ├── about.html
     ├── photoarchive.html
-    ├── style.css
-    ├── georgiaskywarnlogo.png
-    ├── favicon.ico
-    ├── nws.gif
+    ├── css/
+    │   └── style.css
     ├── js/
     │   ├── version.js
     │   ├── loader.js
@@ -629,11 +629,14 @@ georgiaskywarn/                    ← Root directory on server
     │   └── changelog.js
     ├── data/
     │   ├── repeaters.json
-    │   ├── weather-stations.json
     │   ├── search-index.json
     │   └── changelog.json
-    ├── archive/
-    │   └── WX4PTC*.jpg
+    ├── assets/
+    │   ├── favicon.ico
+    │   ├── georgiaskywarnlogo.png
+    │   ├── nws.gif
+    │   └── archive/
+    │       └── WX4PTC*.jpg
     └── wx4ptc/                    ← Legacy redirect folder
         ├── index.html             ← Points to main site
         └── ReadMe.md
@@ -707,11 +710,10 @@ This is the standard deployment method for the Georgia SKYWARN website.
 3. Upload the selected files to `public_html/`
 4. **IMPORTANT**: Make sure to include:
    - ✅ All HTML files (index.html, spotters.html, repeaters.html, etc.)
+   - ✅ `css/` folder (style.css)
    - ✅ `js/` folder with all JavaScript files
    - ✅ `data/` folder with all JSON data files
-   - ✅ style.css
-   - ✅ All image files (PNG, GIF, ICO)
-   - ✅ `archive/` folder with all photos
+   - ✅ `assets/` folder (favicon, logo, nws.gif, archive/ photos)
    - ✅ `wx4ptc/` folder with redirect files
 5. Verify the upload completed successfully (no errors)
 
@@ -729,11 +731,11 @@ GitHub Folder → Server Location
 
 /index.html              → georgiaskywarn/public_html/index.html
 /spotters.html           → georgiaskywarn/public_html/spotters.html
-/style.css               → georgiaskywarn/public_html/style.css
+/css/style.css           → georgiaskywarn/public_html/css/style.css
 /js/core.js              → georgiaskywarn/public_html/js/core.js
 /js/nws-api.js           → georgiaskywarn/public_html/js/nws-api.js
 /data/changelog.json     → georgiaskywarn/public_html/data/changelog.json
-/archive/*.jpg           → georgiaskywarn/public_html/archive/*.jpg
+/assets/archive/*.jpg    → georgiaskywarn/public_html/assets/archive/*.jpg
 /wx4ptc/index.html       → georgiaskywarn/public_html/wx4ptc/index.html
 /www/index.html          → georgiaskywarn/index.html (ROOT!)
 ```
@@ -1021,8 +1023,8 @@ document.documentElement.setAttribute('data-theme', 'light');
 
 2. **CSS file not loading**
    - Press F12 → Network tab
-   - Reload page and check for `style.css` in red (failed to load)
-   - Re-upload `style.css` if missing
+   - Reload page and check for `css/style.css` in red (failed to load)
+   - Re-upload `css/style.css` if missing
 
 3. **CSS cache issue**
    - Hard refresh: Ctrl+Shift+R
@@ -1040,9 +1042,9 @@ document.documentElement.setAttribute('data-theme', 'light');
    - Compare with a working backup
 
 2. **CSS syntax error**
-   - Check for missing semicolons or curly braces in `style.css`
+   - Check for missing semicolons or curly braces in `css/style.css`
    - Press F12 → Console for CSS errors
-   - Restore `style.css` from GitHub if needed
+   - Restore `css/style.css` from GitHub if needed
 
 3. **Incorrect class names**
    - Verify you didn't change or remove CSS classes
