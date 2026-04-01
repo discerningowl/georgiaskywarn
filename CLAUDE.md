@@ -21,10 +21,9 @@ georgiaskywarn/
 ├── wx4ptc.html             # Information about WX4PTC station
 ├── about.html              # Site structure and overview
 ├── photoarchive.html       # Photo archive of WX4PTC station
-├── style.css               # Shared stylesheet for all pages
-├── georgiaskywarnlogo.png  # Site logo (500x500px)
-├── favicon.ico             # Site favicon
-├── nws.gif                 # NWS logo
+├── spotters.html           # Spotter resources and reporting guidelines
+├── css/                    # Stylesheets directory
+│   └── style.css           # Shared stylesheet for all pages
 ├── js/                     # JavaScript files directory (8 files total)
 │   ├── version.js          # **CRITICAL** - Single version number for cache busting
 │   ├── loader.js           # **CRITICAL** - Dynamically loads all scripts with versioning
@@ -35,56 +34,58 @@ georgiaskywarn/
 │   ├── search.js           # Sitewide search with fuzzy matching (added 2026-01-10)
 │   └── changelog.js        # Changelog display
 ├── data/                   # Data files directory
-│   ├── linked-repeaters.json   # Linked repeater data (dynamically loaded)
-│   ├── nonlinked-repeaters.json # Non-linked repeater data (dynamically loaded)
-│   ├── weather-stations.json   # NOAA Weather Radio stations (dynamically loaded)
+│   ├── repeaters.json      # All repeater data (linked + non-linked, dynamically loaded)
 │   ├── search-index.json   # Sitewide search index (32 sections, 7 pages)
 │   └── changelog.json      # Website changelog/updates
-├── archive/                # Photo archive directory
-│   └── WX4PTC*.jpg         # Station photos (1-8)
-├── www/                    # Legacy redirect folder
+├── assets/                 # Static assets directory
+│   ├── favicon.ico         # Site favicon
+│   ├── georgiaskywarnlogo.png  # Site logo (500x500px)
+│   ├── nws.gif             # NWS logo (OG image reference)
+│   └── archive/            # Photo archive directory
+│       └── WX4PTC*.jpg     # WX4PTC station photos (1-8)
+├── www/                    # Legacy redirect folder (DO NOT REMOVE OR MODIFY)
 │   └── index.html
-└── wx4ptc/                 # Legacy redirect folder (DO NOT REMOVE)
+└── wx4ptc/                 # Legacy redirect folder (DO NOT REMOVE OR MODIFY)
     ├── index.html          # Redirect script
     └── ReadMe.md           # Explains external link preservation
 ```
 
 ### ⚠️ CRITICAL: Directory Structure Requirements
 
-**HTML files and CSS MUST remain in the root directory. This is a hard requirement.**
+**HTML files MUST remain in the root directory. This is a hard requirement.**
 
-**Current Structure** (as of January 10, 2026):
+**Current Structure** (as of April 1, 2026):
 - ✅ **HTML files**: All in root directory
-- ✅ **CSS files**: `style.css` in root directory
+- ✅ **CSS files**: `css/style.css`
 - ✅ **JavaScript files**: Organized in `js/` directory (8 files including search.js)
 - ✅ **Data files**: JSON files in `data/` directory (includes search-index.json)
-- ✅ **Images**: In root directory (except photo archive in `archive/`)
+- ✅ **Static assets**: `assets/` directory (favicon, logo, nws.gif, archive photos)
 - ✅ **Legacy redirects**: `www/` and `wx4ptc/` directories preserved
 
 **DO NOT**:
 - ❌ Move HTML files into subdirectories (e.g., `pages/`, `src/`, `public/`)
-- ❌ Move `style.css` from the root directory
-- ❌ Create additional directories (e.g., `css/`, `images/`, `assets/`)
-- ❌ Rename existing directories (`js/`, `data/`, `archive/`, `www/`, `wx4ptc/`)
-- ❌ Move image files into an `assets/` or `images/` folder
-- ❌ Reorganize the `js/` or `data/` directory structure
+- ❌ Move `css/style.css` out of `css/` or back to root
+- ❌ Move files out of `assets/` back to root
+- ❌ Rename or remove `css/`, `js/`, `data/`, or `assets/` directories
+- ❌ Move `assets/archive/` photos out of `assets/`
+- ❌ Remove or modify the `www/` or `wx4ptc/` directories
 
 **WHY**: This structure is required for:
 1. **External links** - Many external websites link directly to HTML files at their current root paths
 2. **Legacy redirects** - The `wx4ptc/` and `www/` directories handle old URLs still in use
 3. **Static hosting** - Deployment configuration depends on HTML files being in root
-4. **Code organization** - The `js/` and `data/` directories reduce duplication while maintaining compatibility
+4. **Code organization** - The `css/`, `js/`, `data/`, and `assets/` directories follow standard conventions
 
 ### Important Notes
 
 1. **DO NOT REMOVE** the `wx4ptc/` directory - it contains redirect scripts for external links referenced by NWS and other official sources
 2. **DO NOT REMOVE** the `www/` directory - legacy redirect for old bookmarks
 3. All HTML pages MUST remain in the root directory
-4. All HTML pages share the same `style.css` stylesheet (root level)
+4. All HTML pages share the same stylesheet at `css/style.css`
 5. **Component architecture**: Header and footer loaded via `js/components.js` (merged for efficiency)
 6. **JavaScript organization**: 8 files total (reduced from 9 in 2026-01-09 refactor, added search.js in 2026-01-10)
 7. **Data organization**: All JSON data files in `data/` directory
-8. Images and assets remain in root directory except for historical photos in `archive/`
+8. **Assets organization**: All static assets (images, favicon, archive photos) in `assets/` directory
 
 ---
 
@@ -479,22 +480,32 @@ fetch(url, { headers: { 'User-Agent': USER_AGENT } });
 
 ### 0. ⚠️ CRITICAL: Directory Structure (READ THIS FIRST)
 
-**MOST IMPORTANT RULE**: The directory structure MUST remain flat and unchanged.
+**MOST IMPORTANT RULE**: HTML files live in root. All else in named subdirectories.
+
+**Current canonical layout**:
+```
+root/
+├── *.html          ← ALWAYS in root (external links depend on this)
+├── css/style.css
+├── js/
+├── data/
+├── assets/         ← favicon, logo, nws.gif, archive/ photos
+├── www/            ← FROZEN legacy redirect
+└── wx4ptc/         ← FROZEN legacy redirect
+```
 
 **ABSOLUTELY FORBIDDEN**:
-- ❌ Creating subdirectories (`pages/`, `css/`, `js/`, `images/`, `assets/`, `src/`, `public/`, etc.)
-- ❌ Moving any files from the root directory to subdirectories
-- ❌ Reorganizing files into a "better" structure
-- ❌ Renaming or removing `archive/`, `www/`, or `wx4ptc/` directories
-- ❌ Moving `style.css` or any `.html` files from root
+- ❌ Moving `.html` files into subdirectories (`pages/`, `src/`, `public/`, etc.)
+- ❌ Moving `css/style.css` back to root or to another directory
+- ❌ Moving files out of `assets/` back to root
+- ❌ Renaming or removing `css/`, `js/`, `data/`, or `assets/` directories
+- ❌ Touching `www/` or `wx4ptc/` in any way
+- ❌ Creating additional top-level directories
 
 **WHY THIS MATTERS**:
-- External websites (NWS, RepeaterBook, ham radio forums) link to specific file paths
+- External websites (NWS, RepeaterBook, ham radio forums) link to specific HTML file paths
 - The `wx4ptc/` directory handles legacy redirects that CANNOT be broken
-- Static hosting configuration depends on the flat structure
-- Relative paths in HTML/CSS/JS are based on current structure
-
-**IF YOU'RE TEMPTED TO "ORGANIZE" THE STRUCTURE - DON'T. This is not negotiable.**
+- Static hosting configuration depends on HTML files being in root
 
 ### 1. File Modifications
 
@@ -1127,6 +1138,21 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-04-01
+- **Directory Restructure**: Reorganized static assets to follow standard web conventions
+  - Moved `style.css` → `css/style.css`; created `css/` directory
+  - Moved `favicon.ico`, `georgiaskywarnlogo.png` → `assets/`; created `assets/` directory
+  - Moved `archive/` → `assets/archive/` (WX4PTC station photos)
+  - `nws.gif` was referenced in OG tags but not physically in repo; absolute URLs updated to `/assets/nws.gif` for when it is added
+  - Updated all 7 HTML files: `href="css/style.css"`, `href="assets/favicon.ico"`
+  - Updated `js/components.js`: logo `src` → `assets/georgiaskywarnlogo.png`
+  - Updated absolute OG/Twitter image URLs in `nwsffclinks.html`, `repeaters.html`, `wx4ptc.html`, `photoarchive.html`, `index.html`
+  - Updated relative `src="archive/..."` paths in `photoarchive.html` → `src="assets/archive/..."`
+  - HTML files remain in root (external NWS/RepeaterBook links depend on root paths)
+  - `www/` and `wx4ptc/` legacy redirect directories unchanged
+  - Bumped version to `20260401a`
+  - Updated CLAUDE.md structure docs, directory requirements, and AI quick reference
+
 ### 2026-03-20
 - **Stylesheet Cleanup**: Removed dead code and fixed duplicate definitions in `style.css`
   - Removed duplicate `@keyframes fadeIn` — kept the slide version (`translateY(-10px) → 0`), dropped the plain opacity-only copy
@@ -1442,9 +1468,10 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 
 ### Common Pitfalls to Avoid
 
-- ❌ **MOST IMPORTANT**: Don't reorganize directory structure or create subdirectories
-- ❌ Don't move HTML files into folders (pages/, src/, etc.)
-- ❌ Don't create css/, js/, images/, or assets/ directories
+- ❌ **MOST IMPORTANT**: Don't move HTML files out of root
+- ❌ Don't move `css/style.css` back to root or rename the `css/` directory
+- ❌ Don't move assets out of `assets/` back to root
+- ❌ Don't create extra top-level directories beyond `css/`, `js/`, `data/`, `assets/`
 - ❌ Don't remove or rename the `wx4ptc/` or `www/` directories
 - ❌ Don't add external libraries (jQuery, Bootstrap, etc.)
 - ❌ Don't create new CSS/JS files (use existing ones)
@@ -1467,6 +1494,6 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 
 ---
 
-**Last Updated**: 2026-03-20
+**Last Updated**: 2026-04-01
 **Maintained By**: Claude AI Assistant (based on codebase analysis)
 **For Questions**: Contact Jack Parks (KQ4JP) <kq4jp@pm.me>
