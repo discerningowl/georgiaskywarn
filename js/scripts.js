@@ -1305,38 +1305,100 @@
   }
 
   // ========================================================================
-  // ADMIN PAGE (admin.html) — Inactive repeater list
+  // ADMIN PAGE (admin.html) — Database quality dashboard
   // ========================================================================
   if (currentPage === 'admin.html') {
     async function renderAdminPage() {
-      const tbody = document.getElementById('inactive-repeaters-tbody');
-      const countEl = document.getElementById('inactive-count');
-      if (!tbody) return;
+      const all = await fetchRepeaterData();
 
-      const allRepeaters = await fetchRepeaterData();
-      const inactive = allRepeaters.filter(r => r.active === false);
+      // ── Categorize ──────────────────────────────────────────────────────
+      const inactive   = all.filter(r => r.active === false);
+      const active     = all.filter(r => r.active !== false);
+      const linked     = all.filter(r => r.linked === true);
+      const nonLinked  = all.filter(r => r.linked === false);
+      const verified   = all.filter(r => r.verified === true);
+      const unverified = all.filter(r => r.verified === false);
+      const noCalls    = all.filter(r => r.callsign === 'n0call');
+      const noClub     = all.filter(r => !r.clubName);
 
-      if (countEl) countEl.textContent = inactive.length;
+      // ── Summary stats ───────────────────────────────────────────────────
+      const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+      set('stat-total',      all.length);
+      set('stat-active',     active.length);
+      set('stat-inactive',   inactive.length);
+      set('stat-linked',     linked.length);
+      set('stat-nonlinked',  nonLinked.length);
+      set('stat-verified',   verified.length);
+      set('stat-unverified', unverified.length);
+      set('stat-nocall',     noCalls.length);
 
-      if (inactive.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="center">No inactive repeaters.</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = inactive.map(r => {
-        const tags = (r.tags && r.tags.length > 0) ? r.tags.join(', ') : '—';
+      // ── Helper: build a standard 5-col row ──────────────────────────────
+      function adminRow(r, col3Label) {
+        const tags = (r.tags && r.tags.length > 0) ? sanitizeHTML(r.tags.join(', ')) : '—';
+        const linkedBadge = r.linked
+          ? '<span style="color:var(--accent-green);font-weight:700;">✓ Linked</span>'
+          : '<span style="color:var(--accent-orange);">County Only</span>';
         return `
           <tr>
             <td><strong>${sanitizeHTML(r.location)}</strong><br>
               <span style="color:var(--text-secondary);font-size:0.9rem;">${sanitizeHTML(r.callsign)}</span></td>
             <td class="center"><strong>${sanitizeHTML(r.frequency)}</strong><br>
               <span style="font-size:0.9rem;">${sanitizeHTML(r.tone || 'None')}</span></td>
-            <td class="center">${sanitizeHTML(tags)}</td>
-            <td>${sanitizeHTML(r.statusNote || '—')}</td>
+            <td class="center">${col3Label !== undefined ? col3Label : linkedBadge}</td>
+            <td>${tags}</td>
             <td class="center"><a href="${window.UTILS.sanitizeURL(r.refurl)}" target="_blank" rel="noopener noreferrer">RepeaterBook →</a></td>
           </tr>`;
-      }).join('');
+      }
+
+      // ── Inactive ────────────────────────────────────────────────────────
+      set('inactive-count', inactive.length);
+      const inactiveTbody = document.getElementById('inactive-repeaters-tbody');
+      if (inactiveTbody) {
+        inactiveTbody.innerHTML = inactive.length === 0
+          ? '<tr><td colspan="5" class="center" style="color:var(--accent-green);">✓ No inactive repeaters.</td></tr>'
+          : inactive.map(r => {
+              const tags = (r.tags && r.tags.length > 0) ? sanitizeHTML(r.tags.join(', ')) : '—';
+              return `
+                <tr>
+                  <td><strong>${sanitizeHTML(r.location)}</strong><br>
+                    <span style="color:var(--text-secondary);font-size:0.9rem;">${sanitizeHTML(r.callsign)}</span></td>
+                  <td class="center"><strong>${sanitizeHTML(r.frequency)}</strong><br>
+                    <span style="font-size:0.9rem;">${sanitizeHTML(r.tone || 'None')}</span></td>
+                  <td>${tags}</td>
+                  <td>${sanitizeHTML(r.statusNote || '—')}</td>
+                  <td class="center"><a href="${window.UTILS.sanitizeURL(r.refurl)}" target="_blank" rel="noopener noreferrer">RepeaterBook →</a></td>
+                </tr>`;
+            }).join('');
+      }
+
+      // ── Unverified ──────────────────────────────────────────────────────
+      set('unverified-count', unverified.length);
+      const unverifiedTbody = document.getElementById('unverified-repeaters-tbody');
+      if (unverifiedTbody) {
+        unverifiedTbody.innerHTML = unverified.length === 0
+          ? '<tr><td colspan="5" class="center" style="color:var(--accent-green);">✓ All repeaters verified.</td></tr>'
+          : unverified.map(r => adminRow(r)).join('');
+      }
+
+      // ── Unknown callsigns ────────────────────────────────────────────────
+      set('nocall-count', noCalls.length);
+      const noCallTbody = document.getElementById('nocall-repeaters-tbody');
+      if (noCallTbody) {
+        noCallTbody.innerHTML = noCalls.length === 0
+          ? '<tr><td colspan="5" class="center" style="color:var(--accent-green);">✓ No unknown callsigns.</td></tr>'
+          : noCalls.map(r => adminRow(r)).join('');
+      }
+
+      // ── Missing club ─────────────────────────────────────────────────────
+      set('noclub-count', noClub.length);
+      const noClubTbody = document.getElementById('noclub-repeaters-tbody');
+      if (noClubTbody) {
+        noClubTbody.innerHTML = noClub.length === 0
+          ? '<tr><td colspan="5" class="center" style="color:var(--accent-green);">✓ All repeaters have club info.</td></tr>'
+          : noClub.map(r => adminRow(r)).join('');
+      }
     }
+
     renderAdminPage();
   }
 

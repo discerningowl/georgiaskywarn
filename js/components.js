@@ -393,6 +393,7 @@ function loadFooter() {
                             <li><a href="https://www.weather.gov/ffc/" target="_blank" rel="noopener noreferrer">NWS Atlanta</a></li>
                             <li><a href="https://www.weather.gov/ffc/SKYWARNsched" target="_blank" rel="noopener noreferrer">Spotter Training</a></li>
                             <li><a href="https://www.weather.gov/ffc/strmsubm1" target="_blank" rel="noopener noreferrer">Submit Storm Report</a></li>
+                            <li><a href="https://georgiaskywarn.com/admin.html" target="_blank" rel="noopener noreferrer">...</a></li>
                         </ul>
                     </div>
                 </div>

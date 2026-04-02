@@ -17,19 +17,43 @@
   <!-- Page navigation -->
   <nav class="page-nav" role="navigation" aria-label="Page navigation">
     <ul id="page-nav-list" class="nav-list">
-      <li><a href="#inactive-card">Inactive Repeaters</a></li>
+      <li><a href="#stats-card">Summary</a></li>
+      <li><a href="#inactive-card">Inactive</a></li>
+      <li><a href="#unverified-card">Unverified</a></li>
+      <li><a href="#nocall-card">Unknown Callsigns</a></li>
+      <li><a href="#noclub-card">Missing Club</a></li>
     </ul>
   </nav>
 
   <main class="site-main" role="main">
 
+    <!-- Summary Stats -->
+    <section class="card" id="stats-card">
+      <header class="card-header card-header--blue">
+        <h2 class="card-title">Database Summary</h2>
+      </header>
+      <div class="card-body">
+        <div class="sub-cards" id="stats-grid">
+          <div class="sub-card center"><p style="font-size:2rem;font-weight:700;" id="stat-total">—</p><p style="color:var(--text-secondary);">Total Repeaters</p></div>
+          <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-green);" id="stat-active">—</p><p style="color:var(--text-secondary);">Active</p></div>
+          <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-red);" id="stat-inactive">—</p><p style="color:var(--text-secondary);">Inactive</p></div>
+          <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-blue);" id="stat-linked">—</p><p style="color:var(--text-secondary);">Linked</p></div>
+          <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-orange);" id="stat-nonlinked">—</p><p style="color:var(--text-secondary);">Non-Linked</p></div>
+          <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-green);" id="stat-verified">—</p><p style="color:var(--text-secondary);">Verified</p></div>
+          <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-yellow);" id="stat-unverified">—</p><p style="color:var(--text-secondary);">Needs Verification</p></div>
+          <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-yellow);" id="stat-nocall">—</p><p style="color:var(--text-secondary);">Unknown Callsign</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Inactive Repeaters -->
     <section class="card" id="inactive-card">
       <header class="card-header card-header--red">
         <h2 class="card-title">Inactive Repeaters (<span id="inactive-count">—</span>)</h2>
       </header>
       <div class="card-body">
         <aside class="callout warning">
-          <p>These repeaters are marked <code>active: false</code> in <code>data/repeaters.json</code>. They are hidden from the public repeater tables and excluded from CSV exports. To restore a repeater, set <code>"active": true</code> and remove <code>statusNote</code>.</p>
+          <p>Marked <code>active: false</code> — hidden from public tables and excluded from CSV exports. To restore, set <code>"active": true</code> and remove <code>statusNote</code>.</p>
         </aside>
         <div class="table-wrapper">
           <table class="repeater-table">
@@ -43,6 +67,90 @@
               </tr>
             </thead>
             <tbody id="inactive-repeaters-tbody">
+              <tr><td colspan="5" class="center">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Unverified Repeaters -->
+    <section class="card" id="unverified-card">
+      <header class="card-header card-header--yellow">
+        <h2 class="card-title">Unverified Repeaters (<span id="unverified-count">—</span>)</h2>
+      </header>
+      <div class="card-body">
+        <aside class="callout note">
+          <p>These repeaters have <code>verified: false</code> and have not been cross-checked against RepeaterBook. Click the RepeaterBook link to verify frequency, tone, and callsign, then set <code>"verified": true</code> in the JSON.</p>
+        </aside>
+        <div class="table-wrapper">
+          <table class="repeater-table">
+            <thead>
+              <tr>
+                <th>Location / Callsign</th>
+                <th>Frequency / Tone</th>
+                <th>Linked</th>
+                <th>Tags</th>
+                <th>Reference</th>
+              </tr>
+            </thead>
+            <tbody id="unverified-repeaters-tbody">
+              <tr><td colspan="5" class="center">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Unknown Callsigns -->
+    <section class="card" id="nocall-card">
+      <header class="card-header card-header--yellow">
+        <h2 class="card-title">Unknown Callsigns (<span id="nocall-count">—</span>)</h2>
+      </header>
+      <div class="card-body">
+        <aside class="callout note">
+          <p>These repeaters have callsign <code>n0call</code> — the actual licensee hasn't been identified yet. Look up the frequency on <a href="https://www.repeaterbook.com/repeaters/index.php?state_id=13" target="_blank" rel="noopener noreferrer">RepeaterBook Georgia</a> and update the <code>callsign</code> and <code>refurl</code> fields.</p>
+        </aside>
+        <div class="table-wrapper">
+          <table class="repeater-table">
+            <thead>
+              <tr>
+                <th>Location</th>
+                <th>Frequency / Tone</th>
+                <th>Linked</th>
+                <th>Tags</th>
+                <th>Reference</th>
+              </tr>
+            </thead>
+            <tbody id="nocall-repeaters-tbody">
+              <tr><td colspan="5" class="center">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Missing Club Info -->
+    <section class="card" id="noclub-card">
+      <header class="card-header card-header--blue">
+        <h2 class="card-title">Missing Club Info (<span id="noclub-count">—</span>)</h2>
+      </header>
+      <div class="card-body">
+        <aside class="callout note">
+          <p>These repeaters have <code>clubName: null</code>. Check RepeaterBook or contact the trustee to identify the sponsoring club and update <code>clubName</code> and <code>clubUrl</code>.</p>
+        </aside>
+        <div class="table-wrapper">
+          <table class="repeater-table">
+            <thead>
+              <tr>
+                <th>Location / Callsign</th>
+                <th>Frequency</th>
+                <th>Linked</th>
+                <th>Tags</th>
+                <th>Reference</th>
+              </tr>
+            </thead>
+            <tbody id="noclub-repeaters-tbody">
               <tr><td colspan="5" class="center">Loading...</td></tr>
             </tbody>
           </table>
