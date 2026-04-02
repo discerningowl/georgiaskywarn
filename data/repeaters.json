@@ -1229,13 +1229,19 @@
     "linked": true,
     "verified": true,
     "active": true,
-    "clubName": null,
-    "clubUrl": null,
+    "clubName": "Columbus Amateur Radio Club (W4CVY)",
+    "clubUrl": "https://w4cvy.org/repeaters/",
     "iplinks": [
       {
         "system": "AllStar",
         "node": "473360",
         "connectionType": "full-time"
+      },
+      {
+        "system": "EchoLink",
+        "node": "282020",
+        "callsign": "KN4FE-R",
+        "connectionType": "available"
       }
     ],
     "rflinks": [
