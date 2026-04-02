@@ -1254,24 +1254,20 @@
     // Update repeater validation date (header + export section)
     updateRepeaterValidationDate();
 
-    // Mirror the same date into the export section
+    // Mirror the same human-readable date into the export section
     const exportDateEl = document.getElementById('export-date-display');
     if (exportDateEl) {
-      const repeaterLastUpdatedEl = document.getElementById('repeater-last-updated');
-      // Once repeater-last-updated is populated, copy it; otherwise fetch directly
       fetch('data/repeaters.json', { method: 'HEAD' }).then(resp => {
         const lm = resp.headers.get('Last-Modified');
-        if (lm) {
-          const d = new Date(lm);
-          const y = d.getFullYear();
-          const m = String(d.getMonth() + 1).padStart(2, '0');
-          const day = String(d.getDate()).padStart(2, '0');
-          exportDateEl.textContent = `${y}${m}${day}`;
-        } else {
-          const today = new Date();
-          exportDateEl.textContent = today.toISOString().slice(0, 10).replace(/-/g, '');
-        }
-      }).catch(() => { exportDateEl.textContent = 'unknown'; });
+        const d = lm ? new Date(lm) : new Date();
+        const formatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        let formattedDate = formatter.format(d);
+        const day = d.getDate();
+        const suffix = ['th', 'st', 'nd', 'rd'][
+          (day % 100 > 10 && day % 100 < 14) ? 0 : (day % 10 < 4) ? day % 10 : 0
+        ];
+        exportDateEl.textContent = formattedDate.replace(/\d+/, `${day}${suffix}`);
+      }).catch(() => { exportDateEl.textContent = 'recently'; });
     }
 
     Promise.all([
