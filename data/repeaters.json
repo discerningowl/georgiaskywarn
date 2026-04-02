@@ -1197,10 +1197,10 @@
     "callsign": "WC4RG",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5522",
     "linked": false,
-    "verified": false,
+    "verified": true,
     "active": true,
-    "clubName": null,
-    "clubUrl": null
+    "clubName": "Walton County Repeater Group (WCRG)",
+    "clubUrl": "https://wc4rg.org/repeaters/"
   },
   {
     "id": "WC4RG-442.050",
