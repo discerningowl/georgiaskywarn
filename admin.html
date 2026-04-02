@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Georgia SKYWARN - Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+  <!-- Site header loaded by components.js -->
+
+  <!-- Page navigation -->
+  <nav class="page-nav" role="navigation" aria-label="Page navigation">
+    <ul id="page-nav-list" class="nav-list">
+      <li><a href="#inactive-card">Inactive Repeaters</a></li>
+    </ul>
+  </nav>
+
+  <main class="site-main" role="main">
+
+    <section class="card" id="inactive-card">
+      <header class="card-header card-header--red">
+        <h2 class="card-title">Inactive Repeaters (<span id="inactive-count">—</span>)</h2>
+      </header>
+      <div class="card-body">
+        <aside class="callout warning">
+          <p>These repeaters are marked <code>active: false</code> in <code>data/repeaters.json</code>. They are hidden from the public repeater tables and excluded from CSV exports. To restore a repeater, set <code>"active": true</code> and remove <code>statusNote</code>.</p>
+        </aside>
+        <div class="table-wrapper">
+          <table class="repeater-table">
+            <thead>
+              <tr>
+                <th>Location / Callsign</th>
+                <th>Frequency / Tone</th>
+                <th>Tags</th>
+                <th>Status Note</th>
+                <th>Reference</th>
+              </tr>
+            </thead>
+            <tbody id="inactive-repeaters-tbody">
+              <tr><td colspan="5" class="center">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Site footer -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Centralized script loading -->
+  <script src="js/version.js"></script>
+  <script src="js/loader.js"></script>
+
+</body>
+</html>
