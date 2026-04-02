@@ -399,6 +399,7 @@ function loadFooter() {
 
                 <div class="footer-bottom">
                     <p>&copy; 2026 Georgia SKYWARN &middot; All Rights Reserved &middot; Serving North and Central Georgia</p>
+                    <p style="margin-top: 0.5rem;"><a href="admin.html" style="color: var(--text-secondary); opacity: 0.4; font-size: 0.8rem; text-decoration: none;" aria-label="Admin">&#8943;</a></p>
                 </div>
             </div>
         </footer>

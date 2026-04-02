@@ -579,7 +579,7 @@
     // Render linked repeaters
     const linkedContainer = document.getElementById('linked-repeaters-tbody');
     if (linkedContainer) {
-      const linked = allRepeaters.filter(r => r.linked === true);
+      const linked = allRepeaters.filter(r => r.linked === true && r.active !== false);
       linkedContainer.innerHTML = linked.length > 0
         ? linked.map(r => renderRepeaterRow(r)).join('')
         : '<tr><td colspan="5">No linked repeaters available.</td></tr>';
@@ -588,7 +588,7 @@
     // Render non-linked repeaters
     const nonLinkedContainer = document.getElementById('nonlinked-repeaters-tbody');
     if (nonLinkedContainer) {
-      const nonLinked = allRepeaters.filter(r => r.linked === false);
+      const nonLinked = allRepeaters.filter(r => r.linked === false && r.active !== false);
       nonLinkedContainer.innerHTML = nonLinked.length > 0
         ? nonLinked.map(r => renderRepeaterRow(r)).join('')
         : '<tr><td colspan="5">No non-linked repeaters available.</td></tr>';
@@ -988,9 +988,9 @@
    */
   async function downloadChirpCSV() {
     try {
-      // Fetch all repeaters and filter for linked repeaters only
+      // Fetch all repeaters and filter for active linked repeaters only
       const allRepeaters = await fetchRepeaterData();
-      const linkedRepeaters = allRepeaters.filter(r => r.linked === true);
+      const linkedRepeaters = allRepeaters.filter(r => r.linked === true && r.active !== false);
 
       if (linkedRepeaters.length === 0) {
         alert('No linked repeaters found to export.');
@@ -1011,8 +1011,9 @@
       const link = document.createElement('a');
       const url = URL.createObjectURL(blob);
 
+      const chirpDate = new Date().toISOString().slice(0, 10).replace(/-/g, '');
       link.setAttribute('href', url);
-      link.setAttribute('download', 'ga-skywarn-repeaters-chirp.csv');
+      link.setAttribute('download', `ga-skywarn-repeaters-chirp-${chirpDate}.csv`);
       link.style.visibility = 'hidden';
 
       document.body.appendChild(link);
@@ -1178,9 +1179,9 @@
    */
   async function downloadRTSystemsCSV() {
     try {
-      // Fetch all repeaters and filter for linked repeaters only
+      // Fetch all repeaters and filter for active linked repeaters only
       const allRepeaters = await fetchRepeaterData();
-      const linkedRepeaters = allRepeaters.filter(r => r.linked === true);
+      const linkedRepeaters = allRepeaters.filter(r => r.linked === true && r.active !== false);
 
       if (linkedRepeaters.length === 0) {
         alert('No linked repeaters found to export.');
@@ -1203,8 +1204,9 @@
       const link = document.createElement('a');
       const url = URL.createObjectURL(blob);
 
+      const rtDate = new Date().toISOString().slice(0, 10).replace(/-/g, '');
       link.setAttribute('href', url);
-      link.setAttribute('download', 'ga-skywarn-repeaters-rtsystems.csv');
+      link.setAttribute('download', `ga-skywarn-repeaters-rtsystems-${rtDate}.csv`);
       link.style.visibility = 'hidden';
 
       document.body.appendChild(link);
@@ -1249,8 +1251,24 @@
       rtSystemsInstructionsModal = window.UTILS.createModalManager('rtSystemsInstructionsModal', 'rtSystemsModalClose');
     }
 
-    // Update repeater validation date
+    // Update repeater validation date (header + export section)
     updateRepeaterValidationDate();
+
+    // Mirror the same human-readable date into the export section
+    const exportDateEl = document.getElementById('export-date-display');
+    if (exportDateEl) {
+      fetch('data/repeaters.json', { method: 'HEAD' }).then(resp => {
+        const lm = resp.headers.get('Last-Modified');
+        const d = lm ? new Date(lm) : new Date();
+        const formatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        let formattedDate = formatter.format(d);
+        const day = d.getDate();
+        const suffix = ['th', 'st', 'nd', 'rd'][
+          (day % 100 > 10 && day % 100 < 14) ? 0 : (day % 10 < 4) ? day % 10 : 0
+        ];
+        exportDateEl.textContent = formattedDate.replace(/\d+/, `${day}${suffix}`);
+      }).catch(() => { exportDateEl.textContent = 'recently'; });
+    }
 
     Promise.all([
       renderAllRepeaters(),
@@ -1284,6 +1302,42 @@
     if (downloadRTSystemsBtn) {
       downloadRTSystemsBtn.addEventListener('click', downloadRTSystemsCSV);
     }
+  }
+
+  // ========================================================================
+  // ADMIN PAGE (admin.html) — Inactive repeater list
+  // ========================================================================
+  if (currentPage === 'admin.html') {
+    async function renderAdminPage() {
+      const tbody = document.getElementById('inactive-repeaters-tbody');
+      const countEl = document.getElementById('inactive-count');
+      if (!tbody) return;
+
+      const allRepeaters = await fetchRepeaterData();
+      const inactive = allRepeaters.filter(r => r.active === false);
+
+      if (countEl) countEl.textContent = inactive.length;
+
+      if (inactive.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="center">No inactive repeaters.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = inactive.map(r => {
+        const tags = (r.tags && r.tags.length > 0) ? r.tags.join(', ') : '—';
+        return `
+          <tr>
+            <td><strong>${sanitizeHTML(r.location)}</strong><br>
+              <span style="color:var(--text-secondary);font-size:0.9rem;">${sanitizeHTML(r.callsign)}</span></td>
+            <td class="center"><strong>${sanitizeHTML(r.frequency)}</strong><br>
+              <span style="font-size:0.9rem;">${sanitizeHTML(r.tone || 'None')}</span></td>
+            <td class="center">${sanitizeHTML(tags)}</td>
+            <td>${sanitizeHTML(r.statusNote || '—')}</td>
+            <td class="center"><a href="${window.UTILS.sanitizeURL(r.refurl)}" target="_blank" rel="noopener noreferrer">RepeaterBook →</a></td>
+          </tr>`;
+      }).join('');
+    }
+    renderAdminPage();
   }
 
   // ========================================================================
