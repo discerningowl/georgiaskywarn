@@ -5,7 +5,7 @@
  * Purpose: Dynamically loads ALL JavaScript files with version-based cache busting
  *          To update cache across entire site: just update APP_VERSION in version.js
  * Change-log:
- *   • 2026-01-10 – Added search.js for sitewide search functionality
+ *   • 2026-04-02 – Removed search.js (sitewide search feature removed)
  *   • 2026-01-09 – CODE CONSOLIDATION: Updated for merged files (9 files → 7 files)
  *                   - components.js replaces header.js + footer.js
  *                   - core.js replaces config.js + utils.js
@@ -72,8 +72,7 @@
 
     // Core scripts loaded on every page (config + utils merged)
     // NOTE: For pages using NWS API, nws-api.js must load BEFORE scripts.js
-    // search.js depends on utils.js (in core.js) for cache management
-    const coreScripts = ['js/core.js', 'js/search.js'];
+    const coreScripts = ['js/core.js'];
 
     // Page-specific scripts that must load BEFORE scripts.js
     const preScripts = {
