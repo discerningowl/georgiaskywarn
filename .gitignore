@@ -6,3 +6,9 @@
 ACTIVATION_PATTERN_TESTS.md
 data/linked-repeaters.json.backup
 data/nonlinked-repeaters.json.backup
+
+# Local environment / secrets — never commit
+.env
+*.env
+.env.local
+config.local.json
