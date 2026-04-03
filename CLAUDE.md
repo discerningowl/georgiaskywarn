@@ -1138,6 +1138,32 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-04-03
+- **Quarterly Repeater Verification System**: Built `scripts/verify_repeaters.py` to validate
+  `data/repeaters.json` against the live RepeaterBook API
+  - Fetches all Georgia repeaters from `https://www.repeaterbook.com/api/export.php?state_id=13`
+  - Matches records by RepeaterBook numeric ID extracted from each entry's `refurl` field
+  - Checks: callsign, frequency+direction, CTCSS tone, operational status (on-air/off-air)
+  - Detects SKYWARN-affiliated repeaters on RepeaterBook not in our database (potential additions)
+  - Generates updated `REPEATERBOOK_VALIDATION.md` in same format as existing report
+  - `--fix` flag safely auto-updates `active` and `verified` fields only (never callsign/frequency/tone)
+  - `--probe` flag prints raw API response fields to confirm field name constants on first run
+  - API key read from `REPEATERBOOK_API_KEY` environment variable — never committed
+  - Updated `.gitignore` to protect `.env` and local config files
+  - Run quarterly: `export REPEATERBOOK_API_KEY=app_... && python3 scripts/verify_repeaters.py`
+- **API Token Status (PENDING)**: RepeaterBook API token (App ID 22, prefix `71c05a2b6ff8`) is
+  approved and active in their portal but returns HTTP 200 with empty body on all requests.
+  Script is complete and correct — issue is on RepeaterBook's side.
+  - Approved User-Agent in script: `GeorgiaSKYWARN-RepeaterValidation (kq4jp@pm.me)`
+  - **Action required**: Contact RepeaterBook support with App ID 22, token prefix `71c05a2b6ff8`,
+    cf-ray `9e67e23a9be53051-ATL`, and note that "Last Used: Never" despite active status.
+    Ask them to confirm token is provisioned for `api/export.php` endpoint.
+  - Once token works, run `--probe` to confirm API field names match constants in script (~line 45),
+    then run full verification.
+- **System membership note**: RepeaterBook export API does not include network/system membership
+  data (which intertie a repeater belongs to). Tag validation remains manual via the 4 system
+  URLs in `REPEATERBOOK_VALIDATION.md`.
+
 ### 2026-04-01
 - **Directory Restructure**: Reorganized static assets to follow standard web conventions
   - Moved `style.css` → `css/style.css`; created `css/` directory
