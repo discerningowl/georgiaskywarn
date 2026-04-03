@@ -92,6 +92,8 @@ def fetch_georgia_repeaters(api_key: str) -> list:
     req = urllib.request.Request(
         url,
         headers={
+            # Use canonical token header; also send compatibility header
+            "X-RB-App-Token": api_key,
             "Authorization": f"Bearer {api_key}",
             "User-Agent": USER_AGENT,
             "Accept": "application/json",
@@ -100,16 +102,34 @@ def fetch_georgia_repeaters(api_key: str) -> list:
     print(f"Fetching Georgia repeaters from RepeaterBook API ...")
     try:
         with urllib.request.urlopen(req, timeout=30) as resp:
+            status = resp.status
+            content_type = resp.headers.get("Content-Type", "")
             raw = resp.read().decode("utf-8")
     except urllib.error.HTTPError as exc:
-        sys.exit(f"API error {exc.code}: {exc.reason}\nURL: {url}")
+        body = exc.read().decode("utf-8", errors="replace")
+        sys.exit(
+            f"API error {exc.code}: {exc.reason}\n"
+            f"URL: {url}\n"
+            f"Response body: {body[:500]}"
+        )
     except urllib.error.URLError as exc:
         sys.exit(f"Network error: {exc.reason}")
+
+    if not raw.strip():
+        sys.exit(
+            f"API returned an empty response (HTTP {status}, Content-Type: {content_type}).\n"
+            f"Check that REPEATERBOOK_API_KEY is set correctly and the token is valid.\n"
+            f"URL tried: {url}"
+        )
 
     try:
         data = json.loads(raw)
     except json.JSONDecodeError as exc:
-        sys.exit(f"API returned non-JSON response: {exc}\nFirst 200 chars: {raw[:200]}")
+        sys.exit(
+            f"API returned non-JSON response (HTTP {status}, Content-Type: {content_type}):\n"
+            f"{exc}\n"
+            f"First 500 chars of response:\n{raw[:500]}"
+        )
 
     results = data.get("results", [])
     count = data.get("count", len(results))
