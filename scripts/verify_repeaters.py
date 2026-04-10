@@ -163,7 +163,7 @@ def build_rb_index(records: list) -> dict:
 # Parsing helpers
 # ---------------------------------------------------------------------------
 
-def extract_rb_id(refurl: str) -> str | None:
+def extract_rb_id(refurl: str):
     """Extract numeric RepeaterBook ID from a refurl like '...&ID=405'."""
     m = re.search(r"[?&]ID=(\d+)", refurl or "")
     return m.group(1) if m else None
@@ -195,7 +195,7 @@ def parse_rb_freq(rb: dict) -> tuple:
     return freq, direction
 
 
-def parse_our_tone(tone_str) -> float | None:
+def parse_our_tone(tone_str):
     """Parse '77.0 Hz' → 77.0. None input → None."""
     if tone_str is None:
         return None
@@ -203,7 +203,7 @@ def parse_our_tone(tone_str) -> float | None:
     return round(float(m.group(1)), 1) if m else None
 
 
-def parse_rb_tone(rb: dict) -> float | None:
+def parse_rb_tone(rb: dict):
     """Parse access tone from API record → float or None.
     Uses PL field (access/transmit tone); falls back to TSQ.
     Empty string means no tone required.
