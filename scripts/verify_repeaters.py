@@ -61,20 +61,20 @@ USER_AGENT = "GeorgiaSkywarnARS/1.0 (+https://georgiaskywarn.com; kq4jp@pm.me)"
 # ---------------------------------------------------------------------------
 # RepeaterBook API field name constants
 #
-# Run --probe to print a raw record and verify these match the actual API
-# response. Update here if the field names differ.
+# Verified against live API response 2026-04-03.
+# Run --probe to print a raw record and confirm these are still correct.
 # ---------------------------------------------------------------------------
 
-F_RPTR_ID   = "Rptr ID"            # Numeric repeater ID (matches ?ID= in refurl)
-F_CALLSIGN  = "Callsign"           # Callsign string
-F_FREQUENCY = "Frequency"          # Output frequency as decimal string, e.g. "444.60000"
-F_OFFSET    = "OffsetDirection"    # "+", "-", or ""
-F_TONE      = "Tone"               # CTCSS access tone, e.g. "77.0" (primary)
-F_TONE_ALT  = "CTCSS"             # Alternate tone field name (fallback)
-F_CITY      = "City"               # City/location string
-F_STATUS    = "Operational Status" # "On-air", "Off-air", "Unknown", etc.
-F_FEATURES  = "Features"           # Comma-separated system tags (may not exist)
-F_LAST_MOD  = "Last Modified"      # ISO date string
+F_RPTR_ID    = "Rptr ID"           # Integer in response — cast to str for matching
+F_CALLSIGN   = "Callsign"          # Callsign string
+F_FREQUENCY  = "Frequency"         # Output freq, decimal string e.g. "444.60000"
+F_INPUT_FREQ = "Input Freq"        # Input freq — compute offset direction vs Frequency
+F_TONE       = "PL"                # CTCSS access tone e.g. "77.0" (empty string = none)
+F_TONE_ALT   = "TSQ"               # Tone squelch / receive tone (fallback)
+F_CITY       = "Nearest City"      # Nearest city string
+F_STATUS     = "Operational Status"# "On-air", "Off-air", "Unknown", etc.
+F_SKYWARN    = "SKYWARN"           # "Yes" / "No" — used to find candidate additions
+F_LAST_MOD   = "Last Update"       # ISO date string e.g. "2025-10-09"
 
 # Status strings that mean "active"
 ACTIVE_STATUSES = {"on-air", "on air", "active", "operational"}
@@ -107,9 +107,7 @@ def fetch_georgia_repeaters(api_key: str) -> list:
     req = urllib.request.Request(
         url,
         headers={
-            # Use canonical token header; also send compatibility header
             "X-RB-App-Token": api_key,
-            "Authorization": f"Bearer {api_key}",
             "User-Agent": USER_AGENT,
             "Accept": "application/json",
         },
@@ -180,12 +178,20 @@ def parse_our_freq(freq_str: str) -> tuple:
 
 
 def parse_rb_freq(rb: dict) -> tuple:
-    """Parse API record → (freq_float, direction_str)."""
+    """Parse API record → (output_freq_float, direction_str).
+    Direction is computed from output vs input freq: input > output → '+', else '-'.
+    """
     try:
         freq = round(float(rb.get(F_FREQUENCY) or 0), 4)
     except (ValueError, TypeError):
-        freq = None
-    direction = str(rb.get(F_OFFSET, "") or "").strip()
+        return None, None
+    try:
+        input_freq = round(float(rb.get(F_INPUT_FREQ) or 0), 4)
+    except (ValueError, TypeError):
+        return freq, ""
+    if input_freq == 0 or freq == 0:
+        return freq, ""
+    direction = "+" if input_freq > freq else "-"
     return freq, direction
 
 
@@ -198,12 +204,15 @@ def parse_our_tone(tone_str) -> float | None:
 
 
 def parse_rb_tone(rb: dict) -> float | None:
-    """Parse tone from API record → float or None."""
+    """Parse access tone from API record → float or None.
+    Uses PL field (access/transmit tone); falls back to TSQ.
+    Empty string means no tone required.
+    """
     raw = rb.get(F_TONE) or rb.get(F_TONE_ALT)
     if not raw:
         return None
-    s = str(raw).strip().upper()
-    if s in ("", "NONE", "NULL", "0", "0.0", "N/A"):
+    s = str(raw).strip()
+    if s in ("", "0", "0.0"):
         return None
     try:
         return round(float(s), 1)
@@ -354,8 +363,9 @@ def compare(our_repeaters: list, rb_index: dict) -> tuple:
 
 def find_candidates(our_repeaters: list, rb_index: dict) -> list:
     """
-    Find RepeaterBook records that look SKYWARN-affiliated but aren't in our DB.
-    Uses a keyword heuristic on the Features field.
+    Find RepeaterBook records flagged SKYWARN=Yes but not in our DB.
+    The export API has no system/intertie membership data, so SKYWARN=Yes
+    is the best available signal for potential additions.
     """
     our_rb_ids = set()
     for r in our_repeaters:
@@ -363,13 +373,11 @@ def find_candidates(our_repeaters: list, rb_index: dict) -> list:
         if rb_id:
             our_rb_ids.add(rb_id)
 
-    keywords = {"skywarn", "wx4ptc", "peach state", "cherry blossom", "southeastern linked", "wx4ema"}
     found = []
     for rb_id, rb in rb_index.items():
         if rb_id in our_rb_ids:
             continue
-        features = str(rb.get(F_FEATURES, "") or "").lower()
-        if any(kw in features for kw in keywords):
+        if str(rb.get(F_SKYWARN, "")).strip().lower() == "yes":
             found.append(rb)
     return found
 
@@ -458,19 +466,19 @@ def generate_report(our_repeaters, issues, fixes, missing, candidates, run_date)
             "absent from our database. Review each and add to `data/repeaters.json` "
             "if appropriate.",
             "",
-            "| RB ID | Callsign | Frequency | City | Features |",
-            "|-------|----------|-----------|------|----------|",
+            "| RB ID | Callsign | Output Freq | Nearest City | Last Update |",
+            "|-------|----------|-------------|--------------|-------------|",
         ]
         for rb in sorted(candidates, key=lambda x: x.get(F_CITY, "")):
-            rb_id    = rb.get(F_RPTR_ID, "?")
-            cs       = rb.get(F_CALLSIGN, "?")
-            freq     = rb.get(F_FREQUENCY, "?")
-            direction = rb.get(F_OFFSET, "")
-            city     = rb.get(F_CITY, "?")
-            features = rb.get(F_FEATURES, "")
-            rb_url   = f"https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID={rb_id}"
+            rb_id     = rb.get(F_RPTR_ID, "?")
+            cs        = rb.get(F_CALLSIGN, "?")
+            freq      = rb.get(F_FREQUENCY, "?")
+            _, direction = parse_rb_freq(rb)
+            city      = rb.get(F_CITY, "?")
+            last_mod  = rb.get(F_LAST_MOD, "?")
+            rb_url    = f"https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID={rb_id}"
             lines.append(md_row(
-                f"[{rb_id}]({rb_url})", cs, f"{freq}{direction}", city, features,
+                f"[{rb_id}]({rb_url})", cs, f"{freq}{direction}", city, last_mod,
             ))
         lines.append("")
 
