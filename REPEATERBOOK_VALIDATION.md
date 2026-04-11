@@ -1,139 +1,133 @@
 # RepeaterBook Validation Report
 
-**Date:** 2026-03-16
-**Validated By:** Claude AI (automated internal audit)
+**Date:** 2026-04-10
+**Validated By:** Claude AI (RepeaterBook API — live automated check)
 **Database:** `data/repeaters.json`
-**Total Repeaters:** 58 (46 linked, 12 non-linked)
+**Total Repeaters:** 59 (47 linked, 12 non-linked)
 
 ---
 
-## Validation Method
+## Summary
 
-RepeaterBook.com returns HTTP 403 for automated/programmatic requests, blocking
-live cross-referencing. This report documents an **internal consistency audit**
-of `data/repeaters.json`. Live validation against RepeaterBook must be done
-manually using the URLs in the **Manual Validation** section at the bottom.
-
----
-
-## Internal Audit Results
-
-### ✅ No Issues Found
-
-- All `refurl` fields are populated (no missing or placeholder URLs)
-- All frequency values use correct format (`NNN.NNN+` or `NNN.NNN-`)
-- No `linked: false` repeaters have system tags (no tag/linked contradictions)
-- No duplicate IDs
+| Severity | Count |
+|----------|-------|
+| 🔴 High | 2 |
+| 🟡 Medium | 9 |
+| 🔵 Low | 0 |
+| ℹ️ Info | 0 |
+| 🆕 Potential missing repeaters | 48 |
 
 ---
 
-### ⚠️ Action Required
+## Issues
 
-#### 1. Unknown Callsigns (`n0call`) — 2 repeaters
+### 🔴 Frequency mismatch (2)
 
-These repeaters are in the linked network but their callsign is not known.
-Research required via RepeaterBook or local coordinator.
+| Repeater ID | Location | Field | Ours | RepeaterBook | Note |
+|-------------|----------|-------|------|-------------|------|
+| `KI4FVI-146.895` | Macon | frequency | `146.895-` | `146.715-` | Verify on RepeaterBook before changing |
+| `WM4B-443.150` | Warner Robins | frequency | `443.150+` | `146.67-` | Verify on RepeaterBook before changing |
 
-| Frequency | Location | Tags | verified |
-|-----------|----------|------|----------|
-| 146.910-  | Griffin | *(none)* | false |
-| 147.135+  | Milledgeville | *(none)* | false |
+### 🟡 Repeater may be back on-air (3)
 
-**Action:** Look up callsign on RepeaterBook or contact the repeater trustee.
-Update `callsign`, set `verified: true`, and add correct `tags`.
+| Repeater ID | Location | Field | Ours | RepeaterBook | Note |
+|-------------|----------|-------|------|-------------|------|
+| `WB4NFG-146.835` | Bolingbroke | active | `false` | `true` | RepeaterBook status: On-air — confirm before setting active: true |
+| `KB4MQ-145.210` | Eastman | active | `false` | `true` | RepeaterBook status: On-air — confirm before setting active: true |
+| `KI4BEO-146.640` | Montezuma | active | `false` | `true` | RepeaterBook status: On-air — confirm before setting active: true |
 
----
+### 🟡 Tone mismatch (2)
 
-#### 2. Unverified Repeaters (`verified: false`) — 4 repeaters
+| Repeater ID | Location | Field | Ours | RepeaterBook | Note |
+|-------------|----------|-------|------|-------------|------|
+| `WX4NN-443.075` | Cherokee County | tone | `107.2 Hz` | `null` |  |
+| `KI4FVI-146.895` | Macon | tone | `88.5 Hz` | `146.2 Hz` |  |
 
-These have not been confirmed against RepeaterBook since they were added.
+### 🟡 No RepeaterBook ID (4)
 
-| Callsign | Frequency | Location | linked | Tags |
-|----------|-----------|----------|--------|------|
-| n0call   | 146.910-  | Griffin | true | *(none)* |
-| K4DBN    | 444.925+  | Irwinton | true | Peach State Intertie |
-| n0call   | 147.135+  | Milledgeville | true | *(none)* |
-| WC4RG    | 147.270+  | Walton County | false | *(none)* |
-
-**Action:** Visit each repeater's `refurl` on RepeaterBook to confirm frequency,
-tone, callsign, and system membership. Set `verified: true` when confirmed.
-
----
-
-#### 3. Linked but No Network Tags — 12 repeaters
-
-These repeaters are marked `linked: true` (part of the SKYWARN network) but
-have no tag identifying which system/intertie they belong to. This means they
-display in the linked repeater table without any badge, making their affiliation
-unclear to spotters.
-
-| Callsign | Frequency | Location | Notes |
-|----------|-----------|----------|-------|
-| KA3JIJ   | 145.310-  | Clermont | |
-| KF4DGN   | 146.850-  | Commerce | |
-| WA4ASI   | 146.925-  | Covington | |
-| WA4ASI   | 444.800+  | Covington | |
-| n0call   | 146.910-  | Griffin | Also unknown callsign |
-| W4GTA    | 145.350-  | Lookout Mountain | |
-| n0call   | 147.135+  | Milledgeville | Also unknown callsign |
-| WB4GQX   | 441.900+  | Sawnee Mtn | |
-| KN4FE    | 146.985-  | Warm Springs | |
-| WM4B     | 146.670-  | Warner Robins | |
-| WM4B     | 443.150+  | Warner Robins | |
-| WB4GWA   | 443.800+  | Woodbury | |
-
-**Action:** For each repeater, check:
-- Does it appear on a RepeaterBook system list? If yes, add the matching tag.
-- If it is SKYWARN-affiliated but not on a named intertie, confirm with the
-  local coordinator and document accordingly.
-- If it should not be `linked: true`, change to `false`.
+| Repeater ID | Location | Field | Ours | RepeaterBook | Note |
+|-------------|----------|-------|------|-------------|------|
+| `K4DBN-146.610` | Dublin | refurl | `https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25` | `null` | Cannot extract numeric ID — check refurl format |
+| `n0call-146.910` | Griffin | refurl | `https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=146.91` | `null` | Cannot extract numeric ID — check refurl format |
+| `K4DBN-444.925` | Irwinton | refurl | `https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25` | `null` | Cannot extract numeric ID — check refurl format |
+| `n0call-147.135` | Milledgeville | refurl | `https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=147.135` | `null` | Cannot extract numeric ID — check refurl format |
 
 ---
 
-#### 4. Null Tone — 1 repeater
+## 🆕 Potential Missing Repeaters
 
-| Callsign | Frequency | Location | linked |
-|----------|-----------|----------|--------|
-| W8JI     | 147.225+  | Lamar County | false |
+These RepeaterBook records appear SKYWARN/system-affiliated but are absent from our database. Review each and add to `data/repeaters.json` if appropriate.
 
-`tone` is `null`. If this repeater requires a CTCSS tone to access, update the
-field. If it is genuinely open carrier (no tone), set `tone: null` intentionally
-and confirm it is documented correctly.
-
-**Action:** Verify on RepeaterBook whether a tone is required.
+| RB ID | Callsign | Output Freq | Nearest City | Last Update |
+|-------|----------|-------------|--------------|-------------|
+| [38](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=38) | K5PRE | 147.27000+ | Americus | 2026-04-04 |
+| [19745](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=19745) | KD4QHB | 145.33000- | Athens | 2026-04-05 |
+| [12674](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=12674) | K4AEC | 146.95500- | Blairsville | 2025-10-19 |
+| [21225](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=21225) | WX4PCH | 444.31250+ | Byron | 2023-04-24 |
+| [23300](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23300) | WD4EMA | 443.57500+ | Chatsworth | 2026-03-10 |
+| [23187](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23187) | WD4EMA | 444.17500+ | Chatsworth | 2025-09-14 |
+| [18648](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18648) | W4CBA | 145.20000- | Clermont | 2025-06-23 |
+| [377](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=377) | W4CBA | 444.33750+ | Clermont | 2025-09-14 |
+| [19415](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=19415) | WB4QOJ | 443.25000+ | Dallas | 2025-09-14 |
+| [270](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=270) | N4BZJ | 224.68000- | Dalton | 2025-06-23 |
+| [386](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=386) | N4BZJ | 442.17500+ | Dalton | 2025-06-23 |
+| [16316](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=16316) | KB4MQ | 444.85000+ | Eastman | 2025-06-24 |
+| [399](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=399) | KI4CCZ | 444.70000+ | Elberton | 2025-11-14 |
+| [17525](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=17525) | KK4JPG | 145.08000+ | Forsyth | 2025-10-09 |
+| [134](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=134) | KJ4ZLL | 145.12000- | Gainesville | 2026-03-31 |
+| [408](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=408) | KJ4ZLL | 441.86250+ | Gainesville | 2025-06-23 |
+| [13236](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=13236) | N5BI | 443.70000+ | Gray | 2025-06-23 |
+| [289](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=289) | WR4SG | 224.22000- | Hahira | 2025-06-23 |
+| [18402](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18402) | WR4SG | 444.47500+ | Hahira | 2025-06-24 |
+| [18410](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18410) | WR4SG | 53.89000- | Lake Park | 2025-06-23 |
+| [159](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=159) | WR4SG | 147.13500+ | Lake Park | 2025-06-23 |
+| [509](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=509) | WR4SG | 444.35000+ | Lake Park | 2025-06-24 |
+| [18](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18) | W4GR | 53.11000- | Lawrenceville | 2026-01-17 |
+| [282](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=282) | N4LMC | 224.56000- | Lookout Mountain | 2025-09-12 |
+| [178](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=178) | W4PCF | 147.13500+ | Milledgeville | 2026-02-01 |
+| [172](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=172) | K4NRC | 147.16500+ | Newnan | 2026-03-06 |
+| [472](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=472) | W4PSZ | 442.50000+ | Peachtree City | 2026-01-09 |
+| [18798](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18798) | W4CVY | 146.62500- | Pine Mountain | 2026-03-07 |
+| [16094](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=16094) | N4LMC | 443.52500+ | Ringgold | 2025-09-12 |
+| [19416](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=19416) | WX4PCA | 145.34000- | Rockmart | 2025-06-23 |
+| [19442](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=19442) | W4SAN | 145.32000- | Sandersville | 2025-11-11 |
+| [20767](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=20767) | W4SAN | 444.53750+ | Sandersville | 2025-11-10 |
+| [162](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=162) | W4GR | 147.07500+ | Snellville | 2026-01-26 |
+| [213](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=213) | KJ4KPY | 145.17000- | Stockbridge | 2025-09-24 |
+| [433](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=433) | KJ4KPY | 443.22500+ | Stockbridge | 2025-09-24 |
+| [40](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=40) | W4PVW | 147.28500+ | Sumner | 2025-06-23 |
+| [19980](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=19980) | W4PVW | 444.80000+ | Sumner | 2025-06-24 |
+| [10457](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=10457) | W4UCJ | 145.37000- | Thomasville | 2025-06-23 |
+| [292](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=292) | WR4SG | 224.32000- | Thomasville | 2025-06-23 |
+| [10458](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=10458) | W4UCJ | 442.60000+ | Thomasville | 2025-06-23 |
+| [19447](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=19447) | W4PVW | 1299.00000- | Tifton | 2026-04-06 |
+| [11553](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=11553) | W4PVW | 145.12000- | Tifton | 2025-06-23 |
+| [504](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=504) | KE4RJI | 444.87500+ | Tifton | 2026-02-07 |
+| [11555](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=11555) | W4PVW | 1282.65000- | Tifton | 2025-06-23 |
+| [222](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=222) | KR4CW | 147.33000+ | Toccoa | 2026-04-05 |
+| [115](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=115) | K4NRC | 145.11000- | Turin | 2026-01-09 |
+| [293](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=293) | WR4SG | 224.46000- | Valdosta | 2025-06-23 |
+| [7453](https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=7453) | KJ4EX | 145.13000- | Winder | 2025-06-23 |
 
 ---
 
-### ℹ️ Informational (No Action Required)
+## ✅ Safe Auto-Fixes Available
 
-#### Duplicate Frequencies Among Linked Repeaters
+Run with `--fix` to apply these changes to `data/repeaters.json`:
 
-These are geographically separated repeaters that share a frequency — normal
-and expected for a statewide network.
+| Repeater ID | Field | Current | New Value |
+|-------------|-------|---------|-----------|
+| `KB4MQ-145.210` | active | `False` | `True` |
+| `KI4BEO-146.640` | active | `False` | `True` |
+| `WB4NFG-146.835` | active | `False` | `True` |
 
-| Frequency | Repeaters |
-|-----------|-----------|
-| 145.210-  | KK4GQ (Fayetteville), KB4MQ (Eastman) |
-| 146.850-  | KF4DGN (Commerce), WA4ORT (Warner Robins) |
-
----
-
-#### Tag Distribution
-
-| Tag | Count |
-|-----|-------|
-| SE Linked Repeater | 24 |
-| Peach State Intertie | 15 |
-| Cherry Blossom Intertie | 4 |
-| WX4PTC System | 3 |
-| WX4EMA | 2 |
+> **Note:** `active` and `verified` are the only fields auto-fixed. Callsign, frequency, and tone changes always require manual review.
 
 ---
 
-## Manual Validation (Required)
+## System Membership (Manual Check Required)
 
-RepeaterBook must be checked manually to cross-reference our data against live
-system membership lists. Use these URLs:
+The RepeaterBook export API does not include full network/system membership details. Cross-reference these pages to validate `tags` in `repeaters.json`:
 
 | System | URL |
 |--------|-----|
@@ -142,23 +136,11 @@ system membership lists. Use these URLs:
 | Cherry Blossom Intertie | https://www.repeaterbook.com/repeaters/feature_search.php?system=Cherry+Blossom+Intertie+System&type=systems |
 | Southeastern Linked | https://www.repeaterbook.com/repeaters/feature_search.php?system=Southeastern+Linked+Repeater+System&type=systems |
 
-For each system, check:
+For each system:
 1. Any repeater on RepeaterBook **not in our database** → add to `repeaters.json`
 2. Any repeater in our database **not on RepeaterBook** → confirm affiliation or remove tag
 3. Frequency, tone, and callsign match for all entries
 
 ---
 
-## Summary of Action Items
-
-| Priority | Issue | Count |
-|----------|-------|-------|
-| High | Unknown callsigns (`n0call`) | 2 |
-| High | Unverified repeaters | 4 |
-| Medium | Linked repeaters with no network tags | 12 |
-| Low | Null tone on non-linked repeater | 1 |
-| Manual | Live RepeaterBook cross-reference | — |
-
----
-
-*Next validation recommended: 2026-06-16 (quarterly)*
+*Next validation recommended: 2026-07-10 (quarterly)*
