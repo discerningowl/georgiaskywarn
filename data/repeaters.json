@@ -555,7 +555,7 @@
     "location": "Dublin",
     "frequency": "146.610-",
     "tone": "88.5 Hz",
-    "county": null,
+    "county": "Laurens",
     "tags": [
       "Peach State Intertie"
     ],
@@ -761,7 +761,7 @@
     "location": "Irwinton",
     "frequency": "444.925+",
     "tone": "77.0 Hz",
-    "county": null,
+    "county": "Wilkinson",
     "tags": [
       "Peach State Intertie"
     ],
