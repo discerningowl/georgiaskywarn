@@ -330,7 +330,7 @@
     "id": "WX4NN-443.075",
     "location": "Cherokee County",
     "frequency": "443.075+",
-    "tone": "107.2 Hz",
+    "tone": "D411 DCS",
     "tags": [],
     "description": "Secondary Coverage \u2013 Cherokee, Pickens, Bartow, Cobb \u2013 NW Georgia with occasional check-in's from TN, AL",
     "callsign": "WX4NN",
@@ -932,7 +932,7 @@
     ]
   },
   {
-    "id": "KI4FVI-146.895",
+    "id": "KD4UTQ-146.895",
     "location": "Macon",
     "frequency": "146.895-",
     "tone": "88.5 Hz",
@@ -941,13 +941,13 @@
       "SE Linked Repeater"
     ],
     "description": "Part of Peach State Intertie. Covers Bibb County (Macon metro area) and surrounding central Georgia counties including Houston, Jones, and Twiggs.",
-    "callsign": "KI4FVI",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=176",
+    "callsign": "KD4UTQ",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=169",
     "linked": true,
     "verified": true,
     "active": true,
-    "clubName": "Henry County GA LINKED Repeaters",
-    "clubUrl": "https://sites.google.com/site/ki4fvi/"
+    "clubName": null,
+    "clubUrl": null
   },
   {
     "id": "WX4EMA-147.015",
@@ -992,10 +992,10 @@
     "tags": [],
     "description": "Covers Baldwin County (Milledgeville area) and surrounding central Georgia counties. Covers Georgia College area and Lake Sinclair.",
     "callsign": "n0call",
-    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=147.135",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=178",
     "linked": true,
-    "verified": false,
-    "active": true,
+    "verified": true,
+    "active": false,
     "clubName": null,
     "clubUrl": null
   },
@@ -1303,7 +1303,7 @@
     "tags": [],
     "description": "Covers Houston County and Warner Robins area near Robins Air Force Base. UHF companion to 146.670- repeater. Covers Macon metro southern suburbs.",
     "callsign": "WM4B",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5525",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=6484",
     "linked": true,
     "verified": true,
     "active": true,
@@ -1314,7 +1314,7 @@
         "linkType": "full-time",
         "linkMethod": "rf",
         "linksToFreq": "146.670-",
-        "linksToLoc": "Warner Robins",
+        "linksToLoc": "Warner Robins, Houston Healthcare",
         "linksToCall": "WM4B"
       }
     ]
