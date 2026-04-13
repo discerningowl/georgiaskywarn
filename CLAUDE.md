@@ -1151,15 +1151,9 @@ refactor: Simplify alert filtering logic
   - API key read from `REPEATERBOOK_API_KEY` environment variable — never committed
   - Updated `.gitignore` to protect `.env` and local config files
   - Run quarterly: `export REPEATERBOOK_API_KEY=app_... && python3 scripts/verify_repeaters.py`
-- **API Token Status (PENDING)**: RepeaterBook API token (App ID 22, prefix `71c05a2b6ff8`) is
-  approved and active in their portal but returns HTTP 200 with empty body on all requests.
-  Script is complete and correct — issue is on RepeaterBook's side.
-  - Approved User-Agent in script: `GeorgiaSKYWARN-RepeaterValidation (kq4jp@pm.me)`
-  - **Action required**: Contact RepeaterBook support with App ID 22, token prefix `71c05a2b6ff8`,
-    cf-ray `9e67e23a9be53051-ATL`, and note that "Last Used: Never" despite active status.
-    Ask them to confirm token is provisioned for `api/export.php` endpoint.
-  - Once token works, run `--probe` to confirm API field names match constants in script (~line 45),
-    then run full verification.
+- **API Token**: Token has been rotated. Set the new key in `REPEATERBOOK_API_KEY`, then run
+  `--probe` to confirm API field names match constants in the script (~line 45), then run
+  full verification.
 - **System membership note**: RepeaterBook export API does not include network/system membership
   data (which intertie a repeater belongs to). Tag validation remains manual via the 4 system
   URLs in `REPEATERBOOK_VALIDATION.md`.

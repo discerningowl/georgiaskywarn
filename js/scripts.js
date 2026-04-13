@@ -1314,9 +1314,9 @@
   }
 
   // ========================================================================
-  // ADMIN PAGE (admin.html) — Database quality dashboard
+  // REPEATER HEALTH PAGE (repeater-health.html) — Database quality dashboard
   // ========================================================================
-  if (currentPage === 'admin.html') {
+  if (currentPage === 'repeater-health.html') {
     async function renderAdminPage() {
       const all = await fetchRepeaterData();
 
