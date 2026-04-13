@@ -98,7 +98,10 @@
 
       update.items.forEach(item => {
         const li = document.createElement('li');
-        li.innerHTML = `<strong>${item.title}:</strong> ${item.description}`;
+        const strong = document.createElement('strong');
+        strong.textContent = item.title + ':';
+        li.appendChild(strong);
+        li.appendChild(document.createTextNode(' ' + item.description));
         list.appendChild(li);
       });
 
@@ -127,20 +130,35 @@
     const modal = window.UTILS.createModalManager('archivedModal', 'archivedModalClose');
     if (!modal) return;
 
-    // Render archived updates in modal body
-    let html = '';
+    // Render archived updates in modal body using DOM methods to prevent XSS
+    modalBody.innerHTML = '';
     archivedUpdates.forEach(update => {
-      html += `
-        <div style="margin-bottom: 2rem;">
-          <h3 style="color: var(--accent-blue); margin-bottom: 0.5rem;">${update.month} ${update.year}</h3>
-          <ul style="list-style: disc; padding-left: 1.5rem;">
-      `;
+      const wrapper = document.createElement('div');
+      wrapper.style.marginBottom = '2rem';
+
+      const heading = document.createElement('h3');
+      heading.style.color = 'var(--accent-blue)';
+      heading.style.marginBottom = '0.5rem';
+      heading.textContent = `${update.month} ${update.year}`;
+      wrapper.appendChild(heading);
+
+      const ul = document.createElement('ul');
+      ul.style.listStyle = 'disc';
+      ul.style.paddingLeft = '1.5rem';
+
       update.items.forEach(item => {
-        html += `<li style="margin-bottom: 0.5rem;"><strong>${item.title}:</strong> ${item.description}</li>`;
+        const li = document.createElement('li');
+        li.style.marginBottom = '0.5rem';
+        const strong = document.createElement('strong');
+        strong.textContent = item.title + ':';
+        li.appendChild(strong);
+        li.appendChild(document.createTextNode(' ' + item.description));
+        ul.appendChild(li);
       });
-      html += `</ul></div>`;
+
+      wrapper.appendChild(ul);
+      modalBody.appendChild(wrapper);
     });
-    modalBody.innerHTML = html;
 
     // Open modal when button clicked
     viewBtn.addEventListener('click', () => modal.open());
