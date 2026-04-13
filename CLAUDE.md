@@ -22,20 +22,19 @@ georgiaskywarn/
 ├── about.html              # Site structure and overview
 ├── photoarchive.html       # Photo archive of WX4PTC station
 ├── spotters.html           # Spotter resources and reporting guidelines
+├── repeater-health.html    # Repeater database health dashboard (stats, inactive, unverified) — noindex
 ├── css/                    # Stylesheets directory
 │   └── style.css           # Shared stylesheet for all pages
-├── js/                     # JavaScript files directory (8 files total)
+├── js/                     # JavaScript files directory (7 files total)
 │   ├── version.js          # **CRITICAL** - Single version number for cache busting
 │   ├── loader.js           # **CRITICAL** - Dynamically loads all scripts with versioning
 │   ├── core.js             # Core utilities (merged config.js + utils.js)
 │   ├── components.js       # UI components (merged header.js + footer.js)
 │   ├── scripts.js          # Page-specific JavaScript (alerts, modals, repeater search)
 │   ├── nws-api.js          # NWS API integration and HWO
-│   ├── search.js           # Sitewide search with fuzzy matching (added 2026-01-10)
 │   └── changelog.js        # Changelog display
 ├── data/                   # Data files directory
 │   ├── repeaters.json      # All repeater data (linked + non-linked, dynamically loaded)
-│   ├── search-index.json   # Sitewide search index (32 sections, 7 pages)
 │   └── changelog.json      # Website changelog/updates
 ├── assets/                 # Static assets directory
 │   ├── favicon.ico         # Site favicon
@@ -57,8 +56,8 @@ georgiaskywarn/
 **Current Structure** (as of April 1, 2026):
 - ✅ **HTML files**: All in root directory
 - ✅ **CSS files**: `css/style.css`
-- ✅ **JavaScript files**: Organized in `js/` directory (8 files including search.js)
-- ✅ **Data files**: JSON files in `data/` directory (includes search-index.json)
+- ✅ **JavaScript files**: Organized in `js/` directory (7 files)
+- ✅ **Data files**: JSON files in `data/` directory
 - ✅ **Static assets**: `assets/` directory (favicon, logo, nws.gif, archive photos)
 - ✅ **Legacy redirects**: `www/` and `wx4ptc/` directories preserved
 
@@ -83,7 +82,7 @@ georgiaskywarn/
 3. All HTML pages MUST remain in the root directory
 4. All HTML pages share the same stylesheet at `css/style.css`
 5. **Component architecture**: Header and footer loaded via `js/components.js` (merged for efficiency)
-6. **JavaScript organization**: 8 files total (reduced from 9 in 2026-01-09 refactor, added search.js in 2026-01-10)
+6. **JavaScript organization**: 7 files total (reduced from 9 in 2026-01-09 refactor)
 7. **Data organization**: All JSON data files in `data/` directory
 8. **Assets organization**: All static assets (images, favicon, archive photos) in `assets/` directory
 
@@ -122,7 +121,7 @@ const APP_VERSION = '20260102c';  // ← Change this to force cache refresh
 **That's it!** This single change:
 - ✅ Forces browsers to reload all JavaScript files (`?v=` parameter)
 - ✅ Triggers localStorage cache clearing (utils.js reads this version)
-- ✅ Updates across all 7 pages automatically
+- ✅ Updates across all 8 pages automatically
 
 ### Version Numbering Convention
 
@@ -1138,6 +1137,16 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-04-13
+- **Security Hardening**:
+  - `js/nws-api.js`: sanitize NWS API `productText` and `id` before inserting into `innerHTML` in `openOutlookModal()` (XSS fix)
+  - `js/changelog.js`: replaced `innerHTML` template literals with DOM node construction (`createElement`/`textContent`/`createTextNode`) for both recent-updates list and archived-updates modal (XSS fix)
+  - `admin.html` → `repeater-health.html`: renamed to better reflect purpose (database health dashboard, not an admin panel); updated all references in `js/components.js` and `js/scripts.js`
+  - `admin.html`: added missing `Content-Security-Policy` meta tag before rename
+  - Removed stale RepeaterBook API token prefix and support-ticket details from `CLAUDE.md` and `scripts/verify_repeaters.py` (token has been rotated)
+- **Documentation Cleanup**:
+  - `CLAUDE.md`: updated repo structure to reflect `repeater-health.html`, removed references to `js/search.js` and `data/search-index.json` (files no longer exist), corrected JS file count from 8 → 7
+
 ### 2026-04-03
 - **Quarterly Repeater Verification System**: Built `scripts/verify_repeaters.py` to validate
   `data/repeaters.json` against the live RepeaterBook API
@@ -1514,6 +1523,6 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 
 ---
 
-**Last Updated**: 2026-04-01
+**Last Updated**: 2026-04-13
 **Maintained By**: Claude AI Assistant (based on codebase analysis)
 **For Questions**: Contact Jack Parks (KQ4JP) <kq4jp@pm.me>
