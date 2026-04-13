@@ -992,10 +992,10 @@
     "tags": [],
     "description": "Covers Baldwin County (Milledgeville area) and surrounding central Georgia counties. Covers Georgia College area and Lake Sinclair.",
     "callsign": "n0call",
-    "refurl": "https://www.repeaterbook.com/repeaters/display.php?country=United+States&state_id=13&frequency=147.135",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=178",
     "linked": true,
-    "verified": false,
-    "active": true,
+    "verified": true,
+    "active": false,
     "clubName": null,
     "clubUrl": null
   },
