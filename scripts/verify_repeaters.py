@@ -24,16 +24,8 @@ Environment Variables:
 
 Run quarterly (next due date is in the generated report).
 
---- STATUS (2026-04-03) ---
-Script is complete. RepeaterBook API token (App ID 22, prefix 71c05a2b6ff8) is
-approved in their portal but returns HTTP 200 + empty body on all requests.
-"Last Used: Never" confirmed in portal.
-
-To resolve: contact RepeaterBook support and ask them to confirm the token is
-provisioned for the api/export.php endpoint. Provide App ID 22 and
-cf-ray 9e67e23a9be53051-ATL from a failed request.
-
-Once the token works:
+--- STATUS (2026-04-13) ---
+Token has been rotated. Set REPEATERBOOK_API_KEY to the new token, then:
   1. Run --probe to verify field name constants (~line 45) match actual API response
   2. Run without flags to generate the full validation report
   3. Run --fix to apply safe corrections (active, verified fields only)

@@ -433,13 +433,17 @@
       .map(line => line.trim())
       .join('\n');
 
+    // Sanitize API-sourced values before inserting into innerHTML
+    const safeText = window.UTILS.sanitizeHTML(formattedText, true).replace(/<br>/g, '\n');
+    const safeId = window.UTILS.sanitizeHTML(currentOutlookData.id || 'N/A');
+
     const content = `
       <div class="outlook-meta" style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-primary);">
         <p><strong>Issued:</strong> ${formattedTime}</p>
-        <p><strong>Product ID:</strong> ${currentOutlookData.id || 'N/A'}</p>
+        <p><strong>Product ID:</strong> ${safeId}</p>
       </div>
       <div class="outlook-text">
-        <pre style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 0.85rem; line-height: 1.5; background: var(--bg-body); padding: 1rem; border-radius: 8px; overflow-x: auto; max-height: 60vh; overflow-y: auto;">${formattedText}</pre>
+        <pre style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 0.85rem; line-height: 1.5; background: var(--bg-body); padding: 1rem; border-radius: 8px; overflow-x: auto; max-height: 60vh; overflow-y: auto;">${safeText}</pre>
       </div>
     `;
 
