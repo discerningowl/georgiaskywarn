@@ -932,7 +932,7 @@
     ]
   },
   {
-    "id": "KI4FVI-146.895",
+    "id": "KD4UTQ-146.895",
     "location": "Macon",
     "frequency": "146.895-",
     "tone": "88.5 Hz",
@@ -941,7 +941,7 @@
       "SE Linked Repeater"
     ],
     "description": "Part of Peach State Intertie. Covers Bibb County (Macon metro area) and surrounding central Georgia counties including Houston, Jones, and Twiggs.",
-    "callsign": "KI4FVI",
+    "callsign": "KD4UTQ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=169",
     "linked": true,
     "verified": true,
