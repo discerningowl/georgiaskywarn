@@ -1,107 +1,5 @@
 [
   {
-    "id": "KK4GQ-145.210",
-    "location": "Fayetteville",
-    "frequency": "145.210-",
-    "tone": "131.8 Hz",
-    "tags": [
-      "WX4PTC System",
-      "SE Linked Repeater"
-    ],
-    "description": "Hardwired to 444.600+ hub repeater controller. Co-located at primary WX4PTC site. South metro Atlanta coverage including Fayette, Coweta, Spalding, and southern Fulton counties. Battery backup.",
-    "callsign": "KK4GQ",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=129",
-    "linked": true,
-    "verified": true,
-    "active": true,
-    "clubName": "Fayette County Amateur Radio Club, Inc. (FCARC)",
-    "clubUrl": "https://www.kk4gq.org",
-    "iplinks": [
-      {
-        "system": "EchoLink",
-        "node": "897538",
-        "callsign": "KK4GQ-R",
-        "connectionType": "available"
-      }
-    ],
-    "rflinks": [
-      {
-        "linkType": "full-time",
-        "linkMethod": "direct",
-        "linksToFreq": "444.600+",
-        "linksToLoc": "Fayetteville",
-        "linksToCall": "W4PSZ"
-      }
-    ]
-  },
-  {
-    "id": "W4PSZ-444.600",
-    "location": "Fayetteville",
-    "frequency": "444.600+",
-    "tone": "77.0 Hz",
-    "tags": [
-      "WX4PTC System",
-      "SE Linked Repeater"
-    ],
-    "description": "Hub and net control repeater. Emergency Power. Good south metro coverage and down into Cowetta, Fayette, Henry, Spalding, and Pike Counties. Mobile coverage into parts of north metro Atlanta as well. Generator and large UPS battery backup on site.",
-    "callsign": "W4PSZ",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=405",
-    "linked": true,
-    "verified": true,
-    "active": true,
-    "picUrl": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6",
-    "clubName": "Fayette County Amateur Radio Club (FCARC)",
-    "clubUrl": "https://kk4gq.org/",
-    "iplinks": [
-      {
-        "system": "AllStar",
-        "node": "684140",
-        "connectionType": "available"
-      },
-      {
-        "system": "EchoLink",
-        "node": "512427",
-        "callsign": "KD4YDC-L",
-        "connectionType": "available"
-      }
-    ],
-    "rflinks": [
-      {
-        "linkType": "full-time",
-        "linkMethod": "direct",
-        "linksToFreq": "145.210-",
-        "linksToLoc": "Fayetteville",
-        "linksToCall": "KK4GQ"
-      }
-    ]
-  },
-  {
-    "id": "KN4YZ-444.675",
-    "location": "Tyrone",
-    "frequency": "444.675+",
-    "tone": "77.0 Hz",
-    "tags": [
-      "WX4PTC System"
-    ],
-    "description": "Backup hub and net control/remote base repeater. Linked to 444.600+ via 220 MHz hardwired link. South metro Atlanta coverage. Battery backup. Also hosts AB4KN-2 APRS digipeater.",
-    "callsign": "KN4YZ",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=508",
-    "linked": true,
-    "verified": true,
-    "active": true,
-    "clubName": "Fayette County Amateur Radio Club",
-    "clubUrl": "https://kk4gq.org/",
-    "rflinks": [
-      {
-        "linkType": "full-time",
-        "linkMethod": "rf",
-        "linksToFreq": "444.600+",
-        "linksToLoc": "Fayetteville",
-        "linksToCall": "W4PSZ"
-      }
-    ]
-  },
-  {
     "id": "W4DOC-146.820",
     "location": "Atlanta",
     "frequency": "146.820-",
@@ -223,7 +121,7 @@
     "linked": true,
     "verified": true,
     "active": false,
-    "statusNote": "DOWN — Needs PA",
+    "statusNote": "DOWN \u2014 Needs PA",
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://www.peachstateintertie.com/"
   },
@@ -386,7 +284,7 @@
     "tags": [
       "SE Linked Repeater"
     ],
-    "description": "Covers Bleckley County (Cochran area) and surrounding central Georgia counties between Macon and Eastman. Currently NOT linked to Peach State Intertie — link radio issue.",
+    "description": "Covers Bleckley County (Cochran area) and surrounding central Georgia counties between Macon and Eastman. Currently NOT linked to Peach State Intertie \u2014 link radio issue.",
     "callsign": "K4DBN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23269",
     "linked": true,
@@ -427,6 +325,39 @@
     ]
   },
   {
+    "id": "WB4GWA-145.390",
+    "location": "Concord",
+    "frequency": "145.390-",
+    "tone": "110.9 Hz",
+    "tags": [
+      "SE Linked Repeater"
+    ],
+    "description": "Links to 444.600+ WX4PTC hub on demand. Covers Pike, Lamar, Monroe, and surrounding central Georgia counties. AllStar node 46796.",
+    "callsign": "WB4GWA",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=137",
+    "linked": true,
+    "verified": true,
+    "active": true,
+    "clubName": "Concord Amateur Radio Society (CARS)",
+    "clubUrl": "http://www.arrl.org/Groups/view/concord-amateur-radio-society/type:club",
+    "iplinks": [
+      {
+        "system": "AllStar",
+        "node": "46796",
+        "connectionType": "on-demand"
+      }
+    ],
+    "rflinks": [
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "W4PSZ"
+      }
+    ]
+  },
+  {
     "id": "WA4ASI-146.925",
     "location": "Covington",
     "frequency": "146.925-",
@@ -445,7 +376,7 @@
         "system": "Allstar",
         "node": "29795",
         "connectionType": "available"
-      }, 
+      },
       {
         "system": "EchoLink",
         "node": "6925",
@@ -629,9 +560,85 @@
     "linked": true,
     "verified": true,
     "active": false,
-    "statusNote": "DOWN — Hard lightning strike, needs antenna and repeater",
+    "statusNote": "DOWN \u2014 Hard lightning strike, needs antenna and repeater",
     "clubName": "Three Rivers Amateur Radio Club (TRARC)",
     "clubUrl": "http://www.arrl.org/Groups/view/three-rivers-arc-1/type:club"
+  },
+  {
+    "id": "KK4GQ-145.210",
+    "location": "Fayetteville",
+    "frequency": "145.210-",
+    "tone": "131.8 Hz",
+    "tags": [
+      "WX4PTC System",
+      "SE Linked Repeater"
+    ],
+    "description": "Hardwired to 444.600+ hub repeater controller. Co-located at primary WX4PTC site. South metro Atlanta coverage including Fayette, Coweta, Spalding, and southern Fulton counties. Battery backup.",
+    "callsign": "KK4GQ",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=129",
+    "linked": true,
+    "verified": true,
+    "active": true,
+    "clubName": "Fayette County Amateur Radio Club, Inc. (FCARC)",
+    "clubUrl": "https://www.kk4gq.org",
+    "iplinks": [
+      {
+        "system": "EchoLink",
+        "node": "897538",
+        "callsign": "KK4GQ-R",
+        "connectionType": "available"
+      }
+    ],
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "direct",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "Fayetteville",
+        "linksToCall": "W4PSZ"
+      }
+    ]
+  },
+  {
+    "id": "W4PSZ-444.600",
+    "location": "Fayetteville",
+    "frequency": "444.600+",
+    "tone": "77.0 Hz",
+    "tags": [
+      "WX4PTC System",
+      "SE Linked Repeater"
+    ],
+    "description": "Hub and net control repeater. Emergency Power. Good south metro coverage and down into Cowetta, Fayette, Henry, Spalding, and Pike Counties. Mobile coverage into parts of north metro Atlanta as well. Generator and large UPS battery backup on site.",
+    "callsign": "W4PSZ",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=405",
+    "linked": true,
+    "verified": true,
+    "active": true,
+    "picUrl": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6",
+    "clubName": "Fayette County Amateur Radio Club (FCARC)",
+    "clubUrl": "https://kk4gq.org/",
+    "iplinks": [
+      {
+        "system": "AllStar",
+        "node": "684140",
+        "connectionType": "available"
+      },
+      {
+        "system": "EchoLink",
+        "node": "512427",
+        "callsign": "KD4YDC-L",
+        "connectionType": "available"
+      }
+    ],
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "direct",
+        "linksToFreq": "145.210-",
+        "linksToLoc": "Fayetteville",
+        "linksToCall": "KK4GQ"
+      }
+    ]
   },
   {
     "id": "WB4JOE-145.370",
@@ -656,39 +663,6 @@
         "linksToFreq": "145.430-",
         "linksToLoc": "Macon hub",
         "linksToCall": "AA4RI"
-      }
-    ]
-  },
-  {
-    "id": "WB4GWA-145.390",
-    "location": "Griffin",
-    "frequency": "145.390-",
-    "tone": "110.9 Hz",
-    "tags": [
-      "SE Linked Repeater"
-    ],
-    "description": "Links to 444.600+ WX4PTC hub. Excellent coverage of south metro Atlanta and I-75 corridor. Covers Fayette, Coweta, Henry, Spalding, Pike, and Troup counties. AllStar node 46796 (linked on demand). Mobile coverage along I-675, I-75, I-85, and major US highways.",
-    "callsign": "WB4GWA",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=137",
-    "linked": true,
-    "verified": true,
-    "active": true,
-    "clubName": "Concord Amateur Radio Society (CARS)",
-    "clubUrl": "http://www.arrl.org/Groups/view/concord-amateur-radio-society/type:club",
-    "iplinks": [
-      {
-        "system": "AllStar",
-        "node": "46796",
-        "connectionType": "on-demand"
-      }
-    ],
-    "rflinks": [
-      {
-        "linkType": "on-demand",
-        "linkMethod": "rf",
-        "linksToFreq": "444.600+",
-        "linksToLoc": "WX4PTC System",
-        "linksToCall": "W4PSZ"
       }
     ]
   },
@@ -1014,7 +988,7 @@
     "linked": true,
     "verified": true,
     "active": false,
-    "statusNote": "DOWN — Lightning strike, needs repeater and controller",
+    "statusNote": "DOWN \u2014 Lightning strike, needs repeater and controller",
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://www.peachstateintertie.com"
   },
@@ -1039,7 +1013,7 @@
         "callsign": "WB4QOJ-R",
         "connectionType": "available"
       }
-    ]    
+    ]
   },
   {
     "id": "WB4ULJ-145.190",
@@ -1188,6 +1162,32 @@
     ]
   },
   {
+    "id": "KN4YZ-444.675",
+    "location": "Tyrone",
+    "frequency": "444.675+",
+    "tone": "77.0 Hz",
+    "tags": [
+      "WX4PTC System"
+    ],
+    "description": "Backup hub and net control/remote base repeater. Linked to 444.600+ via 220 MHz hardwired link. South metro Atlanta coverage. Battery backup. Also hosts AB4KN-2 APRS digipeater.",
+    "callsign": "KN4YZ",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=508",
+    "linked": true,
+    "verified": true,
+    "active": true,
+    "clubName": "Fayette County Amateur Radio Club",
+    "clubUrl": "https://kk4gq.org/",
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "Fayetteville",
+        "linksToCall": "W4PSZ"
+      }
+    ]
+  },
+  {
     "id": "WC4RG-147.270",
     "location": "Walton County",
     "frequency": "147.270+",
@@ -1255,23 +1255,6 @@
     ]
   },
   {
-    "id": "WA4ORT-146.850",
-    "location": "Warner Robins",
-    "frequency": "146.850-",
-    "tone": "82.5 Hz",
-    "tags": [
-      "Peach State Intertie"
-    ],
-    "description": "Part of Peach State Intertie (part-time link). Covers Jones and Baldwin counties including Gray and Milledgeville. Provides coverage gap fill between Macon and Milledgeville areas.",
-    "callsign": "WA4ORT",
-    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3139",
-    "linked": true,
-    "verified": true,
-    "active": true,
-    "clubName": "Central Georgia Amateur Radio Club (CGARC)",
-    "clubUrl": "http://www.wa4ort.com"
-  },
-  {
     "id": "WM4B-146.670",
     "location": "Warner Robins",
     "frequency": "146.670-",
@@ -1294,6 +1277,23 @@
         "linksToCall": "WM4B"
       }
     ]
+  },
+  {
+    "id": "WA4ORT-146.850",
+    "location": "Warner Robins",
+    "frequency": "146.850-",
+    "tone": "82.5 Hz",
+    "tags": [
+      "Peach State Intertie"
+    ],
+    "description": "Part of Peach State Intertie (part-time link). Covers Jones and Baldwin counties including Gray and Milledgeville. Provides coverage gap fill between Macon and Milledgeville areas.",
+    "callsign": "WA4ORT",
+    "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3139",
+    "linked": true,
+    "verified": true,
+    "active": true,
+    "clubName": "Central Georgia Amateur Radio Club (CGARC)",
+    "clubUrl": "http://www.wa4ort.com"
   },
   {
     "id": "WM4B-443.150",
