@@ -661,13 +661,13 @@
   },
   {
     "id": "WB4GWA-145.390",
-    "location": "Griffin",
+    "location": "Concord",
     "frequency": "145.390-",
     "tone": "110.9 Hz",
     "tags": [
       "SE Linked Repeater"
     ],
-    "description": "Links to 444.600+ WX4PTC hub. Excellent coverage of south metro Atlanta and I-75 corridor. Covers Fayette, Coweta, Henry, Spalding, Pike, and Troup counties. AllStar node 46796 (linked on demand). Mobile coverage along I-675, I-75, I-85, and major US highways.",
+    "description": "Links to 444.600+ WX4PTC hub on demand. Covers Pike, Lamar, Monroe, and surrounding central Georgia counties. AllStar node 46796.",
     "callsign": "WB4GWA",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=137",
     "linked": true,
