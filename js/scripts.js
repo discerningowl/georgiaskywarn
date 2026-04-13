@@ -582,7 +582,13 @@
     // Render linked repeaters
     const linkedContainer = document.getElementById('linked-repeaters-tbody');
     if (linkedContainer) {
-      const linked = allRepeaters.filter(r => r.linked === true && r.active !== false);
+      const linked = allRepeaters
+        .filter(r => r.linked === true && r.active !== false)
+        .sort((a, b) => {
+          const aIsWX4PTC = (a.tags && a.tags.includes('WX4PTC System')) ? 0 : 1;
+          const bIsWX4PTC = (b.tags && b.tags.includes('WX4PTC System')) ? 0 : 1;
+          return aIsWX4PTC - bIsWX4PTC;
+        });
       linkedContainer.innerHTML = linked.length > 0
         ? linked.map(r => renderRepeaterRow(r)).join('')
         : '<tr><td colspan="6">No linked repeaters available.</td></tr>';
