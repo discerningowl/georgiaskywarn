@@ -47,7 +47,7 @@ from pathlib import Path
 
 API_URL   = "https://www.repeaterbook.com/api/export.php"
 STATE_ID  = "13"  # Georgia
-USER_AGENT = "GeorgiaSKYWARN-RepeaterValidation (kq4jp@pm.me)"
+USER_AGENT = "User-Agent: GeorgiaSKYWARN-RepeaterValidation (kq4jp@pm.me)"
 
 # ---------------------------------------------------------------------------
 # RepeaterBook API field name constants

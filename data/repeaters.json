@@ -4,6 +4,7 @@
     "location": "Atlanta",
     "frequency": "146.820-",
     "tone": "146.2 Hz",
+    "county": "Fulton",
     "tags": [
       "SE Linked Repeater"
     ],
@@ -45,6 +46,7 @@
     "location": "Barrow County",
     "frequency": "145.280-",
     "tone": "110.9 Hz",
+    "county": "Barrow",
     "tags": [],
     "description": "Barrow Amateur Radio Club",
     "callsign": "WR4BC",
@@ -60,6 +62,7 @@
     "location": "Biskey Mtn",
     "frequency": "53.050-",
     "tone": "100.0 Hz",
+    "county": "Pickens",
     "tags": [
       "SE Linked Repeater"
     ],
@@ -77,6 +80,7 @@
     "location": "Biskey Mtn",
     "frequency": "224.160-",
     "tone": "100.0 Hz",
+    "county": "Pickens",
     "tags": [
       "SE Linked Repeater"
     ],
@@ -94,6 +98,7 @@
     "location": "Biskey Mtn",
     "frequency": "443.500+",
     "tone": "100.0 Hz",
+    "county": "Pickens",
     "tags": [
       "SE Linked Repeater"
     ],
@@ -111,6 +116,7 @@
     "location": "Bolingbroke",
     "frequency": "146.835-",
     "tone": "77.0 Hz",
+    "county": "Monroe",
     "tags": [
       "Peach State Intertie",
       "SE Linked Repeater"
@@ -130,6 +136,7 @@
     "location": "Butler",
     "frequency": "444.950+",
     "tone": "107.2 Hz",
+    "county": "Taylor",
     "tags": [
       "Peach State Intertie",
       "SE Linked Repeater"
@@ -148,6 +155,7 @@
     "location": "Butts County",
     "frequency": "147.285+",
     "tone": "131.8 Hz",
+    "county": "Butts",
     "tags": [],
     "description": "WX4BCA repeater",
     "callsign": "WX4BCA",
@@ -163,6 +171,7 @@
     "location": "Byron",
     "frequency": "145.290-",
     "tone": "82.5 Hz",
+    "county": "Peach",
     "tags": [
       "Peach State Intertie",
       "SE Linked Repeater"
@@ -181,6 +190,7 @@
     "location": "Carroll County",
     "frequency": "146.640-",
     "tone": "131.8 Hz",
+    "county": "Carroll",
     "tags": [],
     "description": "Covers Douglas & Carroll counties. Reports do come in from adjacent counties as well.",
     "callsign": "W4FWD",
@@ -196,6 +206,7 @@
     "location": "Cedar Grove (Dublin)",
     "frequency": "147.150+",
     "tone": "123.0 Hz",
+    "county": "Laurens",
     "tags": [
       "Peach State Intertie",
       "SE Linked Repeater"
@@ -214,6 +225,7 @@
     "location": "Cherokee County",
     "frequency": "145.270-",
     "tone": "100.0 Hz",
+    "county": "Cherokee",
     "tags": [],
     "description": "Coverage \u2013 Cherokee, Pickens, Bartow, Cobb \u2013 NW Georgia with occasional check-in's from TN, AL",
     "callsign": "KG4VUB",
@@ -229,6 +241,7 @@
     "location": "Cherokee County",
     "frequency": "443.075+",
     "tone": "D411 DCS",
+    "county": "Cherokee",
     "tags": [],
     "description": "Secondary Coverage \u2013 Cherokee, Pickens, Bartow, Cobb \u2013 NW Georgia with occasional check-in's from TN, AL",
     "callsign": "WX4NN",
@@ -244,6 +257,7 @@
     "location": "Clermont",
     "frequency": "145.310-",
     "tone": "123.0 Hz",
+    "county": "Hall",
     "tags": [],
     "description": "Wauka Mountain site at 1,100 ft above average terrain. Full-time link to Commerce 146.850- (KF4DGN). Covers Hall, Dawson, and White counties with partial coverage of Jackson, Habersham, and Gwinnett counties. Generator backup. AllStar connected.",
     "callsign": "KA3JIJ",
@@ -281,6 +295,7 @@
     "location": "Cochran",
     "frequency": "145.490-",
     "tone": "77.0 Hz",
+    "county": "Bleckley",
     "tags": [
       "SE Linked Repeater"
     ],
@@ -298,6 +313,7 @@
     "location": "Commerce",
     "frequency": "146.850-",
     "tone": "131.8 Hz",
+    "county": "Jackson",
     "tags": [],
     "description": "Full-time link to Clermont/Wauka Mountain 145.310- (KA3JIJ). Together these repeaters provide thorough coverage of northeast Georgia. Covers Banks and Jackson counties with partial coverage of Madison, Clarke, and Barrow counties. Generator backup. AllStar connected. 30-mile radius.",
     "callsign": "KF4DGN",
@@ -329,6 +345,7 @@
     "location": "Concord",
     "frequency": "145.390-",
     "tone": "110.9 Hz",
+    "county": "Spalding",
     "tags": [
       "SE Linked Repeater"
     ],
@@ -362,6 +379,7 @@
     "location": "Covington",
     "frequency": "146.925-",
     "tone": "88.5 Hz",
+    "county": "Newton",
     "tags": [],
     "description": "Links to 444.675+ WX4PTC backup hub. Wide coverage east of Atlanta along I-20 corridor. Covers Newton, Rockdale, and Walton counties with extended reach into north Georgia.",
     "callsign": "WA4ASI",
@@ -406,6 +424,7 @@
     "location": "Covington",
     "frequency": "444.800+",
     "tone": "88.5 Hz",
+    "county": "Newton",
     "tags": [],
     "description": "Links to 146.925- Covington, Newton County Forestry Fire Tower, GA. Covers Newton, Rockdale, and Walton counties with extended reach into north Georgia.",
     "callsign": "WA4ASI",
@@ -430,6 +449,7 @@
     "location": "Coweta County",
     "frequency": "145.130-",
     "tone": "156.7 Hz",
+    "county": "Coweta",
     "tags": [],
     "description": "Activated by EMA request",
     "callsign": "K4NRC",
@@ -453,6 +473,7 @@
     "location": "Dallas",
     "frequency": "146.895+",
     "tone": "77.0 Hz",
+    "county": "Paulding",
     "tags": [
       "SE Linked Repeater"
     ],
@@ -493,6 +514,7 @@
     "location": "Dallas",
     "frequency": "224.880-",
     "tone": "77.0 Hz",
+    "county": "Paulding",
     "tags": [
       "SE Linked Repeater"
     ],
@@ -533,6 +555,7 @@
     "location": "Dublin",
     "frequency": "146.610-",
     "tone": "88.5 Hz",
+    "county": null,
     "tags": [
       "Peach State Intertie"
     ],
@@ -550,6 +573,7 @@
     "location": "Eastman",
     "frequency": "145.210-",
     "tone": "103.5 Hz",
+    "county": "Dodge",
     "tags": [
       "Peach State Intertie",
       "SE Linked Repeater"
@@ -569,6 +593,7 @@
     "location": "Fayetteville",
     "frequency": "145.210-",
     "tone": "131.8 Hz",
+    "county": "Fayette",
     "tags": [
       "WX4PTC System",
       "SE Linked Repeater"
@@ -604,6 +629,7 @@
     "location": "Fayetteville",
     "frequency": "444.600+",
     "tone": "77.0 Hz",
+    "county": "Fayette",
     "tags": [
       "WX4PTC System",
       "SE Linked Repeater"
@@ -645,6 +671,7 @@
     "location": "Gray (Round Oak)",
     "frequency": "145.370-",
     "tone": "88.5 Hz",
+    "county": "Jones",
     "tags": [
       "Cherry Blossom Intertie"
     ],
@@ -671,6 +698,7 @@
     "location": "Griffin",
     "frequency": "146.910-",
     "tone": "88.5 Hz",
+    "county": "Spalding",
     "tags": [],
     "description": "Links to 444.600+ WX4PTC hub. Covers Spalding County and south metro Atlanta area. Good coverage along I-75 and US-41 corridors.",
     "callsign": "K4HYB",
@@ -695,6 +723,7 @@
     "location": "Irwinton",
     "frequency": "147.240+",
     "tone": "77.0 Hz",
+    "county": "Wilkinson",
     "tags": [
       "Peach State Intertie",
       "Cherry Blossom Intertie",
@@ -714,6 +743,7 @@
     "location": "Irwinton",
     "frequency": "443.275+",
     "tone": "77.0 Hz",
+    "county": "Wilkinson",
     "tags": [
       "Peach State Intertie"
     ],
@@ -731,6 +761,7 @@
     "location": "Irwinton",
     "frequency": "444.925+",
     "tone": "77.0 Hz",
+    "county": null,
     "tags": [
       "Peach State Intertie"
     ],
@@ -748,6 +779,7 @@
     "location": "Jasper",
     "frequency": "146.805+",
     "tone": "100.0 Hz",
+    "county": "Pickens",
     "tags": [
       "SE Linked Repeater"
     ],
@@ -774,6 +806,7 @@
     "location": "LaGrange",
     "frequency": "147.330+",
     "tone": "100.0 Hz",
+    "county": "Troup",
     "tags": [
       "SE Linked Repeater"
     ],
@@ -808,6 +841,7 @@
     "location": "Lamar County",
     "frequency": "147.225+",
     "tone": null,
+    "county": "Lamar",
     "tags": [],
     "description": "W8JI repeater is located just north of Barnesville. Normally operates with NO Uplink Tone, but will enable 123.0 Hz or 131.8 Hz Uplink Tone depending upon propagation conditions",
     "callsign": "W8JI",
@@ -823,6 +857,7 @@
     "location": "Lookout Mountain",
     "frequency": "145.350-",
     "tone": "100.0 Hz",
+    "county": "Walker",
     "tags": [],
     "description": "Tri-States Amateur Radio Club repeater. Primary coverage for Walker, Catoosa, Dade, and Chattooga counties in northwest Georgia. Approximately 50-mile radius from Lookout Mountain covering Chattanooga, TN area.",
     "callsign": "W4GTA",
@@ -884,6 +919,7 @@
     "location": "Macon",
     "frequency": "145.430-",
     "tone": "88.5 Hz",
+    "county": "Bibb",
     "tags": [
       "Cherry Blossom Intertie"
     ],
@@ -910,6 +946,7 @@
     "location": "Macon",
     "frequency": "146.895-",
     "tone": "88.5 Hz",
+    "county": "Bibb",
     "tags": [
       "Peach State Intertie",
       "SE Linked Repeater"
@@ -928,6 +965,7 @@
     "location": "Macon",
     "frequency": "147.015+",
     "tone": "88.5 Hz",
+    "county": "Bibb",
     "tags": [
       "WX4EMA",
       "Peach State Intertie"
@@ -946,6 +984,7 @@
     "location": "Macon",
     "frequency": "443.075+",
     "tone": "88.5 Hz",
+    "county": "Bibb",
     "tags": [
       "WX4EMA"
     ],
@@ -963,6 +1002,7 @@
     "location": "Milledgeville",
     "frequency": "147.135+",
     "tone": "123.0 Hz",
+    "county": "Baldwin",
     "tags": [],
     "description": "Covers Baldwin County (Milledgeville area) and surrounding central Georgia counties. Covers Georgia College area and Lake Sinclair.",
     "callsign": "n0call",
@@ -978,6 +1018,7 @@
     "location": "Montezuma",
     "frequency": "146.640-",
     "tone": "97.4 Hz",
+    "county": "Macon",
     "tags": [
       "Peach State Intertie",
       "SE Linked Repeater"
@@ -997,6 +1038,7 @@
     "location": "Paulding County",
     "frequency": "146.955-",
     "tone": "77.0 Hz",
+    "county": "Paulding",
     "tags": [],
     "description": "The repeater covers an area that includes most of Atlanta to the east and Cedartown to the west.",
     "callsign": "WX4PCA",
@@ -1020,6 +1062,7 @@
     "location": "Pine Mountain",
     "frequency": "145.190-",
     "tone": "110.9 Hz",
+    "county": "Meriwether",
     "tags": [
       "SE Linked Repeater"
     ],
@@ -1046,6 +1089,7 @@
     "location": "Rome",
     "frequency": "443.200+",
     "tone": "100.0 Hz",
+    "county": "Floyd",
     "tags": [
       "SE Linked Repeater"
     ],
@@ -1072,6 +1116,7 @@
     "location": "Sandersville",
     "frequency": "145.270-",
     "tone": "77.0 Hz",
+    "county": "Washington",
     "tags": [
       "Peach State Intertie"
     ],
@@ -1089,6 +1134,7 @@
     "location": "Sawnee Mtn",
     "frequency": "441.900+",
     "tone": "141.3 Hz",
+    "county": "Forsyth",
     "tags": [],
     "description": "Links to 444.675+ WX4PTC backup hub. Sawnee Mountain site provides wide coverage of north metro Atlanta and Forsyth County. Covers Cumming, Alpharetta, and surrounding suburbs.",
     "callsign": "WB4GQX",
@@ -1113,6 +1159,7 @@
     "location": "Sun City",
     "frequency": "443.600+",
     "tone": "110.9 Hz",
+    "county": "Spalding",
     "tags": [
       "SE Linked Repeater"
     ],
@@ -1139,6 +1186,7 @@
     "location": "Thomaston",
     "frequency": "147.390+",
     "tone": "131.8 Hz",
+    "county": "Upson",
     "tags": [
       "Peach State Intertie",
       "SE Linked Repeater"
@@ -1166,6 +1214,7 @@
     "location": "Tyrone",
     "frequency": "444.675+",
     "tone": "77.0 Hz",
+    "county": "Fayette",
     "tags": [
       "WX4PTC System"
     ],
@@ -1192,6 +1241,7 @@
     "location": "Walton County",
     "frequency": "147.270+",
     "tone": "88.5 Hz",
+    "county": "Walton",
     "tags": [],
     "description": "Covers Walton and surrounding counties.",
     "callsign": "WC4RG",
@@ -1207,6 +1257,7 @@
     "location": "Walton County",
     "frequency": "442.050+",
     "tone": "88.5 Hz",
+    "county": "Walton",
     "tags": [],
     "description": "Covers Walton and surrounding counties.",
     "callsign": "WC4RG",
@@ -1222,6 +1273,7 @@
     "location": "Warm Springs",
     "frequency": "146.985-",
     "tone": "110.9 Hz",
+    "county": "Meriwether",
     "tags": [],
     "description": "Full-time link to Woodbury 443.800+ (WB4GWA). AllStar node 473360 permanently connected. Covers Meriwether County and Warm Springs/FDR area southwest of Atlanta.",
     "callsign": "KN4FE",
@@ -1259,6 +1311,7 @@
     "location": "Warner Robins",
     "frequency": "146.670-",
     "tone": "82.5 Hz",
+    "county": "Houston",
     "tags": [],
     "description": "Covers Houston County and Warner Robins area near Robins Air Force Base. Covers Macon metro southern suburbs and surrounding central Georgia counties.",
     "callsign": "WM4B",
@@ -1283,6 +1336,7 @@
     "location": "Warner Robins",
     "frequency": "146.850-",
     "tone": "82.5 Hz",
+    "county": "Houston",
     "tags": [
       "Peach State Intertie"
     ],
@@ -1300,6 +1354,7 @@
     "location": "Warner Robins",
     "frequency": "443.150+",
     "tone": "82.5 Hz",
+    "county": "Houston",
     "tags": [],
     "description": "Covers Houston County and Warner Robins area near Robins Air Force Base. UHF companion to 146.670- repeater. Covers Macon metro southern suburbs.",
     "callsign": "WM4B",
@@ -1324,6 +1379,7 @@
     "location": "White County",
     "frequency": "146.910-",
     "tone": "100.0 Hz",
+    "county": "White",
     "tags": [],
     "description": "Activated by EMA / EOC requests or severe weather warnings.",
     "callsign": "K4GAR",
@@ -1339,6 +1395,7 @@
     "location": "Whitfield County",
     "frequency": "147.135+",
     "tone": "141.3 Hz",
+    "county": "Whitfield",
     "tags": [],
     "description": "Dalton \u2022 Dug Gap Mtn \u2022 Whitfield County. Whitfield SKYWARN Coordinator is Alan Bryant, N4ABB, assistant is Greg Williams, N4JGW.",
     "callsign": "N4BZJ",
@@ -1354,6 +1411,7 @@
     "location": "Woodbury",
     "frequency": "443.800+",
     "tone": "110.9 Hz",
+    "county": "Meriwether",
     "tags": [],
     "description": "Links to 444.600+ WX4PTC hub. AllStar node 48225 (links on demand). Full-time link to Warm Springs 146.985- (KN4FE). Covers Meriwether County west of metro Atlanta.",
     "callsign": "WB4GWA",
@@ -1392,6 +1450,7 @@
     "location": "Wrens",
     "frequency": "147.120+",
     "tone": "71.9 Hz",
+    "county": "Jefferson",
     "tags": [
       "Cherry Blossom Intertie"
     ],
