@@ -551,6 +551,8 @@
       ? repeater.rflinks.map(link => sanitizeHTML(link.linksToCall)).join(', ')
       : '—';
 
+    const countyDisplay = repeater.county ? sanitizeHTML(repeater.county) : '—';
+
     return `
       <tr class="repeater-row" data-repeater-id="${sanitizeHTML(repeater.id)}">
         <td>
@@ -561,6 +563,7 @@
           <strong>${sanitizeHTML(repeater.frequency)}</strong><br>
           <span style="font-size: 0.9rem;">${sanitizeHTML(toneDisplay)}</span>
         </td>
+        <td class="center">${countyDisplay}</td>
         <td class="center">${tags}</td>
         <td class="center">${ipLinks}</td>
         <td class="center" style="font-size: 0.9rem;">${rfLinks}</td>
@@ -582,7 +585,7 @@
       const linked = allRepeaters.filter(r => r.linked === true && r.active !== false);
       linkedContainer.innerHTML = linked.length > 0
         ? linked.map(r => renderRepeaterRow(r)).join('')
-        : '<tr><td colspan="5">No linked repeaters available.</td></tr>';
+        : '<tr><td colspan="6">No linked repeaters available.</td></tr>';
     }
 
     // Render non-linked repeaters
@@ -591,7 +594,7 @@
       const nonLinked = allRepeaters.filter(r => r.linked === false && r.active !== false);
       nonLinkedContainer.innerHTML = nonLinked.length > 0
         ? nonLinked.map(r => renderRepeaterRow(r)).join('')
-        : '<tr><td colspan="5">No non-linked repeaters available.</td></tr>';
+        : '<tr><td colspan="6">No non-linked repeaters available.</td></tr>';
     }
 
     // Set up modal click handlers for all repeater rows
