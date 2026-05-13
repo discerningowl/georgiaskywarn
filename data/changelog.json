@@ -1,6 +1,40 @@
 {
   "updates": [
     {
+      "month": "May",
+      "year": 2026,
+      "date": "2026-05-13",
+      "items": [
+        {
+          "title": "Dashboard Redesign",
+          "description": "Replaced the large intro card with a slim quick-link banner, moving live activation status and weather alerts above the fold for faster situational awareness."
+        },
+        {
+          "title": "Social Share Preview",
+          "description": "Created a proper branded Open Graph image so links shared on social media now show an accurate Georgia SKYWARN preview instead of a broken image."
+        },
+        {
+          "title": "Code Audit & Cleanup",
+          "description": "Removed ~256 lines of dead JavaScript and ~110 lines of dead CSS; fixed a missing card header style that was silently falling back to default colors."
+        }
+      ]
+    },
+    {
+      "month": "April",
+      "year": 2026,
+      "date": "2026-04-13",
+      "items": [
+        {
+          "title": "Security Hardening",
+          "description": "Fixed XSS vulnerabilities in NWS API and changelog display code; added Content Security Policy meta tag to the repeater health dashboard."
+        },
+        {
+          "title": "Repeater Verification Tool",
+          "description": "Built an automated Python script that validates repeater data against the live RepeaterBook API, checking callsigns, frequencies, tones, and on-air status."
+        }
+      ]
+    },
+    {
       "month": "March",
       "year": 2026,
       "date": "2026-03-20",

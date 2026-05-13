@@ -32,7 +32,7 @@
   <!-- Open Graph for social media sharing -->
   <meta property="og:title" content="Georgia SKYWARN - Amateur Radio Weather Spotter Dashboard">
   <meta property="og:description" content="Real-time Hazardous Weather Outlook, spotter activation status, and active weather alerts from NWS Atlanta.">
-  <meta property="og:image" content="https://georgiaskywarn.com/ganwsareacoverage.png">
+  <meta property="og:image" content="https://georgiaskywarn.com/assets/og-image.png">
   <meta property="og:url" content="https://georgiaskywarn.com/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Georgia SKYWARN">
@@ -123,45 +123,13 @@
   <main class="site-main" role="main">
     <h4 class="center" id="page-last-updated-date">Page updated on <span id="page-last-updated">loading...</span></h4>
 
-    <!-- Page Header -->
-    <section class="card" id="dashboard-header">
-      <header class="card-header card-header--blue">
-        <h2 class="card-title">Georgia SKYWARN Spotter Dashboard</h2>
-      </header>
-      <div class="card-body">
-        <div class="sub-cards">
-
-          <div class="sub-card">
-            <h4>About This Dashboard</h4>
-            <p>
-              The Georgia SKYWARN website serves as the central hub for the Georgia SKYWARN linked repeater
-              system, <b>coordinating severe weather reporting across 96 counties in North and Central Georgia.</b>
-            </p>
-            </br>
-            <p>
-              We provide real-time weather alerts, repeater information, reporting guidelines, and direct
-              coordination with the National Weather Service in Peachtree City (WX4PTC) when activated.
-            </p>
-            <a href="about.html#forecastarea" class="btn btn-blue" style="margin-top: 0.75rem; display: inline-block;">
-              📍 NWS Atlanta Service Area
-            </a>
-          </div>
-
-          <div class="sub-card">
-            <h4>New to SKYWARN?</h4>
-            <p>Welcome! Here's how to get started as a Georgia SKYWARN weather spotter:</p>
-            <ol style="margin: 0.5rem 0 0.75rem 1.25rem; padding: 0; line-height: 1.8;">
-              <li><a href="spotters.html#SKYWARNcard">Learn what SKYWARN is</a> and how the net works</li>
-              <li><a href="spotters.html#nwscard">Get trained</a> — free NWS spotter classes available</li>
-              <li><a href="spotters.html#reportcard">Know what to report</a> and how to report it</li>
-              <li><a href="repeaters.html">Find your local repeater</a> and program your radio</li>
-            </ol>
-            <a href="spotters.html" class="btn btn-blue" style="display: inline-block;">Spotter Resources →</a>
-          </div>
-
-        </div>
-      </div>
-    </section>
+    <!-- Site Banner -->
+    <div class="site-banner" role="banner">
+      <a href="spotters.html#SKYWARNcard" class="site-banner-link">New to SKYWARN? →</a>
+      <a href="about.html#forecastarea" class="site-banner-link">NWS Atlanta Service Area →</a>
+      <a href="spotters.html#nwscard" class="site-banner-link">Get Trained →</a>
+      <a href="repeaters.html" class="site-banner-link">Find SKYWARN Repeaters →</a>
+    </div>
 
     <!-- Spotter Activation Status -->
     <section class="card" id="activation-status">
@@ -239,8 +207,8 @@
               </svg>
             </div>
             <div class="map-card-content">
-              <h3 class="map-card-title">ARES Southeast Situational Map (Desktop Only)</h3>
-              <p class="map-card-desc">Situational Awareness Map (ArcGIS). Desktop Only - does not work well on Mobile.</p>
+              <h3 class="map-card-title">ARES Southeast Situational Map <span class="badge-desktop-only">Desktop only</span></h3>
+              <p class="map-card-desc">Situational Awareness Map (ArcGIS). May not work well on mobile.</p>
             </div>
           </a>
         </div>

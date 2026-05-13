@@ -3,14 +3,17 @@
  * File:   scripts.js
  * Author: Georgia SKYWARN Development Team
  * Purpose: Consolidated JavaScript for Georgia SKYWARN website
- *          - Footer loading
- *          - Site navigation toggle (site-nav hamburger menu on mobile)
- *          - Page navigation (sticky horizontal bar, always visible)
- *          - Back-to-top button
- *          - NWS Alert fetching (consolidated from inline scripts)
+ *          - XSS sanitization wrapper (sanitizeHTML)
+ *          - Page last-updated date display
  *          - Repeater search functionality (repeaters.html)
- *          - Security hardening (XSS prevention, error handling)
- *          - Performance optimizations (debouncing, caching)
+ *          - Repeater data rendering from JSON (repeaters.html)
+ *          - Repeater detail modal (repeaters.html)
+ *          - CHIRP and RT Systems CSV export (repeaters.html)
+ *          - Repeater health dashboard (repeater-health.html)
+ *          - Page navigation toggle (mobile, all pages)
+ *          - What to Report modals (spotters.html)
+ * NOTE: NWS alert fetching is handled by nws-api.js
+ * NOTE: Header/footer/navigation injection is handled by components.js
  * Change-log:
  *   • 2026-01-09 – Standardized modal header color classes
  *     - Unified color classes: --red, --yellow, --blue, --green
@@ -47,41 +50,8 @@
   'use strict';
 
   // ========================================================================
-  // CONSTANTS & CONFIGURATION (using centralized CONFIG module)
+  // NOTE: Theme toggle is now handled in header.js / components.js
   // ========================================================================
-  const { CACHE_KEYS, CACHE_TTL } = window.CONFIG;
-
-  // Global interval reference for cleanup
-  let alertRefreshInterval = null;
-
-  // Lazy-initialize cache manager only when needed
-  let alertCache = null;
-  function getAlertCache() {
-    if (!alertCache && window.UTILS) {
-      alertCache = window.UTILS.createCache(CACHE_KEYS.ALERTS, CACHE_TTL.ALERTS);
-    }
-    return alertCache;
-  }
-
-  // ========================================================================
-  // NOTE: Theme toggle is now handled in header.js
-  // ========================================================================
-
-  // ========================================================================
-  // MODAL SYSTEM FOR ALERT DETAILS
-  // ========================================================================
-
-  // Global alert data cache (for modal access)
-  let alertDataCache = [];
-
-  // Initialize modal manager using UTILS
-  const alertModal = window.UTILS.createModalManager('alertModal', 'modalClose');
-
-  // Use UTILS.openAlertModal directly (no need for local wrapper)
-  // Kept for backwards compatibility, but simply delegates to UTILS
-  function openAlertModal(alertData) {
-    window.UTILS.openAlertModal(alertData, 'alertModal');
-  }
 
   // ========================================================================
   // SECURITY: XSS SANITIZATION (local wrapper for UTILS)
@@ -95,205 +65,6 @@
    */
   function sanitizeHTML(str) {
     return window.UTILS.sanitizeHTML(str, true);
-  }
-
-  // ========================================================================
-  // NOTE: Cache management now handled by NWSAPI.createCache()
-  // ========================================================================
-
-  // ========================================================================
-  // NWS ALERT FETCHING (NOW USES NWSAPI MODULE)
-  // ========================================================================
-
-  /**
-   * Fetches active alerts from NWS API with caching
-   * Uses NWSAPI.fetchAlerts() for actual API calls
-   * @returns {Promise<Object>} - Alert data from API or cache
-   */
-  async function fetchAlerts() {
-    const cache = getAlertCache();
-
-    // Check cache first
-    const cached = cache ? cache.get() : null;
-    if (cached) return cached;
-
-    // Fetch from API using shared NWSAPI module
-    const data = await window.NWSAPI.fetchAlerts();
-
-    // Cache the result
-    if (cache) cache.set(data);
-
-    return data;
-  }
-
-  /**
-   * Updates the timestamp display
-   */
-  function updateTimestamp() {
-    window.UTILS.updateTimestampElement('alert-last-update');
-  }
-
-  /**
-   * Renders all alerts for the alerts page (warnings, watches, other)
-   * @param {Object} data - Alert data from API
-   * @returns {string} - HTML string for alerts
-   */
-  function renderAllAlerts(data) {
-    const features = (data.features || []).filter(f => {
-      const p = f.properties;
-      // Filter by NWS Peachtree City only
-      return p.senderName?.includes('NWS Peachtree City');
-    });
-
-    // Deduplicate alerts by unique ID only
-    // NWS API returns same alert multiple times for different zones
-    const uniqueFeatures = [];
-    const seenIds = new Set();
-
-    features.forEach(f => {
-      const p = f.properties;
-      const id = f.id || p?.id;
-
-      // Skip if we've seen this ID
-      if (id && seenIds.has(id)) {
-        return; // Duplicate by ID
-      }
-
-      // New unique alert
-      if (id) seenIds.add(id);
-      uniqueFeatures.push(f);
-    });
-
-    updateTimestamp();
-
-    if (uniqueFeatures.length === 0) {
-      return `<p class="no-alerts center"><strong>No active watches or warnings in NWS Atlanta (FFC) area.</strong></p>`;
-    }
-
-    return uniqueFeatures.map((f, index) => {
-      alertDataCache[index] = f; // Cache for modal access
-      const p = f.properties;
-      const isWarning = p.event?.toLowerCase().includes('warning');
-      const isWatch = p.event?.toLowerCase().includes('watch');
-      const type = isWarning ? 'WARNING' : isWatch ? 'WATCH' : 'ALERT';
-      const colorClass = isWarning ? 'alert-warning' : isWatch ? 'alert-watch' : 'alert-other';
-
-      // Truncate BEFORE sanitizing to avoid breaking HTML tags
-      const rawDesc = p.description || '';
-      const truncatedDesc = rawDesc.length > 200 ? rawDesc.substring(0, 200) + '...' : rawDesc;
-      const shortDesc = sanitizeHTML(truncatedDesc);
-      const headline = sanitizeHTML(p.headline || p.event);
-      const areaDesc = sanitizeHTML(p.areaDesc);
-
-      return `
-        <div class="alert-item ${colorClass}"
-             data-alert-index="${index}"
-             role="button"
-             tabindex="0"
-             aria-label="Click for full alert details">
-          <div class="alert-header">${headline} – <strong>${type}</strong></div>
-          <div class="alert-description">${shortDesc}</div>
-          <div class="alert-meta">
-            <small><strong>Areas:</strong> ${areaDesc} | <strong>Expires:</strong> ${new Date(p.expires).toLocaleString()}</small>
-          </div>
-          <div class="alert-more">Click for full details →</div>
-        </div>`;
-    }).join('');
-  }
-
-  /**
-   * Initializes alert loading for a page (displays all alert types)
-   */
-  async function initAlerts() {
-    const container = document.getElementById('alerts-container');
-    const loading = document.getElementById('alerts-loading');
-
-    if (!container || !loading) return; // Not on an alerts page
-
-    const hide = el => el.style.display = 'none';
-    const show = (el, html = '') => { el.innerHTML = html; el.style.display = 'block'; };
-
-    try {
-      const data = await fetchAlerts();
-      hide(loading);
-      const rendered = renderAllAlerts(data);
-      show(container, rendered);
-
-      // Attach click handlers for modal (CSP-compliant event delegation)
-      attachAlertClickHandlers();
-
-      // Background refresh every 5 minutes (respects cache)
-      alertRefreshInterval = setInterval(async () => {
-        try {
-          const freshData = await fetchAlerts();
-          const rendered = renderAllAlerts(freshData);
-          show(container, rendered);
-          // Re-attach handlers after refresh (container innerHTML was replaced)
-          attachAlertClickHandlers();
-        } catch (err) {
-          console.error('Background refresh failed:', err);
-          // Don't clear existing alerts - keep showing cached data
-        }
-      }, window.CONFIG.UI.AUTO_REFRESH_INTERVAL);
-    } catch (err) {
-      hide(loading);
-      const errorMsg = `
-        <div class="callout warning">
-          <p class="center">
-            <strong>Unable to load alerts at this time.</strong><br>
-            The National Weather Service API may be temporarily unavailable.<br>
-            Please check <a href="https://www.weather.gov/ffc/" target="_blank" rel="noopener noreferrer">NWS Atlanta</a> directly for current alerts.
-          </p>
-        </div>
-      `;
-      show(container, errorMsg);
-      console.error('Alert fetch error:', err);
-    }
-  }
-
-  /**
-   * Click handler for alert items (defined once, reused via delegation)
-   */
-  function handleAlertClick(e) {
-    const alertItem = e.target.closest('.alert-item');
-    if (alertItem) {
-      const index = alertItem.getAttribute('data-alert-index');
-      if (alertDataCache[index]) {
-        openAlertModal(alertDataCache[index]);
-      }
-    }
-  }
-
-  /**
-   * Keyboard handler for alert items
-   */
-  function handleAlertKeypress(e) {
-    if (e.key === 'Enter') {
-      const alertItem = e.target.closest('.alert-item');
-      if (alertItem) {
-        const index = alertItem.getAttribute('data-alert-index');
-        if (alertDataCache[index]) {
-          openAlertModal(alertDataCache[index]);
-        }
-      }
-    }
-  }
-
-  /**
-   * Attaches click handlers to alert items for modal display (CSP-compliant)
-   * Removes old listeners before adding new ones to prevent stacking
-   */
-  function attachAlertClickHandlers() {
-    const container = document.getElementById('alerts-container');
-    if (!container) return;
-
-    // Remove old listeners first (prevent duplicates on refresh)
-    container.removeEventListener('click', handleAlertClick);
-    container.removeEventListener('keypress', handleAlertKeypress);
-
-    // Add fresh listeners
-    container.addEventListener('click', handleAlertClick);
-    container.addEventListener('keypress', handleAlertKeypress);
   }
 
   // ========================================================================
@@ -1707,15 +1478,5 @@
       if (e.key === 'Escape' && reportModal.classList.contains('active')) closeReportModal();
     });
   }
-
-  // ========================================================================
-  // CLEANUP ON PAGE UNLOAD
-  // ========================================================================
-  window.addEventListener('beforeunload', () => {
-    if (alertRefreshInterval) {
-      clearInterval(alertRefreshInterval);
-      alertRefreshInterval = null;
-    }
-  });
 
 })();

@@ -325,16 +325,17 @@ For scripts that only load on specific pages:
    - `.sub-card--full` - Modifier to span full width across all grid columns
    - `.sub-cards--3col` - Modifier for 3-column grid at 1024px+ (e.g., weather report types)
    - `.callout` - Highlighted tip/warning boxes (used in repeaters.html, JS error states)
-   - `.btn` - Button component with color modifiers (`btn-blue`, `btn-red`, `btn-green`, `btn-indigo`)
+   - `.btn` - Button component with color modifiers (`btn-blue`, `btn-red`, `btn-green`, `btn-orange`, `btn-yellow`)
    - `.action-buttons` - Flex container for rows of action buttons
    - `.repeater-table` - Styled tables for repeater info
    - `.alert-item` - Weather alert display cards
-   - `.site-nav` - Site-wide navigation container
-   - `.page-nav` - Page-specific navigation container
-   - `.nav-toggle` - Mobile hamburger menu button (styled differently for site-nav and page-nav)
-   - `.nav-list` - Navigation link list
-   - `.nav-btn-alert` - Red navigation button for alerts page
-   - `.nav-btn-link` - Blue navigation button for standard links
+   - `.page-nav` - Page-specific in-page section navigation (sticky horizontal bar)
+   - `.page-nav-toggle` - Mobile hamburger for page-nav (`.page-nav` only — site nav is component-injected)
+   - `.nav-list` - Navigation link list (used in `.page-nav` only)
+   - `.header` - Site-wide header (component-injected by `components.js` — do NOT write manually)
+   - `#desktopNav` - Desktop site navigation (component-injected)
+   - `.mobile-nav` / `#mobileNav` - Mobile site navigation (component-injected)
+   - `.mobile-menu-btn` / `#mobileMenuBtn` - Mobile hamburger button (component-injected)
 
 4. **Accessibility**:
    - Semantic HTML5 landmarks (`<header>`, `<nav>`, `<main>`, `<footer>`)
@@ -346,31 +347,39 @@ For scripts that only load on specific pages:
 
 The site uses a **two-tier navigation system**:
 
-1. **Site Navigation (`.site-nav`)**:
-   - Purpose: Navigate between different pages of the site
-   - Desktop: Horizontal button bar
-   - Mobile toggle: Blue hamburger button labeled "☰ SITE"
-   - Button styling: `background: var(--accent-blue)` with darker hover state
-   - Contains links to: repeaters.html, wx4ptc.html, nwsffclinks.html, about.html, spotters.html
+#### ⚠️ CRITICAL: Site navigation is component-injected
 
-2. **Page Navigation (`.page-nav`)** - **Sticky Floating Bar**:
-   - Purpose: Navigate to sections within the current page
-   - **Always visible**: Sticky horizontal bar at top (`position: sticky`, `top: 0`, `z-index: 999`)
-   - **Glassmorphism effect**: `backdrop-filter: blur(10px)` with semi-transparent background
-   - **No toggle button**: Removed hamburger menu, now permanently visible on all screen sizes
-   - Responsive: Buttons wrap on smaller screens with reduced padding
-   - Contains anchor links to page sections (e.g., #nwscard, #SKYWARNcard, #reportcard)
+**DO NOT write site navigation markup manually.** The site-wide header and navigation are automatically injected by `js/components.js` into every page via `loadHeader()`. The injected HTML uses:
+- `<header class="header">` — main header element
+- `<nav id="desktopNav">` — desktop nav with plain `<a>` links (no extra classes)
+- `<button class="mobile-menu-btn" id="mobileMenuBtn">` — mobile hamburger
+- `<nav class="mobile-nav" id="mobileNav">` — mobile nav (toggled with `.active` class)
 
-3. **Navigation Button Classes**:
-   - `.nav-btn-alert` - Red background (#e63946) for high-visibility alerts page links
-   - `.nav-btn-link` - Indigo/blue background (#5C6BC0) for standard navigation links
-   - Both include hover states with darker colors and smooth transitions
+**To add a page to site navigation**: Edit `js/components.js` `loadHeader()` function — add an `<a href="newpage.html">New Page</a>` to **both** `#desktopNav` and `#mobileNav`.
 
-4. **Mobile Behavior**:
-   - **Site-nav**: Hamburger button appears on mobile (<768px), toggles menu visibility
-   - **Page-nav**: Always visible horizontal bar with wrapped buttons (no hamburger)
-   - JavaScript handles toggling `.open` class only for `.site-nav .nav-list`
-   - ARIA attributes: `aria-controls`, `aria-expanded`, `aria-label` (site-nav only)
+#### 1. Site Navigation (component-injected via `components.js`)
+
+- Purpose: Navigate between different pages of the site
+- **Desktop**: Horizontal link bar inside `<nav id="desktopNav">`
+- **Mobile**: Full-width overlay `<nav class="mobile-nav" id="mobileNav">` — toggled by `#mobileMenuBtn`
+- Toggling is handled by `initMobileMenu()` in `components.js` (toggles `.active` on `#mobileNav`)
+- Contains links to: index.html, spotters.html, repeaters.html, wx4ptc.html, nwsffclinks.html, about.html
+
+#### 2. Page Navigation (`.page-nav`) — Sticky In-Page Bar
+
+- Purpose: Navigate to sections **within** the current page (anchor links)
+- Written directly in page HTML (not component-injected)
+- **Always visible**: Sticky horizontal bar (`position: sticky`, `top: 0`, `z-index: 999`)
+- **Glassmorphism effect**: `backdrop-filter: blur(10px)` with semi-transparent background
+- On mobile, toggled via `.page-nav-toggle` button (toggles `.active` on `.page-nav`)
+- Toggle logic is in `scripts.js` (`pageNavToggle` event handler)
+- Contains anchor links to page sections (e.g., `#nwscard`, `#SKYWARNcard`, `#reportcard`)
+
+#### 3. Mobile Behavior
+
+- **Site nav**: `#mobileMenuBtn` click → toggles `.active` on `#mobileNav` (handled by `components.js`)
+- **Page nav**: `.page-nav-toggle` click → toggles `.active` on `.page-nav` (handled by `scripts.js`)
+- Both menus close on outside click and Escape key
 
 ---
 
@@ -564,17 +573,16 @@ root/
 - Keep navigation structure consistent across pages
 - Use descriptive link text (not "click here")
 - Include `<meta name="viewport">` for mobile
-- Implement both `.site-nav` and `.page-nav` with correct IDs and aria-controls
-- Use proper navigation button classes (`.nav-btn-alert`, `.nav-btn-link`)
+- Add `<div id="footer-placeholder"></div>` at the bottom of `<main>` for the component-injected footer
+- Add `.page-nav` with `id="page-nav-list"` if the page has multiple in-page sections
 
 **DON'T**:
 - Use `<div>` when semantic elements exist
 - Remove ARIA attributes
-- Break the navigation menu structure
-- Change the footer loading mechanism
+- Write site-wide `<header>` or site navigation markup manually — it's injected by `components.js`
+- Change the footer loading mechanism (`id="footer-placeholder"` must remain)
 - Nest headings incorrectly (h1 → h2 → h3)
-- Mix up site-nav and page-nav IDs (must be `site-nav-list` and `page-nav-list`)
-- Forget to update site-nav on all pages when adding a new page
+- Forget to update `js/components.js` `loadHeader()` when adding a new page to the site
 
 ### 5. Content Updates
 
@@ -890,71 +898,57 @@ Use these official RepeaterBook system pages to validate repeater membership and
 
 ### Adding a New Page
 
-1. Copy an existing page structure (e.g., `about.html`)
+1. Copy an existing page structure (e.g., `about.html`) — keep it in the **root directory**
 2. Update the `<title>` tag
-3. Update the `<h1>` and `<h2>` in the header
-4. Determine if the page needs both site-nav and page-nav:
-   - **Site-nav**: Always required (links to other pages)
-   - **Page-nav**: Only if the page has multiple internal sections
-5. Add the new page to the site-nav on ALL other pages:
+3. Add the new page to **both nav lists** in `js/components.js` `loadHeader()`:
    ```html
-   <li><a href="newpage.html" class="nav-btn-link">New Page</a></li>
+   <!-- Add to BOTH #desktopNav and #mobileNav blocks -->
+   <a href="newpage.html">New Page</a>
    ```
-6. If using page-nav, add internal section links (no toggle button needed):
+4. If the page has multiple sections, add a `.page-nav` directly in the HTML (below the component-injected header):
    ```html
-   <nav class="page-nav" role="navigation" aria-label="Page navigation">
+   <nav class="page-nav" aria-label="Page navigation">
+     <button class="page-nav-toggle" aria-expanded="false">☰ PAGE</button>
      <ul id="page-nav-list" class="nav-list">
        <li><a href="#section1">Section 1</a></li>
        <li><a href="#section2">Section 2</a></li>
      </ul>
    </nav>
    ```
-7. Ensure site-nav hamburger button label is correct:
-   - Site-nav: `aria-label="Toggle site menu"` with text "☰ SITE"
-8. Test footer loading and navigation on both desktop and mobile
+5. Ensure `<div id="footer-placeholder"></div>` is present at the bottom of `<main>` for the footer
+6. Test footer loading and navigation on both desktop and mobile
 
 ### Working with the Navigation System
 
-**When to use Site-nav vs Page-nav**:
-- **Site-nav**: Use for links to other HTML pages (always present on every page)
-- **Page-nav**: Use for anchor links to sections within the current page (optional, only if page has multiple sections)
+**Site nav vs Page-nav — which to use**:
+- **Site nav** (across-page links): Edit `js/components.js` `loadHeader()` — add `<a>` to both `#desktopNav` and `#mobileNav`
+- **Page nav** (in-page anchor links): Add a `.page-nav` element directly in the page HTML
 
-**Page-nav Implementation**:
-- Page-nav is now a sticky horizontal bar (no toggle button needed)
-- Simply add the nav structure without the toggle button:
-  ```html
-  <!-- Page navigation (sticky horizontal bar) -->
-  <nav class="page-nav" role="navigation" aria-label="Page navigation">
-    <ul id="page-nav-list" class="nav-list">
-      <li><a href="#section1">Section 1</a></li>
-      <li><a href="#section2">Section 2</a></li>
-    </ul>
-  </nav>
-  ```
+**Page-nav HTML pattern** (add below the component-injected `<header>`):
+```html
+<nav class="page-nav" aria-label="Page navigation">
+  <button class="page-nav-toggle" aria-expanded="false" aria-controls="page-nav-list">☰ PAGE</button>
+  <ul id="page-nav-list" class="nav-list">
+    <li><a href="#section1">Section 1</a></li>
+    <li><a href="#section2">Section 2</a></li>
+  </ul>
+</nav>
+```
+The toggle behavior is handled automatically by `scripts.js` (searches for `.page-nav .page-nav-toggle`).
 
-**Styling navigation links**:
-- Use `.nav-btn-alert` for high-priority links (e.g., linking back to the main dashboard from another page):
-  ```html
-  <a href="index.html" class="nav-btn-alert">Dashboard</a>
-  ```
-- Use `.nav-btn-link` for standard navigation links:
-  ```html
-  <a href="repeaters.html" class="nav-btn-link">SKYWARN Repeaters</a>
-  ```
-- Use no class for plain text links (e.g., "← Back to Georgia SKYWARN")
+**Styling in-page nav links**:
+- Page-nav links are plain `<a href="#anchor">` tags — no extra classes needed
+- The `.page-nav` stylesheet handles all styling (sticky bar, glassmorphism, button wrap)
 
-**JavaScript for navigation**:
-- Only site-nav needs toggle handling (page-nav is always visible):
-  ```javascript
-  const navToggles = document.querySelectorAll('.site-nav .nav-toggle');
-  navToggles.forEach(button => {
-    button.addEventListener('click', () => {
-      const targetId = button.getAttribute('aria-controls');
-      const menu = document.getElementById(targetId);
-      menu.classList.toggle('open');
-    });
-  });
-  ```
+**Site nav link styling** (inside `components.js` `loadHeader()`):
+- Links in `#desktopNav` and `#mobileNav` are plain `<a>` tags — no extra classes
+- Styling is applied via `nav#desktopNav a` and `.mobile-nav a` in `style.css`
+
+**JavaScript for site nav toggle** (in `components.js` — do NOT duplicate):
+```javascript
+// Handled by initMobileMenu() in components.js
+// Toggles .active class on #mobileNav when #mobileMenuBtn is clicked
+```
 
 ### Modifying the Alert Display Logic
 
@@ -1009,15 +1003,17 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes (in milliseconds)
 
 ### Mobile Navigation Not Working
 
-1. **Verify JavaScript** for `.nav-toggle` is present
-2. **Check CSS** for `.nav-list.open { display: flex; }`
-3. **Test mobile viewport** - must be `<768px` width
-4. **Ensure button has correct** `aria-controls` attribute:
-   - Site-nav toggle: `aria-controls="site-nav-list"`
-   - Page-nav toggle: `aria-controls="page-nav-list"`
-5. **Verify IDs match**: The `<ul>` ID must match the button's `aria-controls` value
-6. **Check for multiple toggles**: Pages with both site-nav and page-nav need `querySelectorAll('.nav-toggle')` to handle both buttons
-7. **Verify button labels**: Site-nav should show "☰ SITE" and page-nav should show "☰ PAGE"
+**Site navigation (injected by `components.js`)**:
+1. Verify `js/components.js` is loading (check console for `[COMPONENTS] Header and footer loaded`)
+2. Check that `#mobileMenuBtn` and `#mobileNav` exist in the DOM (injected by `loadHeader()`)
+3. The toggle adds/removes `.active` on `#mobileNav` — check CSS for `.mobile-nav.active { display: flex; }`
+4. `initMobileMenu()` in `components.js` is responsible; if it's not running, check for JS errors before it
+
+**Page navigation (in-page `.page-nav`)**:
+1. Verify the `.page-nav-toggle` button is present in the page HTML
+2. Check that `id="page-nav-list"` matches the toggle's `aria-controls` value
+3. Toggle logic is in `scripts.js` — check for JS errors loading that file
+4. CSS: `.page-nav.active .nav-list` controls visibility on mobile
 
 ### Dark Mode Not Working
 
@@ -1136,6 +1132,21 @@ refactor: Simplify alert filtering logic
 ---
 
 ## Changelog
+
+### 2026-05-13
+- **Code Audit & Dead Code Removal**:
+  - `js/scripts.js`: Removed ~256 lines of dead alert-handling code (alertRefreshInterval, alertCache, getAlertCache, alertDataCache, alertModal init, openAlertModal wrapper, fetchAlerts, updateTimestamp, renderAllAlerts, initAlerts, handleAlertClick, handleAlertKeypress, attachAlertClickHandlers). All alert functionality is now exclusively in `nws-api.js`. Kept `sanitizeHTML` wrapper (used by repeater rendering). Removed dead `beforeunload` interval cleanup. Updated file header comment to reflect actual purpose.
+  - `css/style.css`: Removed ~110 lines of dead CSS: `.nws-logo-section`, `.nws-logo-link`, `.nws-logo`, `.nws-logo-text`, `.nws-section`, `.nws-section-title`, `.nws-links` (all variants), `.btn-indigo`, `.site-header` (mobile + print), `.site-nav` rules (mobile), `.site-title`, `.site-subtitle` (print). These classes exist in no HTML or JS file. Preserved `.nws-more-resources` and `.nws-more-text` (used in spotters.html). Removed responsive and dark-mode overrides for the same dead selectors.
+- **UX Improvements** (from this session):
+  - `index.html`: Replaced "Georgia SKYWARN Spotter Dashboard" intro card with slim 4-button banner linking to key spotter resources. Removes content that was pushing live weather data below the fold. Added `badge-desktop-only` span to ARES map card title.
+  - `spotters.html`: Replaced expired Feb/Mar 2026 training class dates with "Fall 2026 training dates coming soon" placeholder. Added `badge-desktop-only` span to ARES map h4.
+  - `assets/og-image.png`: Created proper 1200×630 OG image (dark navy background, branded with logo and site name). Updated OG/Twitter meta tags across 6 pages (previously missing or pointing to broken `ganwsareacoverage.png`).
+  - `css/style.css`: Added `.site-banner`, `.site-banner-text`, `.site-banner-link` component. Added `--header-gradient-orange` CSS variable and `.card-header--orange` rule (was used in `nwsffclinks.html` but missing — silent CSS fallback bug).
+- **CLAUDE.md Documentation Overhaul**:
+  - Completely rewrote **Navigation System** section to document the actual component-injected architecture (`components.js`, `#desktopNav`, `#mobileNav`, `.mobile-menu-btn`) instead of the stale `.site-nav`/`.nav-btn-*` pattern that no longer exists
+  - Updated **CSS Architecture Component Classes** list to remove dead classes (`.site-nav`, `.nav-toggle`, `.nav-btn-alert`, `.nav-btn-link`, `.btn-indigo`) and add accurate component IDs
+  - Updated **HTML Structure DO/DON'T**, **Adding a New Page**, **Working with the Navigation System**, **Mobile Navigation Troubleshooting**, and **AI Quick Reference Common Pitfalls** sections
+- **Version**: Bumped to `20260513a`
 
 ### 2026-04-13
 - **Security Hardening**:
@@ -1509,9 +1520,9 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 - ❌ Don't break mobile responsiveness
 - ❌ Don't change NWS API cache keys
 - ❌ Don't remove User-Agent headers
-- ❌ Don't confuse site-nav with page-nav (they serve different purposes)
-- ❌ Don't forget to update navigation on ALL pages when adding a new page
-- ❌ Don't use the wrong navigation button classes (.nav-btn-alert vs .nav-btn-link)
+- ❌ Don't write site navigation HTML manually — it's injected by `components.js`
+- ❌ Don't forget to update BOTH `#desktopNav` and `#mobileNav` in `components.js` when adding a page
+- ❌ Don't add `.nav-btn-alert` or `.nav-btn-link` classes to site nav links — those classes no longer exist
 
 ### When in Doubt
 
@@ -1523,6 +1534,6 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 
 ---
 
-**Last Updated**: 2026-04-13
+**Last Updated**: 2026-05-13
 **Maintained By**: Claude AI Assistant (based on codebase analysis)
 **For Questions**: Contact Jack Parks (KQ4JP) <kq4jp@pm.me>
