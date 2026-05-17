@@ -540,21 +540,39 @@
   }
 
   /**
-   * Update the alert-count-summary span in the status bar with live counts
+   * Update the alert-count-summary span in the status bar with live counts.
+   * Renders CSS triangle shapes (.legend-shape--triangle) instead of emoji so the
+   * alerts row stays visually distinct from the activation-status row (which uses
+   * circles). DOM-built to avoid innerHTML/XSS surface.
    * @param {{warnings: number, watches: number, advisories: number}} counts
    */
   function updateAlertCountSummary(counts) {
     const el = document.getElementById('alert-count-summary');
     if (!el) return;
     const { warnings, watches, advisories } = counts;
-    if (warnings + watches + advisories === 0) {
-      el.textContent = '🔴 Warnings | 🟠 Watches | 🔵 Alerts';
-      return;
+    const showCounts = (warnings + watches + advisories) > 0;
+
+    // Clear existing content (safe — no HTML injection)
+    while (el.firstChild) el.removeChild(el.firstChild);
+
+    function appendSegment(colorClass, count, label) {
+      const shape = document.createElement('span');
+      shape.className = `legend-shape legend-shape--triangle ${colorClass}`;
+      shape.setAttribute('aria-hidden', 'true');
+      el.appendChild(shape);
+      const text = showCounts ? ` ${count} ${label}` : ` ${label}`;
+      el.appendChild(document.createTextNode(text));
     }
-    const w = warnings === 1 ? 'Warning' : 'Warnings';
-    const wt = watches === 1 ? 'Watch' : 'Watches';
-    const a = advisories === 1 ? 'Advisory' : 'Advisories';
-    el.textContent = `🔴 ${warnings} ${w} | 🟠 ${watches} ${wt} | 🔵 ${advisories} ${a}`;
+
+    const wLabel  = showCounts && warnings === 1   ? 'Warning'  : 'Warnings';
+    const wtLabel = showCounts && watches === 1    ? 'Watch'    : 'Watches';
+    const aLabel  = showCounts && advisories === 1 ? 'Advisory' : 'Alerts';
+
+    appendSegment('legend-red',    warnings,    wLabel);
+    el.appendChild(document.createTextNode(' | '));
+    appendSegment('legend-yellow', watches,     wtLabel);
+    el.appendChild(document.createTextNode(' | '));
+    appendSegment('legend-blue',   advisories,  aLabel);
   }
 
   /**

@@ -1133,6 +1133,102 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-05-16 (Round 6 — Modal modernization parity pass)
+- **Legend-shape triangle alignment fix on the alert status bar**: the upward-pointing triangles (Warnings / Watches / Alerts) sat ~0.1em below the green pulse circle next to "Auto-refresh." Two causes stacked: `.legend-shape--triangle` had `vertical-align: -0.15em` (vs `-0.05em` on the base/circle), and an upward triangle is optically bottom-heavy (mass at the wide base, point at the apex) so its perceived centre sits below the geometric one. Changed triangle `vertical-align` to `+0.05em` (a 0.2em raise from prior) so the centroid lines up with the circle's optical centre. Math: triangle centroid at `base + H/3` = `base + 0.25em`; for that to match the circle's centre at `0.325em` above baseline → base at `0.075em`, rounded to `0.05em` for a clean value.
+- **Modal modernization parity**: the December T3.13 pass migrated the primary `.modal-backdrop` / `.modal-content` stack to the modern `@starting-style` + `transition-behavior: allow-discrete` pattern, but the parallel `.repeater-detail-modal` stack on `repeaters.html` was missed entirely. This round brings it to parity:
+  - `.repeater-detail-modal` now uses `display: none → flex` with `transition: opacity 200ms ease, display 200ms ease allow-discrete`, and an `@starting-style` block sets the entry state (`opacity: 0`, `translateY(12px)` on `.repeater-detail-content`). The modal now fades + slides in instead of snapping.
+  - `backdrop-filter: blur(10px)` added (`.modal-backdrop` already had it; this matches).
+  - `.repeater-detail-content`: border `2px` → `1px` (matches `.modal-content`), hardcoded `box-shadow: 0 10px 40px rgba(0,0,0,0.5)` → `box-shadow: var(--shadow-xl)`, added `opacity` + `transform` transition for the slide-up.
+  - `.repeater-detail-close`: `transition: transform 0.2s` → `transition: var(--t-fast)` (T1.1 property-specific transition vocabulary).
+  - Reduced-motion users automatically benefit via the Patch 1 global guard — no per-modal handling needed.
+- **Fluid type on modal headings (T3.14 follow-up)**: `.modal-header h1-h6`, `.modal-title`, and `.repeater-detail-header h2` were all fixed `1.4rem`–`1.5rem`. Migrated to `var(--text-xl)` (clamps 1.25rem → 1.5rem). Modal titles now scale smoothly with viewport like the rest of the heading scale; on mobile they're slightly smaller than before, on desktop slightly larger.
+- **`.modal-close` rgba → color-mix**: `rgba(255, 255, 255, 0.2)` and `rgba(255, 255, 255, 0.3)` literals replaced with `color-mix(in oklch, white 20%/30%, transparent)`. Mixes in OKLCH space, matches the Patch-3 badge + T2.7 pill vocabulary. Visual delta is imperceptible (OKLCH white-to-transparent at low percentages is nearly identical to sRGB rgba), but it's now consistent with how the rest of the design system blends tints.
+- **Dead code removed**: `@keyframes slideUp` was orphaned by T3.13 (the modal animations it powered were replaced by `@starting-style` transitions in December). Confirmed via grep — zero references. Deleted. (`@keyframes fadeIn` is still live, used by `.alert-item` for initial render — kept.)
+- **Version**: Bumped to `20260516n`.
+
+### 2026-05-16 (Round 5 — `about.html` "About This Site" refresh)
+- Refreshed the 8-card "About This Site" section on `about.html` to reflect the actual 2026 site state. Old version was written when the site was simpler and had several factually wrong or misleading claims.
+- **Card changes**:
+  - **Purpose & Mission** — kept (still accurate).
+  - **Technical Details** → renamed **Built for Spotters**. Reframed for end users instead of developers: "no ads, no tracking, no third-party scripts" instead of "vanilla JS, localStorage, CSP." The technical details still matter, but they should live in `CLAUDE.md` not on a user-facing page.
+  - **Real-Time Weather Alerts** → renamed **Live Weather Alerts**. Removed the false claim about a "dedicated alerts page" (that page was merged into `index.html` in the 2026-01-09 dashboard consolidation — the card had been wrong for four months).
+  - **Dual Navigation System** → REMOVED. Internal detail nobody outside the codebase cares about.
+  - **Mobile-First Design** → REMOVED. Same reason — assumed in 2026.
+  - **HWO & Activation Status** → NEW. The site's most distinctive feature (three-level red/yellow/green spotter activation detection from parsed NWS HWO text) was never mentioned. Fixed.
+  - **Quick Maps** → NEW. The Quick Maps section on `index.html` was added January 2026 and never made it into this page's description.
+  - **Repeater Directory** — UPDATED to mention the search bar (Ctrl/Cmd+K), CSV export for CHIRP and RT Systems, AllStar/EchoLink node info, and RF link details. Old card just said "complete listings."
+  - **Accessibility** — UPDATED to add the manual light/dark toggle, `prefers-reduced-motion` support (shipped today), and visible focus rings.
+  - **NWS Resources** — kept (still accurate).
+- **Net structural change**: 2 top + 6 bottom cards before → 2 top + 6 bottom cards after. Same layout, same grid (`sub-cards--3col`), same card count — just better content.
+- **No JS or CSS changes**: HTML-only edit. `sitemap.xml` `lastmod` for `about.html` updated to `2026-05-16`. No version bump needed (HTML is served fresh, not cached via `?v=`).
+
+### 2026-05-16 (Round 4 — Cleanup pass: residuals from Tiers 1-3)
+- **#18 (T1.3 follow-up): `text-wrap: pretty` on `.alert-description`** — added explicit `text-wrap: pretty` to NWS alert body text. Long alert descriptions (e.g. "Tornado Warning issued for...") previously left a single-word orphan on the last line of dashboard cards. The global `p, li, td, th` rule already had `pretty`, but `.alert-description` is rendered as a div in JS-built markup, so it didn't inherit. Explicit override fixes it. `.callout p` was already covered by the global rule (callouts use actual `<p>` tags).
+- **Fluid type tokens applied to four high-visibility text selectors**:
+  - `.btn`: `font-size: 0.9rem` → `var(--text-sm)` (scales 0.875rem → 1rem). Buttons feel right-sized on every viewport now.
+  - `.repeater-table th`: `font-size: 1rem` → `var(--text-sm)`. Table headers stay compact on mobile, scale subtly on big screens.
+  - `.callout h4`: `font-size: 1.1rem` → `var(--text-base)` (scales 1rem → 1.125rem).
+  - `.alert-description`: added `font-size: var(--text-base)` (previously inherited 1rem fixed from global `p` rule). Alert body text now scales with the viewport.
+  - **Intentionally NOT migrated**: the long tail of ~65 other hardcoded `font-size:` declarations across the file. Most are decorative (logo, footer, badges) and either already match the fluid scale at their default size or have specific reasons to be fixed. The four above were chosen because they're the text users actually *read* across many pages.
+- **OKLCH derivation expanded to remaining "genuinely darker" accent variants**:
+  - `--accent-green-dark`: hand-tuned `#42ba7f` → `oklch(from var(--accent-green) calc(l - 0.06) c h)`.
+  - `--accent-lightblue-dark`: NEW token, `oklch(from var(--accent-lightblue) calc(l - 0.04) c h)`. Did not exist before — added as a hover-state companion for the lightblue accent.
+  - `--accent-yellow-dark`: hand-tuned `#E0A800` → `oklch(from var(--accent-yellow) calc(l - 0.06) c h)`.
+  - **Kept hand-tuned** with documented exception comment: `--accent-indigo-dark`, `--accent-orange-dark`, `--accent-pink-dark`. These are *not* algorithmic darkenings of their base — they're lighter hover-state variants picked for specific hue/contrast reasons (`--accent-indigo-dark` is `#90CAF9`, a completely different hue). Auto-deriving them would change them visibly.
+- **Total tokens now using OKLCH relative-color syntax**: 5 (blue-dark, red-dark, green-dark, lightblue-dark, yellow-dark). Up from 2 (blue-dark, red-dark) after Round 2.
+- **Version**: Bumped to `20260516k`.
+- **Status of the original Tier 4 list**: Items 15 (View Transitions), 16 (sticky-header shadow), 17 (delete `--transition`) shipped in Round 3. Item 18 (`text-wrap: pretty` audit) finished in this round. Tier 4 is now COMPLETE.
+- **Remaining un-done items** (intentionally deferred): wrapping legacy CSS in `@layer components`, container-query migration for non-`.sub-cards` grids, font-size migration for the ~65 cosmetic hardcoded sizes, and bleeding-edge experimental features (`sibling-index()`, CSS `if()`, anchor positioning, `@scope`, cross-document View Transitions). None solve a problem the site currently has.
+
+### 2026-05-16 (Round 3 — Tier 4 + Tier 2 residuals)
+- **#17: Deleted legacy `--transition` token** — `:root` no longer defines `--transition: all 0.3s ease`. Grep confirms zero references after Round 2's T1.1 migration to `--t-fast`.
+- **Tier 2 residuals — lift removal on remaining hover states**:
+  - `.callout:hover`: removed `translateY(-2px)`, kept the deeper shadow.
+  - `.contact-item:hover`: removed lift; added `color-mix(in oklch, var(--accent-blue) 6%, var(--card-bg))` background tint instead.
+  - `.changelog-month-card:hover`: removed lift; shadow upgraded to `--shadow-lg` and accent-colored border added.
+  - These three were out of Round 2's T2.6 scope and finish that pass. All site-wide `translateY(-2px)` hover lifts are now gone except `.back-to-top:active` (which is the active/press state, intentionally retained for tactile feedback).
+- **#15: View Transitions API for theme toggle** — `setTheme()` in `js/components.js` now wraps the `data-theme` attribute change in `document.startViewTransition()` when supported (Baseline 2024 in Chromium/Safari). The browser snapshots the page before + after and crossfades, so dark/light flipping is smooth instead of snapping. Reduced-motion users skip the transition (double-guarded: JS checks `prefers-reduced-motion`, and the Patch 1 global guard would clamp the animation anyway). Tuned to 220ms ease in CSS via `::view-transition-old(root), ::view-transition-new(root)`.
+- **#16: Sticky-header shadow on scroll** — `.header` now defaults to a subtler shadow (`0 1px 4px rgba(0,0,0,0.2)`). A new `initStickyHeaderShadow()` in `js/components.js` inserts a 1px sentinel at the top of `<body>` and watches it with an IntersectionObserver. When the sentinel leaves the viewport, `.is-stuck` is added to the header, which deepens the shadow (`0 8px 24px rgba(0,0,0,0.35)`), bumps the background opacity, and brightens the bottom border. Pattern matches Stripe / Linear / Vercel docs. Uses IntersectionObserver instead of CSS `@container scroll-state` because the latter doesn't (yet) allow styling the container itself across all browsers — IntersectionObserver pattern works everywhere with no @supports gymnastics.
+- **Version**: Bumped to `20260516j`.
+
+### 2026-05-16 (Round 2 — Tier 1-3 CSS upgrades)
+- **Tier 1 — Low-risk modernization wins**:
+  - **T1.1: Migrated remaining `var(--transition)` uses** — added new `--t-fast` token in `:root` (property-specific transition list: background-color, color, border-color, transform, box-shadow, opacity at 160ms ease) and replaced all 15 `transition: var(--transition);` declarations with `transition: var(--t-fast);`. Legacy `--transition` alias retained as deprecated for backward compat.
+  - **T1.2: `:focus` → `:focus-visible`** — converted 10 link/button `:focus` rules to `:focus-visible` so mouse clicks no longer leave lingering outlines (`a`, `#desktopNav a`, `.page-nav .nav-list a`, `.link-url`, `.btn`, `.btn-yellow`, `.contact-link`, `.map-card`, `.map-card-icon`, `.back-to-top`). Form input `:focus` rules deliberately preserved (inputs benefit from focus styling on mouse click too).
+  - **T1.3: `text-wrap: pretty` on body text** — added to global `p, li, td, th` rule. Prevents single-word orphans on the last line of alert descriptions, callout text, etc. Baseline 2024.
+  - **T1.4: Fixed `--nav-btn-color` dark-mode bug** — dark-mode value was `var(--border-primary)` which is `rgba(255,255,255,0.10)` (near-invisible as text color). A latent bug from the original four-block theme structure; preserved in Patch 2 for fidelity. Both modes now use `var(--text-primary)`.
+  - **T1.5: Removed all 10 `-webkit-backdrop-filter` prefixes** — Safari 18.0 (Sept 2024) shipped the unprefixed property. The duplicate declarations were dead code on every modern browser.
+- **Tier 2 — Buttons, pills, focus rings**:
+  - **T2.6: Tonal-shift hover replacing lift** — removed `transform: translateY(-2px)` and the deep `box-shadow` glow from `.btn:hover` and `.sub-card:hover`. Replaced with darker background fill (`.btn`) or accent border + 4% accent tint (`.sub-card`). Active state now uses `scale: 0.98` for tactile press feedback. Matches Linear/Vercel/Stripe button vocabulary. Reduced-motion users (Patch 1) benefit automatically.
+  - **T2.7: True-pill page-nav** — `.page-nav .nav-list a` border-radius bumped 8px → 999px (fully pill, scales with content). Hard-coded `rgba(96, 165, 250, 0.15)` literals replaced with `color-mix(in oklch, var(--accent-blue) 15%, transparent)` so pills auto-theme with the accent color. Hover state also tokenized.
+  - **T2.8: Active-section indicator on page-nav** — added IntersectionObserver block in `scripts.js` (~30 lines, runs after page-nav toggle setup). Marks the current section's nav pill with `.is-active` as the user scrolls. `rootMargin: '-200px 0px -50% 0px'` accounts for sticky header + page-nav stack and only flags sections whose top is in the upper half of the viewport. CSS: `.page-nav .nav-list a.is-active` fills in fully (accent background, white text).
+  - **T2.9: Focus-ring tokens** — added `--focus-ring: 2px solid color-mix(in oklch, var(--accent-blue) 75%, transparent)` and `--focus-ring-offset: 3px` to `:root`. Applied via a global `:where(a, button, [role="button"], input, select, textarea, summary, [tabindex]:not([tabindex="-1"])):focus-visible` rule. The `:where()` keeps specificity at 0 so any component-specific override still wins.
+- **Tier 3 — Structural modernization**:
+  - **T3.10: `@layer reset, tokens, base, components, utilities;`** declared at top of `style.css`. Conservative adoption: existing CSS remains unlayered (highest priority preserved). Future additions SHOULD live in `@layer components { ... }` to give utilities and overrides a clean place to live without specificity wars.
+  - **T3.11: Container queries for sub-cards** — `.card-body` now declares `container-type: inline-size; container-name: cardbody`. The `.sub-cards` grid breakpoints converted from viewport media queries to `@container cardbody (min-width: 600px)` and `@container cardbody (min-width: 900px)`. Sub-cards now collapse correctly even if placed in a narrower column (sidebar, modal, half-width layout). Baseline 2023.
+  - **T3.12: OKLCH relative-color derivation** — converted `--accent-blue-dark` and `--accent-red-dark` from hand-picked hex to `oklch(from var(--accent-blue) calc(l - 0.06) c h)`. Means changing the base accent updates the dark variant automatically. Visual delta from prior hand-tuned hex is <2% lightness. Other -dark variants (green, indigo, etc.) kept hand-tuned since they're tied to brand decisions.
+  - **T3.13: `@starting-style` for modals** — replaced the `animation: fadeIn 0.3s ease` and `animation: slideUp 0.3s ease` keyframe patterns on `.modal-backdrop` and `.modal-content` with transitions + `@starting-style` blocks + `transition-behavior: allow-discrete`. Modern pattern (Baseline 2024) lets `display: none → flex` participate in transitions. Same visual outcome; integrates cleanly with `prefers-reduced-motion`.
+  - **T3.14: Fluid type scale** — defined `--text-xs` through `--text-3xl` as `clamp()` tokens in `:root` (1.25× modular scale, smooth mobile-to-desktop interpolation). Applied to `h1`, `h2`, `h3`, and `.card-header h2`. Removed the now-redundant `@media (max-width: 480px)` font-size overrides for `h1`, `h2`, and `.card-header h2`.
+- **Verification**:
+  - `transition: var(--transition);` remaining: **0** (was 15)
+  - `-webkit-backdrop-filter` remaining: **0** (was 10)
+  - `translateY(-2px)` remaining on hover states: **3** (`.callout:hover`, `.contact-item:hover`, `.changelog-month-card:hover`) — out of T2.6 scope, candidates for a future pass
+  - New 2024-Baseline feature count in `style.css`: **48+** uses of `@layer`, `@container`, `@starting-style`, `oklch()`, fluid type tokens, `--focus-ring`, `:focus-visible`, `text-wrap: pretty`, `--t-fast`
+- **Version**: Bumped to `20260516g`. CSS file changes propagate via `loader.js`'s `?v=` cache buster.
+- **Browser support**: Every feature shipped in this round is Baseline 2024 or earlier. No `@supports` guards needed for the site's modern-browser audience. The legacy `--transition: all 0.3s ease` alias remains in `:root` so any rule still referencing it continues to behave as before.
+- **Known residuals for a future pass**: `.contact-item:hover`, `.callout:hover`, `.changelog-month-card:hover` still use `translateY(-2px)` lift; `.search-input:focus` etc deliberately not converted to `:focus-visible`; ~5 components still use `transition: var(--t-fast)` rather than their own property-specific transitions (acceptable but could be tightened).
+
+### 2026-05-16
+- **`repeater-health.html` Mobile-Nav Fix**: Added the missing `<button class="page-nav-toggle">☰ PAGE</button>` element that every other page has. Previously the sticky page-nav (Summary / Inactive / Unverified / Unknown Callsigns / Missing Club) had no way to open on mobile because the toggle button was absent — the `<ul>` slides off-screen on viewports <768px and only re-enters when `.page-nav.active` is set, which only happens via the toggle button click handler in `scripts.js`. Desktop anchor links were always correct.
+- **CSS Modernization — Patches 1–5 (2026 Baseline features)**:
+  - **Patch 1: `prefers-reduced-motion` guard** added near top of `style.css`. Honors user accessibility setting by collapsing all animations, transitions, and smooth scrolling to 0.01ms. Critical for users with vestibular disorders — previously every `.btn:hover`, `.sub-card:hover`, and `.page-nav a:hover` triggered a `translateY(-2px)` lift regardless of the user's motion pref.
+  - **Patch 2: `light-dark()` token consolidation** — collapsed the four duplicated theme blocks (`:root`, `@media (prefers-color-scheme: dark) :root:not([data-theme="light"])`, `html[data-theme="light"]`, `html[data-theme="dark"]`) into one set of tokens using the native `light-dark()` function (Baseline 2024). Manual theme overrides now just flip `color-scheme: light | dark` and every token re-evaluates automatically. Removed ~135 lines of duplicate token definitions. Behavior is preserved — system pref drives default, manual toggle wins over system pref.
+  - **Patch 3: Tonal badge restyle** — rewrote `.badge-*` rules from solid-fill + white-text "sticker" look (Bootstrap-4-era, 2018) to tonal style: light tint background (`color-mix(in oklch, var(--badge-hue) 14%, transparent)`) + accent-colored text + faint border. Border-radius bumped 4px → 999px (fully pill, matches Linear / Notion / Vercel conventions). Uses a single base rule with `--badge-hue` CSS variable per modifier — cuts 8 separate background declarations down to 8 single-line hue assignments. Added uppercase + 0.02em letter-spacing for "chip" feel.
+  - **Patch 4: Property-specific transitions** — replaced `transition: var(--transition)` (which expanded to `all 0.3s ease`) on `.btn`, `.sub-card`, `.page-nav .nav-list a`, and `.badge-*` with explicit `transition: background-color 160ms ease, border-color 160ms ease, ...` lists. The `all` keyword recomputes on every changed property (perf footgun) and animates unrelated changes (e.g. dark-mode toggle). The legacy `--transition` token remains in `:root` for backward compatibility with the rest of the stylesheet.
+  - **Patch 5: `text-wrap: balance` on headings** — added to the global `h1-h6` rule and to `.card-header h2`. Baseline 2024. Produces visually-even multi-line headings instead of one long line + one short orphan; especially noticeable on mobile and on long card titles like "Inactive Repeaters (4)" wrapping.
+- **Version**: Bumped to `20260516f` to invalidate the CSS cache across all pages (the stylesheet is fetched via `loader.js` with a `?v=APP_VERSION` query string).
+- **Browser support**: All features used are Baseline 2024 or earlier (`light-dark()`, `color-mix()`, `text-wrap: balance`, `prefers-reduced-motion`). No `@supports` fallbacks needed for the site's modern-browser audience. The legacy `--transition: all 0.3s ease` alias is retained so any rule that still references `var(--transition)` continues to behave as before.
+
 ### 2026-05-13
 - **Code Audit & Dead Code Removal**:
   - `js/scripts.js`: Removed ~256 lines of dead alert-handling code (alertRefreshInterval, alertCache, getAlertCache, alertDataCache, alertModal init, openAlertModal wrapper, fetchAlerts, updateTimestamp, renderAllAlerts, initAlerts, handleAlertClick, handleAlertKeypress, attachAlertClickHandlers). All alert functionality is now exclusively in `nws-api.js`. Kept `sanitizeHTML` wrapper (used by repeater rendering). Removed dead `beforeunload` interval cleanup. Updated file header comment to reflect actual purpose.
@@ -1534,6 +1630,6 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 
 ---
 
-**Last Updated**: 2026-05-13
+**Last Updated**: 2026-05-16 (four-round CSS modernization pass: 2024-Baseline features, fluid type scale, OKLCH derivation, View Transitions, sticky-header shadow)
 **Maintained By**: Claude AI Assistant (based on codebase analysis)
 **For Questions**: Contact Jack Parks (KQ4JP) <kq4jp@pm.me>

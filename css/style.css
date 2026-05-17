@@ -1,197 +1,176 @@
 /* style.css – Georgia SKYWARN shared stylesheet. Mobile-first, light/dark mode. */
 
-/* ---------- CSS Custom Properties (Light / Dark) ---------- */
+/* ---------- Cascade Layer Order (T3.10, 2026-05-16) ----------
+   Establishes the cascade priority for future authored rules. Rules placed
+   in a layer have LOWER priority than any unlayered rule (later in this
+   file), so the existing un-layered CSS keeps its current cascade behavior.
+   New components SHOULD be added inside @layer components { ... } so future
+   utilities and overrides have a clean place to live.
+   Order matters: later layers in this list win over earlier ones.
+   --------------------------------------------------------------------- */
+@layer reset, tokens, base, components, utilities;
+
+/* ---------- CSS Custom Properties (Light / Dark via light-dark()) ----------
+   PATCH 2 (2026-05-16): Collapsed four duplicated theme blocks into one set of
+   tokens using the native light-dark() function (Baseline 2024). The manual
+   override selectors at the bottom just flip color-scheme; all tokens
+   re-evaluate automatically. Reduced ~135 lines of duplicate token defs.
+   --------------------------------------------------------------------- */
 :root {
-  /* Base colors */
+  /* Enable native theme switching — follows OS preference by default */
+  color-scheme: light dark;
+
+  /* Theme-agnostic base colors */
   --white: #ffffff;
   --black: #000000;
   --slate-400: #94a3b8;
   --blue-400: #60a5fa;
   --green-500: #4caf50;
-  /* Light mode defaults */
-  --bg-body: #f8f9fa;
-  --text-primary: #1a1a1a;
-  --text-secondary: #444;
-  --card-bg: rgba(255, 255, 255, 0.9);
-  --card-border: rgba(0, 0, 0, 0.1);
-  --accent-blue: #0066cc;
-  --accent-blue-dark: #005cb8;
-  --accent-red: #e63946;
-  --accent-red-dark: #cf333e;
-  --accent-green: #4ad38e;
-  --accent-green-dark: #42ba7f;
-  --accent-indigo: #5C6BC0;
-  --accent-indigo-dark: #90CAF9;
-  --accent-lightblue: #039BE5;
-  --accent-orange: #FF9800;
-  --accent-orange-dark: #FFB74D;
-  --accent-peach: #FF8A65;
-  --accent-yellow: #FFC107;
-  --accent-yellow-dark: #E0A800;
-  --accent-pink: #ec4899;
-  --accent-pink-dark: #f472b6;
-  /* Enhanced shadow system - graduated levels */
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
-  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.2);
-  --shadow: var(--shadow-md); /* Backward compatibility */
 
-  /* Additional backgrounds for layering */
-  --bg-primary: #f8f9fa;
-  --bg-secondary: var(--white);
-  --bg-tertiary: #f3f4f6;
-  /* Border system */
-  --border-primary: #e2e8f0;
-  --border-secondary: #d1d5db;
+  /* Theme-aware tokens — first arg = light, second = dark */
+  --bg-body:        light-dark(#f8f9fa,               #0f172a);
+  --text-primary:   light-dark(#1a1a1a,               #e2e8f0);
+  --text-secondary: light-dark(#444,                  #94a3b8);
+  --card-bg:        light-dark(rgba(255,255,255,0.9), rgba(15,23,42,0.85));
+  --card-border:    light-dark(rgba(0,0,0,0.1),       rgba(255,255,255,0.1));
+
+  /* T3.12 (2026-05-16) + cleanup follow-up:
+     -dark variants are derived from their base via OKLCH relative-color
+     syntax wherever the pair represents a genuine "tonal shift toward
+     darker." Lightness shifted -6% (perceptually uniform in OKLCH).
+     Means: change the base accent once and the dark variant updates
+     automatically. Baseline 2024; visual delta from prior hand-picked
+     hex is <2% lightness.
+
+     EXCEPTIONS — kept hand-tuned because the "-dark" suffix is misleading
+     for these (they're actually LIGHTER variants, designed as hover or
+     dark-mode-contrast pairs, not algorithmic darkenings):
+       --accent-indigo-dark (#90CAF9) is a different hue entirely (light blue)
+       --accent-orange-dark and --accent-pink-dark are both lighter than
+       their base. Algorithmic darkening would change them visibly. */
+  --accent-blue:        light-dark(#0066cc, #60a5fa);
+  --accent-blue-dark:   oklch(from var(--accent-blue)      calc(l - 0.06) c h);
+  --accent-red:         light-dark(#e63946, #f87171);
+  --accent-red-dark:    oklch(from var(--accent-red)       calc(l - 0.06) c h);
+  --accent-green:       #4ad38e;
+  --accent-green-dark:  oklch(from var(--accent-green)     calc(l - 0.06) c h);
+  --accent-indigo:      #5C6BC0;
+  --accent-indigo-dark: #90CAF9; /* hand-tuned: actually lighter, not darker */
+  --accent-lightblue:   light-dark(#039BE5, #0288D1);
+  --accent-lightblue-dark: oklch(from var(--accent-lightblue) calc(l - 0.04) c h);
+  --accent-orange:      #FF9800;
+  --accent-orange-dark: #FFB74D; /* hand-tuned: actually lighter, not darker */
+  --accent-peach:       light-dark(#FF8A65, #FFAB91);
+  --accent-yellow:      #FFC107;
+  --accent-yellow-dark: oklch(from var(--accent-yellow)    calc(l - 0.06) c h);
+  --accent-pink:        light-dark(#ec4899, #f9a8d4);
+  --accent-pink-dark:   light-dark(#f472b6, #fbcfe8);
+
+  /* Shadow scale — color portion shifts per theme so depth reads correctly */
+  --shadow-sm: 0 2px 4px   light-dark(rgba(0,0,0,0.05), rgba(0,0,0,0.20));
+  --shadow-md: 0 4px 8px   light-dark(rgba(0,0,0,0.10), rgba(0,0,0,0.30));
+  --shadow-lg: 0 8px 16px  light-dark(rgba(0,0,0,0.15), rgba(0,0,0,0.40));
+  --shadow-xl: 0 12px 24px light-dark(rgba(0,0,0,0.20), rgba(0,0,0,0.50));
+  --shadow: var(--shadow-md); /* Backward-compat alias */
+
+  /* Layering backgrounds */
+  --bg-primary:   light-dark(#f8f9fa,        #0f1419);
+  --bg-secondary: light-dark(var(--white),   #1a1f2e);
+  --bg-tertiary:  light-dark(#f3f4f6,        #22293a);
+
+  /* Borders */
+  --border-primary:   light-dark(#e2e8f0, rgba(255,255,255,0.10));
+  --border-secondary: light-dark(#d1d5db, rgba(255,255,255,0.08));
+
   /* Text variations */
   --text-muted: #6b7280;
-  --glow: 0 0 15px rgba(0, 102, 204, 0.2);
-  --header-gradient: linear-gradient(135deg, #001f3f 0%, #003366 100%);
-  --header-gradient-red: linear-gradient(135deg, #FB2C36 0%, #FF6467 100%);
-  --header-gradient-green: linear-gradient(135deg, #116045 0%, #075F5A 100%);
-  --header-gradient-blue: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
-  --header-gradient-yellow: linear-gradient(135deg, #D4A800 0%, #FFC107 100%);
-  --header-gradient-orange: linear-gradient(135deg, #bf360c 0%, #e64a19 100%);
-  --header-gradient-th: linear-gradient(135deg, #111140 0%, #112840 100%);
+  --glow: 0 0 18px light-dark(rgba(0,102,204,0.20), rgba(96,165,250,0.30));
+
+  /* ---- NWS WaWA Canonical Color Codes (theme-constant) ----
+     Source: https://www.weather.gov/help-map  (NWS Watch/Warning/Advisory color table)
+     These map the site's severity tiers to the colors NWS uses for the same
+     event types, so trained spotters see the same signal here as on NWS products.
+       --nws-warning-red    = Tornado Warning             (#FF0000)
+       --nws-severe-orange  = Severe Thunderstorm Warning (#FFA500)
+       --nws-watch-yellow   = Tornado Watch               (#FFFF00)
+       --nws-advisory-cyan  = Severe Weather Statement    (#00FFFF)
+       --nws-flood-green    = Flood Warning               (#00FF00)
+  -------------------------------------------- */
+  --nws-warning-red:   #FF0000;
+  --nws-severe-orange: #FFA500;
+  --nws-watch-yellow:  #FFFF00;
+  --nws-advisory-cyan: #00FFFF;
+  --nws-flood-green:   #00FF00;
+
+  /* Header-gradient stops — composed into linear-gradient() below */
+  --header-grad-start:    light-dark(#001f3f, #0a3d62);
+  --header-grad-end:      light-dark(#003366, #1e40af);
+  --header-grad-th-start: light-dark(#111140, #18185D);
+
+  --header-gradient:        linear-gradient(135deg, var(--header-grad-start) 0%, var(--header-grad-end) 100%);
+  --header-gradient-red:    linear-gradient(135deg, #8B0000 0%, var(--nws-warning-red) 100%);
+  --header-gradient-green:  linear-gradient(135deg, #116045 0%, #075F5A 100%);
+  --header-gradient-blue:   linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+  --header-gradient-yellow: linear-gradient(135deg, #B38F00 0%, var(--nws-watch-yellow) 100%);
+  --header-gradient-orange: linear-gradient(135deg, #B36F00 0%, var(--nws-severe-orange) 100%);
+  --header-gradient-th:     linear-gradient(135deg, var(--header-grad-th-start) 0%, #112840 100%);
+
   --title-grad-start: #99ACAF;
-  --title-grad-end: #99A1AF;
-  --title-solid: #381aff;
+  --title-grad-end:   #99A1AF;
+  --title-solid:      light-dark(#381aff, #7a5fff);
+
   --radius: 12px;
-  --transition: all 0.3s ease;
-  --alert-warning-bg: #ffe6e6;
-  --alert-watch-bg: #fff4e6;
-  --alert-other-bg: #e3f2fd;
-  --alert-header-color: #333;
-  --alert-desc-color: var(--text-secondary);
-  --nav-btn-bg: var(--white);
-  --nav-btn-color: var(--text-primary);
-  --nav-btn-border: rgba(0, 0, 0, 0.1);
-  --nav-btn-bg-hover: rgba(0, 102, 204, 0.15);
-  --nav-btn-color-hover: var(--accent-blue-dark);
+  /* T1.1 (2026-05-16): property-specific transition alias — replaces the old
+     `all 0.3s ease` token. Covers the common animatable properties without
+     recomputing layout for unrelated changes (e.g. dark-mode toggle, font swaps).
+     Round-2 cleanup (2026-05-16): legacy --transition token deleted; nothing
+     referenced it after Tier 1 migration was complete. */
+  --t-fast: background-color 160ms ease, color 160ms ease, border-color 160ms ease,
+            transform 160ms ease, box-shadow 160ms ease, opacity 160ms ease;
+
+  /* T2.9 (2026-05-16): focus-ring tokens.
+     Single source of truth for keyboard focus outlines. Apply via
+     :focus-visible on any interactive element. The 70%-opacity color-mix
+     keeps the ring readable against both light and dark backgrounds without
+     a separate dark-mode definition. */
+  --focus-ring:        2px solid color-mix(in oklch, var(--accent-blue) 75%, transparent);
+  --focus-ring-offset: 3px;
+
+  /* T3.14 (2026-05-16): fluid type scale.
+     Each token scales smoothly between mobile-min and desktop-max via clamp().
+     Eliminates the need for media-query font-size overrides. The 1.25× modular
+     scale matches the existing visual rhythm. Adopt incrementally — currently
+     applied to h2, h3, .card-header h2. */
+  --text-xs:   clamp(0.75rem,  0.70rem + 0.25vw, 0.85rem);
+  --text-sm:   clamp(0.875rem, 0.80rem + 0.40vw, 1rem);
+  --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
+  --text-lg:   clamp(1.125rem, 1.00rem + 0.60vw, 1.375rem);
+  --text-xl:   clamp(1.25rem,  1.10rem + 0.75vw, 1.5rem);
+  --text-2xl:  clamp(1.5rem,   1.30rem + 1.00vw, 1.875rem);
+  --text-3xl:  clamp(2rem,     1.60rem + 2.00vw, 3rem);
+
+  --alert-warning-bg:   light-dark(#ffe6e6, rgba(230, 57, 70, 0.25));
+  --alert-watch-bg:     light-dark(#fff4e6, rgba(244, 162, 97, 0.25));
+  --alert-other-bg:     light-dark(#e3f2fd, rgba(96, 165, 250, 0.25));
+  --alert-header-color: light-dark(#333,    var(--white));
+  --alert-desc-color:   var(--text-secondary);
+
+  --nav-btn-bg:          light-dark(var(--white),            rgba(15, 23, 42, 0.9));
+  /* T1.4 (2026-05-16): dark-mode value was var(--border-primary) which is
+     rgba(255,255,255,0.10) — invisible as text color. Latent bug from the
+     original four-block theme structure. Both modes now use --text-primary. */
+  --nav-btn-color:       light-dark(var(--text-primary),     var(--text-primary));
+  --nav-btn-border:      light-dark(rgba(0, 0, 0, 0.1),      rgba(255,255,255,0.1));
+  --nav-btn-bg-hover:    light-dark(rgba(0, 102, 204, 0.15), rgba(96, 165, 250, 0.20));
+  --nav-btn-color-hover: light-dark(var(--accent-blue-dark), var(--blue-400));
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg-body: #0f172a;
-    --text-primary: #e2e8f0;
-    --text-secondary: #94a3b8;
-    --card-bg: rgba(15, 23, 42, 0.85);
-    --card-border: rgba(255, 255, 255, 0.1);
-    --accent-blue: #60a5fa;
-    --accent-blue-dark: #5495e1;
-    --accent-red: #f87171;
-    --accent-red-dark: #df6565;
-    --accent-green: #4ad38e;
-    --accent-green-dark: #42ba7f;
-    --accent-indigo: #5C6BC0;
-    --accent-indigo-dark: #90CAF9;
-    --accent-lightblue: #0288D1;
-    --accent-orange: #FF9800;
-    --accent-orange-dark: #FFB74D;
-    --accent-peach: #FFAB91;
-    --accent-yellow: #FFC107;
-    --accent-yellow-dark: #E0A800;
-    --accent-pink: #f9a8d4;
-    --accent-pink-dark: #fbcfe8;
-    /* Enhanced shadows for dark mode */
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
-    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.4);
-    --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.5);
-    --shadow: var(--shadow-md); /* Backward compatibility */
-
-    /* Additional backgrounds */
-    --bg-primary: #0f1419;
-    --bg-secondary: #1a1f2e;
-    --bg-tertiary: #22293a;
-    /* Borders */
-    --border-primary: rgba(255, 255, 255, 0.1);
-    --border-secondary: rgba(255, 255, 255, 0.08);
-    /* Text */
-    --text-muted: #6b7280;
-    --glow: 0 0 20px rgba(96, 165, 250, 0.3);
-    --header-gradient: linear-gradient(135deg, #0a3d62 0%, #1e40af 100%);
-    --header-gradient-red: linear-gradient(135deg, #FB2C36 0%, #FF6467 100%);
-    --header-gradient-green: linear-gradient(135deg, #116045 0%, #075F5A 100%);
-    --header-gradient-blue: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
-    --header-gradient-yellow: linear-gradient(135deg, #D4A800 0%, #FFC107 100%);
-    --header-gradient-orange: linear-gradient(135deg, #bf360c 0%, #e64a19 100%);
-    --header-gradient-th: linear-gradient(135deg, #18185D 0%, #112840 100%);
-    --title-grad-start: #99ACAF;
-    --title-grad-end: #99A1AF;
-    --title-solid: #7a5fff;
-	--alert-warning-bg: rgba(230, 57, 70, 0.25); /* Muted red with transparency */
-	--alert-watch-bg: rgba(244, 162, 97, 0.25); /* Muted orange with transparency */
-	--alert-other-bg: rgba(96, 165, 250, 0.25); /* Muted blue with transparency */
-	--alert-header-color: var(--white);
-	--alert-desc-color: var(--text-secondary); /* Light gray for readability */
-	--nav-btn-bg: rgba(15, 23, 42, 0.9);
-    --nav-btn-color: var(--border-primary);
-    --nav-btn-border: rgba(255, 255, 255, 0.1);
-    --nav-btn-bg-hover: rgba(96, 165, 250, 0.2);
-    --nav-btn-color-hover: var(--blue-400);
-  }
-}
-
-/* ---------- Manual Theme Override (takes precedence over system preference) ---------- */
-html[data-theme="light"] {
-  --bg-body: #f8f9fa;
-  --text-primary: #1a1a1a;
-  --text-secondary: #444;
-  --card-bg: rgba(255, 255, 255, 0.9);
-  --card-border: rgba(0, 0, 0, 0.1);
-  --accent-blue: #0066cc;
-  --accent-blue-dark: #005cb8;
-  --accent-red: #e63946;
-  --accent-red-dark: #cf333e;
-  --accent-green: #4ad38e;
-  --accent-green-dark: #42ba7f;
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
-  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.2);
-  --bg-primary: #f8f9fa;
-  --bg-secondary: var(--white);
-  --bg-tertiary: #f3f4f6;
-  --border-primary: #e2e8f0;
-  --border-secondary: #d1d5db;
-  --text-muted: #6b7280;
-  --alert-warning-bg: #ffe6e6;
-  --alert-watch-bg: #fff4e6;
-  --alert-other-bg: #e3f2fd;
-  --alert-header-color: #333;
-  --alert-desc-color: var(--text-secondary);
-}
-
-html[data-theme="dark"] {
-  --bg-body: #0f172a;
-  --text-primary: #e2e8f0;
-  --text-secondary: #94a3b8;
-  --card-bg: rgba(15, 23, 42, 0.85);
-  --card-border: rgba(255, 255, 255, 0.1);
-  --accent-blue: #60a5fa;
-  --accent-blue-dark: #5495e1;
-  --accent-red: #f87171;
-  --accent-red-dark: #df6565;
-  --accent-green: #4ad38e;
-  --accent-green-dark: #42ba7f;
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.4);
-  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.5);
-  --bg-primary: #0f1419;
-  --bg-secondary: #1a1f2e;
-  --bg-tertiary: #22293a;
-  --border-primary: rgba(255, 255, 255, 0.1);
-  --border-secondary: rgba(255, 255, 255, 0.08);
-  --text-muted: #6b7280;
-  --alert-warning-bg: rgba(230, 57, 70, 0.25);
-  --alert-watch-bg: rgba(244, 162, 97, 0.25);
-  --alert-other-bg: rgba(96, 165, 250, 0.25);
-  --alert-header-color: var(--white);
-  --alert-desc-color: var(--text-secondary);
-}
+/* ---------- Manual Theme Override (wins over system preference) ----------
+   These selectors only flip color-scheme; every light-dark() token above
+   re-evaluates automatically. No token duplication needed.
+   --------------------------------------------------------------------- */
+html[data-theme="light"] { color-scheme: light; }
+html[data-theme="dark"]  { color-scheme: dark;  }
 
 /* ---------- Global Reset & Base ---------- */
 *, *::before, *::after {
@@ -212,6 +191,51 @@ html {
   }
 }
 
+/* ---------- View Transitions for Theme Toggle (2026-05-16) ----------
+   When the user flips the theme toggle, components.js wraps the data-theme
+   change in document.startViewTransition(). Supporting browsers (Baseline
+   2024) snapshot the page before + after and crossfade between them, so
+   colors shift smoothly instead of snapping. Tuned to 220ms ease to match
+   the site's --t-fast duration. Reduced-motion users bypass the transition
+   in JS, but ALSO get 0.01ms below via the Patch 1 guard — belt + braces. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: ease;
+}
+
+/* ---------- Global Focus Ring (T2.9, 2026-05-16) ----------
+   :focus-visible only triggers for keyboard navigation, so mouse-clicks
+   no longer leave lingering outlines. The ring uses tokens defined in
+   :root so dark-mode and brand changes propagate automatically.
+   Component-specific overrides (e.g. .btn already had no outline) may
+   still set their own; this is the base layer.
+   --------------------------------------------------------------------- */
+:where(a, button, [role="button"], input, select, textarea, summary,
+       [tabindex]:not([tabindex="-1"])):focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: 4px;
+}
+
+/* ---------- Reduced-Motion Accessibility (PATCH 1, 2026-05-16) ----------
+   Honors the user's prefers-reduced-motion: reduce setting by collapsing all
+   animations, transitions, and smooth scrolling. Critical for users with
+   vestibular disorders. Override individual rules with explicit
+   @media (prefers-reduced-motion: no-preference) blocks if a specific
+   transition is essential for comprehension.
+   --------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
   line-height: 1.6;
@@ -229,26 +253,33 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-primary);
   font-weight: 700;
   line-height: 1.3;
+  /* PATCH 5 (2026-05-16): balance produces visually-even multi-line headings
+     instead of one long line + one short orphan. Baseline 2024. */
+  text-wrap: balance;
 }
 
-h1 { font-size: clamp(2rem, 6vw, 3.5rem); }
-h2 { font-size: 1.8rem; }
-h3 { font-size: 1.4rem; }
+/* T3.14 (2026-05-16): all headings on the fluid type scale */
+h1 { font-size: var(--text-3xl); }
+h2 { font-size: var(--text-2xl); }
+h3 { font-size: var(--text-xl);  }
 
 p, li, td, th {
   margin-bottom: 0.8rem;
   color: var(--text-secondary);
   font-size: 1rem;
+  /* T1.3 (2026-05-16): pretty avoids single-word orphans on the last line.
+     Baseline 2024 in Chromium; Safari fallback gracefully to default wrap. */
+  text-wrap: pretty;
 }
 
 a {
   color: var(--accent-blue);
   text-decoration: underline;
   word-break: break-word;
-  transition: var(--transition);
+  transition: var(--t-fast);
 }
 
-a:hover, a:focus {
+a:hover, a:focus-visible {
   color: var(--accent-blue-dark);
   outline: none;
 }
@@ -260,12 +291,22 @@ a:hover, a:focus {
 .header {
   background: rgba(15, 23, 42, 0.95);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   border-bottom: 2px solid rgba(255, 255, 255, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  /* T4.16 (2026-05-16): subtler default shadow; deeper shadow added by
+     .is-stuck class once the page has scrolled past the top sentinel.
+     Gives the sticky header more "lift" once it's actively floating
+     over content. JS toggles .is-stuck via IntersectionObserver. */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 200ms ease, background-color 200ms ease, border-color 200ms ease;
+}
+
+.header.is-stuck {
+  background: rgba(15, 23, 42, 0.98);
+  border-bottom-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
 .header-content {
@@ -286,7 +327,7 @@ a:hover, a:focus {
   gap: 1rem;
   text-decoration: none;
   color: inherit;
-  transition: var(--transition);
+  transition: var(--t-fast);
 }
 
 .logo:hover { opacity: 0.85; }
@@ -327,14 +368,14 @@ a:hover, a:focus {
   color: #e2e8f0;
   text-decoration: none;
   font-weight: 600;
-  transition: var(--transition);
+  transition: var(--t-fast);
   font-size: 1rem;
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
 }
 
 #desktopNav a:hover,
-#desktopNav a:focus {
+#desktopNav a:focus-visible {
   color: var(--blue-400);
   background: rgba(96, 165, 250, 0.1);
 }
@@ -342,7 +383,7 @@ a:hover, a:focus {
 /* Theme toggle in nav */
 #themeToggle,
 #themeToggleMobile {
-  transition: var(--transition);
+  transition: var(--t-fast);
   color: #e2e8f0;
 }
 
@@ -380,7 +421,6 @@ a:hover, a:focus {
   bottom: 0;
   background: rgba(15, 23, 42, 0.98); /* More opaque dark background */
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   z-index: 999;
   padding-top: 80px;
   opacity: 0;
@@ -474,6 +514,13 @@ a:hover, a:focus {
 
 /* --- MODAL SYSTEM --- */
 
+/* T3.13 (2026-05-16): modern modal enter transition with @starting-style.
+   Replaces the prior `animation: fadeIn` pattern. The browser interpolates
+   from the @starting-style state to the .active state on the FIRST style
+   computation after .active is added. `transition-behavior: allow-discrete`
+   (Baseline 2024) lets `display` participate in the transition so it can
+   animate from `display: none`. Same visual outcome, cleaner mechanism,
+   plays nicely with prefers-reduced-motion (Patch 1) automatically. */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -482,17 +529,26 @@ a:hover, a:focus {
   bottom: 0;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   z-index: 1000;
   display: none;
+  opacity: 0;
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  animation: fadeIn 0.3s ease;
+  transition: opacity 200ms ease, display 200ms ease allow-discrete;
 }
 
 .modal-backdrop.active {
   display: flex;
+  opacity: 1;
+}
+
+@starting-style {
+  .modal-backdrop.active { opacity: 0; }
+  .modal-backdrop.active .modal-content {
+    opacity: 0;
+    transform: translateY(12px);
+  }
 }
 
 .modal-content {
@@ -504,7 +560,9 @@ a:hover, a:focus {
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: var(--shadow-xl);
-  animation: slideUp 0.3s ease;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 220ms ease, transform 220ms ease;
 }
 
 .modal-header {
@@ -525,7 +583,7 @@ a:hover, a:focus {
 .modal-header h5,
 .modal-header h6 {
   margin: 0;
-  font-size: 1.4rem;
+  font-size: var(--text-xl); /* T3.14: fluid 1.25rem → 1.5rem (was fixed 1.4rem) */
   font-weight: 700;
   color: white;
   line-height: 1.3;
@@ -537,19 +595,32 @@ a:hover, a:focus {
 
 .modal-header--yellow { background: var(--header-gradient-yellow); }
 
+/* NWS canonical yellow (#FFFF00) requires dark text + dark close button for contrast */
+.modal-header--yellow .modal-title,
+.modal-header--yellow h1,
+.modal-header--yellow h2,
+.modal-header--yellow h3,
+.modal-header--yellow h4,
+.modal-header--yellow h5,
+.modal-header--yellow h6 { color: var(--black); text-shadow: 0 1px 1px rgba(255,255,255,0.4); }
+.modal-header--yellow .modal-close { color: var(--black); background: rgba(0, 0, 0, 0.15); }
+
 .modal-header--blue { background: var(--header-gradient-blue); }
 
 .modal-header--green { background: var(--header-gradient-green); }
 
 .modal-title {
   margin: 0;
-  font-size: 1.4rem;
+  font-size: var(--text-xl); /* T3.14: fluid scale (was fixed 1.4rem) */
   font-weight: 700;
   color: white;
 }
 
 .modal-close {
-  background: rgba(255, 255, 255, 0.2);
+  /* Tonal tint via color-mix matches the Patch-3 badge / T2.7 pill vocabulary.
+     OKLCH-space mixing keeps the tint perceptually consistent regardless of
+     which header gradient sits behind it. */
+  background: color-mix(in oklch, white 20%, transparent);
   border: none;
   color: white;
   font-size: 1.5rem;
@@ -560,11 +631,11 @@ a:hover, a:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: var(--transition);
+  transition: var(--t-fast);
 }
 
 .modal-close:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: color-mix(in oklch, white 30%, transparent);
   transform: rotate(90deg);
 }
 
@@ -573,13 +644,11 @@ a:hover, a:focus {
   color: var(--text-secondary);
 }
 
+/* fadeIn is still used by .alert-item (line ~1671) for initial render.
+   slideUp was orphaned by T3.13 (modal animations replaced by
+   @starting-style transitions) and has been removed. */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -591,7 +660,6 @@ a:hover, a:focus {
   z-index: 998;
   background: rgba(30, 41, 59, 0.92);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
   padding: 0.75rem 0;
@@ -613,29 +681,43 @@ a:hover, a:focus {
   margin-right: auto;
 }
 
-/* Page-nav links - horizontal buttons */
+/* Page-nav links — true pill shape, tokenized accent colors
+   T2.7 (2026-05-16): border-radius 8px → 999px (fully pill, scales w/ content).
+                      Hard-coded rgba(96,165,250,*) replaced with color-mix() so
+                      pills auto-theme with --accent-blue.
+   T2.6 (2026-05-16): hover replaces translateY(-2px) lift with deeper tonal fill.
+   T2.8 (2026-05-16): .is-active styled distinctly for scroll-spy.
+   FIX  (2026-05-16): pill text is light-on-dark in BOTH themes because the
+                      .page-nav background is hard-coded `rgba(30, 41, 59, 0.92)`
+                      regardless of theme. Previously used var(--text-primary)
+                      which is near-black in light mode → unreadable. */
 .page-nav .nav-list a {
   display: inline-block;
-  padding: 0.6rem 1.25rem;
+  padding: 0.5rem 1.1rem;
   font-weight: 600;
   text-decoration: none;
-  border-radius: 8px;
-  background: rgba(96, 165, 250, 0.15);
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--accent-blue) 15%, transparent);
   color: #e2e8f0;
-  border: 1px solid rgba(96, 165, 250, 0.3);
-  transition: var(--transition);
+  border: 1px solid color-mix(in oklch, var(--accent-blue) 30%, transparent);
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
   text-align: center;
   font-size: 0.9rem;
   white-space: nowrap;
 }
 
 .page-nav .nav-list a:hover,
-.page-nav .nav-list a:focus {
-  background: rgba(96, 165, 250, 0.25);
-  border-color: rgba(96, 165, 250, 0.5);
+.page-nav .nav-list a:focus-visible {
+  background: color-mix(in oklch, var(--accent-blue) 28%, transparent);
+  border-color: color-mix(in oklch, var(--accent-blue) 50%, transparent);
   color: var(--white);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+}
+
+/* Active section indicator — fills in fully when section is in view */
+.page-nav .nav-list a.is-active {
+  background: var(--accent-blue);
+  border-color: var(--accent-blue);
+  color: var(--white);
 }
 
 /* Hide toggle button on desktop - only visible on mobile */
@@ -694,7 +776,6 @@ a:hover, a:focus {
     bottom: 0;
     background: rgba(15, 23, 42, 0.85); /* More transparent */
     backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     flex-direction: column;
     justify-content: center; /* Center vertically */
     align-items: center;
@@ -724,7 +805,6 @@ a:hover, a:focus {
     border: 2px solid rgba(96, 165, 250, 0.5);
     box-shadow: 0 8px 24px rgba(59, 130, 246, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     margin-bottom: 1rem; /* Extra space below header */
     position: relative;
   }
@@ -796,7 +876,6 @@ a:hover, a:focus {
 .callout {
   background: var(--card-bg);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border-left: 6px solid var(--accent-blue);
   border-right: 6px solid var(--accent-blue);
   border-radius: var(--radius);
@@ -805,12 +884,13 @@ a:hover, a:focus {
   box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
-  transition: var(--transition);
+  transition: var(--t-fast);
 }
 
 .callout:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  /* T2.6 residual (2026-05-16): replaced translateY(-2px) lift with tonal
+     shadow shift. Matches .btn / .sub-card / .page-nav vocabulary. */
+  box-shadow: var(--shadow-md);
 }
 
 .callout::before {
@@ -845,12 +925,11 @@ a:hover, a:focus {
 .card {
   background: var(--card-bg);
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--card-border);
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow-md), var(--glow);
-  transition: var(--transition);
+  transition: var(--t-fast);
 }
 
 .card:hover {
@@ -868,9 +947,10 @@ a:hover, a:focus {
 /* Header title – keep one rule */
 .card-header h2 {
   margin: 0;
-  font-size: 1.4rem;
+  font-size: var(--text-xl); /* T3.14: fluid scale */
   color: var(--white);
   font-weight: 700;
+  text-wrap: balance; /* PATCH 5: even line breaks on long card titles */
 }
 
 /* Card header color modifiers */
@@ -880,6 +960,9 @@ a:hover, a:focus {
 .card-header--yellow { background: var(--header-gradient-yellow); }
 .card-header--orange { background: var(--header-gradient-orange); }
 .card-header--indigo { background: var(--header-gradient); }
+
+/* NWS canonical yellow (#FFFF00) requires dark text for WCAG contrast */
+.card-header--yellow h2 { color: var(--black); text-shadow: 0 1px 1px rgba(255,255,255,0.4); }
 
 .card-img {
   width: 100%;
@@ -914,7 +997,15 @@ a:hover, a:focus {
   object-fit: cover;
 }
 
-.card-body { padding: 1.5rem; }
+/* T3.11 (2026-05-16): establish .card-body as a query container so its
+   children (notably .sub-cards) can size based on the card's actual width
+   instead of the viewport. Means sub-cards collapse correctly even when
+   placed in a narrower column (sidebar, modal, half-width layout). */
+.card-body {
+  padding: 1.5rem;
+  container-type: inline-size;
+  container-name: cardbody;
+}
 
 /* ---------- Sub-Cards (nested cards inside card-body) ---------- */
 .sub-cards {
@@ -923,13 +1014,16 @@ a:hover, a:focus {
   gap: 1rem;
 }
 
-@media (min-width: 768px) {
+/* T3.11: container queries — sub-cards respond to .card-body's width,
+   not the viewport. 600px threshold accounts for card-body's 1.5rem padding
+   on each side (~530px effective at 768px viewport). */
+@container cardbody (min-width: 600px) {
   .sub-cards {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (min-width: 1024px) {
+@container cardbody (min-width: 900px) {
   .sub-cards--3col {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -940,13 +1034,16 @@ a:hover, a:focus {
   border: 1px solid var(--card-border);
   border-radius: 12px;
   padding: 1.25rem;
-  transition: var(--transition);
+  /* T2.6: dropped `transform` from transition list since hover no longer lifts */
+  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
 }
 
 .sub-card:hover {
+  /* T2.6 (2026-05-16): tonal-shift hover — accent border + faint accent tint
+     in background. No translateY lift. Less motion = also helps reduced-motion. */
   border-color: var(--accent-blue);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.1);
+  background: color-mix(in oklch, var(--accent-blue) 4%, var(--card-bg));
+  box-shadow: var(--shadow-md);
 }
 
 .sub-card h4 {
@@ -1010,12 +1107,12 @@ a:hover, a:focus {
   color: var(--accent-blue);
   text-decoration: none;
   font-weight: 500;
-  transition: var(--transition);
+  transition: var(--t-fast);
   word-break: break-word;
 }
 
 .link-url:hover,
-.link-url:focus {
+.link-url:focus-visible {
   color: var(--accent-blue-dark);
   text-decoration: underline;
 }
@@ -1030,7 +1127,7 @@ a:hover, a:focus {
   gap: .5rem;
   padding: 0.5rem 1rem;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: var(--text-sm); /* T3.14 follow-up: fluid scale (0.875rem → 1rem) */
   text-decoration: none;
   color: var(--white);
   background: var(--btn-bg);
@@ -1038,20 +1135,25 @@ a:hover, a:focus {
   border-radius: 8px;
   cursor: pointer;
   box-shadow: var(--shadow-sm);
-  transition: var(--transition);
+  /* PATCH 4: property-specific transitions (avoids `all` perf footgun) */
+  transition: background-color 160ms ease, color 160ms ease,
+              transform 160ms ease, box-shadow 160ms ease;
   text-align: center;
 }
 
 .btn:hover,
-.btn:focus {
+.btn:focus-visible {
+  /* T2.6 (2026-05-16): tonal-shift hover. Replaces translateY(-2px) lift,
+     which was 2020-era SaaS visual language. Modern pattern (Linear, Vercel,
+     Stripe Press) keeps the button planted and just darkens the fill. */
   background: var(--btn-bg-hover);
   color: var(--white);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  box-shadow: var(--shadow-md);
 }
 
 .btn:active {
-  transform: translateY(0);
+  /* Tactile press feedback — small scale instead of position shift */
+  scale: 0.98;
   box-shadow: var(--shadow-sm);
 }
 
@@ -1062,7 +1164,7 @@ a:hover, a:focus {
 .btn-orange  { --btn-bg: var(--accent-orange); --btn-bg-hover: var(--accent-orange-dark); }
 .btn-yellow  { --btn-bg: var(--accent-yellow); --btn-bg-hover: var(--accent-yellow-dark); color: var(--black);}
 .btn-yellow:hover,
-.btn-yellow:focus { color: var(--black); }
+.btn-yellow:focus-visible { color: var(--black); }
 
 /* ---------- Contact Grid Component ---------- */
 .contact-grid {
@@ -1078,14 +1180,15 @@ a:hover, a:focus {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--card-border);
   border-radius: 12px;
-  transition: var(--transition);
+  transition: var(--t-fast);
 }
 
 .contact-item:hover {
-  background: rgba(255, 255, 255, 0.1);
+  /* T2.6 residual (2026-05-16): dropped translateY lift; accent-tint
+     background + accent border + soft shadow do the work. */
+  background: color-mix(in oklch, var(--accent-blue) 6%, var(--card-bg));
   border-color: var(--accent-blue);
-  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.1);
-  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .contact-icon {
@@ -1131,11 +1234,11 @@ a:hover, a:focus {
   font-weight: 600;
   color: var(--accent-blue);
   text-decoration: none;
-  transition: var(--transition);
+  transition: var(--t-fast);
 }
 
 .contact-link:hover,
-.contact-link:focus {
+.contact-link:focus-visible {
   color: var(--accent-blue-dark);
   text-decoration: underline;
   transform: translateX(3px);
@@ -1248,7 +1351,7 @@ a:hover, a:focus {
 }
 
 .callout h4 {
-  font-size: 1.1rem;
+  font-size: var(--text-base); /* T3.14 follow-up: fluid scale (1rem → 1.125rem) */
   font-weight: 700;
   color: var(--text-primary);
   margin: 0 0 0.5rem 0;
@@ -1275,7 +1378,7 @@ a:hover, a:focus {
   border-radius: 8px;
   background: var(--card-bg);
   color: var(--text-primary);
-  transition: var(--transition);
+  transition: var(--t-fast);
   font-family: inherit;
 }
 
@@ -1309,7 +1412,7 @@ a:hover, a:focus {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: var(--transition);
+  transition: var(--t-fast);
 }
 
 .search-clear:hover {
@@ -1360,6 +1463,15 @@ a:hover, a:focus {
 }
 
 /* Base badge styling - shared properties */
+/* ---------- Network / Tag Badges (PATCH 3, 2026-05-16) ----------
+   Tonal style: light tint background + accent-colored text + faint border.
+   Replaces the previous solid-fill + white-text "sticker" look, which read
+   as Bootstrap 4 / 2018-era. Tonal badges recede until scanned, so they
+   stop competing with card content for attention.
+   Uses color-mix(in oklch, ...) (Baseline 2024) so derived shades stay
+   perceptually consistent across hues. Border-radius bumped 4 → 999px
+   (fully pill) to match modern conventions (Linear, Notion, Vercel).
+   --------------------------------------------------------------------- */
 .badge-wx4ema,
 .badge-wx4ptc,
 .badge-peach-state,
@@ -1368,24 +1480,39 @@ a:hover, a:focus {
 .badge-county-only,
 .badge-iplink,
 .badge-desktop-only {
-  display: inline-block;
-  padding: 0.15rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
+  --badge-hue: var(--accent-blue); /* per-class override below */
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
   font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   white-space: nowrap;
-  color: white;
-  transition: var(--transition);
+  background: color-mix(in oklch, var(--badge-hue) 14%, transparent);
+  color: var(--badge-hue);
+  border: 1px solid color-mix(in oklch, var(--badge-hue) 32%, transparent);
+  /* Property-specific transitions (no `all`) */
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
 }
 
-.badge-wx4ema   { background: var(--accent-green); }
-.badge-wx4ptc   { background: var(--accent-blue); }
-.badge-peach-state { background: var(--accent-peach); }
-.badge-cherry-blossom { background: var(--accent-pink); }
-.badge-se-linked { background: var(--accent-lightblue); color: var(--white); }
-.badge-county-only { background: var(--accent-orange); }
-.badge-iplink   { background: var(--accent-indigo); }
-.badge-desktop-only { background: var(--text-secondary); font-size: 0.7rem; vertical-align: middle; }
+.badge-wx4ema         { --badge-hue: var(--accent-green); }
+.badge-wx4ptc         { --badge-hue: var(--accent-blue); }
+.badge-peach-state    { --badge-hue: var(--accent-peach); }
+.badge-cherry-blossom { --badge-hue: var(--accent-pink); }
+.badge-se-linked      { --badge-hue: var(--accent-lightblue); }
+.badge-county-only    { --badge-hue: var(--accent-orange); }
+.badge-iplink         { --badge-hue: var(--accent-indigo); }
+.badge-desktop-only   {
+  --badge-hue: var(--text-secondary);
+  font-size: 0.65rem;
+  vertical-align: middle;
+}
+
+/* Progressive enhancement: if a browser doesn't support color-mix(), the
+   transparent backgrounds above would still render but the border + text
+   color stay readable. No explicit fallback needed for Baseline-2024 targets. */
 
 /* --- SITE BANNER --- */
 .site-banner {
@@ -1397,7 +1524,7 @@ a:hover, a:focus {
   padding: 0.9rem 1.5rem;
   background: var(--accent-blue);
   border-radius: var(--radius);
-  margin: 0.75rem 0 0;
+  margin: 1rem 0 1.25rem;
   border-left: 5px solid var(--accent-blue-dark);
 }
 
@@ -1416,7 +1543,7 @@ a:hover, a:focus {
   border: 1.5px solid rgba(255, 255, 255, 0.7);
   border-radius: 4px;
   padding: 0.3rem 0.85rem;
-  transition: var(--transition);
+  transition: var(--t-fast);
 }
 
 .site-banner-link:hover {
@@ -1451,7 +1578,7 @@ a:hover, a:focus {
   position: sticky;
   top: 0;
   z-index: 10;
-  font-size: 1rem;
+  font-size: var(--text-sm); /* T3.14 follow-up: fluid scale */
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -1517,7 +1644,7 @@ a:hover, a:focus {
 .alert-card {
   box-shadow: var(--shadow), 0 0 20px rgba(0, 0, 0, 0.15); /* Stronger shadow for more pop */
   border: 1px solid var(--card-border); /* Subtle outline */
-  transition: var(--transition);
+  transition: var(--t-fast);
 }
 
 .alert-card:hover {
@@ -1541,7 +1668,6 @@ a:hover, a:focus {
   border-left: 6px solid;
   background: var(--card-bg);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   font-size: 0.95rem;
   animation: fadeIn 0.5s ease-in;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -1594,6 +1720,13 @@ a:hover, a:focus {
   color: var(--alert-desc-color);
   margin: 0.5rem 0;
   line-height: 1.5;
+  /* T3.14 follow-up: alert body text on fluid scale so long descriptions
+     read comfortably on small phones and don't shrink on big monitors. */
+  font-size: var(--text-base);
+  /* T1.3 follow-up (2026-05-16): explicit pretty wrap on alert text.
+     Long NWS alert descriptions otherwise leave a single-word orphan on
+     the last line which looks unprofessional in the dashboard cards. */
+  text-wrap: pretty;
 }
 
 /* No alerts message – ensure visibility */
@@ -1623,6 +1756,52 @@ a:hover, a:focus {
   font-weight: 600;
   color: var(--text-primary);
 }
+
+/* ---- Legend shape markers ----
+   Two shape families distinguish the two legends in the spotter dashboard:
+     • Triangles = alert TYPES   (Warnings / Watches / Advisories)  — warning-sign metaphor
+     • Circles   = activation LEVEL (Activated / Monitor / Standby) — neutral status dot
+   Same colour can mean different things across the two rows; the shape difference
+   prevents a glanced-at red dot from being misread between activation severity
+   and active warning count.  Pure CSS, no emoji rendering. */
+.legend-shape {
+  display: inline-block;
+  vertical-align: -0.05em;
+  margin-right: 0.25em;
+  flex-shrink: 0;
+}
+.legend-shape--circle {
+  width: 0.75em;
+  height: 0.75em;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+.legend-shape--triangle {
+  width: 0;
+  height: 0;
+  border-left: 0.45em solid transparent;
+  border-right: 0.45em solid transparent;
+  border-bottom: 0.75em solid currentColor;
+  margin-right: 0.3em;
+  border-top: 0;
+  /* Upward triangle is visually bottom-heavy (mass at base, point at apex),
+     so its optical centre sits below the geometric one. Nudge it up so the
+     centroid aligns with the same x-height position as the circles
+     (which use the base .legend-shape value of -0.05em). */
+  vertical-align: 0.05em;
+}
+/* Triangles use currentColor; set via color: on the element */
+.legend-shape--triangle.legend-red    { color: var(--nws-warning-red); }
+.legend-shape--triangle.legend-orange { color: var(--nws-severe-orange); }
+.legend-shape--triangle.legend-yellow { color: var(--nws-watch-yellow); }
+.legend-shape--triangle.legend-blue   { color: var(--accent-blue); }
+.legend-shape--triangle.legend-green  { color: var(--accent-green); }
+/* Circles use background-color */
+.legend-shape--circle.legend-red    { background: var(--nws-warning-red); }
+.legend-shape--circle.legend-orange { background: var(--nws-severe-orange); }
+.legend-shape--circle.legend-yellow { background: var(--nws-watch-yellow); }
+.legend-shape--circle.legend-blue   { background: var(--accent-blue); }
+.legend-shape--circle.legend-green  { background: var(--accent-green); }
 
 .alert-status-text a {
   color: var(--accent-blue);
@@ -1806,7 +1985,7 @@ a:hover, a:focus {
 }
 
 .map-card:hover,
-.map-card:focus {
+.map-card:focus-visible {
   transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
   border-color: var(--accent-blue);
@@ -1828,7 +2007,7 @@ a:hover, a:focus {
 }
 
 .map-card:hover .map-card-icon,
-.map-card:focus .map-card-icon {
+.map-card:focus-visible .map-card-icon {
   transform: scale(1.1) rotate(5deg);
 }
 
@@ -1876,8 +2055,10 @@ a:hover, a:focus {
 }
 
 .changelog-month-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  /* T2.6 residual (2026-05-16): dropped translateY lift; shadow upgrade
+     alone signals interactivity. */
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-blue);
 }
 
 .changelog-month-header {
@@ -1981,9 +2162,7 @@ a:hover, a:focus {
 
 @media (max-width: 480px) {
   body { padding: .5rem; }
-  h1   { font-size: 2rem; }
-  h2   { font-size: 1.5rem; }
-  .card-header h2 { font-size: 1.2rem; }
+  /* T3.14: heading font-size overrides removed — handled by fluid clamp() scale */
 }
 
 /* --- DESKTOP/TABLET RESPONSIVE (≥768px) - Consolidated --- */
@@ -2084,14 +2263,13 @@ a:hover, a:focus {
   height: 50px;
   background: rgba(0, 102, 204, 0.85);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   color: var(--white);
   border: none;
   border-radius: 50%;
   font-size: 1.5rem;
   cursor: pointer;
   box-shadow: var(--shadow-lg);
-  transition: var(--transition);
+  transition: var(--t-fast);
   opacity: 0;
   visibility: hidden;
   z-index: 1000;
@@ -2106,7 +2284,7 @@ a:hover, a:focus {
 }
 
 .back-to-top:hover,
-.back-to-top:focus {
+.back-to-top:focus-visible {
   background: var(--accent-blue-dark);
   transform: translateY(-4px);
   box-shadow: var(--shadow-xl);
@@ -2187,34 +2365,55 @@ a:hover, a:focus {
 
 /* --- REPEATER DETAIL MODAL --- */
 
+/* Repeater detail modal — uses the same @starting-style + allow-discrete
+   pattern as the primary .modal-backdrop stack (T3.13). The .open class
+   participates in opacity + transform transitions even though the modal
+   flips from display: none → flex. prefers-reduced-motion is handled by
+   the Patch 1 global guard. Visually matches .modal-content: 1px border,
+   --shadow-xl, backdrop blur. */
 .repeater-detail-modal {
-  display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
   z-index: 1000;
   overflow-y: auto;
+  display: none;
+  opacity: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  transition: opacity 200ms ease, display 200ms ease allow-discrete;
 }
 
 .repeater-detail-modal.open {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
+  opacity: 1;
+}
+
+@starting-style {
+  .repeater-detail-modal.open { opacity: 0; }
+  .repeater-detail-modal.open .repeater-detail-content {
+    opacity: 0;
+    transform: translateY(12px);
+  }
 }
 
 .repeater-detail-content {
   background: var(--card-bg);
-  border: 2px solid var(--card-border);
+  border: 1px solid var(--card-border);
   border-radius: var(--radius);
   max-width: 800px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-xl);
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 220ms ease, transform 220ms ease;
 }
 
 .repeater-detail-header {
@@ -2229,7 +2428,7 @@ a:hover, a:focus {
 
 .repeater-detail-header h2 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: var(--text-xl); /* T3.14: fluid scale (was fixed 1.5rem) */
   color: white;
 }
 
@@ -2243,7 +2442,7 @@ a:hover, a:focus {
   width: 2rem;
   height: 2rem;
   line-height: 1;
-  transition: transform 0.2s;
+  transition: var(--t-fast);
 }
 
 .repeater-detail-close:hover { transform: scale(1.2); }

@@ -76,8 +76,6 @@
 
   <!-- Main content area (ARIA landmark) -->
   <main class="site-main" role="main">
-    <h4 class="center" id="page-last-updated-date">Page updated on <span id="page-last-updated">loading...</span></h4>
-
     <!-- Overview section -->
     <section id="overview" class="card">
       <header class="card-header"><h2>About This Site</h2></header>
@@ -87,58 +85,64 @@
           <div class="sub-card">
             <h4>Purpose &amp; Mission</h4>
             <p>
-              The Georgia SKYWARN website serves as the central hub for the Georgia SKYWARN linked repeater
-              system, coordinating severe weather reporting across 96 counties in North and Central Georgia.
-              We provide real-time weather alerts, repeater information, reporting guidelines, and direct
-              coordination with the National Weather Service in Peachtree City (WX4PTC).
+              The Georgia SKYWARN website serves as the central hub for the Georgia SKYWARN linked
+              repeater system, coordinating severe weather reporting across 96 counties in North and
+              Central Georgia. We provide real-time weather alerts, repeater information, reporting
+              guidelines, and direct coordination with the National Weather Service in Peachtree City
+              (WX4PTC).
             </p>
           </div>
 
           <div class="sub-card">
-            <h4>Technical Details</h4>
+            <h4>Built for Spotters</h4>
             <p>
-              Built with clean HTML5, CSS3, and vanilla JavaScript—no external frameworks or dependencies.
-              The site uses localStorage caching for efficient API calls, secure CSP headers, and follows
-              mobile-first responsive design principles. Maintained by Jack Parks (KQ4JP).
+              Fast, private, and built for the people who actually use it. No ads, no tracking, no
+              third-party scripts. Works on every modern browser and looks right on phones, tablets,
+              and laptops. Maintained by Jack Parks (KQ4JP), a SKYWARN volunteer.
             </p>
           </div>
 
           <div class="sub-cards sub-cards--3col sub-card--full">
 
             <div class="sub-card">
-              <h4>Real-Time Weather Alerts</h4>
-              <p>Automatic updates every 5 minutes from the NWS API, displaying active warnings on the
-              homepage and comprehensive alerts on the dedicated alerts page.</p>
+              <h4>HWO &amp; Activation Status</h4>
+              <p>Automated parsing of the NWS Atlanta Hazardous Weather Outlook with three-level
+              spotter activation detection &mdash; green (no activation), yellow (monitor), red
+              (activate). Re-checked every few hours from the NWS API.</p>
             </div>
 
             <div class="sub-card">
-              <h4>Dual Navigation System</h4>
-              <p>Site-wide navigation for moving between pages and page-specific navigation for jumping
-              to sections within a page.</p>
+              <h4>Live Weather Alerts</h4>
+              <p>Active warnings, watches, and advisories for our coverage area, refreshed every five
+              minutes from the NWS API and shown directly on the dashboard. Color-coded by severity
+              using the canonical NWS colors.</p>
+            </div>
+
+            <div class="sub-card">
+              <h4>Quick Maps</h4>
+              <p>Curated links to the maps spotters reach for first &mdash; NWS radar, ARES county
+              map, fire weather, river gauges &mdash; without clicking through ten menus.</p>
             </div>
 
             <div class="sub-card">
               <h4>Repeater Directory</h4>
-              <p>Complete listings of linked and non-linked SKYWARN repeaters with frequencies, coverage
-              areas, and emergency power information.</p>
-            </div>
-
-            <div class="sub-card">
-              <h4>Mobile-First Design</h4>
-              <p>Fully responsive layout that works seamlessly on phones, tablets, and desktop
-              computers.</p>
+              <p>Searchable database of every SKYWARN repeater (Ctrl/Cmd+K). Frequency, tone,
+              AllStar / EchoLink nodes, RF link details, and sponsor info &mdash; plus CSV exports
+              ready for CHIRP and RT Systems.</p>
             </div>
 
             <div class="sub-card">
               <h4>Accessibility</h4>
-              <p>WCAG 2.1 AA compliant with semantic HTML, ARIA labels, keyboard navigation, and
-              automatic light/dark mode support.</p>
+              <p>WCAG 2.1 AA target with semantic HTML, ARIA landmarks, full keyboard navigation,
+              visible focus rings, and respect for the reduced-motion system setting. Manual
+              light/dark toggle plus automatic system-preference detection.</p>
             </div>
 
             <div class="sub-card">
               <h4>NWS Resources</h4>
-              <p>Direct links to weather tools, radar, forecasts, decision support products, and
-              coordination contacts.</p>
+              <p>Direct links to the tools NWS Peachtree City forecasters and spotters reach for
+              most: radar products, decision support, river gauges, hazardous weather outlooks, and
+              the Storm Prediction Center.</p>
             </div>
 
           </div>

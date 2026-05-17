@@ -121,8 +121,6 @@
 
   <!-- Main content area (ARIA landmark) -->
   <main class="site-main" role="main">
-    <h4 class="center" id="page-last-updated-date">Page updated on <span id="page-last-updated">loading...</span></h4>
-
     <!-- Site Banner -->
     <div class="site-banner" role="banner">
       <a href="spotters.html#SKYWARNcard" class="site-banner-link">New to SKYWARN? →</a>
@@ -138,7 +136,11 @@
       </header>
       <div class="card-body">
         <div class="alert-status-bar">
-          <span class="alert-status-text">🔴 Activated | 🟠 Monitor | 🟢 Standby</span>
+          <span class="alert-status-text">
+            <span class="legend-shape legend-shape--circle legend-red" aria-hidden="true"></span>Activated |
+            <span class="legend-shape legend-shape--circle legend-yellow" aria-hidden="true"></span>Monitor |
+            <span class="legend-shape legend-shape--circle legend-green" aria-hidden="true"></span>Standby
+          </span>
           <span class="alert-status-divider">•</span>
           <span class="alert-status-refresh"> Auto-refresh: 4 hours</span>
           <span class="alert-status-divider">•</span>
@@ -156,7 +158,11 @@
       </header>
       <div class="card-body">
         <div class="alert-status-bar">
-          <span class="alert-status-text" id="alert-count-summary">🔴 Warnings | 🟠 Watches | 🔵 Alerts</span>
+          <span class="alert-status-text" id="alert-count-summary">
+            <span class="legend-shape legend-shape--triangle legend-red" aria-hidden="true"></span>Warnings |
+            <span class="legend-shape legend-shape--triangle legend-yellow" aria-hidden="true"></span>Watches |
+            <span class="legend-shape legend-shape--triangle legend-blue" aria-hidden="true"></span>Alerts
+          </span>
           <span class="alert-status-divider">•</span>
           <span class="alert-status-refresh"><span class="pulse"></span> Auto-refresh: 5 min</span>
           <span class="alert-status-divider">•</span>

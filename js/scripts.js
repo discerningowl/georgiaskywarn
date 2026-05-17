@@ -1112,9 +1112,27 @@
       set('stat-unverified', unverified.length);
       set('stat-nocall',     noCalls.length);
 
+      // ── Helper: render tags as styled badge pills ────────────────────────
+      // Mirrors the badge-class mapping used in renderRepeaterRow() so the
+      // health page matches the look of the public repeater tables.
+      function tagsToBadges(tags) {
+        if (!tags || tags.length === 0) return '—';
+        const badges = tags.map(tag => {
+          const tagLower = tag.toLowerCase();
+          let badgeClass = 'badge';
+          if (tagLower === 'wx4ema' || tagLower === 'wx4ema system') badgeClass = 'badge-wx4ema';
+          else if (tagLower === 'wx4ptc' || tagLower === 'wx4ptc system') badgeClass = 'badge-wx4ptc';
+          else if (tagLower === 'peach state' || tagLower === 'peach state intertie') badgeClass = 'badge-peach-state';
+          else if (tagLower === 'cherry blossom' || tagLower === 'cherry blossom intertie') badgeClass = 'badge-cherry-blossom';
+          else if (tagLower === 'se linked repeater') badgeClass = 'badge-se-linked';
+          return `<span class="${badgeClass}">${sanitizeHTML(tag)}</span>`;
+        }).join('');
+        return `<div class="tags-container">${badges}</div>`;
+      }
+
       // ── Helper: build a standard 5-col row ──────────────────────────────
       function adminRow(r, col3Label) {
-        const tags = (r.tags && r.tags.length > 0) ? sanitizeHTML(r.tags.join(', ')) : '—';
+        const tags = tagsToBadges(r.tags);
         const linkedBadge = r.linked
           ? '<span style="color:var(--accent-green);font-weight:700;">✓ Linked</span>'
           : '<span style="color:var(--accent-orange);">County Only</span>';
@@ -1137,7 +1155,7 @@
         inactiveTbody.innerHTML = inactive.length === 0
           ? '<tr><td colspan="5" class="center" style="color:var(--accent-green);">✓ No inactive repeaters.</td></tr>'
           : inactive.map(r => {
-              const tags = (r.tags && r.tags.length > 0) ? sanitizeHTML(r.tags.join(', ')) : '—';
+              const tags = tagsToBadges(r.tags);
               return `
                 <tr>
                   <td><strong>${sanitizeHTML(r.location)}</strong><br>
@@ -1219,6 +1237,104 @@
         pageNavToggle.focus();
       }
     });
+  }
+
+  // ========================================================================
+  // PAGE-NAV ACTIVE-SECTION INDICATOR (T2.8, 2026-05-16 — revised)
+  // Marks the current section's nav pill with .is-active as the user scrolls.
+  //
+  // Why not IntersectionObserver: the first revision used a narrow rootMargin
+  // band to detect "the section currently being read." On pages with tall
+  // sections (e.g. repeaters.html where the Linked Repeaters table is 1000+px),
+  // a section can fully OCCUPY the band without its bbox-edge intersection
+  // changing, so no observer callback fires — the previous .is-active sticks.
+  //
+  // The revised approach: on every scroll/resize, find the LAST section whose
+  // top edge has crossed below a trigger line near the top of the viewport.
+  // Always picks the right section regardless of section height. The
+  // `requestAnimationFrame` throttle keeps perf cost negligible.
+  // ========================================================================
+  if (pageNav) {
+    const navLinks = Array.from(pageNav.querySelectorAll('a[href^="#"]'));
+    const pairs = []; // [{ section, link }] in document order
+
+    navLinks.forEach(link => {
+      const id = link.getAttribute('href').slice(1);
+      const section = id ? document.getElementById(id) : null;
+      if (section) pairs.push({ section, link });
+    });
+
+    // Sort by document order so we can walk top→bottom and pick the last
+    // section whose top has crossed the trigger line.
+    pairs.sort((a, b) => {
+      const pos = a.section.compareDocumentPosition(b.section);
+      return pos & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+    });
+
+    if (pairs.length) {
+      // Trigger line: the LARGER of (sticky-stack bottom + 24px buffer) or
+      // 33% down the viewport. The 33% lower-bound is the important part —
+      // without it, the highlight only flips when a section header has
+      // already scrolled past the sticky nav, which feels laggy. With it,
+      // the highlight flips as soon as the next section's header reaches
+      // the upper-third of the viewport, matching the user's reading focus.
+      // (This matches the docs.stripe.com / Tailwind docs convention.)
+      const getTriggerY = () => {
+        const headerEl = document.querySelector('.header');
+        const navEl = document.querySelector('.page-nav');
+        const headerH = headerEl ? headerEl.getBoundingClientRect().height : 0;
+        const navH = navEl ? navEl.getBoundingClientRect().height : 0;
+        const stickyOffset = headerH + navH + 24;
+        const upperThird = window.innerHeight * 0.33;
+        return Math.max(stickyOffset, upperThird);
+      };
+
+      // End-of-page anchor: if the user scrolls to within 4px of the
+      // document bottom, force the LAST section active. Otherwise the
+      // last section may never trigger if its top doesn't cross the
+      // trigger line before the scroll bottom is reached.
+      const isAtBottom = () =>
+        (window.innerHeight + window.scrollY) >=
+        document.documentElement.scrollHeight - 4;
+
+      function updateActive() {
+        const triggerY = getTriggerY();
+        let activeLink = null;
+
+        if (isAtBottom()) {
+          activeLink = pairs[pairs.length - 1].link;
+        } else {
+          for (const { section, link } of pairs) {
+            if (section.getBoundingClientRect().top <= triggerY) {
+              activeLink = link; // keep walking; last one wins
+            } else {
+              break; // sections are sorted; remainder are further down
+            }
+          }
+        }
+
+        for (const { link } of pairs) {
+          link.classList.toggle('is-active', link === activeLink);
+        }
+      }
+
+      // rAF-throttled scroll/resize listeners. Passive scroll = no input blocking.
+      let ticking = false;
+      const schedule = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          updateActive();
+          ticking = false;
+        });
+      };
+      window.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule);
+
+      // Initial state (and re-run after a tick in case layout shifts).
+      updateActive();
+      setTimeout(updateActive, 100);
+    }
   }
 
   // ========================================================================

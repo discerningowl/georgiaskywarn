@@ -81,6 +81,41 @@ function loadHeader() {
     initMobileMenu();
     initThemeToggle();
     initBackToTop();
+    initStickyHeaderShadow();
+}
+
+/**
+ * Sticky-header shadow on scroll (T4.16, 2026-05-16)
+ *
+ * Adds .is-stuck class to .header when the page has scrolled past a small
+ * top sentinel element. Lets the header use a subtle shadow at rest and a
+ * deeper shadow when actively floating over content — a small but distinctive
+ * polish detail (Stripe, Linear, Vercel docs all do this).
+ *
+ * Pattern: 1px sentinel placed at the very top of <body>. When the sentinel
+ * leaves the viewport (user has scrolled down at all), header gets .is-stuck.
+ * IntersectionObserver fires only on the boundary crossing — no scroll-listener
+ * cost on every frame.
+ */
+function initStickyHeaderShadow() {
+    const header = document.querySelector('.header');
+    if (!header || !('IntersectionObserver' in window)) return;
+
+    // Insert a 1px sentinel as the first child of <body>, right above the
+    // sticky header. When it scrolls out of view, we know the header is stuck.
+    const sentinel = document.createElement('div');
+    sentinel.setAttribute('aria-hidden', 'true');
+    sentinel.style.cssText = 'position: absolute; top: 0; left: 0; width: 1px; height: 1px; pointer-events: none;';
+    document.body.insertBefore(sentinel, document.body.firstChild);
+
+    const observer = new IntersectionObserver(
+        ([entry]) => {
+            // Sentinel is in viewport => at top of page => header NOT stuck.
+            header.classList.toggle('is-stuck', !entry.isIntersecting);
+        },
+        { rootMargin: '0px', threshold: 0 }
+    );
+    observer.observe(sentinel);
 }
 
 /**
@@ -167,15 +202,31 @@ function initThemeToggle() {
     }
 
     // Function to set theme
+    // ENHANCEMENT (2026-05-16): wraps theme change in View Transitions API
+    // (Baseline 2024, Chromium/Safari). Supporting browsers snapshot the old
+    // and new states and crossfade between them, smoothing out the dark/light
+    // flip instead of snapping. Reduced-motion users skip the transition.
+    // Browsers without the API just apply the change directly.
     function setTheme(theme) {
-        if (theme === 'dark') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');
+        const applyTheme = () => {
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+            updateThemeUI(theme);
+        };
+
+        const reduceMotion = window.matchMedia &&
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (document.startViewTransition && !reduceMotion) {
+            document.startViewTransition(applyTheme);
         } else {
-            document.documentElement.setAttribute('data-theme', 'light');
-            localStorage.setItem('theme', 'light');
+            applyTheme();
         }
-        updateThemeUI(theme);
     }
 
     // Function to toggle theme
@@ -310,6 +361,7 @@ function loadFooter() {
 
                 <div class="footer-bottom">
                     <p>&copy; 2026 Georgia SKYWARN &middot; All Rights Reserved &middot; Serving North and Central Georgia</p>
+                    <p class="footer-page-updated" id="page-last-updated-date" style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-secondary);">Page last updated <span id="page-last-updated">loading...</span></p>
                     <p style="margin-top: 0.5rem;"><a href="repeater-health.html" style="color: var(--text-secondary); opacity: 0.4; font-size: 0.8rem; text-decoration: none;" aria-label="Admin">&#8943;</a></p>
                 </div>
             </div>
