@@ -85,12 +85,17 @@ georgiaskywarn/
 │   ├── components.js       # UI components (merged header + footer)
 │   ├── scripts.js          # Page-specific JavaScript (alerts, repeaters)
 │   ├── nws-api.js          # NWS API integration and HWO
-│   ├── search.js           # Sitewide search with fuzzy matching
-│   └── changelog.js        # Changelog display
+│   ├── changelog.js        # Changelog display
+│   └── cwa-map.js          # Interactive NWS CWA choropleth map (about.html)
 ├── data/                   # Data files
 │   ├── repeaters.json      # Unified repeater data (linked + non-linked)
-│   ├── search-index.json   # Sitewide search index
-│   └── changelog.json      # Website changelog/updates
+│   ├── changelog.json      # Website changelog/updates
+│   ├── ffc-counties.json   # 96 NWS Peachtree City (FFC) counties
+│   ├── gsp-counties.json   # 6 NWS Greenville-Spartanburg (GSP) counties
+│   ├── cae-counties.json   # 5 NWS Columbia (CAE) counties
+│   ├── chs-counties.json   # 12 NWS Charleston (CHS) counties
+│   ├── jax-counties.json   # 14 NWS Jacksonville (JAX) counties
+│   └── tae-counties.json   # 26 NWS Tallahassee (TAE) counties
 ├── assets/                 # Static assets
 │   ├── favicon.ico         # Site favicon
 │   ├── georgiaskywarnlogo.png  # Site logo
@@ -161,6 +166,28 @@ All repeater data is stored in a single unified JSON file. Fields appear in the 
 ---
 
 ## 🚀 Recent Improvements
+
+### June 25, 2026 - Interactive NWS Coverage Map & County Alert Filter
+
+**Interactive CWA Map** ✅
+- Replaced the static hotlinked NWS GIF on the About page with an interactive SVG choropleth map
+- All 159 Georgia counties rendered from Census Bureau TIGERweb GeoJSON with sessionStorage caching
+- 6 color-coded NWS Weather Forecast Office regions: FFC (indigo), GSP (sky blue), CAE (tomato), CHS (green), JAX (yellow), TAE (magenta)
+- Hover any county to see a tooltip with county name and responsible NWS office
+- Click any county to open that office's SKYWARN spotter program page
+- County assignments verified against the official NWS CWA boundary PDF
+- Color scheme mirrored on the right-side office cards with matching left-border accents
+- Five new data files added: `gsp-counties.json`, `cae-counties.json`, `chs-counties.json`, `jax-counties.json`, `tae-counties.json`
+- New `js/cwa-map.js` page-specific script loaded via `loader.js` postScripts
+
+**County Alert Filter** ✅
+- Added a county filter widget to the spotter dashboard (index.html)
+- FFC spotters can narrow the active alerts list to a single county
+- Powered by `data/ffc-counties.json` (96 counties) — no API call needed
+
+**CSS Modernization** ✅
+- Multi-round 2024-Baseline CSS upgrade: `prefers-reduced-motion` guard, `light-dark()` token consolidation, tonal badge restyle, View Transitions for theme toggle, IntersectionObserver sticky-header shadow, fluid type scale (`clamp()`), OKLCH relative-color derivation, and container queries for sub-cards
+- All features are Baseline 2024 or earlier; no `@supports` guards needed
 
 ### February 8, 2026 - Clickable IP Links in Repeater Details
 
@@ -393,6 +420,6 @@ This website is maintained by volunteer amateur radio operators in coordination 
 
 ---
 
-**Last Updated**: April 1, 2026
+**Last Updated**: June 25, 2026
 **Maintained By**: Georgia SKYWARN Team
 **For Questions**: Contact webmaster at kq4jp@pm.me

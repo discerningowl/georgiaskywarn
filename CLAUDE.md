@@ -1133,6 +1133,49 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-06-25 — Interactive NWS CWA Map, County Alert Filter
+
+#### Interactive Georgia CWA Choropleth Map (`about.html`, `js/cwa-map.js`)
+- Replaced the static hotlinked NWS GIF in the `#forecastarea` card with a fully interactive SVG choropleth map rendered at runtime
+- New page-specific script `js/cwa-map.js` added; wired into `loader.js` via `postScripts['about.html']`
+- **Geometry source**: Census Bureau TIGERweb (`MapServer/1` county layer, `outSR=4326`, `maxAllowableOffset=0.005`) with Esri USA Counties Generalized as fallback; 15-second AbortController timeout on each source
+- **Projection**: equirectangular, Georgia bounds LON −85.7/−80.8 × LAT 30.3/35.1 → SVG viewBox `0 0 560 600`
+- **sessionStorage caching** (`ga-county-geo-v1`) avoids re-fetching GeoJSON on return visits
+- **6 CWA color palette** (maximally distinct): FFC `#5c6bc0` indigo, GSP `#039be5` sky-blue, CAE `#f4511e` tomato, CHS `#43a047` green, JAX `#fdd835` yellow, TAE `#d81b60` magenta
+- County paths are keyboard-accessible (`tabindex=0`, `role=button`, `aria-label`); Enter/Space opens the SKYWARN page; hover shows tooltip (appended to `<body>` to escape `backdrop-filter` containing blocks)
+- Legend built dynamically from the `seenCWAs` Set (only shows offices that rendered successfully)
+- `Promise.allSettled` loads all 6 county JSON files in parallel; a single failed file logs a warning but does not break the map
+
+#### CWA County Data Files (five new files in `data/`)
+All files follow the `{ "GAC###": "CountyName" }` format, consistent with the pre-existing `data/ffc-counties.json`. County assignments verified against the official NWS CWA boundary PDF (`ga_cwfa.pdf`):
+- `data/gsp-counties.json` — 6 counties (Elbert, Franklin, Habersham, Hart, Rabun, Stephens)
+- `data/cae-counties.json` — 5 counties (Burke, Columbia, Lincoln, McDuffie, Richmond)
+- `data/chs-counties.json` — 12 counties (Bryan, Bulloch, Candler, Chatham, Effingham, Evans, Jenkins, Liberty, Long, McIntosh, Screven, Tattnall)
+- `data/jax-counties.json` — 14 counties (Appling, Atkinson, Bacon, Brantley, Camden, Charlton, Clinch, Coffee, Echols, Glynn, Jeff Davis, Pierce, Ware, Wayne)
+- `data/tae-counties.json` — 26 counties (Baker, Ben Hill, Berrien, Brooks, Calhoun, Clay, Colquitt, Cook, Decatur, Dougherty, Early, Grady, Irwin, Lanier, Lee, Lowndes, Miller, Mitchell, Quitman, Randolph, Seminole, Terrell, Thomas, Tift, Turner, Worth)
+- **Total: 96 + 6 + 5 + 12 + 14 + 26 = 159 Georgia counties** (integrity check maintained throughout all county moves)
+- Files were initially created as `cwa-*.json` then renamed to `*-counties.json` for consistency with `ffc-counties.json`; all code `file:` references updated simultaneously
+
+#### County assignments corrected against official NWS PDF:
+- Bulloch, Candler, Evans, Jenkins, Screven, Tattnall — moved from JAX → **CHS**
+- Glynn, Camden — moved from CHS → **JAX**
+- Lanier — moved from JAX → **TAE**
+
+#### NWS Office Card Styling (`css/style.css`)
+- `.nws-office-item` cards now have a 4px solid left-border color accent matching the map fill color for each office (`.nws-office-ffc`, `.nws-office-gsp`, `.nws-office-cae`, `.nws-office-chs`, `.nws-office-jax`, `.nws-office-tae`)
+- Office name links use matching accent color (`a strong { color: ... }`) — JAX uses darker amber `#f57f17` instead of pure `#fdd835` for white-background text contrast
+
+#### County Alert Filter (`index.html`, `js/nws-api.js`, `css/style.css`)
+- Added county filter widget to the spotter dashboard so FFC spotters can scope active alerts to a specific county
+- Powered by `data/ffc-counties.json`; no additional API calls required
+
+#### CSP (`about.html`)
+- Updated `connect-src` to include `https://services.arcgis.com` and `https://tigerweb.geo.census.gov` for the map geometry fetches
+
+#### Version: `20260625q` (17 bumps across the session — `a` through `q`)
+
+---
+
 ### 2026-05-16 (Round 6 — Modal modernization parity pass)
 - **Legend-shape triangle alignment fix on the alert status bar**: the upward-pointing triangles (Warnings / Watches / Alerts) sat ~0.1em below the green pulse circle next to "Auto-refresh." Two causes stacked: `.legend-shape--triangle` had `vertical-align: -0.15em` (vs `-0.05em` on the base/circle), and an upward triangle is optically bottom-heavy (mass at the wide base, point at the apex) so its perceived centre sits below the geometric one. Changed triangle `vertical-align` to `+0.05em` (a 0.2em raise from prior) so the centroid lines up with the circle's optical centre. Math: triangle centroid at `base + H/3` = `base + 0.25em`; for that to match the circle's centre at `0.325em` above baseline → base at `0.075em`, rounded to `0.05em` for a clean value.
 - **Modal modernization parity**: the December T3.13 pass migrated the primary `.modal-backdrop` / `.modal-content` stack to the modern `@starting-style` + `transition-behavior: allow-discrete` pattern, but the parallel `.repeater-detail-modal` stack on `repeaters.html` was missed entirely. This round brings it to parity:
@@ -1630,6 +1673,6 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 
 ---
 
-**Last Updated**: 2026-05-16 (four-round CSS modernization pass: 2024-Baseline features, fluid type scale, OKLCH derivation, View Transitions, sticky-header shadow)
+**Last Updated**: 2026-06-25 (interactive NWS CWA choropleth map on about.html; county alert filter on index.html; 5 new CWA county data files; CSS modernization pass)
 **Maintained By**: Claude AI Assistant (based on codebase analysis)
 **For Questions**: Contact Jack Parks (KQ4JP) <kq4jp@pm.me>

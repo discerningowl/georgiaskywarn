@@ -10,7 +10,7 @@
   <link rel="canonical" href="https://georgiaskywarn.com/about.html">
 
   <!-- Security headers -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self'; font-src 'self'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://services.arcgis.com https://tigerweb.geo.census.gov; font-src 'self'; base-uri 'self'; form-action 'self'">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="referrer" content="strict-origin-when-cross-origin">
 
@@ -253,12 +253,25 @@
 		</p>
 		<h3 class="center" style="margin-top: 1.5rem; color: var(--accent-blue);">Our Forecast Area + Who Covers the Rest of the State</h3>
 		<div class="forecast-maps">
-		  <a href="https://www.weather.gov/ffc/cwa" target="_blank" rel="noopener noreferrer" class="forecast-map-link">
-		    <img src="https://www.weather.gov/images/ffc/cwa4new.gif"
-		         alt="NWS Atlanta forecast area map showing coverage zones"
-		         loading="lazy"
-		         decoding="async">
-		  </a>
+		  <!-- Interactive Georgia CWA choropleth map (rendered by js/cwa-map.js) -->
+		  <div class="ga-cwa-map-wrap">
+		    <svg id="ga-cwa-map" viewBox="0 0 560 600" xmlns="http://www.w3.org/2000/svg"
+		         role="img" aria-label="Interactive map of Georgia counties colored by NWS County Warning Area">
+		      <g id="ga-counties"></g>
+		    </svg>
+		    <div id="ga-cwa-loading" class="ga-cwa-loading">
+		      <svg class="ga-cwa-spinner" width="18" height="18" viewBox="0 0 24 24" fill="none"
+		           stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+		        <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+		      </svg>
+		      Loading county boundaries…
+		    </div>
+		    <div id="ga-cwa-error" class="ga-cwa-error" hidden>
+		      Map unavailable — <a href="https://www.weather.gov/ffc/cwa" target="_blank" rel="noopener noreferrer">view on weather.gov ↗</a>
+		    </div>
+		    <p class="ga-cwa-hint">Click any county to open that office's SKYWARN program page</p>
+		    <div id="ga-cwa-legend" class="ga-cwa-legend" hidden></div>
+		  </div>
 		  <div class="nws-offices-list">
 		    <h4 style="margin-top: 0; margin-bottom: 1rem; color: var(--text-primary);">Georgia NWS SKYWARN Programs</h4>
 		    <p style="font-size: 0.9rem; margin-bottom: 1rem; color: var(--text-secondary);">Click to visit other NWS office SKYWARN pages:</p>

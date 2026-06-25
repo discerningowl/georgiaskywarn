@@ -1254,7 +1254,8 @@ a:hover, a:focus-visible {
 
 @media (min-width: 768px) {
   .forecast-maps {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 2fr 1fr;
+    align-items: start;
   }
 }
 
@@ -1292,10 +1293,13 @@ a:hover, a:focus-visible {
   gap: 0.75rem;
 }
 
+/* Base card — left-border carries the color swatch; radius trimmed on left to let it flush */
 .nws-office-item {
-  border-radius: 10px;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
+  border-radius: 0 10px 10px 0;
+  transition: var(--t-fast);
+  border: 1px solid transparent;
+  border-left: 4px solid transparent;
+  overflow: hidden;
 }
 
 .nws-office-item a {
@@ -1303,8 +1307,8 @@ a:hover, a:focus-visible {
   padding: 0.75rem 1rem;
   text-decoration: none;
   color: var(--text-primary);
-  border-radius: 8px;
-  transition: all 0.3s ease;
+  border-radius: 0 8px 8px 0;
+  transition: var(--t-fast);
 }
 
 .nws-office-item a strong {
@@ -1319,20 +1323,171 @@ a:hover, a:focus-visible {
   font-style: italic;
 }
 
-/* Color-coded offices – hover shift is shared */
+/* Color-coded offices – colors match CWA_CONFIG in cwa-map.js exactly.
+ * FFC #5c6bc0 indigo | GSP #039be5 sky blue | CAE #f4511e tomato
+ * CHS #43a047 green  | JAX #fdd835 yellow   | TAE #d81b60 magenta
+ *
+ * Each card uses: thick left border (full opacity) + gradient bg + colored strong text.
+ * The left border creates an immediate visual link to the matching map region. */
 [class^="nws-office-"]:hover { transform: translateX(4px); }
-.nws-office-ffc { background: linear-gradient(135deg, rgba(92,107,192,0.15), rgba(92,107,192,0.05)); border-color: rgba(92,107,192,0.3); }
-.nws-office-ffc:hover { background: linear-gradient(135deg, rgba(92,107,192,0.25), rgba(92,107,192,0.1)); border-color: rgba(92,107,192,0.5); }
-.nws-office-jax { background: linear-gradient(135deg, rgba(255,235,59,0.2), rgba(255,235,59,0.08)); border-color: rgba(255,193,7,0.4); }
-.nws-office-jax:hover { background: linear-gradient(135deg, rgba(255,235,59,0.3), rgba(255,235,59,0.15)); border-color: rgba(255,193,7,0.6); }
-.nws-office-tae { background: linear-gradient(135deg, rgba(233,30,99,0.15), rgba(233,30,99,0.05)); border-color: rgba(233,30,99,0.3); }
-.nws-office-tae:hover { background: linear-gradient(135deg, rgba(233,30,99,0.25), rgba(233,30,99,0.1)); border-color: rgba(233,30,99,0.5); }
-.nws-office-cae { background: linear-gradient(135deg, rgba(255,152,0,0.15), rgba(255,152,0,0.05)); border-color: rgba(255,152,0,0.3); }
-.nws-office-cae:hover { background: linear-gradient(135deg, rgba(255,152,0,0.25), rgba(255,152,0,0.1)); border-color: rgba(255,152,0,0.5); }
-.nws-office-chs { background: linear-gradient(135deg, rgba(76,175,80,0.15), rgba(76,175,80,0.05)); border-color: rgba(76,175,80,0.3); }
-.nws-office-chs:hover { background: linear-gradient(135deg, rgba(76,175,80,0.25), rgba(76,175,80,0.1)); border-color: rgba(76,175,80,0.5); }
-.nws-office-gsp { background: linear-gradient(135deg, rgba(33,150,243,0.15), rgba(33,150,243,0.05)); border-color: rgba(33,150,243,0.3); }
-.nws-office-gsp:hover { background: linear-gradient(135deg, rgba(33,150,243,0.25), rgba(33,150,243,0.1)); border-color: rgba(33,150,243,0.5); }
+
+.nws-office-ffc {
+  border-left-color: #5c6bc0;
+  border-color: rgba(92,107,192,0.25);
+  background: linear-gradient(135deg, rgba(92,107,192,0.12), rgba(92,107,192,0.04));
+}
+.nws-office-ffc:hover { background: linear-gradient(135deg, rgba(92,107,192,0.22), rgba(92,107,192,0.09)); }
+.nws-office-ffc a strong { color: #5c6bc0; }
+
+.nws-office-gsp {
+  border-left-color: #039be5;
+  border-color: rgba(3,155,229,0.25);
+  background: linear-gradient(135deg, rgba(3,155,229,0.12), rgba(3,155,229,0.04));
+}
+.nws-office-gsp:hover { background: linear-gradient(135deg, rgba(3,155,229,0.22), rgba(3,155,229,0.09)); }
+.nws-office-gsp a strong { color: #039be5; }
+
+.nws-office-cae {
+  border-left-color: #f4511e;
+  border-color: rgba(244,81,30,0.25);
+  background: linear-gradient(135deg, rgba(244,81,30,0.12), rgba(244,81,30,0.04));
+}
+.nws-office-cae:hover { background: linear-gradient(135deg, rgba(244,81,30,0.22), rgba(244,81,30,0.09)); }
+.nws-office-cae a strong { color: #f4511e; }
+
+.nws-office-chs {
+  border-left-color: #43a047;
+  border-color: rgba(67,160,71,0.25);
+  background: linear-gradient(135deg, rgba(67,160,71,0.12), rgba(67,160,71,0.04));
+}
+.nws-office-chs:hover { background: linear-gradient(135deg, rgba(67,160,71,0.22), rgba(67,160,71,0.09)); }
+.nws-office-chs a strong { color: #43a047; }
+
+.nws-office-jax {
+  border-left-color: #f9a825;
+  border-color: rgba(249,168,37,0.35);
+  background: linear-gradient(135deg, rgba(253,216,53,0.16), rgba(253,216,53,0.06));
+}
+.nws-office-jax:hover { background: linear-gradient(135deg, rgba(253,216,53,0.26), rgba(253,216,53,0.12)); }
+.nws-office-jax a strong { color: #f57f17; }
+
+.nws-office-tae {
+  border-left-color: #d81b60;
+  border-color: rgba(216,27,96,0.25);
+  background: linear-gradient(135deg, rgba(216,27,96,0.12), rgba(216,27,96,0.04));
+}
+.nws-office-tae:hover { background: linear-gradient(135deg, rgba(216,27,96,0.22), rgba(216,27,96,0.09)); }
+.nws-office-tae a strong { color: #d81b60; }
+
+/* ---------- Georgia CWA Interactive Map (about.html) ---------- */
+.ga-cwa-map-wrap { position: relative; }
+
+#ga-cwa-map {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  background: color-mix(in oklch, var(--card-bg) 80%, transparent);
+}
+
+/* County paths — fill set via JS; stroke creates visible county borders */
+.ga-cwa-path {
+  stroke: white;
+  stroke-opacity: 0.4;
+  stroke-width: 0.5;
+  cursor: pointer;
+  transition: stroke-opacity 100ms ease, stroke-width 100ms ease, fill-opacity 100ms ease;
+  fill-opacity: 0.72;
+}
+.ga-cwa-path:hover,
+.ga-cwa-path:focus {
+  fill-opacity: 0.92;
+  stroke-opacity: 0.9;
+  stroke-width: 1.5;
+  outline: none;
+}
+.ga-cwa-path:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 1px;
+}
+
+/* Floating tooltip */
+.ga-cwa-tooltip {
+  position: fixed;
+  pointer-events: none;
+  z-index: 2000;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  line-height: 1.3;
+  white-space: nowrap;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transition: opacity 80ms ease;
+}
+.ga-cwa-tooltip.visible { opacity: 1; }
+
+/* Loading / error states */
+.ga-cwa-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1.5rem 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+.ga-cwa-loading[hidden] { display: none; }
+.ga-cwa-error { padding: 1rem 0.5rem; color: var(--text-secondary); font-size: 0.9rem; }
+.ga-cwa-error[hidden] { display: none; }
+
+/* Spinner animation */
+@keyframes ga-cwa-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.ga-cwa-spinner {
+  animation: ga-cwa-spin 1s linear infinite;
+  transform-origin: center;
+  flex-shrink: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ga-cwa-spinner { animation: none; }
+}
+
+/* Map hint text */
+.ga-cwa-hint {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0.5rem 0 0;
+  text-align: center;
+}
+
+/* Legend */
+.ga-cwa-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  padding: 0.75rem 0.25rem 0;
+}
+.ga-cwa-legend[hidden] { display: none; }
+.ga-cwa-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+.ga-cwa-legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.2);
+}
 
 /* ---------- SKYWARN Information Styles ---------- */
 .skywarn-intro { margin-bottom: 2rem; }
@@ -1750,6 +1905,160 @@ a:hover, a:focus-visible {
   border-radius: 8px;
   border-left: 4px solid var(--accent-red);
   border-right: 4px solid var(--accent-red);
+}
+
+/* ─────────────────────────────────────────
+   County Filter Bar
+   ───────────────────────────────────────── */
+.county-filter-bar {
+  padding: 0 1rem 0.75rem;
+  position: relative;
+}
+
+.county-filter-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: color-mix(in oklch, var(--accent-blue) 6%, var(--card-bg));
+  border: 1px solid color-mix(in oklch, var(--accent-blue) 25%, var(--card-border));
+  border-radius: 999px;
+  padding: 0.45rem 0.85rem;
+  transition: var(--t-fast);
+}
+
+.county-filter-input-wrap:focus-within {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent-blue) 18%, transparent);
+}
+
+.county-filter-input-wrap.has-error {
+  border-color: var(--accent-yellow);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent-yellow) 18%, transparent);
+}
+
+.county-filter-icon {
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.county-filter-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  min-width: 0;
+  padding: 0;
+}
+
+.county-filter-input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+.county-filter-error-icon {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-yellow);
+  background: color-mix(in oklch, var(--accent-yellow) 15%, var(--card-bg));
+  border: 1px solid color-mix(in oklch, var(--accent-yellow) 35%, transparent);
+  border-radius: 50%;
+  width: 1.6rem;
+  height: 1.6rem;
+  flex-shrink: 0;
+  cursor: default;
+  position: relative;
+}
+
+.county-filter-input-wrap.has-error .county-filter-error-icon {
+  display: flex;
+}
+
+/* CSS tooltip — fires instantly, no OS delay */
+.county-filter-error-icon::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 80ms ease;
+  z-index: 300;
+}
+
+.county-filter-error-icon:hover::after {
+  opacity: 1;
+}
+
+.county-filter-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in oklch, var(--accent-red) 15%, var(--card-bg));
+  border: 1px solid color-mix(in oklch, var(--accent-red) 35%, transparent);
+  cursor: pointer;
+  color: var(--accent-red);
+  padding: 0.3rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  transition: var(--t-fast);
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.county-filter-clear:hover {
+  background: color-mix(in oklch, var(--accent-red) 30%, var(--card-bg));
+  border-color: var(--accent-red);
+}
+
+.county-filter-clear[hidden] {
+  display: none;
+}
+
+/* Autocomplete dropdown — position:fixed so it escapes overflow:hidden on .card */
+.county-autocomplete {
+  position: fixed;
+  /* top / left / width set dynamically by JS via positionAutocomplete() */
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0.3rem 0;
+  z-index: 1000;
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(8px);
+}
+
+.county-autocomplete[hidden] {
+  display: none;
+}
+
+.county-autocomplete li {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.county-autocomplete li:hover,
+.county-autocomplete li:focus {
+  background: color-mix(in oklch, var(--accent-blue) 12%, var(--card-bg));
+  color: var(--accent-blue);
+  outline: none;
 }
 
 .alert-status-text {

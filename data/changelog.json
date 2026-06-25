@@ -1,6 +1,25 @@
 {
   "updates": [
     {
+      "month": "June",
+      "year": 2026,
+      "date": "2026-06-25",
+      "items": [
+        {
+          "title": "Interactive NWS Coverage Map",
+          "description": "Replaced the static hotlinked NWS image on the About page with an interactive SVG choropleth map. All 159 Georgia counties are color-coded by NWS Weather Forecast Office (FFC, CHS, JAX, TAE, CAE, GSP). Hover any county to see the office name; click to open that office's SKYWARN program page."
+        },
+        {
+          "title": "County Alert Filter",
+          "description": "Added a county filter to the spotter dashboard so FFC spotters can narrow active weather alerts to a specific county instead of viewing all 96 counties at once."
+        },
+        {
+          "title": "CSS Modernization",
+          "description": "Completed a multi-round CSS upgrade pass: prefers-reduced-motion guard, light-dark() token consolidation, tonal badge restyle, View Transitions for theme toggle, sticky-header shadow on scroll, fluid type scale, OKLCH relative-color derivation, and container queries for sub-cards."
+        }
+      ]
+    },
+    {
       "month": "May",
       "year": 2026,
       "date": "2026-05-13",

@@ -72,7 +72,14 @@
   // ========================================================================
 
   // Import constants from CONFIG module
-  const { NWS_API, FFC_ZONES, CACHE_TTL, CACHE_KEYS } = window.CONFIG;
+  const { NWS_API, CACHE_TTL, CACHE_KEYS } = window.CONFIG;
+
+  // ========================================================================
+  // COUNTY FILTER STATE
+  // ========================================================================
+  let ffcCounties = {};        // { "GAC111": "Fayette", ... }
+  let ffcCountiesReverse = {}; // { "fayette": "GAC111", ... }
+  let activeCountyFilter = new Set(); // GAC codes currently filtering alerts
 
   // ========================================================================
   // UTILITY FUNCTIONS
@@ -599,11 +606,21 @@
       uniqueFeatures.push(f);
     });
 
+    // Apply county filter if active
+    const displayFeatures = activeCountyFilter.size > 0
+      ? uniqueFeatures.filter(f =>
+          (f.properties?.geocode?.UGC || []).some(code => activeCountyFilter.has(code))
+        )
+      : uniqueFeatures;
+
     updateAlertsTimestamp();
 
-    if (uniqueFeatures.length === 0) {
+    if (displayFeatures.length === 0) {
+      const msg = activeCountyFilter.size > 0
+        ? '<strong>No active alerts for the selected counties.</strong>'
+        : '<strong>No active alerts in NWS Atlanta (FFC) area.</strong>';
       return {
-        html: `<p class="no-alerts center"><strong>No active alerts in NWS Atlanta (FFC) area.</strong></p>`,
+        html: `<p class="no-alerts center">${msg}</p>`,
         severity: 'green',
         counts: { warnings: 0, watches: 0, advisories: 0 }
       };
@@ -616,7 +633,7 @@
     let watchCount = 0;
     let advisoryCount = 0;
 
-    uniqueFeatures.forEach(f => {
+    displayFeatures.forEach(f => {
       const p = f.properties;
       if (p.event?.toLowerCase().includes('warning')) warningCount++;
       else if (p.event?.toLowerCase().includes('watch')) watchCount++;
@@ -633,7 +650,7 @@
       highestSeverity = 'yellow';
     }
 
-    const html = uniqueFeatures.map((f, index) => {
+    const html = displayFeatures.map((f, index) => {
       alertDataCache[index] = f;
       const p = f.properties;
       const isWarning = p.event?.toLowerCase().includes('warning');
@@ -834,6 +851,261 @@
     }
   }
 
+  // ========================================================================
+  // COUNTY FILTER
+  // ========================================================================
+
+  /**
+   * Load FFC county GAC codes from JSON
+   */
+  async function loadFFCCounties() {
+    try {
+      const resp = await fetch('data/ffc-counties.json');
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      ffcCounties = await resp.json();
+      ffcCountiesReverse = {};
+      Object.entries(ffcCounties).forEach(([code, name]) => {
+        ffcCountiesReverse[name.toLowerCase()] = code;
+      });
+      console.log(`[County Filter] Loaded ${Object.keys(ffcCounties).length} FFC counties`);
+    } catch (e) {
+      console.error('[County Filter] Failed to load county data:', e);
+    }
+  }
+
+  /**
+   * Get the token currently being typed (text after the last comma)
+   */
+  function getCurrentToken(value) {
+    const parts = value.split(',');
+    return parts[parts.length - 1].trim();
+  }
+
+  /**
+   * Show autocomplete suggestions for the current token
+   */
+  function showAutocomplete(inputValue) {
+    const token = getCurrentToken(inputValue);
+    const list = document.getElementById('county-autocomplete-list');
+    if (!list) return;
+
+    if (token.length < 3 || Object.keys(ffcCounties).length === 0) {
+      list.hidden = true;
+      list.innerHTML = '';
+      return;
+    }
+
+    const tokenLower = token.toLowerCase();
+    const matches = Object.entries(ffcCounties)
+      .filter(([, name]) => name.toLowerCase().startsWith(tokenLower))
+      .sort(([, a], [, b]) => a.localeCompare(b));
+
+    if (matches.length === 0) {
+      list.hidden = true;
+      list.innerHTML = '';
+      return;
+    }
+
+    list.innerHTML = matches
+      .map(([code, name]) =>
+        `<li role="option" data-code="${code}" data-name="${name}" tabindex="-1">${name}</li>`
+      )
+      .join('');
+    // Position below the input wrap (fixed, escapes overflow:hidden on .card)
+    const wrap = document.getElementById('county-filter-wrap');
+    if (wrap) {
+      const rect = wrap.getBoundingClientRect();
+      list.style.top   = `${rect.bottom + 4}px`;
+      list.style.left  = `${rect.left}px`;
+      list.style.width = `${rect.width}px`;
+    }
+    list.hidden = false;
+
+    list.querySelectorAll('li').forEach(li => {
+      li.addEventListener('mousedown', e => {
+        e.preventDefault(); // prevent blur firing before click
+        selectSuggestion(li.dataset.name);
+      });
+      li.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); selectSuggestion(li.dataset.name); }
+        if (e.key === 'ArrowDown') { e.preventDefault(); (li.nextElementSibling || li).focus(); }
+        if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (li.previousElementSibling) li.previousElementSibling.focus();
+          else document.getElementById('county-filter-input')?.focus();
+        }
+        if (e.key === 'Escape') {
+          closeAutocomplete();
+          document.getElementById('county-filter-input')?.focus();
+        }
+      });
+    });
+  }
+
+  /**
+   * Replace the current token in the input with the selected county name
+   */
+  function selectSuggestion(name) {
+    const input = document.getElementById('county-filter-input');
+    if (!input) return;
+
+    const parts = input.value.split(',').map(p => p.trim()).filter(Boolean);
+    if (parts.length === 0) {
+      input.value = name + ', ';
+    } else {
+      parts[parts.length - 1] = name;
+      input.value = parts.join(', ') + ', ';
+    }
+
+    closeAutocomplete();
+    input.focus();
+    const len = input.value.length;
+    input.setSelectionRange(len, len);
+    validateAndFilter(input.value);
+    updateClearButton(input.value);
+    localStorage.setItem('county-filter', input.value);
+  }
+
+  /**
+   * Hide the autocomplete dropdown
+   */
+  function closeAutocomplete() {
+    const list = document.getElementById('county-autocomplete-list');
+    if (list) { list.hidden = true; list.innerHTML = ''; }
+  }
+
+  /**
+   * Toggle the clear button visibility based on input content
+   */
+  function updateClearButton(value) {
+    const btn = document.getElementById('county-filter-clear');
+    if (btn) btn.hidden = !value.trim();
+  }
+
+  /**
+   * Validate all typed tokens, update error state, and apply the filter
+   * Error logic:
+   *   - Committed tokens (followed by a comma) must exactly match a county name
+   *   - Last token (still being typed) only errors if it has 3+ chars and NO autocomplete matches
+   */
+  function validateAndFilter(inputValue) {
+    const wrap = document.getElementById('county-filter-wrap');
+    const tokens = inputValue.split(',').map(t => t.trim()).filter(Boolean);
+
+    if (tokens.length === 0) {
+      activeCountyFilter.clear();
+      if (wrap) wrap.classList.remove('has-error');
+      reRenderAlerts();
+      return;
+    }
+
+    const newFilter = new Set();
+    let hasError = false;
+    const rawParts = inputValue.split(',');
+    const lastPartIsComplete = rawParts[rawParts.length - 1].trim() === '' ||
+                               inputValue.trimEnd().endsWith(',');
+
+    tokens.forEach((token, i) => {
+      const isLast = i === tokens.length - 1;
+      const code = ffcCountiesReverse[token.toLowerCase()];
+
+      if (code) {
+        newFilter.add(code);
+      } else if (!isLast || lastPartIsComplete) {
+        // Committed token that doesn't match → error
+        hasError = true;
+      } else {
+        // Last token still being typed — only error if no partial matches exist
+        const hasPartialMatch = token.length >= 3 &&
+          !Object.values(ffcCounties).some(name =>
+            name.toLowerCase().startsWith(token.toLowerCase())
+          );
+        if (hasPartialMatch) hasError = true;
+      }
+    });
+
+    if (wrap) wrap.classList.toggle('has-error', hasError);
+    activeCountyFilter = newFilter;
+    reRenderAlerts();
+  }
+
+  /**
+   * Re-render the alerts container from cached data (used when filter changes)
+   */
+  function reRenderAlerts() {
+    const container = document.getElementById('alerts-container');
+    if (!container) return;
+    const cached = alertsCache.get();
+    if (!cached) return; // data not loaded yet; loadAlerts() applies filter when it runs
+
+    const result = renderAllAlerts(cached);
+    container.innerHTML = result.html;
+    updateAlertHeaderColor(result.severity);
+    updateAlertCountSummary(result.counts);
+    attachAlertClickHandlers();
+  }
+
+  /**
+   * Initialize the county filter search box and restore any saved filter
+   */
+  function initCountyFilter() {
+    const input = document.getElementById('county-filter-input');
+    const clearBtn = document.getElementById('county-filter-clear');
+    const list = document.getElementById('county-autocomplete-list');
+    if (!input) return;
+
+    // Move dropdown to <body> so position:fixed is relative to the viewport,
+    // not the nearest backdrop-filter ancestor (.card has backdrop-filter: blur).
+    if (list && list.parentElement !== document.body) {
+      document.body.appendChild(list);
+    }
+
+    // Restore persisted filter
+    const saved = localStorage.getItem('county-filter');
+    if (saved) {
+      input.value = saved;
+      updateClearButton(saved);
+      validateAndFilter(saved);
+    }
+
+    input.addEventListener('input', () => {
+      const val = input.value;
+      updateClearButton(val);
+      showAutocomplete(val);
+      validateAndFilter(val);
+      localStorage.setItem('county-filter', val);
+    });
+
+    input.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        list?.querySelector('li')?.focus();
+      }
+      if (e.key === 'Escape') closeAutocomplete();
+      if (e.key === 'Enter') closeAutocomplete();
+    });
+
+    clearBtn?.addEventListener('click', () => {
+      input.value = '';
+      activeCountyFilter.clear();
+      const wrap = document.getElementById('county-filter-wrap');
+      if (wrap) wrap.classList.remove('has-error');
+      closeAutocomplete();
+      updateClearButton('');
+      localStorage.removeItem('county-filter');
+      reRenderAlerts();
+      input.focus();
+    });
+
+    // Close dropdown on outside click — check both the filter bar and the list
+    // (list is appended to <body> so it's no longer inside #county-filter-bar in DOM)
+    document.addEventListener('click', e => {
+      const inBar  = e.target.closest('#county-filter-bar');
+      const inList = e.target.closest('#county-autocomplete-list');
+      if (!inBar && !inList) closeAutocomplete();
+    });
+  }
+
   /**
    * Initialize dashboard (called from index.html via loader.js auto-detection)
    */
@@ -845,10 +1117,14 @@
     // Initial load on page ready
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', async () => {
+        await loadFFCCounties();
+        initCountyFilter();
         await Promise.all([loadDashboard(), loadAlerts()]);
       });
     } else {
       (async () => {
+        await loadFFCCounties();
+        initCountyFilter();
         await Promise.all([loadDashboard(), loadAlerts()]);
       })();
     }

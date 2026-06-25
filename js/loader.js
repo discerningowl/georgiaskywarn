@@ -81,7 +81,7 @@
 
     // Page-specific scripts that load AFTER scripts.js
     const postScripts = {
-      'about.html': ['js/changelog.js']
+      'about.html': ['js/changelog.js', 'js/cwa-map.js']
     };
 
     // Combine in correct order: components → core → page-specific pre-scripts → scripts.js → post-scripts

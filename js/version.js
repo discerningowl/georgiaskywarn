@@ -15,7 +15,7 @@
   // ========================================================================
   // UPDATE THIS VERSION NUMBER TO FORCE CACHE REFRESH ACROSS ENTIRE SITE
   // ========================================================================
-  const APP_VERSION = '20260516n';
+  const APP_VERSION = '20260625q';
 
   // Export to global namespace
   window.APP_VERSION = APP_VERSION;

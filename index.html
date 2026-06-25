@@ -168,6 +168,32 @@
           <span class="alert-status-divider">•</span>
           <span class="alert-status-time" id="alert-last-update">Loading...</span>
         </div>
+        <!-- County Filter -->
+        <div class="county-filter-bar" id="county-filter-bar">
+          <div class="county-filter-input-wrap" id="county-filter-wrap">
+            <span class="county-filter-icon" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </span>
+            <span class="county-filter-error-icon" id="county-filter-error" aria-hidden="true" data-tooltip="One or more counties not found in the NWS Atlanta (FFC) coverage area">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </span>
+            <button class="county-filter-clear" id="county-filter-clear" aria-label="Clear county filter" title="Clear filter" hidden>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <input
+              type="text"
+              id="county-filter-input"
+              class="county-filter-input"
+              placeholder="Filter by county (e.g. Fayette, Coweta)"
+              autocomplete="off"
+              spellcheck="false"
+              aria-label="Filter alerts by county name"
+              aria-autocomplete="list"
+              aria-controls="county-autocomplete-list"
+            >
+          </div>
+          <ul class="county-autocomplete" id="county-autocomplete-list" role="listbox" aria-label="County suggestions" hidden></ul>
+        </div>
         <div id="alerts-loading" class="skeleton-loader" aria-label="Loading active alerts"></div>
         <div id="alerts-container"></div>
       </div>
