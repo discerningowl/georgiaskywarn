@@ -77,7 +77,7 @@ ACTIVE_STATUSES = {"on-air", "on air", "active", "operational"}
 
 REPO_ROOT       = Path(__file__).parent.parent
 REPEATERS_JSON  = REPO_ROOT / "data" / "repeaters.json"
-DEFAULT_REPORT  = REPO_ROOT / "REPEATERBOOK_VALIDATION.md"
+DEFAULT_REPORT  = REPO_ROOT / "scripts/REPEATERBOOK_VALIDATION.md"
 
 # ---------------------------------------------------------------------------
 # API helpers

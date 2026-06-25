@@ -1091,6 +1091,9 @@
     async function renderAdminPage() {
       const all = await fetchRepeaterData();
 
+      // Store globally so openRepeaterModal() can look up records
+      window.repeatersData = all;
+
       // ── Categorize ──────────────────────────────────────────────────────
       const inactive   = all.filter(r => r.active === false);
       const active     = all.filter(r => r.active !== false);
@@ -1137,14 +1140,14 @@
           ? '<span style="color:var(--accent-green);font-weight:700;">✓ Linked</span>'
           : '<span style="color:var(--accent-orange);">County Only</span>';
         return `
-          <tr>
+          <tr class="repeater-row" data-repeater-id="${sanitizeHTML(r.id)}">
             <td><strong>${sanitizeHTML(r.location)}</strong><br>
               <span style="color:var(--text-secondary);font-size:0.9rem;">${sanitizeHTML(r.callsign)}</span></td>
             <td class="center"><strong>${sanitizeHTML(r.frequency)}</strong><br>
               <span style="font-size:0.9rem;">${sanitizeHTML(r.tone || 'None')}</span></td>
             <td class="center">${col3Label !== undefined ? col3Label : linkedBadge}</td>
             <td>${tags}</td>
-            <td class="center"><a href="${window.UTILS.sanitizeURL(r.refurl)}" target="_blank" rel="noopener noreferrer">RepeaterBook →</a></td>
+            <td class="center"><a href="${window.UTILS.sanitizeURL(r.refurl)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">RepeaterBook →</a></td>
           </tr>`;
       }
 
@@ -1157,14 +1160,14 @@
           : inactive.map(r => {
               const tags = tagsToBadges(r.tags);
               return `
-                <tr>
+                <tr class="repeater-row" data-repeater-id="${sanitizeHTML(r.id)}">
                   <td><strong>${sanitizeHTML(r.location)}</strong><br>
                     <span style="color:var(--text-secondary);font-size:0.9rem;">${sanitizeHTML(r.callsign)}</span></td>
                   <td class="center"><strong>${sanitizeHTML(r.frequency)}</strong><br>
                     <span style="font-size:0.9rem;">${sanitizeHTML(r.tone || 'None')}</span></td>
                   <td>${tags}</td>
                   <td>${sanitizeHTML(r.statusNote || '—')}</td>
-                  <td class="center"><a href="${window.UTILS.sanitizeURL(r.refurl)}" target="_blank" rel="noopener noreferrer">RepeaterBook →</a></td>
+                  <td class="center"><a href="${window.UTILS.sanitizeURL(r.refurl)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">RepeaterBook →</a></td>
                 </tr>`;
             }).join('');
       }
@@ -1197,7 +1200,7 @@
       }
     }
 
-    renderAdminPage();
+    renderAdminPage().then(() => setupRepeaterModalHandlers());
   }
 
   // ========================================================================

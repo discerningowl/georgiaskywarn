@@ -998,20 +998,23 @@
     "clubUrl": "https://www.maconbibb.us/EMA/"
   },
   {
-    "id": "n0call-147.135",
+    "id": "W4PCF-147.135",
     "location": "Milledgeville",
     "frequency": "147.135+",
     "tone": "123.0 Hz",
     "county": "Baldwin",
-    "tags": [],
+    "tags": [
+      "Peach State Intertie"
+    ],
     "description": "Covers Baldwin County (Milledgeville area) and surrounding central Georgia counties. Covers Georgia College area and Lake Sinclair.",
-    "callsign": "n0call",
+    "callsign": "W4PCF",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=178",
     "linked": true,
     "verified": true,
     "active": false,
-    "clubName": null,
-    "clubUrl": null
+    "statusNote": "2021-02-01 K4DRS has requested the following changes: Operational status changed to Off-Air.",
+    "clubName": "Milledgeville Amateur Radio Club (MARC)",
+    "clubUrl": "https://www.facebook.com/groups/1110123253370066/"
   },
   {
     "id": "KI4BEO-146.640",
