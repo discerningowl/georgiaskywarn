@@ -6,8 +6,34 @@
  *          - Fetch functions with timeout and retry logic
  *          - Cache management
  *          - Common constants and configuration
- * Version: 20260110b
+ * Version: 20260630b
  * Change-log:
+ *   • 2026-06-30b – BUG FIX: County filter silently cleared on partial input
+ *                  - validateAndFilter() overwrote activeCountyFilter with an
+ *                    empty Set whenever the in-progress token was an
+ *                    unresolved-but-valid prefix (e.g. typing "Fayet" before
+ *                    finishing "Fayette" or picking it from autocomplete)
+ *                  - No error was shown (a partial match exists, so
+ *                    hasError stayed false), so the alert list silently fell
+ *                    back to showing ALL statewide alerts mid-keystroke, with
+ *                    no indication the filter wasn't actually applied
+ *                  - Fix: when every token is still an unresolved prefix
+ *                    (newFilter empty, no error, input non-empty), keep
+ *                    whatever activeCountyFilter was already set instead of
+ *                    clearing it — display only changes once a token resolves
+ *   • 2026-06-30 – BUG FIX: County filter missed zone-based alert products
+ *                  - renderAllAlerts() only checked geocode.UGC against GAC
+ *                    (county) codes. Warnings (Tornado, Flash Flood, etc.) are
+ *                    county-geocoded so this worked for them, but advisory/
+ *                    watch products (Heat Advisory, Wind Advisory, etc.) are
+ *                    geocoded by forecast ZONE (GAZxxx) — the county filter
+ *                    silently matched nothing for those, even when the county
+ *                    was clearly listed in areaDesc (reported by Jack: Heat
+ *                    Advisory listing "Fayette" didn't show when filtering by
+ *                    Fayette county)
+ *                  - Added gacToSameCode() + a geocode.SAME check, since SAME
+ *                    (EAS FIPS codes) are always county-level regardless of
+ *                    product type. Filter now matches on UGC OR SAME.
  *   • 2026-01-10b – ENHANCEMENT: Dynamic alert card header color based on severity
  *                  - Header now changes color: red (warnings), yellow (watches), blue (other), green (none)
  *                  - Matches spotter activation card behavior
@@ -80,6 +106,25 @@
   let ffcCounties = {};        // { "GAC111": "Fayette", ... }
   let ffcCountiesReverse = {}; // { "fayette": "GAC111", ... }
   let activeCountyFilter = new Set(); // GAC codes currently filtering alerts
+
+  /**
+   * Converts a Georgia county GAC code (e.g. "GAC111") to its 6-digit EAS/SAME
+   * FIPS code (e.g. "013111"). NWS alert products are NOT all geocoded the
+   * same way: warnings (Tornado, Severe T-storm, Flash Flood) use COUNTY-based
+   * UGC codes (GACxxx), but advisory/watch-level products (Heat Advisory, Wind
+   * Advisory, Winter Weather Advisory, etc.) use forecast-ZONE UGC codes
+   * (GAZxxx) instead. A county filter that only checks geocode.UGC against GAC
+   * codes silently matches nothing for every zone-based product, even when the
+   * county is plainly listed in areaDesc. geocode.SAME, however, is always a
+   * county-level FIPS code on every alert regardless of product type (it's
+   * what drives EAS broadcast triggering), so it's the reliable cross-product
+   * way to match an alert to a specific county. See matching logic below.
+   * @param {string} gacCode - e.g. "GAC111"
+   * @returns {string} - e.g. "013111" (Georgia state FIPS is 13)
+   */
+  function gacToSameCode(gacCode) {
+    return '013' + gacCode.slice(3);
+  }
 
   // ========================================================================
   // UTILITY FUNCTIONS
@@ -607,10 +652,20 @@
     });
 
     // Apply county filter if active
+    // Match on geocode.UGC (covers county-based warnings, where UGC IS a GAC
+    // code) OR geocode.SAME (covers zone-based advisories/watches, which use
+    // GAZ zone codes in UGC but always carry the precise county FIPS in SAME).
+    // See gacToSameCode() above for why both checks are needed.
+    const activeSameCodes = activeCountyFilter.size > 0
+      ? new Set([...activeCountyFilter].map(gacToSameCode))
+      : null;
     const displayFeatures = activeCountyFilter.size > 0
-      ? uniqueFeatures.filter(f =>
-          (f.properties?.geocode?.UGC || []).some(code => activeCountyFilter.has(code))
-        )
+      ? uniqueFeatures.filter(f => {
+          const geocode = f.properties?.geocode || {};
+          const ugcMatch = (geocode.UGC || []).some(code => activeCountyFilter.has(code));
+          const sameMatch = (geocode.SAME || []).some(code => activeSameCodes.has(code));
+          return ugcMatch || sameMatch;
+        })
       : uniqueFeatures;
 
     updateAlertsTimestamp();
@@ -1025,6 +1080,19 @@
     });
 
     if (wrap) wrap.classList.toggle('has-error', hasError);
+
+    // If every token is still an unresolved-but-valid prefix (nothing
+    // committed/selected yet), newFilter is empty with no error. Don't
+    // overwrite activeCountyFilter in that case — without this guard, typing
+    // a partial county name (e.g. "Fayet") silently clears whatever filter
+    // was active and the alert list reverts to showing everything statewide,
+    // with no error indicator that the filter isn't actually applied. Keep
+    // showing whatever was already filtered until a token resolves.
+    if (newFilter.size === 0 && !hasError && tokens.length > 0) {
+      reRenderAlerts();
+      return;
+    }
+
     activeCountyFilter = newFilter;
     reRenderAlerts();
   }

@@ -37,6 +37,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://georgiaskywarn.com/changelog.html</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
     <loc>https://georgiaskywarn.com/photoarchive.html</loc>
     <lastmod>2026-05-13</lastmod>
     <changefreq>yearly</changefreq>

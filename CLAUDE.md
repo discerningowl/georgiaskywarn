@@ -20,6 +20,7 @@ georgiaskywarn/
 ├── nwsffclinks.html        # Useful NWS links and resources page
 ├── wx4ptc.html             # Information about WX4PTC station
 ├── about.html              # Site structure and overview
+├── changelog.html          # Full changelog history, grouped by year (linked from about.html, not in main nav)
 ├── photoarchive.html       # Photo archive of WX4PTC station
 ├── spotters.html           # Spotter resources and reporting guidelines
 ├── repeater-health.html    # Repeater database health dashboard (stats, inactive, unverified) — noindex
@@ -231,17 +232,16 @@ For scripts that only load on specific pages:
 **Design Pattern**: Uses `.sub-cards` / `.sub-card` grid throughout for consistent nested card layout
 
 ### repeaters.html
-**Purpose**: Dedicated page for SKYWARN repeater and weather radio information
+**Purpose**: Dedicated page for SKYWARN repeater information
 
 **Navigation**:
 - **Site-nav**: Links to other pages (back to index, wx4ptc, nwsffclinks, about)
-- **Page-nav**: Links to page sections (Search Repeaters, Linked Repeaters, Non-Linked Repeaters, Weather Stations)
+- **Page-nav**: Links to page sections (Search Repeaters, Linked Repeaters, Non-Linked Repeaters)
 
 **Contains**:
 - Repeater search bar (Ctrl/Cmd+K shortcut)
 - Complete linked repeater table (primary SKYWARN network)
 - Non-linked repeaters table (local SKYWARN nets)
-- NOAA Weather Radio stations table (17 NWS transmitters in Georgia)
 - Coverage notes and emergency power information
 
 ### nwsffclinks.html
@@ -669,12 +669,14 @@ Repeater tables are dynamically generated from the unified repeaters.json file:
   "location": "Peachtree City",
   "frequency": "147.390+",
   "tone": "141.3 Hz",
+  "county": "Fayette",
   "tags": ["WX4PTC System"],
   "description": "Wide coverage, generator backup",
   "callsign": "WX4PTC",
   "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=12345",
   "linked": true,
   "verified": true,
+  "active": true,
   "clubName": "Club Name Here",
   "clubUrl": "https://example.com",
   "iplinks": [
@@ -704,17 +706,20 @@ Repeater tables are dynamically generated from the unified repeaters.json file:
 | 2 | `location` | string | Yes | City or geographic location |
 | 3 | `frequency` | string | Yes | Frequency with offset (e.g., `"147.390+"`, `"145.210-"`) |
 | 4 | `tone` | string/null | Yes | CTCSS/PL tone in Hz (e.g., `"141.3 Hz"`) or `null` if no tone |
-| 5 | `tags` | array | Yes | Network affiliations (can be empty `[]`). Valid values: `"WX4PTC System"`, `"Peach State Intertie"`, `"Cherry Blossom Intertie"`, `"SE Linked Repeater"`, `"WX4EMA"` |
-| 6 | `description` | string | Yes | Coverage area, features, emergency power, etc. |
-| 7 | `callsign` | string | Yes | Amateur radio callsign (e.g., `"WX4PTC"`) or `"n0call"` if unknown |
-| 8 | `refurl` | string | Yes | RepeaterBook reference URL (single source of truth) |
-| 9 | `linked` | boolean | Yes | `true` if part of linked SKYWARN network, `false` otherwise |
-| 10 | `verified` | boolean | Yes | `true` if verified against RepeaterBook, `false` if needs verification |
-| 11 | `picUrl` | string | Only when applicable | Link to station photos (currently only 444.600+ and 442.500+). Omit if not applicable. |
-| 12 | `clubName` | string/null | Yes | Sponsoring club name, or `null` if unknown |
-| 13 | `clubUrl` | string/null | Yes | Sponsoring club URL, or `null` if unknown |
-| 14 | `iplinks` | array | No | Internet linking info (AllStar, EchoLink, etc.). Omit entirely if none. |
-| 15 | `rflinks` | array | No | Radio frequency links to other repeaters. Omit entirely if none. |
+| 5 | `county` | string | Yes | Georgia county the repeater is located in (e.g., `"Fulton"`) |
+| 6 | `tags` | array | Yes | Network affiliations (can be empty `[]`). Valid values: `"WX4PTC System"`, `"Peach State Intertie"`, `"Cherry Blossom Intertie"`, `"SE Linked Repeater"`, `"WX4EMA"` |
+| 7 | `description` | string | Yes | Coverage area, features, emergency power, etc. |
+| 8 | `callsign` | string | Yes | Amateur radio callsign (e.g., `"WX4PTC"`) or `"n0call"` if unknown |
+| 9 | `refurl` | string | Yes | RepeaterBook reference URL (single source of truth) |
+| 10 | `linked` | boolean | Yes | `true` if part of linked SKYWARN network, `false` otherwise |
+| 11 | `verified` | boolean | Yes | `true` if verified against RepeaterBook, `false` if needs verification |
+| 12 | `active` | boolean | Yes | `true` if currently on-air/operational, `false` if confirmed off-air. Drives filtering: inactive repeaters are excluded from the public tables (`renderAllRepeaters()`) and CSV exports, and surfaced on `repeater-health.html`'s Inactive list. |
+| 13 | `statusNote` | string | Only when `active: false` | Free-text explanation of the outage (who reported it, what's needed, follow-up date). Read by `repeater-health.html`'s Inactive table (`r.statusNote`). Omit entirely when the repeater is active. |
+| 14 | `picUrl` | string | Only when applicable | Link to station photos (currently only 444.600+ and 442.500+). Omit if not applicable. |
+| 15 | `clubName` | string/null | Yes | Sponsoring club name, or `null` if unknown |
+| 16 | `clubUrl` | string/null | Yes | Sponsoring club URL, or `null` if unknown |
+| 17 | `iplinks` | array | No | Internet linking info (AllStar, EchoLink, etc.). Omit entirely if none. |
+| 18 | `rflinks` | array | No | Radio frequency links to other repeaters. Omit entirely if none. |
 
 **Tag Badge Colors** (CSS classes):
 
@@ -749,90 +754,6 @@ Repeater tables are dynamically generated from the unified repeaters.json file:
 - Fields `clubName` and `clubUrl` should always be present, set to `null` if unknown.
 
 **For detailed non-technical instructions**, see [ADMIN_GUIDE.md](ADMIN_GUIDE.md) Task 1.
-
-### Adding a Weather Station
-
-**File**: `data/weather-stations.json`
-
-Weather station tables are dynamically generated from the JSON file. Edit `weather-stations.json` to add or update NOAA Weather Radio stations.
-
-**JSON Structure**:
-```json
-{
-  "location": "Atlanta",
-  "wxChannel": "WX1",
-  "frequency": "162.550 MHz",
-  "callsign": "KEC80",
-  "coverage": "Metro Atlanta and surrounding central Georgia counties (e.g., Fulton, DeKalb, Gwinnett); approx. 40-mile radius."
-}
-```
-
-**Steps**:
-1. Open `data/weather-stations.json`
-2. Add new entry in alphabetical order by location
-3. Follow JSON syntax rules:
-   - Entries separated by commas
-   - Last entry has NO trailing comma
-   - All strings in double quotes
-   - Frequency includes "MHz" (e.g., "162.550 MHz")
-   - WX Channel format: "WX1" through "WX7"
-4. Validate JSON at [jsonlint.com](https://jsonlint.com/)
-5. Verify station information on [NOAA Weather Radio coverage map](https://www.weather.gov/nwr/coverage)
-6. Test on mobile (weather station table is responsive and searchable)
-
-**Search Integration**: Weather stations are automatically searchable via the existing repeater search (Ctrl/Cmd+K). No code changes needed - the search queries all `.repeater-table tbody` elements, which includes weather stations.
-
-**Updating Existing Stations**:
-- Frequency change: Update the `frequency` field in weather-stations.json
-- Callsign change: Update the `callsign` field
-- Coverage change: Update the `coverage` description
-- Station offline: Remove the entry from the JSON file
-- Always verify changes on [NOAA Weather Radio Status](https://www.weather.gov/nwr/)
-
-**Coverage Note**: The 17 stations listed cover the NWS Atlanta (FFC) forecast area. Stations in neighboring forecast areas (e.g., NWS Jacksonville for South Georgia) are intentionally excluded to match SKYWARN geographic scope.
-
-**Important**: The weather stations table on `repeaters.html` is auto-generated from this JSON file via JavaScript. Do NOT edit the HTML table directly.
-
-### Weather Stations vs Repeaters - Key Differences
-
-**CRITICAL: Weather stations and repeaters serve different purposes and require different equipment.**
-
-**Weather Stations (NOAA Weather Radio)**:
-- **Receive-only** broadcast transmitters operated by the National Weather Service
-- Users **CANNOT transmit** on these frequencies (162.400-162.550 MHz)
-- Requires weather radio or scanner (no amateur radio license needed)
-- Broadcasts continuous weather information, warnings, watches, and forecasts 24/7
-- One-way communication only
-
-**Repeaters (Amateur Radio)**:
-- **Two-way communication** systems for weather spotters
-- Requires valid amateur radio license to transmit
-- Used for reporting severe weather observations to NWS
-- Interactive communication with net control and other spotters
-
-**Code Implementation Differences**:
-- **Weather stations**: Use `renderWeatherStationRow()` function
-  - Table columns: Location, Frequency/Channel, Coverage Area
-  - Callsign displayed as badge below location
-  - No tone information (receive-only)
-  - File: `data/weather-stations.json`
-
-- **Repeaters**: Use `renderRepeaterRow()` function
-  - Table columns: Location, Frequency+Tone, Description
-  - Tags displayed as badges (Hub, WX4PTC, Peach State, Cherry Blossom)
-  - Includes tone, autopatch, emergency power details
-  - Files: `data/linked-repeaters.json`, `data/nonlinked-repeaters.json`
-
-**Shared Functionality**:
-- Both use the same search bar (Ctrl/Cmd+K shortcut)
-- Both use `.repeater-table` CSS class for consistent styling
-- Both are mobile-responsive with horizontal scrolling
-- Both tables dynamically load from JSON files via `js/scripts.js`
-
-**When to Use Which**:
-- **Add to weather-stations.json**: NWS broadcast transmitters (NOAA Weather Radio)
-- **Add to linked-repeaters.json**: Amateur radio repeaters linked to the SKYWARN network
-- **Add to nonlinked-repeaters.json**: Local amateur radio repeaters for SKYWARN nets (not state-wide linked)
 
 ### Validating Repeater Data
 
@@ -924,6 +845,25 @@ Use these official RepeaterBook system pages to validate repeater membership and
    ```
 5. Ensure `<div id="footer-placeholder"></div>` is present at the bottom of `<main>` for the footer
 6. Test footer loading and navigation on both desktop and mobile
+
+### Adding a Changelog Year
+
+`changelog.html` groups history into one `.card` per year, rendered by `js/changelog.js` into static container `<div>`s. The page-nav and containers are **static HTML, not JS-generated** — `scripts.js` wires up the sticky page-nav (mobile toggle + scroll-spy highlighting) before `changelog.js` runs, so the target elements must already exist in the DOM when `scripts.js` initializes. When the first entry of a new year is added to `data/changelog.json`:
+
+1. Open `changelog.html`
+2. Add a new `<li>` to `#page-nav-list`, newest year first:
+   ```html
+   <li><a href="#y2027">2027</a></li>
+   ```
+3. Add a matching empty container div above the existing ones, newest year first:
+   ```html
+   <div id="changelogHistory">
+     <div id="y2027"></div>
+     <div id="y2026"></div>
+     <div id="y2025"></div>
+   </div>
+   ```
+4. No JS changes needed — `renderFullHistory()` in `js/changelog.js` groups `data/changelog.json` entries by `year` and looks up `#y{year}` automatically; it logs a console warning if a year's container is missing.
 
 ### Working with the Navigation System
 
@@ -1139,6 +1079,67 @@ refactor: Simplify alert filtering logic
 ---
 
 ## Changelog
+
+### 2026-06-30 (Round 5) — Second Code Review Pass, County Filter Partial-Match Bug
+
+#### `js/nws-api.js` — county filter silently cleared on partial input
+- **Bug** (caught during manual testing of the Round 4 fix): typing a valid-but-incomplete county prefix into the Active Area Alerts filter (e.g. "Fayet" instead of finishing "Fayette") silently showed ALL statewide alerts with no error indicator, while a fully-typed/selected county worked correctly. Made the Round 4 fix look broken even though the underlying geocode.SAME matching was correct.
+- **Root cause**: `validateAndFilter()` only added a county's GAC code to `newFilter` on an *exact* name match. An in-progress prefix with no exact match yet (but a valid partial match, so no error was flagged) left `newFilter` empty, and `activeCountyFilter = newFilter` then overwrote whatever filter was previously active — including wiping out a filter that had nothing to do with what was being typed.
+- **Fix**: when every token is still an unresolved prefix (`newFilter.size === 0`, `hasError === false`, input non-empty), `validateAndFilter()` now leaves `activeCountyFilter` untouched instead of clearing it. The alert list only changes once a token actually resolves (exact match or autocomplete selection).
+- Reviewed the other two site search features (repeater search on `repeaters.html`, county autocomplete on `about.html`) for the same class of bug — both correct, no changes needed.
+
+#### Second website-coder review pass — four smaller fixes
+- **`data/repeaters.json`**: fixed `id: "W4GTA-145"` → `"W4GTA-145.350"` (Lookout Mountain) — didn't match the documented `CALLSIGN-FREQUENCY` convention every other entry follows.
+- **`CLAUDE.md`**: documented the `statusNote` field (position 13) in the repeaters.json schema table — a real field used by 4 inactive repeaters and read by `repeater-health.html`'s Inactive table, missing from the schema the same way `county`/`active` were before Round 3.
+- **`js/cwa-map.js`**: `openCWAOfficeModal()`'s early-return guard didn't include `header` or `filterInput`, both of which are used unconditionally right after — a future change to the modal markup could throw a silent JS error instead of failing safe. Added both to the guard.
+- **`js/components.js`**: removed a redundant, non-descriptive `...` link to `repeater-health.html` from the footer's "Connect" column. `repeater-health.html` is intentionally kept off normal navigation (noindex admin dashboard) and already has a deliberately subtle entry point via the footer-bottom ellipsis link — the Connect-column copy was a stray duplicate of that, not the intended access path.
+- Version bumped to `20260630o`.
+
+### 2026-06-30 (Round 4) — County Filter Bug Fix (zone-based alerts)
+
+#### `js/nws-api.js` — county filter missed advisory/watch-level alerts
+- **Bug** (reported by Jack): filtering the index.html dashboard's Active Area Alerts by "Fayette" returned zero results, even for a Heat Advisory whose `areaDesc` plainly listed "Fayette" among dozens of other counties.
+- **Root cause**: `renderAllAlerts()`'s county filter only checked `properties.geocode.UGC` against GAC (county FIPS) codes loaded from `data/ffc-counties.json`. That works for warning-level products (Tornado, Severe Thunderstorm, Flash Flood Warning), which NWS geocodes at the county level (`GACxxx`). But advisory/watch-level products — Heat Advisory, Wind Advisory, Winter Weather Advisory, etc. — are geocoded by NWS **forecast zone** instead (`GAZxxx`), so their `UGC` array never contains a `GAC` code and the filter silently matched nothing, regardless of what the alert's `areaDesc` text said.
+- **Fix**: added `gacToSameCode()`, which derives a county's 6-digit EAS/SAME FIPS code from its GAC code (Georgia state FIPS is `13`, so `GAC111` → `013111`). `geocode.SAME` is always county-level on every NWS alert regardless of product type (it's what drives EAS broadcast triggering), so it's the reliable cross-product field to match against. The filter now matches if **either** `geocode.UGC` contains the GAC code (warnings) **or** `geocode.SAME` contains the derived SAME code (advisories/watches).
+- File header `Version:` comment bumped to `20260630a`; site-wide `APP_VERSION` bumped to `20260630m`.
+
+### 2026-06-30 (Round 3) — Code Review Fixes, About Page Reorder
+
+#### Code review cleanup (first pass with the dedicated `website-coder` subagent)
+- **`js/loader.js`**: Fixed the stylesheet cache-busting selector. It read `link[rel="stylesheet"][href^="style.css"]`, which could never match the actual `<link href="css/style.css">` tag left over from the April 1 `css/` directory restructure — CSS changes have not been getting a `?v=` cache-bust parameter since then. Selector now targets `href^="css/style.css"`.
+- **`js/scripts.js`**: Removed `renderWeatherStationRow()` and `renderWeatherStations()` and their call site. Dead code — the weather-stations feature (and `data/weather-stations.json`) was removed from `repeaters.html` back in January; the function had an early-return guard (`if (!container) return`) so it wasn't firing a failed fetch on every load, just sitting unused.
+- **`js/scripts.js`**: Extracted a single `tagToBadgeClass(tag)` helper and replaced three copy-pasted tag→badge-class if/else chains (`renderRepeaterRow()`, `openRepeaterModal()`, `tagsToBadges()` on `repeater-health.html`) with calls to it. Prevents future badge-color drift between the repeater table, the detail modal, and the health dashboard.
+- **`CLAUDE.md`**: Documented the `county` and `active` fields in the `repeaters.json` schema table (positions 5 and 12 respectively) — both are real, load-bearing fields (every record has them; `active` drives filtering in `renderAllRepeaters()` and the CSV exporters) that were missing from the documented field order. Removed the entire "Adding a Weather Station" and "Weather Stations vs Repeaters" sections, plus the stale "NOAA Weather Radio stations table" bullet under `repeaters.html`'s page description — all described a feature, file (`data/weather-stations.json`), and even file names (`data/linked-repeaters.json` / `data/nonlinked-repeaters.json`) that no longer exist in this codebase.
+- Version bumped to `20260630l` for the JS changes.
+
+#### `about.html` — section reorder + banner consistency
+- Swapped section order: **Service Area of NWS Atlanta** now appears before **Contacts** (previously Contacts → Service Area). Page-nav list (`#page-nav-list`) reordered to match.
+- All four cards on the page (Overview, Service Area, Contacts, Recent Updates) now use the same `card-header--blue` banner. Previously Overview and Service Area used the unstyled default gradient while Contacts and the JS-injected Recent Updates card used blue — inconsistent banner colors on the same page with no semantic reason for the split.
+- HTML-only change; no version bump needed.
+
+### 2026-06-30 (Round 2) — Dedicated Changelog Page
+
+#### New `changelog.html` page
+- Added a new root-level page holding the **full** changelog history, grouped by year (`.card` per year, reusing the existing `.changelog-grid`/`.changelog-month-card` styles). Not added to the main site nav — linked only from `about.html`, same precedent as `repeater-health.html`. Added to `sitemap.xml` (it's public content, unlike the noindex health dashboard).
+- Page-nav and year container `<div id="y{year}">` elements are **static HTML**, not JS-generated. This is required, not a style choice: `scripts.js` wires up the sticky page-nav's mobile toggle and IntersectionObserver scroll-spy from elements present in the DOM right after `DOMContentLoaded`, which runs *before* `changelog.js` (a postScript) populates content. If the year containers didn't already exist, scroll-spy highlighting and the mobile-close-on-click handler would silently never fire for them. See new CLAUDE.md section **"Adding a Changelog Year"** for the (now-documented) manual step needed once a year, when the first entry of a new year lands in `data/changelog.json`.
+
+#### `about.html` — replaced the archived-updates modal
+- The old `#archivedModal` showed every update older than `CONFIG.UI.CHANGELOG_MONTHS_TO_SHOW` (a rolling 6-calendar-month date window) inside a small modal box. This didn't scale: unbounded history stuffed into a fixed-height popup, no deep links to a specific month, and no SEO value since modal content isn't a real URL.
+- Replaced with a fixed **entry count** cutoff: `about.html` now always shows the most recent `CONFIG.UI.CHANGELOG_RECENT_COUNT` (6) month-cards regardless of calendar date, and a "View Full Changelog →" link (real `<a>`, not a JS-driven button) appears below them pointing to `changelog.html` whenever more than 6 entries exist.
+- Removed `#archivedModal` markup, `#archivedModalClose`, `#archivedModalBody`, and the `setupArchivedModal()` function from `js/changelog.js` entirely — no modal-manager dependency left in this code path.
+
+#### `js/changelog.js` — rewritten render logic
+- `loadChangelog()` now branches on which container is present: `#changelog` (about.html, recent-only) vs `#changelogHistory` (changelog.html, full history). Both can theoretically run in the same load since the function doesn't early-return, but in practice `js/loader.js` only ever loads this script on one page at a time per its `postScripts` map.
+- New `renderFullHistory()` groups `data.updates` by `year` into a `Map`, then renders one `.card` per year (newest year first) into the matching static `#y{year}` div. Logs a `console.warn` instead of throwing if a year's container is missing — fails visibly without breaking the rest of the page.
+- Fixed a latent duplicate-ID bug in the old code: `renderRecentUpdates()` used to set `mainSection.id = 'changelog'` *inside* a container that was itself `<div id="changelog">`, producing two elements with the same ID. The inner section is now `id="changelog-card"`.
+
+#### Config rename
+- `CONFIG.UI.CHANGELOG_MONTHS_TO_SHOW` (date-window months) renamed to `CONFIG.UI.CHANGELOG_RECENT_COUNT` (entry count) in `js/core.js` to match the new cutoff semantics. Value unchanged (6).
+
+#### `js/loader.js`
+- Added `'changelog.html': ['js/changelog.js']` to `postScripts`.
+
+#### Version: `20260630k`
 
 ### 2026-06-30 — CWA County Modal, Georgia County Search, Layout Restructure
 
@@ -1714,6 +1715,6 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 
 ---
 
-**Last Updated**: 2026-06-30 (CWA county modal system; Georgia county search bar; forecast area layout restructure — map on top, 3-col office grid below; legend removed; map scaling fix)
+**Last Updated**: 2026-06-30 (County filter partial-match bug fixed — typing an incomplete county name no longer silently clears the active filter; second review pass fixes — repeaters.json id typo, statusNote schema doc, cwa-map.js null-guard, duplicate footer link removed; County alert filter bug fix — zone-geocoded advisories/watches now match via geocode.SAME, not just geocode.UGC; code review fixes — loader.js cache-busting bug, dead weather-station code removed, badge-class mapping consolidated, repeaters.json schema docs corrected; about.html Service Area/Contacts reorder + unified blue card banners; dedicated changelog.html history page replacing the archived-updates modal; about.html now shows a fixed 6-entry recent count; CWA county modal system; Georgia county search bar; forecast area layout restructure — map on top, 3-col office grid below; legend removed; map scaling fix)
 **Maintained By**: Claude AI Assistant (based on codebase analysis)
 **For Questions**: Contact Jack Parks (KQ4JP) <kq4jp@pm.me>

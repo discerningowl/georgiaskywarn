@@ -2,74 +2,92 @@
  * ──────────────────────────────────────────────────────────────
  * File:   changelog.js
  * Author: Georgia SKYWARN Development Team
- * Purpose: Load and display changelog from changelog.json
+ * Purpose: Load and display changelog from changelog.json.
+ *          Renders two different views depending on which page loaded it:
+ *            • about.html      → #changelog        → most recent N month-cards only
+ *            • changelog.html  → #changelogHistory  → full history, grouped by year
  * Change-log:
+ *   • 2026-06-30 – Replaced date-window cutoff + "View Older" modal with a
+ *     fixed recent-entry count (CONFIG.UI.CHANGELOG_RECENT_COUNT) and a
+ *     dedicated changelog.html history page. The modal didn't scale: it
+ *     stuffed unbounded history into a small box with no deep links and no
+ *     SEO value. Year-grouped sections on their own page do.
  *   • 2026-01-02 – Initial creation for dynamic changelog display
  * ──────────────────────────────────────────────────────────────
  */
 
-(function() {
+(function () {
   'use strict';
 
-  // Use CONFIG for months to show
-  const MONTHS_TO_SHOW = window.CONFIG.UI.CHANGELOG_MONTHS_TO_SHOW;
-  const HEADER_COLORS = ['green', 'blue', 'indigo', 'orange', 'red', 'yellow'];
+  const RECENT_COUNT = window.CONFIG.UI.CHANGELOG_RECENT_COUNT;
+  const HEADER_COLORS = ['blue', 'indigo', 'green', 'orange', 'red', 'yellow'];
 
-  // Fetch and display changelog
   async function loadChangelog() {
     try {
       const data = await window.UTILS.fetchJSON('data/changelog.json', 'changelog');
-      const now = new Date();
-      const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - MONTHS_TO_SHOW, 1);
+      const updates = data.updates; // Newest-first order (source of truth in changelog.json)
 
-      // Separate recent and archived updates
-      const recentUpdates = [];
-      const archivedUpdates = [];
+      // about.html: recent N entries + a link to the full history if more exist
+      const recentContainer = document.getElementById('changelog');
+      if (recentContainer) {
+        renderRecentUpdates(updates.slice(0, RECENT_COUNT), recentContainer);
 
-      data.updates.forEach(update => {
-        const updateDate = new Date(update.date);
-        if (updateDate >= sixMonthsAgo) {
-          recentUpdates.push(update);
-        } else {
-          archivedUpdates.push(update);
+        const moreContainer = document.getElementById('archived-updates-container');
+        if (moreContainer && updates.length > RECENT_COUNT) {
+          moreContainer.style.display = 'block';
         }
-      });
-
-      // Render recent updates as cards
-      renderRecentUpdates(recentUpdates);
-
-      // Show archived button if there are archived updates
-      if (archivedUpdates.length > 0) {
-        document.getElementById('archived-updates-container').style.display = 'block';
-        setupArchivedModal(archivedUpdates);
       }
 
+      // changelog.html: full history grouped by year
+      const historyRoot = document.getElementById('changelogHistory');
+      if (historyRoot) {
+        renderFullHistory(updates, historyRoot);
+      }
     } catch (err) {
       console.error('Error loading changelog:', err);
-      const container = document.getElementById('changelog');
-      if (container) {
-        container.innerHTML = '<section class="card"><div class="card-body"><p>Unable to load recent updates. Please check the console for errors.</p></div></section>';
+      const fallback = document.getElementById('changelog') || document.getElementById('changelogHistory');
+      if (fallback) {
+        fallback.innerHTML = '<section class="card"><div class="card-body"><p>Unable to load updates. Please check the console for errors.</p></div></section>';
       }
     }
   }
 
-  // Render recent updates as sub-cards in a grid within main card
-  function renderRecentUpdates(updates) {
-    const container = document.getElementById('changelog');
-    if (!container) {
-      console.error('Changelog container not found');
-      return;
-    }
+  // Build a single month's card (shared by both render paths)
+  function buildMonthCard(update, colorClass) {
+    const monthCard = document.createElement('div');
+    monthCard.className = 'changelog-month-card';
 
+    const monthHeader = document.createElement('h3');
+    monthHeader.className = `changelog-month-header changelog-month-header--${colorClass}`;
+    monthHeader.textContent = `${update.month} ${update.year}`;
+
+    const list = document.createElement('ul');
+    list.className = 'changelog-list';
+
+    update.items.forEach(item => {
+      const li = document.createElement('li');
+      const strong = document.createElement('strong');
+      strong.textContent = item.title + ':';
+      li.appendChild(strong);
+      li.appendChild(document.createTextNode(' ' + item.description));
+      list.appendChild(li);
+    });
+
+    monthCard.appendChild(monthHeader);
+    monthCard.appendChild(list);
+    return monthCard;
+  }
+
+  // about.html: render the most recent N updates as sub-cards in one card
+  function renderRecentUpdates(updates, container) {
     if (updates.length === 0) {
       container.innerHTML = '<section class="card"><div class="card-body"><p>No recent updates.</p></div></section>';
       return;
     }
 
-    // Create main card wrapper
     const mainSection = document.createElement('section');
     mainSection.className = 'card';
-    mainSection.id = 'changelog';
+    mainSection.id = 'changelog-card';
 
     const mainHeader = document.createElement('header');
     mainHeader.className = 'card-header card-header--blue';
@@ -78,36 +96,11 @@
     const mainBody = document.createElement('div');
     mainBody.className = 'card-body';
 
-    // Create grid container for month cards
     const grid = document.createElement('div');
     grid.className = 'changelog-grid';
 
-    // Create individual month cards
     updates.forEach((update, index) => {
-      const colorClass = HEADER_COLORS[index % HEADER_COLORS.length];
-
-      const monthCard = document.createElement('div');
-      monthCard.className = 'changelog-month-card';
-
-      const monthHeader = document.createElement('h3');
-      monthHeader.className = `changelog-month-header changelog-month-header--${colorClass}`;
-      monthHeader.textContent = `${update.month} ${update.year}`;
-
-      const list = document.createElement('ul');
-      list.className = 'changelog-list';
-
-      update.items.forEach(item => {
-        const li = document.createElement('li');
-        const strong = document.createElement('strong');
-        strong.textContent = item.title + ':';
-        li.appendChild(strong);
-        li.appendChild(document.createTextNode(' ' + item.description));
-        list.appendChild(li);
-      });
-
-      monthCard.appendChild(monthHeader);
-      monthCard.appendChild(list);
-      grid.appendChild(monthCard);
+      grid.appendChild(buildMonthCard(update, HEADER_COLORS[index % HEADER_COLORS.length]));
     });
 
     mainBody.appendChild(grid);
@@ -116,52 +109,48 @@
     container.appendChild(mainSection);
   }
 
-  // Setup archived updates modal (using UTILS.createModalManager)
-  function setupArchivedModal(archivedUpdates) {
-    const modalBody = document.getElementById('archivedModalBody');
-    const viewBtn = document.getElementById('view-archived-btn');
-
-    if (!modalBody || !viewBtn) {
-      console.error('Archived modal elements not found');
-      return;
-    }
-
-    // Initialize modal manager
-    const modal = window.UTILS.createModalManager('archivedModal', 'archivedModalClose');
-    if (!modal) return;
-
-    // Render archived updates in modal body using DOM methods to prevent XSS
-    modalBody.innerHTML = '';
-    archivedUpdates.forEach(update => {
-      const wrapper = document.createElement('div');
-      wrapper.style.marginBottom = '2rem';
-
-      const heading = document.createElement('h3');
-      heading.style.color = 'var(--accent-blue)';
-      heading.style.marginBottom = '0.5rem';
-      heading.textContent = `${update.month} ${update.year}`;
-      wrapper.appendChild(heading);
-
-      const ul = document.createElement('ul');
-      ul.style.listStyle = 'disc';
-      ul.style.paddingLeft = '1.5rem';
-
-      update.items.forEach(item => {
-        const li = document.createElement('li');
-        li.style.marginBottom = '0.5rem';
-        const strong = document.createElement('strong');
-        strong.textContent = item.title + ':';
-        li.appendChild(strong);
-        li.appendChild(document.createTextNode(' ' + item.description));
-        ul.appendChild(li);
-      });
-
-      wrapper.appendChild(ul);
-      modalBody.appendChild(wrapper);
+  // changelog.html: render ALL updates, grouped by year, into static #y{year}
+  // container divs already present in the page HTML. Year containers must be
+  // added to changelog.html when a new year's first entry is added — see
+  // CLAUDE.md "Adding a Changelog Year" for instructions.
+  function renderFullHistory(updates, historyRoot) {
+    const byYear = new Map();
+    updates.forEach(update => {
+      if (!byYear.has(update.year)) byYear.set(update.year, []);
+      byYear.get(update.year).push(update);
     });
 
-    // Open modal when button clicked
-    viewBtn.addEventListener('click', () => modal.open());
+    const years = Array.from(byYear.keys()).sort((a, b) => b - a);
+
+    years.forEach((year, yearIndex) => {
+      const target = document.getElementById(`y${year}`);
+      if (!target) {
+        console.warn(`[CHANGELOG] No #y${year} container found in changelog.html — add one for this year's entries.`);
+        return;
+      }
+
+      const section = document.createElement('section');
+      section.className = 'card';
+
+      const header = document.createElement('header');
+      header.className = `card-header card-header--${HEADER_COLORS[yearIndex % HEADER_COLORS.length]}`;
+      header.innerHTML = `<h2 class="card-title">${year}</h2>`;
+
+      const body = document.createElement('div');
+      body.className = 'card-body';
+
+      const grid = document.createElement('div');
+      grid.className = 'changelog-grid';
+
+      byYear.get(year).forEach((update, index) => {
+        grid.appendChild(buildMonthCard(update, HEADER_COLORS[index % HEADER_COLORS.length]));
+      });
+
+      body.appendChild(grid);
+      section.appendChild(header);
+      section.appendChild(body);
+      target.appendChild(section);
+    });
   }
 
   // Load changelog on page load

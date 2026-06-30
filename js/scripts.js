@@ -15,6 +15,13 @@
  * NOTE: NWS alert fetching is handled by nws-api.js
  * NOTE: Header/footer/navigation injection is handled by components.js
  * Change-log:
+ *   • 2026-06-30 – Code review cleanup:
+ *     - Removed dead renderWeatherStationRow()/renderWeatherStations()
+ *       (weather-stations feature was removed from repeaters.html in
+ *       Jan 2026; data/weather-stations.json no longer exists)
+ *     - Extracted tagToBadgeClass() helper, replacing 3 duplicated
+ *       tag→badge-class if/else chains (renderRepeaterRow, openRepeaterModal,
+ *       tagsToBadges) with a single source of truth
  *   • 2026-01-09 – Standardized modal header color classes
  *     - Unified color classes: --red, --yellow, --blue, --green
  *     - Warnings: red, Watches: yellow, Other alerts: blue
@@ -279,6 +286,23 @@
   }
 
   /**
+   * Maps a repeater network tag (e.g. "WX4PTC System") to its badge CSS class.
+   * Single source of truth — used by the repeater table, the detail modal,
+   * and the repeater-health admin dashboard so badge colors always match.
+   * @param {string} tag - Network tag from repeater.tags
+   * @returns {string} - Badge CSS class
+   */
+  function tagToBadgeClass(tag) {
+    const tagLower = tag.toLowerCase();
+    if (tagLower === 'wx4ema' || tagLower === 'wx4ema system') return 'badge-wx4ema';
+    if (tagLower === 'wx4ptc' || tagLower === 'wx4ptc system') return 'badge-wx4ptc';
+    if (tagLower === 'peach state' || tagLower === 'peach state intertie') return 'badge-peach-state';
+    if (tagLower === 'cherry blossom' || tagLower === 'cherry blossom intertie') return 'badge-cherry-blossom';
+    if (tagLower === 'se linked repeater') return 'badge-se-linked';
+    return 'badge';
+  }
+
+  /**
    * Renders a repeater table row with new multi-column structure
    * @param {Object} repeater - Repeater object from JSON
    * @returns {string} - HTML table row
@@ -297,15 +321,7 @@
     // Add network tags
     if (repeater.tags && repeater.tags.length > 0) {
       repeater.tags.forEach(tag => {
-        const tagLower = tag.toLowerCase();
-        let badgeClass = 'badge';
-
-        if (tagLower === 'wx4ema' || tagLower === 'wx4ema system') badgeClass = 'badge-wx4ema';
-        else if (tagLower === 'wx4ptc' || tagLower === 'wx4ptc system') badgeClass = 'badge-wx4ptc';
-        else if (tagLower === 'peach state' || tagLower === 'peach state intertie') badgeClass = 'badge-peach-state';
-        else if (tagLower === 'cherry blossom' || tagLower === 'cherry blossom intertie') badgeClass = 'badge-cherry-blossom';
-        else if (tagLower === 'se linked repeater') badgeClass = 'badge-se-linked';
-
+        const badgeClass = tagToBadgeClass(tag);
         allTags.push(`<span class="${badgeClass}">${sanitizeHTML(tag)}</span>`);
       });
     }
@@ -378,47 +394,6 @@
     setupRepeaterModalHandlers();
   }
 
-  /**
-   * Renders a weather station table row
-   * @param {Object} station - Weather station object from JSON
-   * @returns {string} - HTML table row
-   */
-  function renderWeatherStationRow(station) {
-    const callsignBadge = station.callsign
-      ? `<div class="repeater-badges"><span class="badge">${sanitizeHTML(station.callsign)}</span></div>`
-      : '';
-
-    const freqChannel = `${sanitizeHTML(station.frequency)} (${sanitizeHTML(station.wxChannel)})`;
-
-    return `
-      <tr>
-        <td><div>${sanitizeHTML(station.location)}</div>${callsignBadge}</td>
-        <td class="freq">${freqChannel}</td>
-        <td>${sanitizeHTML(station.coverage)}</td>
-      </tr>`;
-  }
-
-  /**
-   * Renders all weather stations for repeaters.html
-   */
-  async function renderWeatherStations() {
-    const container = document.getElementById('weather-stations-tbody');
-    if (!container) return;
-
-    try {
-      const response = await fetch('data/weather-stations.json');
-      if (!response.ok) throw new Error('Failed to load weather-stations.json');
-      const stations = await response.json();
-
-      container.innerHTML = stations.length > 0
-        ? stations.map(s => renderWeatherStationRow(s)).join('')
-        : '<tr><td colspan="3">No weather stations available.</td></tr>';
-    } catch (error) {
-      console.error(`Error loading weather stations: ${error}`);
-      container.innerHTML = '<tr><td colspan="3">Error loading weather stations.</td></tr>';
-    }
-  }
-
   // ========================================================================
   // REPEATER DETAIL MODAL FUNCTIONALITY
   // ========================================================================
@@ -461,13 +436,7 @@
     if (repeater.tags && repeater.tags.length > 0) {
       html += '<div style="margin-bottom: 1.5rem;">';
       repeater.tags.forEach(tag => {
-        const tagLower = tag.toLowerCase();
-        let badgeClass = 'badge';
-        if (tagLower === 'wx4ema' || tagLower === 'wx4ema system') badgeClass = 'badge-wx4ema';
-        else if (tagLower === 'wx4ptc' || tagLower === 'wx4ptc system') badgeClass = 'badge-wx4ptc';
-        else if (tagLower === 'peach state' || tagLower === 'peach state intertie') badgeClass = 'badge-peach-state';
-        else if (tagLower === 'cherry blossom' || tagLower === 'cherry blossom intertie') badgeClass = 'badge-cherry-blossom';
-        else if (tagLower === 'se linked repeater') badgeClass = 'badge-se-linked';
+        const badgeClass = tagToBadgeClass(tag);
         html += `<span class="${badgeClass}">${sanitizeHTML(tag)}</span>`;
       });
       html += '</div>';
@@ -1050,11 +1019,8 @@
       }).catch(() => { exportDateEl.textContent = 'recently'; });
     }
 
-    Promise.all([
-      renderAllRepeaters(),
-      renderWeatherStations()
-    ]).then(() => {
-      // Re-initialize search after tables are loaded
+    renderAllRepeaters().then(() => {
+      // Re-initialize search after table is loaded
       const searchInput = document.getElementById('repeater-search-input');
       if (searchInput) {
         searchInput.dispatchEvent(new Event('input'));
@@ -1116,20 +1082,13 @@
       set('stat-nocall',     noCalls.length);
 
       // ── Helper: render tags as styled badge pills ────────────────────────
-      // Mirrors the badge-class mapping used in renderRepeaterRow() so the
-      // health page matches the look of the public repeater tables.
+      // Uses the shared tagToBadgeClass() so the health page always matches
+      // the look of the public repeater tables and detail modal.
       function tagsToBadges(tags) {
         if (!tags || tags.length === 0) return '—';
-        const badges = tags.map(tag => {
-          const tagLower = tag.toLowerCase();
-          let badgeClass = 'badge';
-          if (tagLower === 'wx4ema' || tagLower === 'wx4ema system') badgeClass = 'badge-wx4ema';
-          else if (tagLower === 'wx4ptc' || tagLower === 'wx4ptc system') badgeClass = 'badge-wx4ptc';
-          else if (tagLower === 'peach state' || tagLower === 'peach state intertie') badgeClass = 'badge-peach-state';
-          else if (tagLower === 'cherry blossom' || tagLower === 'cherry blossom intertie') badgeClass = 'badge-cherry-blossom';
-          else if (tagLower === 'se linked repeater') badgeClass = 'badge-se-linked';
-          return `<span class="${badgeClass}">${sanitizeHTML(tag)}</span>`;
-        }).join('');
+        const badges = tags.map(tag =>
+          `<span class="${tagToBadgeClass(tag)}">${sanitizeHTML(tag)}</span>`
+        ).join('');
         return `<div class="tags-container">${badges}</div>`;
       }
 

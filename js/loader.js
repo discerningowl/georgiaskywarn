@@ -5,6 +5,10 @@
  * Purpose: Dynamically loads ALL JavaScript files with version-based cache busting
  *          To update cache across entire site: just update APP_VERSION in version.js
  * Change-log:
+ *   • 2026-06-30 – BUG FIX: stylesheet cache-busting selector never matched
+ *                   - Selector was href^="style.css" but the actual link tag
+ *                     is href="css/style.css" (post April 1 css/ restructure)
+ *                   - CSS changes were never getting a ?v= cache-bust param
  *   • 2026-04-02 – Removed search.js (sitewide search feature removed)
  *   • 2026-01-09 – CODE CONSOLIDATION: Updated for merged files (9 files → 7 files)
  *                   - components.js replaces header.js + footer.js
@@ -81,7 +85,8 @@
 
     // Page-specific scripts that load AFTER scripts.js
     const postScripts = {
-      'about.html': ['js/changelog.js', 'js/cwa-map.js']
+      'about.html': ['js/changelog.js', 'js/cwa-map.js'],
+      'changelog.html': ['js/changelog.js']
     };
 
     // Combine in correct order: components → core → page-specific pre-scripts → scripts.js → post-scripts
@@ -110,8 +115,8 @@
    */
   async function init() {
     // Stamp the stylesheet with the current version for cache busting
-    const cssLink = document.querySelector('link[rel="stylesheet"][href^="style.css"]');
-    if (cssLink) cssLink.href = `style.css?v=${window.APP_VERSION || 'default'}`;
+    const cssLink = document.querySelector('link[rel="stylesheet"][href^="css/style.css"]');
+    if (cssLink) cssLink.href = `css/style.css?v=${window.APP_VERSION || 'default'}`;
 
     // Load components.js immediately (blocks to prevent FOUC)
     await loadScript('js/components.js');

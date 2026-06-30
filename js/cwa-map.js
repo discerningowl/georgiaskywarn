@@ -92,7 +92,11 @@
     const filterClear = document.getElementById('cwaCountyFilterClear');
     const listEl      = document.getElementById('cwaCountyList');
     const linkEl      = document.getElementById('cwaOfficeSkywarnLink');
-    if (!backdrop || !titleEl || !listEl) return;
+    // header and filterInput are used unconditionally below (no individual
+    // `if` guard like filterClear/linkEl get), so they belong in the early
+    // return too — otherwise a future markup change to the modal would throw
+    // a silent JS error instead of failing safe.
+    if (!backdrop || !header || !titleEl || !filterInput || !listEl) return;
 
     // ── Header: gradient matching the CWA office color ───────────────────────
     header.style.background =

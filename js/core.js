@@ -47,7 +47,7 @@
 
   // UI configuration
   const UI = {
-    CHANGELOG_MONTHS_TO_SHOW: 6,
+    CHANGELOG_RECENT_COUNT: 6, // Number of most-recent month-cards shown on about.html; rest live on changelog.html
     AUTO_REFRESH_INTERVAL: 5 * 60 * 1000, // DEPRECATED: Now using CACHE_TTL values directly for refresh intervals
     SCROLL_OFFSET_MOBILE: 100,
     SCROLL_OFFSET_DESKTOP: 200,
