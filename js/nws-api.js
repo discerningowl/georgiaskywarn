@@ -6,8 +6,20 @@
  *          - Fetch functions with timeout and retry logic
  *          - Cache management
  *          - Common constants and configuration
- * Version: 20260630b
+ * Version: 20260630c
  * Change-log:
+ *   • 2026-06-30c – ROBUSTNESS FIX: County filter now also matches areaDesc
+ *                  - geocode.SAME (added in 20260630a) is meant to always be
+ *                    county-level, but in practice NWS only reliably
+ *                    populates it for EAS-significant warning products.
+ *                    Advisory-level products (Heat Advisory, etc.) aren't
+ *                    EAS-required, so their SAME arrays can be sparse/empty
+ *                    even though the county is plainly named in the alert
+ *                  - Added a third match layer: parse properties.areaDesc
+ *                    (the "Areas:" county list, always fully populated by
+ *                    NWS regardless of product/geocode type) and match
+ *                    county names directly as a final, most-reliable check
+ *                  - Filter now matches on UGC OR SAME OR areaDesc
  *   • 2026-06-30b – BUG FIX: County filter silently cleared on partial input
  *                  - validateAndFilter() overwrote activeCountyFilter with an
  *                    empty Set whenever the in-progress token was an
@@ -651,20 +663,37 @@
       uniqueFeatures.push(f);
     });
 
-    // Apply county filter if active
-    // Match on geocode.UGC (covers county-based warnings, where UGC IS a GAC
-    // code) OR geocode.SAME (covers zone-based advisories/watches, which use
-    // GAZ zone codes in UGC but always carry the precise county FIPS in SAME).
-    // See gacToSameCode() above for why both checks are needed.
+    // Apply county filter if active. Three layers, weakest-to-strongest
+    // guarantee, checked in order of cheapness:
+    //   1. geocode.UGC  — matches county-based warnings (UGC IS a GAC code)
+    //   2. geocode.SAME — matches zone-based advisories/watches (GAZ zone
+    //      codes in UGC, but SAME is meant to always carry county FIPS)
+    //   3. areaDesc text — NWS's own human-readable "Areas:" county list.
+    //      This is the one field that is ALWAYS fully populated on every
+    //      alert regardless of product type, because forecasters write it
+    //      directly into the product. geocode.SAME is only reliably complete
+    //      for EAS-significant products (Tornado/Flash Flood/etc Warnings);
+    //      advisory-level products like Heat Advisory are NOT EAS-required
+    //      triggers, so NWS doesn't always populate SAME for them even
+    //      though it's geocoded by zone. areaDesc has no such gap, so it's
+    //      the most reliable match and should not be treated as optional.
     const activeSameCodes = activeCountyFilter.size > 0
       ? new Set([...activeCountyFilter].map(gacToSameCode))
       : null;
+    const activeCountyNames = activeCountyFilter.size > 0
+      ? new Set([...activeCountyFilter].map(code => (ffcCounties[code] || '').toLowerCase()))
+      : null;
     const displayFeatures = activeCountyFilter.size > 0
       ? uniqueFeatures.filter(f => {
-          const geocode = f.properties?.geocode || {};
+          const p = f.properties || {};
+          const geocode = p.geocode || {};
           const ugcMatch = (geocode.UGC || []).some(code => activeCountyFilter.has(code));
           const sameMatch = (geocode.SAME || []).some(code => activeSameCodes.has(code));
-          return ugcMatch || sameMatch;
+          const areaMatch = (p.areaDesc || '')
+            .split(';')
+            .map(name => name.trim().toLowerCase())
+            .some(name => activeCountyNames.has(name));
+          return ugcMatch || sameMatch || areaMatch;
         })
       : uniqueFeatures;
 

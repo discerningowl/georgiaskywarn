@@ -1080,6 +1080,13 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-06-30 (Round 6) — County Filter Robustness: areaDesc Fallback
+
+#### `js/nws-api.js` — geocode.SAME isn't reliable for non-EAS products
+- **Follow-up bug** (Jack still saw failures after Round 4/5's fixes): `geocode.SAME` is documented by NWS as a county-level EAS broadcast field, but in practice it's only consistently populated for EAS-significant warning products (Tornado, Flash Flood, Severe Thunderstorm, etc.). Advisory-level products like Heat Advisory are not EAS-required triggers, so their `SAME` arrays can be sparse or empty even when the county is clearly named in the product text — meaning the Round 4 fix narrowed the gap but didn't close it for every product type.
+- **Fix**: added a third, most-reliable match layer that parses `properties.areaDesc` (the "Areas:" semicolon-separated county list shown on every alert card) directly and matches county names as plain text. `areaDesc` is always fully populated by NWS regardless of product type or geocode convention, since forecasters write it directly into the product. The filter now matches on `geocode.UGC` OR `geocode.SAME` OR `areaDesc` — three independent paths, any one of which is sufficient.
+- File header `Version:` comment bumped to `20260630c`; site-wide `APP_VERSION` bumped to `20260630p`.
+
 ### 2026-06-30 (Round 5) — Second Code Review Pass, County Filter Partial-Match Bug
 
 #### `js/nws-api.js` — county filter silently cleared on partial input
@@ -1715,6 +1722,6 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 
 ---
 
-**Last Updated**: 2026-06-30 (County filter partial-match bug fixed — typing an incomplete county name no longer silently clears the active filter; second review pass fixes — repeaters.json id typo, statusNote schema doc, cwa-map.js null-guard, duplicate footer link removed; County alert filter bug fix — zone-geocoded advisories/watches now match via geocode.SAME, not just geocode.UGC; code review fixes — loader.js cache-busting bug, dead weather-station code removed, badge-class mapping consolidated, repeaters.json schema docs corrected; about.html Service Area/Contacts reorder + unified blue card banners; dedicated changelog.html history page replacing the archived-updates modal; about.html now shows a fixed 6-entry recent count; CWA county modal system; Georgia county search bar; forecast area layout restructure — map on top, 3-col office grid below; legend removed; map scaling fix)
+**Last Updated**: 2026-06-30 (County filter now also matches areaDesc text as a third fallback layer, since geocode.SAME isn't reliably populated for non-EAS advisory products; County filter partial-match bug fixed — typing an incomplete county name no longer silently clears the active filter; second review pass fixes — repeaters.json id typo, statusNote schema doc, cwa-map.js null-guard, duplicate footer link removed; County alert filter bug fix — zone-geocoded advisories/watches now match via geocode.SAME, not just geocode.UGC; code review fixes — loader.js cache-busting bug, dead weather-station code removed, badge-class mapping consolidated, repeaters.json schema docs corrected; about.html Service Area/Contacts reorder + unified blue card banners; dedicated changelog.html history page replacing the archived-updates modal; about.html now shows a fixed 6-entry recent count; CWA county modal system; Georgia county search bar; forecast area layout restructure — map on top, 3-col office grid below; legend removed; map scaling fix)
 **Maintained By**: Claude AI Assistant (based on codebase analysis)
 **For Questions**: Contact Jack Parks (KQ4JP) <kq4jp@pm.me>
