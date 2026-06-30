@@ -167,6 +167,29 @@ All repeater data is stored in a single unified JSON file. Fields appear in the 
 
 ## 🚀 Recent Improvements
 
+### June 30, 2026 - CWA County Modal & Georgia County Search
+
+**CWA Office County Modal** ✅
+- Clicking any NWS office card on the About page opens a modal listing all counties that office covers
+- Clicking a county on the interactive choropleth map opens the same modal, pre-filtered to that county with the county highlighted
+- Each modal has a per-office gradient header, a filterable county list (all 159 Georgia counties across 6 offices), and a "Visit the [CWA] SKYWARN Page ↗" button
+- "Show all" clear chip inside the modal resets the county filter without closing it
+
+**Georgia County Search Bar** ✅
+- New search bar above the forecast area map: "Find your NWS Coverage Area:"
+- Type any Georgia county name — autocomplete dropdown shows up to 12 results with starts-with priority
+- Selecting a county opens the appropriate NWS office modal pre-filtered to that county
+- Styled to match the existing repeater search bar; width matched to the map (max 850px)
+
+**Forecast Area Layout Restructure** ✅
+- Map now sits on top of the section (single-column layout), office cards in a responsive 3-column grid below
+- Removed the map legend — the office cards now serve that purpose
+- Map scaling fixed: `width: 100%; max-width: 850px` (resolved a CSS flexbox `margin: auto` / `align-self: stretch` interaction that was collapsing the map)
+- NWS office cards converted from links to accessible buttons (`<button class="nws-office-btn" data-cwa="...">`) that trigger the modal
+- Office card grid: 1 column → 2 columns at 540px → 3 columns at 900px
+
+---
+
 ### June 25, 2026 - Interactive NWS Coverage Map & County Alert Filter
 
 **Interactive CWA Map** ✅
@@ -420,6 +443,6 @@ This website is maintained by volunteer amateur radio operators in coordination 
 
 ---
 
-**Last Updated**: June 25, 2026
+**Last Updated**: June 30, 2026
 **Maintained By**: Georgia SKYWARN Team
 **For Questions**: Contact webmaster at kq4jp@pm.me

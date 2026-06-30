@@ -25,17 +25,24 @@ georgiaskywarn/
 ├── repeater-health.html    # Repeater database health dashboard (stats, inactive, unverified) — noindex
 ├── css/                    # Stylesheets directory
 │   └── style.css           # Shared stylesheet for all pages
-├── js/                     # JavaScript files directory (7 files total)
+├── js/                     # JavaScript files directory (8 files total)
 │   ├── version.js          # **CRITICAL** - Single version number for cache busting
 │   ├── loader.js           # **CRITICAL** - Dynamically loads all scripts with versioning
 │   ├── core.js             # Core utilities (merged config.js + utils.js)
 │   ├── components.js       # UI components (merged header.js + footer.js)
 │   ├── scripts.js          # Page-specific JavaScript (alerts, modals, repeater search)
 │   ├── nws-api.js          # NWS API integration and HWO
-│   └── changelog.js        # Changelog display
+│   ├── changelog.js        # Changelog display
+│   └── cwa-map.js          # Interactive NWS CWA choropleth map (about.html only)
 ├── data/                   # Data files directory
 │   ├── repeaters.json      # All repeater data (linked + non-linked, dynamically loaded)
-│   └── changelog.json      # Website changelog/updates
+│   ├── changelog.json      # Website changelog/updates
+│   ├── ffc-counties.json   # 96 NWS Peachtree City (FFC) counties
+│   ├── gsp-counties.json   # 6 NWS Greenville-Spartanburg (GSP) counties
+│   ├── cae-counties.json   # 5 NWS Columbia (CAE) counties
+│   ├── chs-counties.json   # 12 NWS Charleston (CHS) counties
+│   ├── jax-counties.json   # 14 NWS Jacksonville (JAX) counties
+│   └── tae-counties.json   # 26 NWS Tallahassee (TAE) counties
 ├── assets/                 # Static assets directory
 │   ├── favicon.ico         # Site favicon
 │   ├── georgiaskywarnlogo.png  # Site logo (500x500px)
@@ -82,7 +89,7 @@ georgiaskywarn/
 3. All HTML pages MUST remain in the root directory
 4. All HTML pages share the same stylesheet at `css/style.css`
 5. **Component architecture**: Header and footer loaded via `js/components.js` (merged for efficiency)
-6. **JavaScript organization**: 7 files total (reduced from 9 in 2026-01-09 refactor)
+6. **JavaScript organization**: 8 files total (7 after 2026-01-09 refactor, +1 `cwa-map.js` added 2026-06-25)
 7. **Data organization**: All JSON data files in `data/` directory
 8. **Assets organization**: All static assets (images, favicon, archive photos) in `assets/` directory
 
@@ -1133,6 +1140,40 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-06-30 — CWA County Modal, Georgia County Search, Layout Restructure
+
+#### CWA Office County Modal (`about.html`, `js/cwa-map.js`, `css/style.css`)
+- **Office cards now open a modal** listing all counties served by that NWS office. Clicking any of the six `.nws-office-item` cards opens a unified `.modal-backdrop#cwaOfficeModal` showing a filterable county list and a SKYWARN program link button. The `<a>` link markup in `.nws-office-item` was replaced with `<button class="nws-office-btn" data-cwa="CWA">` (semantic button, not anchor, since it triggers JS not navigation).
+- **Map click → pre-filtered modal**: Clicking a county on the SVG choropleth now calls `openCWAOfficeModal(cwa, countyName)` instead of `window.open()` to the SKYWARN page directly. The modal opens with the county filter pre-filled and the matching county highlighted (`.cwa-county-highlighted` class) while all other counties remain visible. This replaces the direct navigation behavior from the June 25 build.
+- **"Show all" clear chip**: A `#cwaCountyFilterClear` button in the modal body resets the county filter without closing the modal. Text reads "× Show all".
+- **Per-office gradient headers**: `CWA_CONFIG` extended with `headerGrad: [darkStart, lightEnd]` per office. Modal header background is set via inline style on open. JAX uses dark amber (`['#7f5800','#b36f00']`) instead of pure yellow so white text remains readable. All other offices use appropriately darkened variants of their map fill colors.
+- **Dynamic SKYWARN button text**: `linkEl.textContent` set to `'Visit the ' + cwa + ' SKYWARN Page ↗'` so the button reads "Visit the FFC SKYWARN Page ↗", "Visit the JAX SKYWARN Page ↗", etc.
+- **Module-level data stores**: `cwaCountyLists {}`, `nameToCWA {}`, and `allCounties []` moved to module scope (outside `initCWAMap`) so they're accessible to both the county search bar and the modal.
+
+#### Georgia County Search Bar (`about.html`, `js/cwa-map.js`, `css/style.css`)
+- New `<div class="county-search-wrap" id="countySearchWrap">` placed above the forecast area heading. Contains a label on the left ("Find your NWS Coverage Area:"), a pill-style input box (styled to match the repeater search bar), a red × clear button (left-aligned inside the pill, hidden when empty), and the text input with autocomplete.
+- **Autocomplete behavior**: `wireCountySearch()` builds `allCounties` from all 159 entries in `nameToCWA` after JSON load. Dropdown shows up to 12 results with starts-with priority, then contains fallback. Each result shows county name + a pill-style CWA badge. Keyboard nav: ArrowDown/Up cycles, Enter selects, Escape closes. A 150ms blur delay lets `mousedown` on a result fire before `blur` hides the dropdown.
+- **On selection**: Sets input value, hides dropdown, calls `openCWAOfficeModal(cwa, countyName)` — same modal as the office card/map-click path, pre-filtered to that county.
+- `max-width: 850px; margin: 1rem auto 0` on `.county-search-wrap` matches the map width.
+
+#### Forecast Area Layout Restructure (`about.html`, `css/style.css`)
+- **Before**: `.forecast-maps` used a 2-column CSS Grid (`minmax(300px,1fr)` columns) with the SVG map on the left and office cards panel on the right. This caused the map to be constrained to roughly half the card width on most screens.
+- **After**: `.forecast-maps` is now a single-column flex container (`flex-direction: column; gap: 2rem`). Map sits on top, full-width. Office cards grid sits below.
+- **Map scaling fix** (CSS Flexbox margin/stretch interaction): Root cause of the "map too small" issue — `margin-inline: auto` on a flex item disables `align-self: stretch`, collapsing it to content width. Fix: added `width: 100%` to `.ga-cwa-map-wrap` in addition to `max-width: 850px; margin-inline: auto`. This is per CSS spec: auto margins in the flex cross-axis suppress stretch alignment.
+- **Map max-width**: Set to `850px` (up from `560px` viewBox default). SVG uses `width="100%"` so it fills `.ga-cwa-map-wrap` and scales responsively.
+- **Legend removed**: `<div id="ga-cwa-legend">` removed from `about.html`; CSS `.ga-cwa-legend` rules removed from `style.css`. The office cards below the map now serve as the legend.
+
+#### NWS Office Card Redesign (`about.html`, `css/style.css`)
+- **Office grid**: `.nws-office-links` converted from a vertical `<ul>` list to a responsive CSS Grid: 1 column → 2 columns at 540px → 3 columns at 900px.
+- **Card styling**: `.nws-office-item` given `border-radius: 10px` (full card radius) and `padding: 0` (button handles internal padding). The background/border-left accent colors from the June 25 pass are preserved.
+- **Hover**: Changed from `translateX(4px)` (sidebar-style affordance) to `translateY(-2px) + shadow` to suit a grid card layout.
+- **`.nws-office-btn`**: New CSS component — `background: none; border: none; display: block; width: 100%; text-align: left; padding: 0.75rem 1rem; cursor: pointer; font-family: inherit; color: var(--text-primary); border-radius: 8px`. The inner `<strong>` shows the office name, a `<span class="office-coverage">` shows the coverage area text.
+- **No panel background**: `.nws-offices-list` strips the surrounding card background so office cards float directly on the page section background, matching the visual weight of the search bar and map.
+
+#### Version: `20260630j` (10 bumps across the session — `a` through `j`)
+
+---
+
 ### 2026-06-25 — Interactive NWS CWA Map, County Alert Filter
 
 #### Interactive Georgia CWA Choropleth Map (`about.html`, `js/cwa-map.js`)
@@ -1673,6 +1714,6 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 
 ---
 
-**Last Updated**: 2026-06-25 (interactive NWS CWA choropleth map on about.html; county alert filter on index.html; 5 new CWA county data files; CSS modernization pass)
+**Last Updated**: 2026-06-30 (CWA county modal system; Georgia county search bar; forecast area layout restructure — map on top, 3-col office grid below; legend removed; map scaling fix)
 **Maintained By**: Claude AI Assistant (based on codebase analysis)
 **For Questions**: Contact Jack Parks (KQ4JP) <kq4jp@pm.me>

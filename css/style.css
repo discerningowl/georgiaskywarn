@@ -1245,18 +1245,12 @@ a:hover, a:focus-visible {
 }
 
 /* ---------- Forecast Maps Component (About Page) ---------- */
+/* Single-column layout: map on top, office cards grid below */
 .forecast-maps {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   margin: 1.5rem 0;
-}
-
-@media (min-width: 768px) {
-  .forecast-maps {
-    grid-template-columns: 2fr 1fr;
-    align-items: start;
-  }
 }
 
 .forecast-map-link {
@@ -1276,42 +1270,55 @@ a:hover, a:focus-visible {
   border: 1px solid var(--card-border);
 }
 
-/* NWS Offices List (replaces second forecast image) */
+/* NWS Offices List — sits below the map, no panel background needed */
 .nws-offices-list {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
-  padding: 1.5rem;
+  padding: 0;
 }
 
 .nws-office-links {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 0.75rem;
 }
 
-/* Base card — left-border carries the color swatch; radius trimmed on left to let it flush */
+@media (min-width: 540px) {
+  .nws-office-links { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 900px) {
+  .nws-office-links { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Base card — left-border color swatch; full radius now that cards are in a grid */
 .nws-office-item {
-  border-radius: 0 10px 10px 0;
+  border-radius: 10px;
   transition: var(--t-fast);
   border: 1px solid transparent;
   border-left: 4px solid transparent;
   overflow: hidden;
 }
 
-.nws-office-item a {
+/* .nws-office-btn — button replacing the original <a> tag; inherits same layout */
+.nws-office-btn {
+  /* Reset browser button defaults */
+  background: none;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  /* Match original <a> layout */
   display: block;
+  width: 100%;
+  text-align: left;
   padding: 0.75rem 1rem;
-  text-decoration: none;
   color: var(--text-primary);
-  border-radius: 0 8px 8px 0;
+  border-radius: 8px;
   transition: var(--t-fast);
 }
 
-.nws-office-item a strong {
+.nws-office-btn strong {
   font-size: 1rem;
   display: block;
   margin-bottom: 0.25rem;
@@ -1329,7 +1336,7 @@ a:hover, a:focus-visible {
  *
  * Each card uses: thick left border (full opacity) + gradient bg + colored strong text.
  * The left border creates an immediate visual link to the matching map region. */
-[class^="nws-office-"]:hover { transform: translateX(4px); }
+[class^="nws-office-"]:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
 
 .nws-office-ffc {
   border-left-color: #5c6bc0;
@@ -1380,7 +1387,12 @@ a:hover, a:focus-visible {
 .nws-office-tae a strong { color: #d81b60; }
 
 /* ---------- Georgia CWA Interactive Map (about.html) ---------- */
-.ga-cwa-map-wrap { position: relative; }
+.ga-cwa-map-wrap {
+  position: relative;
+  width: 100%;          /* flex item won't stretch when margin:auto is set — explicit width fixes it */
+  max-width: 850px;
+  margin-inline: auto;
+}
 
 #ga-cwa-map {
   width: 100%;
@@ -1487,6 +1499,204 @@ a:hover, a:focus-visible {
   border-radius: 3px;
   flex-shrink: 0;
   border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* ---------- CWA County Modal (about.html — populated by cwa-map.js) ---------- */
+
+/* Filter row: search input + "show all" clear chip */
+.cwa-county-filter {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.cwa-county-filter-input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+.cwa-county-filter-input:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-color: var(--accent-blue);
+}
+
+/* Pill chip to clear the filter — hidden until a filter is active */
+.cwa-county-filter-clear {
+  white-space: nowrap;
+  font-size: 0.8rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--accent-blue) 15%, transparent);
+  color: var(--accent-blue);
+  border: 1px solid color-mix(in oklch, var(--accent-blue) 30%, transparent);
+  cursor: pointer;
+  font-family: inherit;
+  transition: var(--t-fast);
+}
+.cwa-county-filter-clear:hover {
+  background: color-mix(in oklch, var(--accent-blue) 25%, transparent);
+}
+.cwa-county-filter-clear[hidden] { display: none; }
+
+/* County list — 3-column grid; collapses to 2 on narrow screens */
+.cwa-county-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.2rem 0.5rem;
+}
+@media (max-width: 480px) {
+  .cwa-county-list { grid-template-columns: repeat(2, 1fr); }
+}
+
+.cwa-county-list li {
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+/* Exact-match highlight — shown when user clicked a county on the map */
+.cwa-county-list li.cwa-county-highlighted {
+  background: color-mix(in oklch, var(--accent-blue) 15%, transparent);
+  color: var(--accent-blue);
+  font-weight: 600;
+}
+.cwa-county-list li[hidden] { display: none; }
+
+/* Bottom action row */
+.cwa-modal-actions {
+  border-top: 1px solid var(--card-border);
+  padding-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ---------- Georgia County Search Bar (about.html forecastarea) ---------- */
+
+/* Outer row: [label] [box-wrap] */
+.county-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem auto 0;
+  max-width: 850px;
+  flex-wrap: wrap;  /* stacks on narrow screens */
+}
+
+.county-search-label {
+  white-space: nowrap;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+/* Box-wrap: positions the dropdown relative to the input pill */
+.county-search-box-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+}
+
+/* Input pill — matches .search-container / .search-input style */
+.county-search-box {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 2px solid var(--card-border);
+  border-radius: 8px;
+  background: var(--card-bg);
+  padding: 0.6rem 1rem;
+  transition: var(--t-fast);
+}
+.county-search-box:focus-within {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+/* Red clear × on the left — matches .search-clear pattern */
+.county-search-clear {
+  background: var(--accent-red);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0.2rem 0.45rem;
+  flex-shrink: 0;
+  transition: var(--t-fast);
+}
+.county-search-clear:hover { background: var(--accent-red-dark); }
+.county-search-clear[hidden] { display: none; }
+
+.county-search-input {
+  flex: 1;
+  border: none;
+  background: none;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+  min-width: 0;
+}
+.county-search-input::placeholder { color: var(--text-secondary); opacity: 0.7; }
+
+/* Dropdown results list — positioned under the pill */
+.county-search-results {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  list-style: none;
+  padding: 0.35rem 0;
+  margin: 0;
+  z-index: 300;
+  max-height: 280px;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+.county-search-results[hidden] { display: none; }
+
+.county-search-result {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 120ms ease;
+}
+.county-search-result:hover,
+.county-search-result[aria-selected="true"] {
+  background: color-mix(in oklch, var(--accent-blue) 10%, transparent);
+}
+
+.county-search-result-name { color: var(--text-primary); }
+
+/* CWA badge on each result */
+.county-search-result-cwa {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--accent-blue) 14%, transparent);
+  color: var(--accent-blue);
+  flex-shrink: 0;
 }
 
 /* ---------- SKYWARN Information Styles ---------- */

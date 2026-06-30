@@ -251,6 +251,21 @@
           NWS Atlanta issues severe weather warnings (i.e. Tornado Warnings, Flash Flood Warnings, etc.)
           for 96 counties in northern and central Georgia. We call this our "CWA" or County Warning Area.
 		</p>
+		<!-- County search — JS populates results from all 159 GA counties once data loads -->
+		<div class="county-search-wrap" id="countySearchWrap">
+		  <label class="county-search-label" for="countySearchInput">Find your NWS Coverage Area:</label>
+		  <div class="county-search-box-wrap">
+		    <div class="county-search-box">
+		      <button id="countySearchClear" class="county-search-clear" aria-label="Clear search" hidden>×</button>
+		      <input type="text" id="countySearchInput" class="county-search-input"
+		             placeholder="Search Georgia counties…" autocomplete="off"
+		             aria-label="Search Georgia counties" aria-autocomplete="list"
+		             aria-controls="countySearchResults" role="searchbox">
+		    </div>
+		    <ul id="countySearchResults" class="county-search-results" role="listbox" aria-label="Matching counties" hidden></ul>
+		  </div>
+		</div>
+
 		<h3 class="center" style="margin-top: 1.5rem; color: var(--accent-blue);">Our Forecast Area + Who Covers the Rest of the State</h3>
 		<div class="forecast-maps">
 		  <!-- Interactive Georgia CWA choropleth map (rendered by js/cwa-map.js) -->
@@ -269,48 +284,47 @@
 		    <div id="ga-cwa-error" class="ga-cwa-error" hidden>
 		      Map unavailable — <a href="https://www.weather.gov/ffc/cwa" target="_blank" rel="noopener noreferrer">view on weather.gov ↗</a>
 		    </div>
-		    <p class="ga-cwa-hint">Click any county to open that office's SKYWARN program page</p>
-		    <div id="ga-cwa-legend" class="ga-cwa-legend" hidden></div>
+		    <p class="ga-cwa-hint">Click any county or office card to view counties and SKYWARN info</p>
 		  </div>
 		  <div class="nws-offices-list">
 		    <h4 style="margin-top: 0; margin-bottom: 1rem; color: var(--text-primary);">Georgia NWS SKYWARN Programs</h4>
-		    <p style="font-size: 0.9rem; margin-bottom: 1rem; color: var(--text-secondary);">Click to visit other NWS office SKYWARN pages:</p>
+		    <p style="font-size: 0.9rem; margin-bottom: 1rem; color: var(--text-secondary);">Click a card to view counties and SKYWARN info:</p>
 		    <ul class="nws-office-links">
 		      <li class="nws-office-item nws-office-ffc">
-		        <a href="https://www.weather.gov/ffc/skywarn" target="_blank" rel="noopener noreferrer">
-		          <strong>NWS Peachtree City (FFC)</strong><br>
+		        <button class="nws-office-btn" data-cwa="FFC" aria-label="NWS Peachtree City FFC — view counties">
+		          <strong>NWS Peachtree City (FFC)</strong>
 		          <span class="office-coverage">North &amp; Central Georgia</span>
-		        </a>
+		        </button>
 		      </li>
 		      <li class="nws-office-item nws-office-jax">
-		        <a href="https://www.weather.gov/jax/skywarn_schedule" target="_blank" rel="noopener noreferrer">
-		          <strong>NWS Jacksonville (JAX)</strong><br>
+		        <button class="nws-office-btn" data-cwa="JAX" aria-label="NWS Jacksonville JAX — view counties">
+		          <strong>NWS Jacksonville (JAX)</strong>
 		          <span class="office-coverage">Southeast Georgia</span>
-		        </a>
+		        </button>
 		      </li>
 		      <li class="nws-office-item nws-office-tae">
-		        <a href="https://www.weather.gov/tae/taeskywarn" target="_blank" rel="noopener noreferrer">
-		          <strong>NWS Tallahassee (TAE)</strong><br>
+		        <button class="nws-office-btn" data-cwa="TAE" aria-label="NWS Tallahassee TAE — view counties">
+		          <strong>NWS Tallahassee (TAE)</strong>
 		          <span class="office-coverage">Southwest Georgia</span>
-		        </a>
+		        </button>
 		      </li>
 		      <li class="nws-office-item nws-office-cae">
-		        <a href="https://www.weather.gov/cae/skywarn.html" target="_blank" rel="noopener noreferrer">
-		          <strong>NWS Columbia (CAE)</strong><br>
+		        <button class="nws-office-btn" data-cwa="CAE" aria-label="NWS Columbia CAE — view counties">
+		          <strong>NWS Columbia (CAE)</strong>
 		          <span class="office-coverage">East Central Georgia</span>
-		        </a>
+		        </button>
 		      </li>
 		      <li class="nws-office-item nws-office-chs">
-		        <a href="https://www.weather.gov/chs/skywarn" target="_blank" rel="noopener noreferrer">
-		          <strong>NWS Charleston (CHS)</strong><br>
+		        <button class="nws-office-btn" data-cwa="CHS" aria-label="NWS Charleston CHS — view counties">
+		          <strong>NWS Charleston (CHS)</strong>
 		          <span class="office-coverage">Coastal Southeast</span>
-		        </a>
+		        </button>
 		      </li>
 		      <li class="nws-office-item nws-office-gsp">
-		        <a href="https://www.weather.gov/gsp/skywarn" target="_blank" rel="noopener noreferrer">
-		          <strong>NWS Greenville-Spartanburg (GSP)</strong><br>
+		        <button class="nws-office-btn" data-cwa="GSP" aria-label="NWS Greenville-Spartanburg GSP — view counties">
+		          <strong>NWS Greenville-Spartanburg (GSP)</strong>
 		          <span class="office-coverage">Extreme North Georgia</span>
-		        </a>
+		        </button>
 		      </li>
 		    </ul>
 		  </div>
@@ -339,6 +353,29 @@
       <button class="modal-close" id="archivedModalClose" aria-label="Close modal">×</button>
     </div>
     <div class="modal-body" id="archivedModalBody"></div>
+  </div>
+</div>
+
+<!-- CWA Office County Modal (populated by cwa-map.js) -->
+<div class="modal-backdrop" id="cwaOfficeModal" role="dialog" aria-modal="true" aria-labelledby="cwaOfficeModalTitle">
+  <div class="modal-content">
+    <div class="modal-header" id="cwaOfficeModalHeader">
+      <h2 class="modal-title" id="cwaOfficeModalTitle">NWS Office</h2>
+      <button class="modal-close" id="cwaOfficeModalClose" aria-label="Close modal">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="cwa-county-filter">
+        <input type="text" id="cwaCountyFilterInput" class="cwa-county-filter-input"
+               placeholder="Filter counties…" aria-label="Filter counties by name" autocomplete="off">
+        <button id="cwaCountyFilterClear" class="cwa-county-filter-clear" aria-label="Show all counties" hidden>× Show all</button>
+      </div>
+      <ul id="cwaCountyList" class="cwa-county-list" aria-label="Counties in this NWS office area"></ul>
+      <div class="cwa-modal-actions">
+        <a id="cwaOfficeSkywarnLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-blue">
+          Visit the NWS SKYWARN Page ↗
+        </a>
+      </div>
+    </div>
   </div>
 </div>
 

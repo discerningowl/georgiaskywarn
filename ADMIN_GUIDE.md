@@ -2,8 +2,8 @@
 
 **Quick Start Guide for Website Administrators**
 
-**Version**: 1.2
-**Last Updated**: March 20, 2026
+**Version**: 1.3
+**Last Updated**: June 30, 2026
 **Maintained By**: Georgia SKYWARN Website Team
 - Jim Lynch (K4GVO) - Site Administrator
 - Robert Burton (KD4YDC) - Content Moderator & SKYWARN EC
@@ -129,13 +129,19 @@ georgiaskywarn/
 │   ├── loader.js           ← Dynamic script loader
 │   ├── core.js             ← Core utilities
 │   ├── components.js       ← Header and footer components
-│   ├── scripts.js          ← Page-specific JavaScript (alerts, search)
+│   ├── scripts.js          ← Page-specific JavaScript (alerts, repeater search)
 │   ├── nws-api.js          ← NWS API integration and HWO
-│   ├── search.js           ← Sitewide search
-│   └── changelog.js        ← Changelog display
+│   ├── changelog.js        ← Changelog display
+│   └── cwa-map.js          ← Interactive NWS CWA map (about.html only)
 ├── data/                   ← Data files
 │   ├── repeaters.json      ← **YOU EDIT THIS** - All repeater data (linked + non-linked)
-│   └── changelog.json      ← Website changelog/updates
+│   ├── changelog.json      ← Website changelog/updates
+│   ├── ffc-counties.json   ← NWS Atlanta (FFC) county list (96 counties)
+│   ├── gsp-counties.json   ← NWS Greenville-Spartanburg (GSP) counties
+│   ├── cae-counties.json   ← NWS Columbia (CAE) counties
+│   ├── chs-counties.json   ← NWS Charleston (CHS) counties
+│   ├── jax-counties.json   ← NWS Jacksonville (JAX) counties
+│   └── tae-counties.json   ← NWS Tallahassee (TAE) counties
 ├── assets/                 ← Static assets
 │   ├── favicon.ico         ← Browser tab icon
 │   ├── georgiaskywarnlogo.png  ← Site logo
@@ -625,12 +631,17 @@ georgiaskywarn/                    ← Root directory on server
     │   ├── components.js
     │   ├── scripts.js
     │   ├── nws-api.js
-    │   ├── search.js
-    │   └── changelog.js
+    │   ├── changelog.js
+    │   └── cwa-map.js
     ├── data/
     │   ├── repeaters.json
-    │   ├── search-index.json
-    │   └── changelog.json
+    │   ├── changelog.json
+    │   ├── ffc-counties.json
+    │   ├── gsp-counties.json
+    │   ├── cae-counties.json
+    │   ├── chs-counties.json
+    │   ├── jax-counties.json
+    │   └── tae-counties.json
     ├── assets/
     │   ├── favicon.ico
     │   ├── georgiaskywarnlogo.png
@@ -734,7 +745,9 @@ GitHub Folder → Server Location
 /css/style.css           → georgiaskywarn/public_html/css/style.css
 /js/core.js              → georgiaskywarn/public_html/js/core.js
 /js/nws-api.js           → georgiaskywarn/public_html/js/nws-api.js
+/js/cwa-map.js           → georgiaskywarn/public_html/js/cwa-map.js
 /data/changelog.json     → georgiaskywarn/public_html/data/changelog.json
+/data/ffc-counties.json  → georgiaskywarn/public_html/data/ffc-counties.json
 /assets/archive/*.jpg    → georgiaskywarn/public_html/assets/archive/*.jpg
 /wx4ptc/index.html       → georgiaskywarn/public_html/wx4ptc/index.html
 /www/index.html          → georgiaskywarn/index.html (ROOT!)
@@ -953,10 +966,10 @@ document.documentElement.setAttribute('data-theme', 'light');
 
 **Causes & Fixes**:
 
-1. **Missing footer.js file**
-   - Check that `js/footer.js` exists in the js directory
+1. **Missing components.js file**
+   - Check that `js/components.js` exists in the js directory
    - Re-upload if missing
-   - The footer is dynamically loaded via JavaScript, not an HTML file
+   - The footer is dynamically loaded by `components.js`, not a separate HTML file
 
 2. **Local testing without web server**
    - Don't open HTML files directly (`file:///`)
@@ -966,8 +979,8 @@ document.documentElement.setAttribute('data-theme', 'light');
 3. **JavaScript disabled**
    - Check browser settings to ensure JavaScript is enabled
 
-4. **Corrupted footer.js file**
-   - Re-upload `js/footer.js` from GitHub
+4. **Corrupted components.js file**
+   - Re-upload `js/components.js` from GitHub
    - Clear browser cache
 
 ### Problem: Mobile Menu Not Working
@@ -981,8 +994,8 @@ document.documentElement.setAttribute('data-theme', 'light');
    - Look for errors in red
    - Usually caused by incorrect HTML structure
 
-2. **Corrupted header.js file**
-   - Re-upload `js/header.js` from GitHub
+2. **Corrupted components.js file**
+   - Re-upload `js/components.js` from GitHub (the site navigation is injected by this file)
    - Clear browser cache
 
 3. **Test on actual mobile device**
@@ -1148,6 +1161,12 @@ If you want to learn more:
 
 ## Changelog
 
+### Version 1.3 (June 30, 2026)
+- Updated `js/` directory listing: removed `search.js` (removed April 2026), added `cwa-map.js` (added June 2026)
+- Updated `data/` directory listing: removed `search-index.json`, added six CWA county JSON files (`ffc-counties.json` through `tae-counties.json`)
+- Updated server deployment layout to match current file set
+- Fixed troubleshooting references: `footer.js` and `header.js` → `components.js` (these were merged January 2026)
+
 ### Version 1.2 (February 8, 2026)
 - Added clickable IP links feature documentation
 - Updated version references throughout guide
@@ -1179,6 +1198,6 @@ If you have ideas for improving this guide, please contact:
 
 ---
 
-**Last Updated**: March 20, 2026
-**Document Version**: 1.2
+**Last Updated**: June 30, 2026
+**Document Version**: 1.3
 **Website Version**: See [README.md](README.md) for current production status
