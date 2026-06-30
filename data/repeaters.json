@@ -127,7 +127,7 @@
     "linked": true,
     "verified": true,
     "active": false,
-    "statusNote": "DOWN \u2014 Needs PA",
+    "statusNote": "DOWN \u2014 Needs PA replacement. PA on hand, awaiting time to install and tune. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://www.peachstateintertie.com/"
   },
@@ -584,7 +584,7 @@
     "linked": true,
     "verified": true,
     "active": false,
-    "statusNote": "DOWN \u2014 Hard lightning strike, needs antenna and repeater",
+    "statusNote": "DOWN \u2014 Needs new antenna, work in progress. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
     "clubName": "Three Rivers Amateur Radio Club (TRARC)",
     "clubUrl": "http://www.arrl.org/Groups/view/three-rivers-arc-1/type:club"
   },
@@ -1032,7 +1032,7 @@
     "linked": true,
     "verified": true,
     "active": false,
-    "statusNote": "DOWN \u2014 Lightning strike, needs repeater and controller",
+    "statusNote": "REPEATER UP, NOT YET LINKED \u2014 Repeater is operational. PSI link (11-element UHF Yagi to Irwinton) was removed; awaiting replacement antenna before rejoining PSI. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://www.peachstateintertie.com"
   },
