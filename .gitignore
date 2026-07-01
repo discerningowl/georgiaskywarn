@@ -12,3 +12,4 @@ data/nonlinked-repeaters.json.backup
 *.env
 .env.local
 config.local.json
+.claude
