@@ -181,7 +181,7 @@
 
         // Show/hide clear button based on search input
         if (clearButton) {
-          clearButton.classList.toggle('visible', searchTerm.length > 0);
+          clearButton.hidden = searchTerm.length === 0;
         }
       }
 

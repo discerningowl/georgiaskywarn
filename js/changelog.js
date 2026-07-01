@@ -7,6 +7,10 @@
  *            • about.html      → #changelog        → most recent N month-cards only
  *            • changelog.html  → #changelogHistory  → full history, grouped by year
  * Change-log:
+ *   • 2026-06-30b – Site-wide card-header color standard: the dynamic
+ *     "Recent Site Updates" header on about.html now uses the default
+ *     card-header (no color modifier) instead of card-header--blue, to
+ *     match the new default-navy standard for informational cards.
  *   • 2026-06-30 – Replaced date-window cutoff + "View Older" modal with a
  *     fixed recent-entry count (CONFIG.UI.CHANGELOG_RECENT_COUNT) and a
  *     dedicated changelog.html history page. The modal didn't scale: it
@@ -90,7 +94,7 @@
     mainSection.id = 'changelog-card';
 
     const mainHeader = document.createElement('header');
-    mainHeader.className = 'card-header card-header--blue';
+    mainHeader.className = 'card-header';
     mainHeader.innerHTML = '<h2 class="card-title">Recent Site Updates</h2>';
 
     const mainBody = document.createElement('div');

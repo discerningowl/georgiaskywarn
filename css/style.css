@@ -105,7 +105,13 @@
   /* Header-gradient stops — composed into linear-gradient() below */
   --header-grad-start:    light-dark(#001f3f, #0a3d62);
   --header-grad-end:      light-dark(#003366, #1e40af);
-  --header-grad-th-start: light-dark(#111140, #18185D);
+  /* Table header (.repeater-table th) — flat/solid, a touch lighter than the
+     main card header so the two don't compete visually. A gradient here read
+     poorly (banding against the table's hard cell borders), so this is a
+     single solid color, not a linear-gradient — derived from the card
+     header's end-stop token via color-mix() so it stays theme-aware
+     automatically. */
+  --header-bg-th: color-mix(in oklch, var(--header-grad-end) 80%, white 20%);
 
   --header-gradient:        linear-gradient(135deg, var(--header-grad-start) 0%, var(--header-grad-end) 100%);
   --header-gradient-red:    linear-gradient(135deg, #8B0000 0%, var(--nws-warning-red) 100%);
@@ -113,7 +119,6 @@
   --header-gradient-blue:   linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
   --header-gradient-yellow: linear-gradient(135deg, #B38F00 0%, var(--nws-watch-yellow) 100%);
   --header-gradient-orange: linear-gradient(135deg, #B36F00 0%, var(--nws-severe-orange) 100%);
-  --header-gradient-th:     linear-gradient(135deg, var(--header-grad-th-start) 0%, #112840 100%);
 
   --title-grad-start: #99ACAF;
   --title-grad-end:   #99A1AF;
@@ -916,10 +921,8 @@ a:hover, a:focus-visible {
 }
 
 /* Variants – only change left border */
-.callout.tip       { border-left-color: var(--accent-green); border-right-color: var(--accent-green); }
 .callout.warning   { border-left-color: var(--accent-red); border-right-color: var(--accent-red);   }
 .callout.note      { border-left-color: #9c27b0; border-right-color: #9c27b0;  }
-.callout.success   { border-left-color: var(--green-500); border-right-color: var(--green-500);   }
 
 /* ---------- Card Component (Reusable) ---------- */
 .card {
@@ -958,8 +961,6 @@ a:hover, a:focus-visible {
 .card-header--green  { background: var(--header-gradient-green); }
 .card-header--blue   { background: var(--header-gradient-blue); }
 .card-header--yellow { background: var(--header-gradient-yellow); }
-.card-header--orange { background: var(--header-gradient-orange); }
-.card-header--indigo { background: var(--header-gradient); }
 
 /* NWS canonical yellow (#FFFF00) requires dark text for WCAG contrast */
 .card-header--yellow h2 { color: var(--black); text-shadow: 0 1px 1px rgba(255,255,255,0.4); }
@@ -1088,7 +1089,7 @@ a:hover, a:focus-visible {
 .section-subheader {
   margin: 1.5rem 0 1rem 0;
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, rgba(0, 102, 204, 0.08), rgba(0, 102, 204, 0.12));
+  background: linear-gradient(135deg, color-mix(in oklch, var(--accent-blue) 8%, transparent), color-mix(in oklch, var(--accent-blue) 12%, transparent));
   border-left: 4px solid var(--accent-blue);
   border-radius: 8px;
   text-align: center;
@@ -1251,23 +1252,6 @@ a:hover, a:focus-visible {
   flex-direction: column;
   gap: 2rem;
   margin: 1.5rem 0;
-}
-
-.forecast-map-link {
-  display: block;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.forecast-map-link:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-}
-
-.forecast-map-link img {
-  width: 100%;
-  height: auto;
-  border-radius: var(--radius);
-  border: 1px solid var(--card-border);
 }
 
 /* NWS Offices List — sits below the map, no panel background needed */
@@ -1478,28 +1462,6 @@ a:hover, a:focus-visible {
   text-align: center;
 }
 
-/* Legend */
-.ga-cwa-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem 1rem;
-  padding: 0.75rem 0.25rem 0;
-}
-.ga-cwa-legend[hidden] { display: none; }
-.ga-cwa-legend-item {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-}
-.ga-cwa-legend-swatch {
-  width: 12px;
-  height: 12px;
-  border-radius: 3px;
-  flex-shrink: 0;
-  border: 1px solid rgba(255,255,255,0.2);
-}
 
 /* ---------- CWA County Modal (about.html — populated by cwa-map.js) ---------- */
 
@@ -1587,7 +1549,8 @@ a:hover, a:focus-visible {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin: 1rem auto 0;
+  margin: 1.5rem auto;
+  padding: 1rem 1.25rem;
   max-width: 850px;
   flex-wrap: wrap;  /* stacks on narrow screens */
 }
@@ -1607,50 +1570,8 @@ a:hover, a:focus-visible {
   min-width: 220px;
 }
 
-/* Input pill — matches .search-container / .search-input style */
-.county-search-box {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: 2px solid var(--card-border);
-  border-radius: 8px;
-  background: var(--card-bg);
-  padding: 0.6rem 1rem;
-  transition: var(--t-fast);
-}
-.county-search-box:focus-within {
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
-}
-
-/* Red clear × on the left — matches .search-clear pattern */
-.county-search-clear {
-  background: var(--accent-red);
-  color: var(--white);
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.95rem;
-  font-weight: 700;
-  line-height: 1;
-  padding: 0.2rem 0.45rem;
-  flex-shrink: 0;
-  transition: var(--t-fast);
-}
-.county-search-clear:hover { background: var(--accent-red-dark); }
-.county-search-clear[hidden] { display: none; }
-
-.county-search-input {
-  flex: 1;
-  border: none;
-  background: none;
-  color: var(--text-primary);
-  font-size: 1rem;
-  font-family: inherit;
-  outline: none;
-  min-width: 0;
-}
-.county-search-input::placeholder { color: var(--text-secondary); opacity: 0.7; }
+/* Input pill — now the shared .search-pill component (see "Standard
+   Search Pill" above). */
 
 /* Dropdown results list — positioned under the pill */
 .county-search-results {
@@ -1720,77 +1641,163 @@ a:hover, a:focus-visible {
   font-weight: 700;
   color: var(--text-primary);
   margin: 0 0 0.5rem 0;
+  text-align: center;
+}
+
+/* ---------- Standard Search Pill (2026-06-30) ----------
+   Shared "search bar" component used by every search/filter box on the
+   site: the repeater search (repeaters.html), the county alert filter
+   (index.html), and the county coverage search (about.html). One pill:
+   a magnifying-glass icon on the left when idle, which swaps to a red
+   circular clear (×) button once there's a value, and swaps to an amber
+   warning-triangle when the page reports a validation error (only the
+   county alert filter currently uses the error state — the icon/clear
+   behavior is identical everywhere, .has-error is simply never toggled
+   on the other two). Established as the site standard so all search
+   boxes look and behave identically instead of drifting independently.
+   --------------------------------------------------------------- */
+.search-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: color-mix(in oklch, var(--accent-blue) 6%, var(--card-bg));
+  border: 1px solid color-mix(in oklch, var(--accent-blue) 25%, var(--card-border));
+  border-radius: 999px;
+  padding: 0.6rem 0.9rem;
+  transition: var(--t-fast);
+}
+
+.search-pill:focus-within {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent-blue) 18%, transparent);
+}
+
+.search-pill.has-error {
+  border-color: var(--accent-yellow);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent-yellow) 18%, transparent);
+}
+
+.search-pill-icon {
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Hide the idle search icon once a clear button or error triangle is
+   showing — only one indicator occupies the leading slot at a time. */
+.search-pill:has(.search-pill-clear:not([hidden])) .search-pill-icon,
+.search-pill.has-error .search-pill-icon {
+  display: none;
+}
+
+.search-pill-input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  padding: 0;
+  font-family: inherit;
+}
+
+.search-pill-input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+/* Hide the native browser clear-x on type="search" inputs — the pill's
+   own .search-pill-clear button is the only clear control we want shown. */
+.search-pill-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.search-pill-error-icon {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-yellow);
+  background: color-mix(in oklch, var(--accent-yellow) 15%, var(--card-bg));
+  border: 1px solid color-mix(in oklch, var(--accent-yellow) 35%, transparent);
+  border-radius: 50%;
+  width: 1.6rem;
+  height: 1.6rem;
+  flex-shrink: 0;
+  cursor: default;
+  position: relative;
+}
+
+.search-pill.has-error .search-pill-error-icon {
+  display: flex;
+}
+
+/* CSS tooltip — fires instantly, no OS delay */
+.search-pill-error-icon::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 80ms ease;
+  z-index: 300;
+}
+
+.search-pill-error-icon:hover::after {
+  opacity: 1;
+}
+
+.search-pill-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in oklch, var(--accent-red) 15%, var(--card-bg));
+  border: 1px solid color-mix(in oklch, var(--accent-red) 35%, transparent);
+  cursor: pointer;
+  color: var(--accent-red);
+  padding: 0.3rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  transition: var(--t-fast);
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.search-pill-clear:hover {
+  background: color-mix(in oklch, var(--accent-red) 30%, var(--card-bg));
+  border-color: var(--accent-red);
+}
+
+.search-pill-clear:focus-visible {
+  outline: 3px solid var(--accent-red);
+  outline-offset: 2px;
+}
+
+.search-pill-clear[hidden] {
+  display: none;
 }
 
 /* --- REPEATER SEARCH – FILTER AND SEARCH FUNCTIONALITY --- */
 
 .search-container {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  flex-wrap: wrap;
   margin-bottom: 1rem;
 }
 
-.search-input,
-.search-container input[type="search"],
-.search-container input[type="text"] {
-  flex: 1;
-  min-width: 250px;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  border: 2px solid var(--card-border);
-  border-radius: 8px;
-  background: var(--card-bg);
-  color: var(--text-primary);
-  transition: var(--t-fast);
-  font-family: inherit;
-}
-
-.search-input:focus,
-.search-container input[type="search"]:focus,
-.search-container input[type="text"]:focus {
-  outline: none;
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
-}
-
-.search-input::placeholder,
-.search-container input::placeholder {
-  color: var(--text-secondary);
-  opacity: 0.7;
-}
-
-.search-clear {
-  white-space: nowrap;
-  flex-shrink: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 0.6rem 1rem;
-  font-size: 1rem;
-  font-weight: 600;
-  font-family: inherit;
-  line-height: 1;
-  background: var(--accent-red);
-  color: var(--white);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: var(--t-fast);
-}
-
-.search-clear:hover {
-  background: var(--accent-red-dark);
-}
-
-.search-clear:focus-visible {
-  outline: 3px solid var(--accent-red);
-  outline-offset: 2px;
-}
-
-.search-clear.visible {
-  display: inline-flex;
+#search-results {
+  font-size: var(--text-sm);
+  margin-top: 0.5rem;
+  padding-left: 0.25rem;
 }
 
 /* Hidden row when filtered out */
@@ -1798,26 +1805,7 @@ a:hover, a:focus-visible {
   display: none;
 }
 
-/* No results message */
-.no-results-message {
-  text-align: center;
-  padding: 2rem;
-  color: var(--text-secondary);
-  font-style: italic;
-  background: rgba(0, 0, 0, 0.02);
-  border-radius: var(--radius);
-  margin: 1rem 0;
-}
-
 /* --- REPEATER BADGE SYSTEM - Multi-tag support --- */
-
-/* Badge container - displays below location for all viewing modes */
-.repeater-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-  margin-top: 0.25rem;
-}
 
 /* Tags container for repeater table - max 2 per row */
 .tags-container {
@@ -1893,11 +1881,6 @@ a:hover, a:focus-visible {
   border-left: 5px solid var(--accent-blue-dark);
 }
 
-.site-banner-text {
-  font-size: 1rem;
-  color: var(--white);
-  font-weight: 500;
-}
 
 .site-banner-link {
   font-size: 0.9rem;
@@ -1935,7 +1918,7 @@ a:hover, a:focus-visible {
 }
 
 .repeater-table th {
-  background: var(--header-gradient-th);
+  background: var(--header-bg-th);
   color: white;
   font-weight: 700;
   text-align: left;
@@ -1962,15 +1945,6 @@ a:hover, a:focus-visible {
 /* Zebra striping */
 .repeater-table tbody tr:nth-child(even) {
   background: rgba(0, 0, 0, 0.02);
-}
-
-/* Pinned (important) rows */
-.repeater-table tr.pinned {
-  background: rgba(76, 175, 80, 0.1);
-  font-weight: 600;
-}
-.repeater-table tr.pinned td {
-  border-top: 3px solid var(--green-500);
 }
 
 /* Frequency column */
@@ -2118,123 +2092,12 @@ a:hover, a:focus-visible {
 }
 
 /* ─────────────────────────────────────────
-   County Filter Bar
+   County Filter Bar — outer padding wrapper only; the pill itself is the
+   shared .search-pill component (see "Standard Search Pill" above).
    ───────────────────────────────────────── */
 .county-filter-bar {
   padding: 0 1rem 0.75rem;
   position: relative;
-}
-
-.county-filter-input-wrap {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: color-mix(in oklch, var(--accent-blue) 6%, var(--card-bg));
-  border: 1px solid color-mix(in oklch, var(--accent-blue) 25%, var(--card-border));
-  border-radius: 999px;
-  padding: 0.45rem 0.85rem;
-  transition: var(--t-fast);
-}
-
-.county-filter-input-wrap:focus-within {
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent-blue) 18%, transparent);
-}
-
-.county-filter-input-wrap.has-error {
-  border-color: var(--accent-yellow);
-  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent-yellow) 18%, transparent);
-}
-
-.county-filter-icon {
-  color: var(--text-secondary);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-}
-
-.county-filter-input {
-  flex: 1;
-  background: none;
-  border: none;
-  outline: none;
-  color: var(--text-primary);
-  font-size: var(--text-sm);
-  min-width: 0;
-  padding: 0;
-}
-
-.county-filter-input::placeholder {
-  color: var(--text-secondary);
-  opacity: 0.8;
-}
-
-.county-filter-error-icon {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  color: var(--accent-yellow);
-  background: color-mix(in oklch, var(--accent-yellow) 15%, var(--card-bg));
-  border: 1px solid color-mix(in oklch, var(--accent-yellow) 35%, transparent);
-  border-radius: 50%;
-  width: 1.6rem;
-  height: 1.6rem;
-  flex-shrink: 0;
-  cursor: default;
-  position: relative;
-}
-
-.county-filter-input-wrap.has-error .county-filter-error-icon {
-  display: flex;
-}
-
-/* CSS tooltip — fires instantly, no OS delay */
-.county-filter-error-icon::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  background: var(--card-bg);
-  color: var(--text-primary);
-  font-size: 0.75rem;
-  white-space: nowrap;
-  padding: 0.35rem 0.6rem;
-  border-radius: 6px;
-  border: 1px solid var(--card-border);
-  box-shadow: var(--shadow);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 80ms ease;
-  z-index: 300;
-}
-
-.county-filter-error-icon:hover::after {
-  opacity: 1;
-}
-
-.county-filter-clear {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: color-mix(in oklch, var(--accent-red) 15%, var(--card-bg));
-  border: 1px solid color-mix(in oklch, var(--accent-red) 35%, transparent);
-  cursor: pointer;
-  color: var(--accent-red);
-  padding: 0.3rem;
-  flex-shrink: 0;
-  border-radius: 50%;
-  transition: var(--t-fast);
-  width: 1.6rem;
-  height: 1.6rem;
-}
-
-.county-filter-clear:hover {
-  background: color-mix(in oklch, var(--accent-red) 30%, var(--card-bg));
-  border-color: var(--accent-red);
-}
-
-.county-filter-clear[hidden] {
-  display: none;
 }
 
 /* Autocomplete dropdown — position:fixed so it escapes overflow:hidden on .card */
@@ -2311,13 +2174,11 @@ a:hover, a:focus-visible {
 }
 /* Triangles use currentColor; set via color: on the element */
 .legend-shape--triangle.legend-red    { color: var(--nws-warning-red); }
-.legend-shape--triangle.legend-orange { color: var(--nws-severe-orange); }
 .legend-shape--triangle.legend-yellow { color: var(--nws-watch-yellow); }
 .legend-shape--triangle.legend-blue   { color: var(--accent-blue); }
 .legend-shape--triangle.legend-green  { color: var(--accent-green); }
 /* Circles use background-color */
 .legend-shape--circle.legend-red    { background: var(--nws-warning-red); }
-.legend-shape--circle.legend-orange { background: var(--nws-severe-orange); }
 .legend-shape--circle.legend-yellow { background: var(--nws-watch-yellow); }
 .legend-shape--circle.legend-blue   { background: var(--accent-blue); }
 .legend-shape--circle.legend-green  { background: var(--accent-green); }
@@ -2619,15 +2480,6 @@ a:hover, a:focus-visible {
 
 .changelog-list li:last-child { margin-bottom: 0; }
 
-/* --- RESPONSIVE MAP BUTTONS – Show only one per device --- */
-
-.map-link {
-  width: 100%;
-  max-width: 580px;
-  margin: 0.5rem auto;
-  text-align: center;
-}
-
 .site-footer {
   display: flex;
   flex-direction: column;      /* stack the <p> elements vertically */
@@ -2740,20 +2592,13 @@ a:hover, a:focus-visible {
     }
 
     /* Search components */
-    .search-input,
     .search-container input {
       background: rgba(255, 255, 255, 0.05);
-    }
-    .no-results-message {
-      background: rgba(255, 255, 255, 0.03);
     }
 
     /* Repeater tables */
     .repeater-table tbody tr:nth-child(even) {
       background: rgba(255, 255, 255, 0.03);
-    }
-    .repeater-table tr.pinned {
-      background: rgba(76, 175, 80, 0.2);
     }
 
     /* Loading skeleton */
@@ -3033,12 +2878,11 @@ a:hover, a:focus-visible {
 /* --- PRINT STYLESHEET – Optimized for printing --- */
 @media print {
   /* Hide navigation and interactive elements */
-  .nav-toggle,
+  .page-nav-toggle,
   .nav-list,
   #footer-placeholder,
   .action-buttons,
   .back-to-top,
-  .system-actions,
   .btn {
     display: none !important;
   }

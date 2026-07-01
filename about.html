@@ -78,7 +78,7 @@
   <main class="site-main" role="main">
     <!-- Overview section -->
     <section id="overview" class="card">
-      <header class="card-header card-header--blue"><h2>About This Site</h2></header>
+      <header class="card-header"><h2>About This Site</h2></header>
       <div class="card-body">
         <div class="sub-cards">
 
@@ -153,7 +153,7 @@
     
     <!-- Forecast Area section -->
     <section id="forecastarea" class="card">
-      <header class="card-header card-header--blue"><h2>Service Area of NWS Atlanta</h2></header>
+      <header class="card-header"><h2>Service Area of NWS Atlanta</h2></header>
       <div class="card-body">
         <p class="center">
           NWS Atlanta issues severe weather warnings (i.e. Tornado Warnings, Flash Flood Warnings, etc.)
@@ -163,9 +163,14 @@
 		<div class="county-search-wrap" id="countySearchWrap">
 		  <label class="county-search-label" for="countySearchInput">Find your NWS Coverage Area:</label>
 		  <div class="county-search-box-wrap">
-		    <div class="county-search-box">
-		      <button id="countySearchClear" class="county-search-clear" aria-label="Clear search" hidden>×</button>
-		      <input type="text" id="countySearchInput" class="county-search-input"
+		    <div class="search-pill">
+		      <span class="search-pill-icon" aria-hidden="true">
+		        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+		      </span>
+		      <button id="countySearchClear" class="search-pill-clear" aria-label="Clear search" hidden>
+		        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+		      </button>
+		      <input type="text" id="countySearchInput" class="search-pill-input"
 		             placeholder="Search Georgia counties…" autocomplete="off"
 		             aria-label="Search Georgia counties" aria-autocomplete="list"
 		             aria-controls="countySearchResults" role="searchbox">
@@ -174,7 +179,7 @@
 		  </div>
 		</div>
 
-		<h3 class="center" style="margin-top: 1.5rem; color: var(--accent-blue);">Our Forecast Area + Who Covers the Rest of the State</h3>
+		<h3 class="section-subheader">Our Forecast Area + Who Covers the Rest of the State</h3>
 		<div class="forecast-maps">
 		  <!-- Interactive Georgia CWA choropleth map (rendered by js/cwa-map.js) -->
 		  <div class="ga-cwa-map-wrap">
@@ -195,7 +200,7 @@
 		    <p class="ga-cwa-hint">Click any county or office card to view counties and SKYWARN info</p>
 		  </div>
 		  <div class="nws-offices-list">
-		    <h4 style="margin-top: 0; margin-bottom: 1rem; color: var(--text-primary);">Georgia NWS SKYWARN Programs</h4>
+		    <h3 class="section-subheader">Georgia NWS SKYWARN Programs</h3>
 		    <p style="font-size: 0.9rem; margin-bottom: 1rem; color: var(--text-secondary);">Click a card to view counties and SKYWARN info:</p>
 		    <ul class="nws-office-links">
 		      <li class="nws-office-item nws-office-ffc">
@@ -242,7 +247,7 @@
 
     <!-- Contacts Card -->
     <section class="card" id="contactcard">
-      <header class="card-header card-header--blue">
+      <header class="card-header">
         <h2 class="card-title">Contacts</h2>
       </header>
       <div class="card-body">

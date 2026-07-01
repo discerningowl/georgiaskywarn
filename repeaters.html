@@ -80,22 +80,31 @@
 
     <!-- Search Bar Card -->
     <section class="card" id="repeater-search">
-      <header class="card-header card-header--blue">
+      <header class="card-header">
         <h2 class="card-title">Search Repeaters</h2>
       </header>
       <div class="card-body">
         <div class="search-container">
-          <input
-            type="search"
-            id="repeater-search-input"
-            placeholder="Search by location, frequency, or callsign..."
-            aria-label="Search repeaters"
-          >
-          <button
-            class="search-clear"
-            id="clear-search"
-            aria-label="Clear search"
-          >×</button>
+          <div class="search-pill">
+            <span class="search-pill-icon" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </span>
+            <button
+              class="search-pill-clear"
+              id="clear-search"
+              aria-label="Clear search"
+              hidden
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <input
+              type="search"
+              id="repeater-search-input"
+              class="search-pill-input"
+              placeholder="Search by location, frequency, or callsign..."
+              aria-label="Search repeaters"
+            >
+          </div>
         </div>
         <div id="search-results" aria-live="polite"></div>
       </div>
@@ -103,7 +112,7 @@
 
     <!-- Linked Repeaters Table Card -->
     <section class="card table-card" id="repeater-table">
-      <header class="card-header card-header--blue">
+      <header class="card-header">
         <h2 class="card-title">Georgia SKYWARN Linked Repeater System</h2>
       </header>
       <div class="card-body">
@@ -137,7 +146,7 @@
 
     <!-- Non-linked Repeaters Card -->
     <section class="card table-card" id="nonlinkcard">
-      <header class="card-header card-header--blue">
+      <header class="card-header">
         <h2 class="card-title">Local SKYWARN Nets (Not-Linked)</h2>
       </header>
       <div class="card-body">
@@ -170,7 +179,7 @@
 
     <!-- CSV Export Section -->
     <section class="card" id="csv-export-card">
-      <header class="card-header card-header--blue">
+      <header class="card-header">
         <h2 class="card-title">Export to Radio Programming Software</h2>
       </header>
       <div class="card-body">
@@ -221,7 +230,7 @@
         <button id="chirpModalClose" class="modal-close" aria-label="Close modal">&times;</button>
       </div>
       <div class="modal-body">
-        <h3>How to Import into CHIRP</h3>
+        <h3 class="section-subheader">How to Import into CHIRP</h3>
         <ol>
           <li><strong>Download CSV:</strong> Click the download button below to save the CSV file.</li>
           <li><strong>Open CHIRP</strong> software on your computer.</li>
@@ -242,7 +251,7 @@
           </button>
         </div>
 
-        <h3 style="margin-top: 2rem;">CHIRP Download</h3>
+        <h3 class="section-subheader">CHIRP Download</h3>
         <p>Don't have CHIRP? Download it free from <a href="https://chirp.danplanet.com/" target="_blank" rel="noopener noreferrer">chirp.danplanet.com</a></p>
       </div>
     </div>
@@ -256,7 +265,7 @@
         <button id="rtSystemsModalClose" class="modal-close" aria-label="Close modal">&times;</button>
       </div>
       <div class="modal-body">
-        <h3>How to Import into RT Systems</h3>
+        <h3 class="section-subheader">How to Import into RT Systems</h3>
         <ol>
           <li><strong>Download CSV:</strong> Click the download button below to save the CSV file.</li>
           <li><strong>Open RT Systems</strong> software for your radio model.</li>
@@ -278,7 +287,7 @@
           </button>
         </div>
 
-        <h3 style="margin-top: 2rem;">RT Systems Software</h3>
+        <h3 class="section-subheader">RT Systems Software</h3>
         <p>Visit <a href="https://www.rtsystemsinc.com/" target="_blank" rel="noopener noreferrer">rtsystemsinc.com</a> to purchase software for your specific radio model.</p>
       </div>
     </div>
