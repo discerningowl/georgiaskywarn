@@ -2,8 +2,8 @@
 
 **Quick Start Guide for Website Administrators**
 
-**Version**: 1.3
-**Last Updated**: June 30, 2026
+**Version**: 1.4
+**Last Updated**: July 1, 2026
 **Maintained By**: Georgia SKYWARN Website Team
 - Jim Lynch (K4GVO) - Site Administrator
 - Robert Burton (KD4YDC) - Content Moderator & SKYWARN EC
@@ -1161,6 +1161,10 @@ If you want to learn more:
 
 ## Changelog
 
+### Version 1.4 (July 1, 2026)
+- Fixed a data-accuracy bug in the six county JSON files (`data/*-counties.json`): county codes had been silently wrong for many counties, causing the county alert filter to occasionally show the wrong county's weather alerts
+- No administrator action needed — this was a developer-side data fix, not a change to how repeater or contact information is maintained
+
 ### Version 1.3 (June 30, 2026)
 - Updated `js/` directory listing: removed `search.js` (removed April 2026), added `cwa-map.js` (added June 2026)
 - Updated `data/` directory listing: removed `search-index.json`, added six CWA county JSON files (`ffc-counties.json` through `tae-counties.json`)
@@ -1198,6 +1202,6 @@ If you have ideas for improving this guide, please contact:
 
 ---
 
-**Last Updated**: June 30, 2026
-**Document Version**: 1.3
+**Last Updated**: July 1, 2026
+**Document Version**: 1.4
 **Website Version**: See [README.md](README.md) for current production status

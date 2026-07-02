@@ -167,6 +167,14 @@ All repeater data is stored in a single unified JSON file. Fields appear in the 
 
 ## 🚀 Recent Improvements
 
+### July 1, 2026 - County Data Integrity Overhaul
+
+**Bug Fix: County Alert Filter** ✅
+- Fixed a bug where filtering active alerts by certain counties (e.g. "Floyd") could silently return a different county's alerts — `ffc-counties.json` had systematically incorrect FIPS-based codes for 68 of its 96 counties
+- All 6 `data/*-counties.json` files rebuilt keyed by county name, each storing every NWS code that can reference that county: `gac` (county warnings), `same` (EAS/broadcast), and `gaz` (forecast zone, used by advisories/watches — independently assigned, not derivable from FIPS)
+- County alert filter now matches on all three code types plus the alert's plain-language area description, closing gaps that previously affected zone-based products (Heat Advisory, Wind Advisory, etc.)
+- All 159 Georgia counties verified against live National Weather Service sources — no code was guessed or pattern-inferred
+
 ### June 30, 2026 - CWA County Modal & Georgia County Search
 
 **CWA Office County Modal** ✅
@@ -443,6 +451,6 @@ This website is maintained by volunteer amateur radio operators in coordination 
 
 ---
 
-**Last Updated**: June 30, 2026
+**Last Updated**: July 1, 2026
 **Maintained By**: Georgia SKYWARN Team
 **For Questions**: Contact webmaster at kq4jp@pm.me

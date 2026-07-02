@@ -1,6 +1,17 @@
 {
   "updates": [
     {
+      "month": "July",
+      "year": 2026,
+      "date": "2026-07-01",
+      "items": [
+        {
+          "title": "County Data Accuracy Fix",
+          "description": "Fixed a bug where filtering active weather alerts by certain counties (like \"Floyd\") could silently show a different county's alerts instead. Rebuilt the underlying county reference data for all 159 Georgia counties using verified codes sourced directly from the National Weather Service, so the county filter now matches reliably for every alert type, including advisories and watches."
+        }
+      ]
+    },
+    {
       "month": "June",
       "year": 2026,
       "date": "2026-06-30",
