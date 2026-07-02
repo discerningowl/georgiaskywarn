@@ -1,14 +1,14 @@
 {
-  "GAC029": "Bryan",
-  "GAC031": "Bulloch",
-  "GAC041": "Candler",
-  "GAC049": "Chatham",
-  "GAC101": "Effingham",
-  "GAC107": "Evans",
-  "GAC163": "Jenkins",
-  "GAC177": "Liberty",
-  "GAC181": "Long",
-  "GAC189": "McIntosh",
-  "GAC247": "Screven",
-  "GAC263": "Tattnall"
+  "Bryan": { "gac": "GAC029", "same": "013029", "gaz": ["GAZ216", "GAZ217"] },
+  "Bulloch": { "gac": "GAC031", "same": "013031", "gaz": ["GAZ100"] },
+  "Candler": { "gac": "GAC043", "same": "013043", "gaz": ["GAZ099"] },
+  "Chatham": { "gac": "GAC051", "same": "013051", "gaz": ["GAZ218", "GAZ219"] },
+  "Effingham": { "gac": "GAC103", "same": "013103", "gaz": ["GAZ101"] },
+  "Evans": { "gac": "GAC109", "same": "013109", "gaz": ["GAZ115"] },
+  "Jenkins": { "gac": "GAC165", "same": "013165", "gaz": ["GAZ087"] },
+  "Liberty": { "gac": "GAC179", "same": "013179", "gaz": ["GAZ238", "GAZ239"] },
+  "Long": { "gac": "GAC183", "same": "013183", "gaz": ["GAZ137"] },
+  "McIntosh": { "gac": "GAC191", "same": "013191", "gaz": ["GAZ240", "GAZ241"] },
+  "Screven": { "gac": "GAC251", "same": "013251", "gaz": ["GAZ088"] },
+  "Tattnall": { "gac": "GAC267", "same": "013267", "gaz": ["GAZ114"] }
 }

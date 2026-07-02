@@ -1,7 +1,7 @@
 {
-  "GAC033": "Burke",
-  "GAC071": "Columbia",
-  "GAC179": "Lincoln",
-  "GAC187": "McDuffie",
-  "GAC241": "Richmond"
+  "Burke": { "gac": "GAC033", "same": "013033", "gaz": ["GAZ077"] },
+  "Columbia": { "gac": "GAC073", "same": "013073", "gaz": ["GAZ064"] },
+  "Lincoln": { "gac": "GAC181", "same": "013181", "gaz": ["GAZ040"] },
+  "McDuffie": { "gac": "GAC189", "same": "013189", "gaz": ["GAZ063"] },
+  "Richmond": { "gac": "GAC245", "same": "013245", "gaz": ["GAZ065"] }
 }

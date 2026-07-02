@@ -6,8 +6,24 @@
  *          - Fetch functions with timeout and retry logic
  *          - Cache management
  *          - Common constants and configuration
- * Version: 20260630c
+ * Version: 20260701a
  * Change-log:
+ *   • 2026-07-01a – DATA INTEGRITY FIX: data/*-counties.json restructured
+ *                  - Root cause of a real false-match bug: ffc-counties.json's
+ *                    GAC codes were systematically wrong (off by -2 or -4 FIPS)
+ *                    for ~68 of 96 counties. Filtering by "Floyd" resolved to
+ *                    GAC113, which is really Fayette's code, so any Fayette
+ *                    alert incorrectly matched a Floyd filter.
+ *                  - All 6 data/*-counties.json files rebuilt keyed by county
+ *                    name (not GAC code), each storing every NWS code that
+ *                    might reference that county: gac, same, and gaz (array,
+ *                    since a few counties split into 2 forecast zones).
+ *                  - loadFFCCounties() and renderAllAlerts()'s county filter
+ *                    updated for the new schema; gacToSameCode() removed now
+ *                    that real same/gaz codes are on file instead of derived.
+ *                  - Filter now matches on GAC OR GAZ OR SAME OR areaDesc —
+ *                    GAZ is a new, authoritative fourth layer (previously
+ *                    zone-based products relied on SAME + areaDesc only).
  *   • 2026-06-30c – ROBUSTNESS FIX: County filter now also matches areaDesc
  *                  - geocode.SAME (added in 20260630a) is meant to always be
  *                    county-level, but in practice NWS only reliably
@@ -115,28 +131,24 @@
   // ========================================================================
   // COUNTY FILTER STATE
   // ========================================================================
-  let ffcCounties = {};        // { "GAC111": "Fayette", ... }
+  let ffcCounties = {};        // { "GAC111": "Fayette", ... } (derived from ffcCountyData)
   let ffcCountiesReverse = {}; // { "fayette": "GAC111", ... }
+  let ffcCountyData = {};      // { "GAC111": { same: "013111", gaz: ["GAZ054"] }, ... }
   let activeCountyFilter = new Set(); // GAC codes currently filtering alerts
 
-  /**
-   * Converts a Georgia county GAC code (e.g. "GAC111") to its 6-digit EAS/SAME
-   * FIPS code (e.g. "013111"). NWS alert products are NOT all geocoded the
-   * same way: warnings (Tornado, Severe T-storm, Flash Flood) use COUNTY-based
-   * UGC codes (GACxxx), but advisory/watch-level products (Heat Advisory, Wind
-   * Advisory, Winter Weather Advisory, etc.) use forecast-ZONE UGC codes
-   * (GAZxxx) instead. A county filter that only checks geocode.UGC against GAC
-   * codes silently matches nothing for every zone-based product, even when the
-   * county is plainly listed in areaDesc. geocode.SAME, however, is always a
-   * county-level FIPS code on every alert regardless of product type (it's
-   * what drives EAS broadcast triggering), so it's the reliable cross-product
-   * way to match an alert to a specific county. See matching logic below.
-   * @param {string} gacCode - e.g. "GAC111"
-   * @returns {string} - e.g. "013111" (Georgia state FIPS is 13)
-   */
-  function gacToSameCode(gacCode) {
-    return '013' + gacCode.slice(3);
-  }
+  // NOTE: data/ffc-counties.json (and the other 5 CWA county files) are keyed
+  // by county name and store every NWS code that might reference that county:
+  //   gac  - county-based UGC code, used by warnings (Tornado, Flash Flood, etc.)
+  //   same - 6-digit EAS/SAME FIPS code, always county-level regardless of
+  //          product type (drives EAS broadcast triggering)
+  //   gaz  - public forecast zone UGC code(s), used by advisory/watch-level
+  //          products (Heat Advisory, Wind Advisory, etc.). NOT derivable from
+  //          FIPS - independently assigned per NWS directive 10-507. A county
+  //          can have more than one zone (e.g. Fulton splits into north/south).
+  // Previously this file derived `same` via a FIPS-arithmetic formula
+  // (gacToSameCode()) and had no way to match `gaz` at all, silently falling
+  // back to the areaDesc text-match layer for every zone-based product. Both
+  // gaps are closed now that the data files carry real, NWS-sourced codes.
 
   // ========================================================================
   // UTILITY FUNCTIONS
@@ -663,22 +675,25 @@
       uniqueFeatures.push(f);
     });
 
-    // Apply county filter if active. Three layers, weakest-to-strongest
+    // Apply county filter if active. Four layers, weakest-to-strongest
     // guarantee, checked in order of cheapness:
-    //   1. geocode.UGC  — matches county-based warnings (UGC IS a GAC code)
-    //   2. geocode.SAME — matches zone-based advisories/watches (GAZ zone
-    //      codes in UGC, but SAME is meant to always carry county FIPS)
-    //   3. areaDesc text — NWS's own human-readable "Areas:" county list.
-    //      This is the one field that is ALWAYS fully populated on every
-    //      alert regardless of product type, because forecasters write it
-    //      directly into the product. geocode.SAME is only reliably complete
-    //      for EAS-significant products (Tornado/Flash Flood/etc Warnings);
-    //      advisory-level products like Heat Advisory are NOT EAS-required
-    //      triggers, so NWS doesn't always populate SAME for them even
-    //      though it's geocoded by zone. areaDesc has no such gap, so it's
-    //      the most reliable match and should not be treated as optional.
+    //   1. geocode.UGC vs GAC  — matches county-based warnings (UGC IS a GAC code)
+    //   2. geocode.UGC vs GAZ  — matches zone-based advisories/watches directly,
+    //      using the real per-county forecast-zone code(s) from ffcCountyData
+    //      (a county can have more than one zone, e.g. Fulton N/S)
+    //   3. geocode.SAME        — SAME is meant to always carry county FIPS
+    //      regardless of product type; used as a second cross-check
+    //   4. areaDesc text — NWS's own human-readable "Areas:" county list.
+    //      Always fully populated on every alert regardless of product type,
+    //      because forecasters write it directly into the product. Kept as a
+    //      final fallback for the handful of counties where a GAZ code isn't
+    //      yet on file (data/*-counties.json ships an empty `gaz` array for
+    //      those rather than a guessed value).
     const activeSameCodes = activeCountyFilter.size > 0
-      ? new Set([...activeCountyFilter].map(gacToSameCode))
+      ? new Set([...activeCountyFilter].map(code => ffcCountyData[code]?.same).filter(Boolean))
+      : null;
+    const activeGazCodes = activeCountyFilter.size > 0
+      ? new Set([...activeCountyFilter].flatMap(code => ffcCountyData[code]?.gaz || []))
       : null;
     const activeCountyNames = activeCountyFilter.size > 0
       ? new Set([...activeCountyFilter].map(code => (ffcCounties[code] || '').toLowerCase()))
@@ -687,13 +702,15 @@
       ? uniqueFeatures.filter(f => {
           const p = f.properties || {};
           const geocode = p.geocode || {};
-          const ugcMatch = (geocode.UGC || []).some(code => activeCountyFilter.has(code));
+          const ugc = geocode.UGC || [];
+          const ugcMatch = ugc.some(code => activeCountyFilter.has(code));
+          const gazMatch = ugc.some(code => activeGazCodes.has(code));
           const sameMatch = (geocode.SAME || []).some(code => activeSameCodes.has(code));
           const areaMatch = (p.areaDesc || '')
             .split(';')
             .map(name => name.trim().toLowerCase())
             .some(name => activeCountyNames.has(name));
-          return ugcMatch || sameMatch || areaMatch;
+          return ugcMatch || gazMatch || sameMatch || areaMatch;
         })
       : uniqueFeatures;
 
@@ -940,16 +957,21 @@
   // ========================================================================
 
   /**
-   * Load FFC county GAC codes from JSON
+   * Load FFC county codes from JSON
+   * File format: { "CountyName": { "gac": "GAC111", "same": "013111", "gaz": ["GAZ054"] }, ... }
    */
   async function loadFFCCounties() {
     try {
       const resp = await fetch('data/ffc-counties.json');
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-      ffcCounties = await resp.json();
+      const data = await resp.json();
+      ffcCounties = {};
       ffcCountiesReverse = {};
-      Object.entries(ffcCounties).forEach(([code, name]) => {
-        ffcCountiesReverse[name.toLowerCase()] = code;
+      ffcCountyData = {};
+      Object.entries(data).forEach(([name, codes]) => {
+        ffcCounties[codes.gac] = name;
+        ffcCountiesReverse[name.toLowerCase()] = codes.gac;
+        ffcCountyData[codes.gac] = codes;
       });
       console.log(`[County Filter] Loaded ${Object.keys(ffcCounties).length} FFC counties`);
     } catch (e) {

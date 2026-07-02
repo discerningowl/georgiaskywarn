@@ -293,7 +293,10 @@
     document.body.appendChild(tip);
 
     // ── 1. Load all 6 CWA county files in parallel ────────────────────────
-    // Each file: { "GAC###": "CountyName", ... }
+    // Each file: { "CountyName": { "gac": "GAC###", "same": "0#####", "gaz": [...] }, ... }
+    // (as of 2026-07-01, restructured from the old { "GAC###": "CountyName" }
+    // shape so county name is the anchor and every NWS-referenceable code
+    // lives alongside it — this map only needs the names, not the codes)
     // Populates module-level nameToCWA, cwaCountyLists, and allCounties.
 
     const loadResults = await Promise.allSettled(
@@ -301,7 +304,7 @@
         const r = await fetch(conf.file);
         if (!r.ok) throw new Error(conf.file + ' HTTP ' + r.status);
         const j = await r.json();
-        const names = Object.values(j);
+        const names = Object.keys(j);
         names.forEach(function (name) {
           nameToCWA[name.toLowerCase()] = cwa;
         });

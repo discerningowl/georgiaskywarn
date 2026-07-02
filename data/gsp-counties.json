@@ -1,8 +1,8 @@
 {
-  "GAC103": "Elbert",
-  "GAC117": "Franklin",
-  "GAC135": "Habersham",
-  "GAC145": "Hart",
-  "GAC237": "Rabun",
-  "GAC253": "Stephens"
+  "Elbert": { "gac": "GAC105", "same": "013105", "gaz": ["GAZ029"] },
+  "Franklin": { "gac": "GAC119", "same": "013119", "gaz": ["GAZ026"] },
+  "Habersham": { "gac": "GAC137", "same": "013137", "gaz": ["GAZ017"] },
+  "Hart": { "gac": "GAC147", "same": "013147", "gaz": ["GAZ028"] },
+  "Rabun": { "gac": "GAC241", "same": "013241", "gaz": ["GAZ010"] },
+  "Stephens": { "gac": "GAC257", "same": "013257", "gaz": ["GAZ018"] }
 }
