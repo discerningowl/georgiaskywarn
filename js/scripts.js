@@ -9,7 +9,7 @@
  *          - Repeater data rendering from JSON (repeaters.html)
  *          - Repeater detail modal (repeaters.html)
  *          - CHIRP and RT Systems CSV export (repeaters.html)
- *          - Repeater health dashboard (repeater-health.html)
+ *          - Repeater validation dashboard (repeater-validation.html)
  *          - Page navigation toggle (mobile, all pages)
  *          - What to Report modals (spotters.html)
  * NOTE: NWS alert fetching is handled by nws-api.js
@@ -288,7 +288,7 @@
   /**
    * Maps a repeater network tag (e.g. "WX4PTC System") to its badge CSS class.
    * Single source of truth — used by the repeater table, the detail modal,
-   * and the repeater-health admin dashboard so badge colors always match.
+   * and the repeater-validation dashboard so badge colors always match.
    * @param {string} tag - Network tag from repeater.tags
    * @returns {string} - Badge CSS class
    */
@@ -1051,9 +1051,9 @@
   }
 
   // ========================================================================
-  // REPEATER HEALTH PAGE (repeater-health.html) — Database quality dashboard
+  // REPEATER VALIDATION PAGE (repeater-validation.html) — Database quality dashboard
   // ========================================================================
-  if (currentPage === 'repeater-health.html') {
+  if (currentPage === 'repeater-validation.html') {
     async function renderAdminPage() {
       const all = await fetchRepeaterData();
 

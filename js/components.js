@@ -354,6 +354,7 @@ function loadFooter() {
                             <li><a href="https://www.weather.gov/ffc/" target="_blank" rel="noopener noreferrer">NWS Atlanta</a></li>
                             <li><a href="https://www.weather.gov/ffc/SKYWARNsched" target="_blank" rel="noopener noreferrer">Spotter Training</a></li>
                             <li><a href="https://www.weather.gov/ffc/strmsubm1" target="_blank" rel="noopener noreferrer">Submit Storm Report</a></li>
+                            <li><a href="repeater-validation.html" style="opacity: 0.4;" aria-label="Repeater Database Validation">&#8943;</a></li>
                         </ul>
                     </div>
                 </div>
@@ -361,7 +362,6 @@ function loadFooter() {
                 <div class="footer-bottom">
                     <p>&copy; 2026 Georgia SKYWARN &middot; All Rights Reserved &middot; Serving North and Central Georgia</p>
                     <p class="footer-page-updated" id="page-last-updated-date" style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-secondary);">Page last updated <span id="page-last-updated">loading...</span></p>
-                    <p style="margin-top: 0.5rem;"><a href="repeater-health.html" style="color: var(--text-secondary); opacity: 0.4; font-size: 0.8rem; text-decoration: none;" aria-label="Admin">&#8943;</a></p>
                 </div>
             </div>
         </footer>
