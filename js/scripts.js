@@ -303,6 +303,26 @@
   }
 
   /**
+   * Reduces a repeater's multi-source validation object (repeaterbook/owner/club)
+   * to a single tier for display. Single source of truth — used by the detail
+   * modal badge and the repeater-validation dashboard stats/table so the tiering
+   * rule can't drift between the two.
+   * @param {Object} repeater - Repeater object from JSON
+   * @returns {{count: number, label: string, colorVar: string, symbol: string}}
+   */
+  function getValidationTier(repeater) {
+    const v = repeater.validation || {};
+    const count = ['repeaterbook', 'owner', 'club'].filter(k => v[k] === true).length;
+    if (count === 3) {
+      return { count, label: 'Fully Validated', colorVar: 'var(--accent-blue)', symbol: '✓' };
+    }
+    if (count > 0) {
+      return { count, label: 'Partially Validated', colorVar: 'var(--accent-yellow)', symbol: '◐' };
+    }
+    return { count, label: 'Not Validated', colorVar: 'var(--accent-red)', symbol: '✗' };
+  }
+
+  /**
    * Renders a repeater table row with new multi-column structure
    * @param {Object} repeater - Repeater object from JSON
    * @returns {string} - HTML table row
@@ -425,11 +445,8 @@
     } else {
       html += '<p style="color: var(--accent-orange); font-weight: 700; font-size: 1.1rem;">🏛️ County SKYWARN Only</p>';
     }
-    if (repeater.verified === true) {
-      html += '<p style="color: var(--accent-blue); font-weight: 700;">✓ Validated from public sources</p>';
-    } else if (repeater.verified === false) {
-      html += '<p style="color: var(--accent-red); font-weight: 700;">✗ Not Validated</p>';
-    }
+    const tier = getValidationTier(repeater);
+    html += `<p style="color: ${tier.colorVar}; font-weight: 700;">${tier.symbol} ${tier.label}</p>`;
     html += '</div>';
 
     // Tags as badges
@@ -1063,8 +1080,13 @@
       const active     = all.filter(r => r.active !== false);
       const linked     = all.filter(r => r.linked === true);
       const nonLinked  = all.filter(r => r.linked === false);
-      const verified   = all.filter(r => r.verified === true);
-      const unverified = all.filter(r => r.verified === false);
+      // Validation tiers, driven by the shared getValidationTier() rule (repeaterbook/owner/club):
+      //   fully validated    = all 3 sources confirmed
+      //   partially validated = 1-2 sources confirmed
+      //   not validated (unverified) = 0 sources confirmed — this is what needs staff attention
+      const fullyValidated     = all.filter(r => getValidationTier(r).count === 3);
+      const partiallyValidated = all.filter(r => { const c = getValidationTier(r).count; return c > 0 && c < 3; });
+      const unverified          = all.filter(r => getValidationTier(r).count === 0);
       const noCalls    = all.filter(r => r.callsign === 'n0call');
       const noClub     = all.filter(r => !r.clubName);
 
@@ -1075,8 +1097,9 @@
       set('stat-inactive',   inactive.length);
       set('stat-linked',     linked.length);
       set('stat-nonlinked',  nonLinked.length);
-      set('stat-verified',   verified.length);
-      set('stat-unverified', unverified.length);
+      set('stat-verified',      fullyValidated.length);
+      set('stat-partial',       partiallyValidated.length);
+      set('stat-unverified',    unverified.length);
       set('stat-nocall',     noCalls.length);
 
       // ── Helper: render tags as styled badge pills ────────────────────────

@@ -139,7 +139,7 @@ All repeater data is stored in a single unified JSON file. Fields appear in the 
 | 7 | `callsign` | string | Yes | Amateur radio callsign or `"n0call"` if unknown |
 | 8 | `refurl` | string | Yes | RepeaterBook reference URL |
 | 9 | `linked` | boolean | Yes | `true` if part of linked SKYWARN network |
-| 10 | `verified` | boolean | Yes | `true` if verified against RepeaterBook |
+| 10 | `validation` | object | Yes | `{ "repeaterbook": bool, "owner": bool, "club": bool }` — three independent confirmation sources, not a single flag. See `CLAUDE.md` for details. |
 | 11 | `picUrl` | string | When applicable | Station photo link (only select repeaters) |
 | 12 | `clubName` | string/null | Yes | Sponsoring club name, or `null` if unknown |
 | 13 | `clubUrl` | string/null | Yes | Sponsoring club URL, or `null` if unknown |

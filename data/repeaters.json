@@ -12,7 +12,11 @@
     "callsign": "W4DOC",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=6482",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Atlanta Radio Club (ARC)",
     "clubUrl": "https://www.w4doc.org",
@@ -52,7 +56,11 @@
     "callsign": "WR4BC",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=21766",
     "linked": false,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Barrow Amateur Radio Club (BARC)",
     "clubUrl": "http://barrowamateurradioclub.godaddysites.com"
@@ -70,7 +78,11 @@
     "callsign": "KC4JNN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=13942",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Southeastern Linked Repeater Net",
     "clubUrl": "http://www.selinkedrepeater.net/"
@@ -88,7 +100,11 @@
     "callsign": "KC4JNN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=259",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Southeastern Linked Repeater Net",
     "clubUrl": "http://www.selinkedrepeater.net/"
@@ -106,7 +122,11 @@
     "callsign": "KC4JNN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=334",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Southeastern Linked Repeater Net",
     "clubUrl": "http://www.selinkedrepeater.net/"
@@ -125,9 +145,13 @@
     "callsign": "WB4NFG",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=12976",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": false,
-    "statusNote": "DOWN \u2014 Needs PA replacement. PA on hand, awaiting time to install and tune. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
+    "statusNote": "DOWN — Needs PA replacement. PA on hand, awaiting time to install and tune. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://www.peachstateintertie.com/"
   },
@@ -145,7 +169,11 @@
     "callsign": "WR4MG",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=20322",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Middle Georgia Radio Association (MGRA)",
     "clubUrl": "http://www.wr4mg.us/"
@@ -161,7 +189,11 @@
     "callsign": "WX4BCA",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=11661",
     "linked": false,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Amateur Radio Club of Butts County (ARCBC)",
     "clubUrl": "http://www.bcgaares.org"
@@ -180,7 +212,11 @@
     "callsign": "WX4PCH",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=16822",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://www.peachstateintertie.com/repeaters.html"
@@ -196,7 +232,11 @@
     "callsign": "W4FWD",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=85",
     "linked": false,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "West Georgia Amateur Radio Society (WGARS)",
     "clubUrl": "http://www.wgars.com/"
@@ -215,7 +255,11 @@
     "callsign": "K4DBN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=86",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://peachstateintertie.com/repeaters.html"
@@ -227,11 +271,15 @@
     "tone": "100.0 Hz",
     "county": "Cherokee",
     "tags": [],
-    "description": "Coverage \u2013 Cherokee, Pickens, Bartow, Cobb \u2013 NW Georgia with occasional check-in's from TN, AL",
+    "description": "Coverage – Cherokee, Pickens, Bartow, Cobb – NW Georgia with occasional check-in's from TN, AL",
     "callsign": "KG4VUB",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=232",
     "linked": false,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Cherokee Amateur Radio Society (CARS)",
     "clubUrl": "https://www.wx4car.org/"
@@ -243,11 +291,15 @@
     "tone": "D411 DCS",
     "county": "Cherokee",
     "tags": [],
-    "description": "Secondary Coverage \u2013 Cherokee, Pickens, Bartow, Cobb \u2013 NW Georgia with occasional check-in's from TN, AL",
+    "description": "Secondary Coverage – Cherokee, Pickens, Bartow, Cobb – NW Georgia with occasional check-in's from TN, AL",
     "callsign": "WX4NN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=347",
     "linked": false,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": null,
     "clubUrl": null
@@ -263,7 +315,11 @@
     "callsign": "KA3JIJ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=79",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Lanierland Amateur Radio Club (LARC)",
     "clubUrl": "https://www.lanierlandarc.org/p/repeaters.html",
@@ -299,11 +355,15 @@
     "tags": [
       "SE Linked Repeater"
     ],
-    "description": "Covers Bleckley County (Cochran area) and surrounding central Georgia counties between Macon and Eastman. Currently NOT linked to Peach State Intertie \u2014 link radio issue.",
+    "description": "Covers Bleckley County (Cochran area) and surrounding central Georgia counties between Macon and Eastman. Currently NOT linked to Peach State Intertie — link radio issue.",
     "callsign": "K4DBN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23269",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Bleckley Co. Amateur Radio Club",
     "clubUrl": null
@@ -319,7 +379,11 @@
     "callsign": "KF4DGN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23184",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Bob Williams",
     "clubUrl": null,
@@ -353,7 +417,11 @@
     "callsign": "WB4GWA",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=137",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Concord Amateur Radio Society (CARS)",
     "clubUrl": "http://www.arrl.org/Groups/view/concord-amateur-radio-society/type:club",
@@ -385,7 +453,11 @@
     "callsign": "WA4ASI",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=100",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "WA4ASI Repeater System",
     "clubUrl": "https://sites.google.com/site/wa4asirepeater/home",
@@ -430,7 +502,11 @@
     "callsign": "WA4ASI",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=372",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "WA4ASI Repeater System",
     "clubUrl": "https://sites.google.com/site/wa4asirepeater/home",
@@ -455,7 +531,11 @@
     "callsign": "K4NRC",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=184",
     "linked": false,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Newnan Regional Amateur Radio Club",
     "clubUrl": "https://newnanradio.org/",
@@ -481,7 +561,11 @@
     "callsign": "WD4LUQ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=104",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Paulding Amateur Radio Club (PARC)",
     "clubUrl": "http://www.pauldingarc.club/",
@@ -522,7 +606,11 @@
     "callsign": "WD4LUQ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=299",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Paulding Amateur Radio Club (PARC)",
     "clubUrl": "http://www.pauldingarc.club/",
@@ -563,7 +651,11 @@
     "callsign": "K4DBN",
     "refurl": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25",
     "linked": true,
-    "verified": false,
+    "validation": {
+      "repeaterbook": false,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "K4DBN / Laurens County 911",
     "clubUrl": null
@@ -582,9 +674,13 @@
     "callsign": "KB4MQ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=120",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": false,
-    "statusNote": "DOWN \u2014 Needs new antenna, work in progress. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
+    "statusNote": "DOWN — Needs new antenna, work in progress. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
     "clubName": "Three Rivers Amateur Radio Club (TRARC)",
     "clubUrl": "http://www.arrl.org/Groups/view/three-rivers-arc-1/type:club"
   },
@@ -602,7 +698,11 @@
     "callsign": "KK4GQ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=129",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Fayette County Amateur Radio Club, Inc. (FCARC)",
     "clubUrl": "https://www.kk4gq.org",
@@ -638,7 +738,11 @@
     "callsign": "W4PSZ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=405",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "picUrl": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6",
     "clubName": "Fayette County Amateur Radio Club (FCARC)",
@@ -679,7 +783,11 @@
     "callsign": "WB4JOE",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=165",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": null,
     "clubUrl": null,
@@ -704,7 +812,11 @@
     "callsign": "K4HYB",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=138",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": null,
     "clubUrl": null,
@@ -733,7 +845,11 @@
     "callsign": "K4DBN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=144",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://www.peachstateintertie.com/"
@@ -751,7 +867,11 @@
     "callsign": "K4DBN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=10970",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://www.peachstateintertie.com/"
@@ -769,7 +889,11 @@
     "callsign": "K4DBN",
     "refurl": "https://www.repeaterbook.com/repeaters/callResult.php?call=K4DBN&status_id=%25",
     "linked": true,
-    "verified": false,
+    "validation": {
+      "repeaterbook": false,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": null,
     "clubUrl": null
@@ -787,7 +911,11 @@
     "callsign": "KC4AQS",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=147",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Southeast Linked Repeater Net",
     "clubUrl": "http://www.selinkedrepeater.net/",
@@ -814,7 +942,11 @@
     "callsign": "WB4BXO",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=158",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": null,
     "clubUrl": null,
@@ -847,7 +979,11 @@
     "callsign": "W8JI",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=67",
     "linked": false,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Charles T. Rauch, Jr. (Trustee)",
     "clubUrl": "http://www.w8ji.com/"
@@ -863,7 +999,11 @@
     "callsign": "W4GTA",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=163",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Tri-States Amateur Radio Club (TSARC)",
     "clubUrl": "https://tristatesarc.com/club/",
@@ -927,7 +1067,11 @@
     "callsign": "AA4RI",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=166",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": null,
     "clubUrl": null,
@@ -955,7 +1099,11 @@
     "callsign": "KD4UTQ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=169",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": null,
     "clubUrl": null
@@ -974,7 +1122,11 @@
     "callsign": "WX4EMA",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3141",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Macon-Bibb County Emergency Management Agency",
     "clubUrl": "https://www.maconbibb.us/EMA/"
@@ -992,7 +1144,11 @@
     "callsign": "WX4EMA",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=452",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Macon-Bibb County Emergency Management Agency",
     "clubUrl": "https://www.maconbibb.us/EMA/"
@@ -1010,7 +1166,11 @@
     "callsign": "W4PCF",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=178",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": false,
     "statusNote": "2021-02-01 K4DRS has requested the following changes: Operational status changed to Off-Air.",
     "clubName": "Milledgeville Amateur Radio Club (MARC)",
@@ -1030,9 +1190,13 @@
     "callsign": "KI4BEO",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=180",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": false,
-    "statusNote": "REPEATER UP, NOT YET LINKED \u2014 Repeater is operational. PSI link (11-element UHF Yagi to Irwinton) was removed; awaiting replacement antenna before rejoining PSI. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
+    "statusNote": "REPEATER UP, NOT YET LINKED — Repeater is operational. PSI link (11-element UHF Yagi to Irwinton) was removed; awaiting replacement antenna before rejoining PSI. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://www.peachstateintertie.com"
   },
@@ -1047,7 +1211,11 @@
     "callsign": "WX4PCA",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=105",
     "linked": false,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Paulding County ARES",
     "clubUrl": "http://www.pauldingares.com/",
@@ -1073,7 +1241,11 @@
     "callsign": "WB4ULJ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=194",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Southeastern Linked Repeater Net",
     "clubUrl": "http://selinkedrepeater.net/",
@@ -1100,7 +1272,11 @@
     "callsign": "N4RMG",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=10212",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Northwest Georgia Repeater Club (NWGRC)",
     "clubUrl": "https://w4vo.org/local_repeaters.html",
@@ -1127,7 +1303,11 @@
     "callsign": "W4SAN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=203",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Washington County Amateur Radio Club (WCARC)",
     "clubUrl": "http://www.arrl.org/Groups/view/washington-county-amateur-radio-club-1/type:club"
@@ -1143,7 +1323,11 @@
     "callsign": "WB4GQX",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3862",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Sawnee Mountain Amateur Group (SMAG)",
     "clubUrl": "https://sawneeradio.org/",
@@ -1170,7 +1354,11 @@
     "callsign": "W4SCP",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18622",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Sun City Amateur Radio (SCAR)",
     "clubUrl": "https://w4scp.wordpress.com/",
@@ -1198,7 +1386,11 @@
     "callsign": "W4OHH",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=219",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": null,
     "clubUrl": null,
@@ -1225,7 +1417,11 @@
     "callsign": "KN4YZ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=508",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Fayette County Amateur Radio Club",
     "clubUrl": "https://kk4gq.org/",
@@ -1250,7 +1446,11 @@
     "callsign": "WC4RG",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5522",
     "linked": false,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Walton County Repeater Group (WCRG)",
     "clubUrl": "https://wc4rg.org/repeaters/"
@@ -1266,7 +1466,11 @@
     "callsign": "WC4RG",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=464",
     "linked": false,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Walton County Repeater Group (WCRG)",
     "clubUrl": "https://wc4rg.org/repeaters/"
@@ -1282,7 +1486,11 @@
     "callsign": "KN4FE",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=234",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Columbus Amateur Radio Club (W4CVY)",
     "clubUrl": "https://w4cvy.org/repeaters/",
@@ -1320,7 +1528,11 @@
     "callsign": "WM4B",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5525",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Amateur Radio Station WM4B",
     "clubUrl": "http://wm4b.wikidot.com/",
@@ -1347,7 +1559,11 @@
     "callsign": "WA4ORT",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=3139",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Central Georgia Amateur Radio Club (CGARC)",
     "clubUrl": "http://www.wa4ort.com"
@@ -1363,7 +1579,11 @@
     "callsign": "WM4B",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=6484",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Amateur Radio Station WM4B",
     "clubUrl": "http://wm4b.wikidot.com/",
@@ -1388,7 +1608,11 @@
     "callsign": "K4GAR",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=91",
     "linked": false,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Gateway Amateur Radio Club (GARC)",
     "clubUrl": "https://www.k4gar.com"
@@ -1400,11 +1624,15 @@
     "tone": "141.3 Hz",
     "county": "Whitfield",
     "tags": [],
-    "description": "Dalton \u2022 Dug Gap Mtn \u2022 Whitfield County. Whitfield SKYWARN Coordinator is Alan Bryant, N4ABB, assistant is Greg Williams, N4JGW.",
+    "description": "Dalton • Dug Gap Mtn • Whitfield County. Whitfield SKYWARN Coordinator is Alan Bryant, N4ABB, assistant is Greg Williams, N4JGW.",
     "callsign": "N4BZJ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=107",
     "linked": false,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": null,
     "clubUrl": null
@@ -1420,7 +1648,11 @@
     "callsign": "WB4GWA",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18030",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "Concord Amateur Radio Society (CARS)",
     "clubUrl": "http://www.arrl.org/Groups/view/concord-amateur-radio-society/type:club",
@@ -1461,7 +1693,11 @@
     "callsign": "W4CDC",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=244",
     "linked": true,
-    "verified": true,
+    "validation": {
+      "repeaterbook": true,
+      "owner": false,
+      "club": false
+    },
     "active": true,
     "clubName": "ARCCC, Inc.",
     "clubUrl": "https://www.arccc.org/"

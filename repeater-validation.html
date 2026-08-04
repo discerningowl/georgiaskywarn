@@ -44,8 +44,9 @@
           <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-red);" id="stat-inactive">—</p><p style="color:var(--text-secondary);">Inactive</p></div>
           <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-blue);" id="stat-linked">—</p><p style="color:var(--text-secondary);">Linked</p></div>
           <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-orange);" id="stat-nonlinked">—</p><p style="color:var(--text-secondary);">Non-Linked</p></div>
-          <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-green);" id="stat-verified">—</p><p style="color:var(--text-secondary);">Validated</p></div>
-          <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-yellow);" id="stat-unverified">—</p><p style="color:var(--text-secondary);">Not Validated</p></div>
+          <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-green);" id="stat-verified">—</p><p style="color:var(--text-secondary);">Fully Validated</p></div>
+          <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-yellow);" id="stat-partial">—</p><p style="color:var(--text-secondary);">Partially Validated</p></div>
+          <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-red);" id="stat-unverified">—</p><p style="color:var(--text-secondary);">Not Validated</p></div>
           <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-yellow);" id="stat-nocall">—</p><p style="color:var(--text-secondary);">Unknown Callsign</p></div>
         </div>
       </div>
@@ -86,7 +87,7 @@
       </header>
       <div class="card-body">
         <aside class="callout note">
-          <p>These repeaters have <code>verified: false</code> and have not been compared against RepeaterBook. Click the RepeaterBook link to validate frequency, tone, and callsign, then set <code>"verified": true</code> in the JSON.</p>
+          <p>Each repeater's <code>validation</code> object tracks three independent sources: <code>repeaterbook</code>, <code>owner</code>, and <code>club</code>. These repeaters have <strong>none of the three confirmed</strong> — click the RepeaterBook link to compare frequency, tone, and callsign, and set <code>"validation": { "repeaterbook": true, ... }</code> in the JSON once confirmed. Repeaters with at least one source confirmed appear as "Partially Validated" in the summary above, not here.</p>
         </aside>
         <div class="table-wrapper">
           <table class="repeater-table">

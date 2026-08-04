@@ -678,7 +678,11 @@ Repeater tables are dynamically generated from the unified repeaters.json file:
   "callsign": "WX4PTC",
   "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=12345",
   "linked": true,
-  "verified": true,
+  "validation": {
+    "repeaterbook": true,
+    "owner": false,
+    "club": false
+  },
   "active": true,
   "clubName": "Club Name Here",
   "clubUrl": "https://example.com",
@@ -715,7 +719,7 @@ Repeater tables are dynamically generated from the unified repeaters.json file:
 | 8 | `callsign` | string | Yes | Amateur radio callsign (e.g., `"WX4PTC"`) or `"n0call"` if unknown |
 | 9 | `refurl` | string | Yes | RepeaterBook reference URL (single source of truth) |
 | 10 | `linked` | boolean | Yes | `true` if part of linked SKYWARN network, `false` otherwise |
-| 11 | `verified` | boolean | Yes | `true` if verified against RepeaterBook, `false` if needs verification |
+| 11 | `validation` | object | Yes | Multi-source validation record: `{ "repeaterbook": bool, "owner": bool, "club": bool }`. Tracks three independent confirmation sources — RepeaterBook comparison, direct owner confirmation, and club website/roster confirmation — rather than a single boolean, since these are separate processes with separate reliability. `repeaterbook` is the only sub-field ever written automatically (by `scripts/verify_repeaters.py`); `owner` and `club` are set manually as Jack actually confirms with those sources. See "Validating Repeater Data" below and `getValidationTier()` in `js/scripts.js` for how these three flags are reduced to a display tier (Fully/Partially/Not Validated). |
 | 12 | `active` | boolean | Yes | `true` if currently on-air/operational, `false` if confirmed off-air. Drives filtering: inactive repeaters are excluded from the public tables (`renderAllRepeaters()`) and CSV exports, and surfaced on `repeater-validation.html`'s Inactive list. |
 | 13 | `statusNote` | string | Only when `active: false` | Free-text explanation of the outage (who reported it, what's needed, follow-up date). Read by `repeater-validation.html`'s Inactive table (`r.statusNote`). Omit entirely when the repeater is active. |
 | 14 | `picUrl` | string | Only when applicable | Link to station photos (currently only 444.600+ and 442.500+). Omit if not applicable. |
@@ -762,7 +766,20 @@ Repeater tables are dynamically generated from the unified repeaters.json file:
 
 **Source of Truth**: The Georgia SKYWARN website (`data/repeaters.json`) is the **source of truth** for repeater information used on this site.
 
-**Validation Source**: RepeaterBook.com is used as the **validation source** to verify repeater data accuracy and system membership.
+**Validation Sources**: We do not rely on any single external source to validate repeater data — the `validation` object on each record (see field #11 in the schema table above) tracks three independent sources, each confirmed through a different process:
+
+| Source | `validation` key | How it's confirmed | Automated? |
+|---|---|---|---|
+| RepeaterBook.com | `repeaterbook` | Compared via `scripts/verify_repeaters.py` against the RepeaterBook export API (callsign, frequency, tone, operational status) | Yes — the only sub-field this script ever writes |
+| Repeater owner/trustee | `owner` | Direct confirmation from the licensee or trustee (phone, email, in-person, net check-in) | No — set manually in the JSON when confirmed |
+| Sponsoring club | `club` | Confirmed against the club's own website/roster (see `clubName`/`clubUrl`) | No — set manually in the JSON when confirmed |
+
+A repeater's display tier (shown on the public detail modal and on `repeater-validation.html`) is derived from how many of these three are `true` — see `getValidationTier()` in `js/scripts.js`, the single source of truth for that reduction logic:
+- **Fully Validated** — all three confirmed
+- **Partially Validated** — one or two confirmed
+- **Not Validated** — none confirmed (this is what drives `repeater-validation.html`'s "Not Validated" table — repeaters with at least one confirmed source are excluded from that list, even if RepeaterBook specifically hasn't confirmed them)
+
+RepeaterBook is one input among three, not an authority the whole `validation` object defers to — this distinction matters for how we describe the relationship publicly (see the 2026-08-04 changelog entries below on attribution wording).
 
 #### RepeaterBook System Validation URLs
 
@@ -1118,6 +1135,16 @@ refactor: Simplify alert filtering logic
 - `js/scripts.js`: `openRepeaterModal()` — removed the `<div class="detail-label">RepeaterBook:</div>` / `<div class="detail-value">...View on RepeaterBook →</a></div>` row from the "Basic Information" detail grid template literal (was directly below "Tone:"). No other detail rows changed; `repeater.refurl` is simply no longer read in this function.
 - **Left unchanged, on purpose**: `data/repeaters.json`'s `refurl` field (name and values) — data stays in the file. The `RepeaterBook →` reference links on `repeater-validation.html`'s Inactive/Not-Validated admin tables (`js/scripts.js` lines ~1109, ~1129) still use `r.refurl` and still render — those are on the internal noindex dashboard, not the public modal, and weren't part of this ask.
 - Version bumped to `20260804d`.
+
+#### Fourth follow-up same day: multi-source `validation` object replaces the `verified` boolean
+- Jack pointed out the single `verified` boolean overstated things — in reality the site's data quality rests on three separate, independently-confirmed sources (repeater owners directly, RepeaterBook comparison, and club website/roster confirmation), and asked for that to actually be captured in the schema rather than collapsed into one flag.
+- **Schema change** (`data/repeaters.json`, all 59 entries): field #11 `verified` (boolean) → `validation` (object): `{ "repeaterbook": bool, "owner": bool, "club": bool }`. Migrated programmatically (Python, preserving field order and 2-space formatting) rather than by hand — every entry's old `verified` value became `validation.repeaterbook`; `owner` and `club` start `false` for all 59 records since neither has ever been tracked before now and both require manual confirmation (no existing process to backfill them from).
+- **`scripts/verify_repeaters.py`**: this script only ever automates the RepeaterBook comparison, so it was updated to read/write `validation.repeaterbook` exclusively — it has no way to confirm `owner` or `club` and must never touch them. `apply_fixes()` gained support for one level of dotted-path fixes (e.g. `"validation.repeaterbook"`) so it can flip a nested field without disturbing the sibling `owner`/`club` flags. `compare()`'s "Verified flag" section, the markdown report's field-name column, and all `--help`/docstring text updated to match.
+- **`js/scripts.js`**: new shared helper `getValidationTier(repeater)` (added right after `tagToBadgeClass()`, same "single source of truth" pattern) reduces the three booleans to a tier: **Fully Validated** (all 3 true, blue), **Partially Validated** (1-2 true, yellow), **Not Validated** (0 true, red). `openRepeaterModal()`'s badge now calls this helper instead of checking a flat `repeater.verified`. `repeater-validation.html`'s dashboard render function (`renderAdminPage()`) was rewired the same way: `fullyValidated`/`partiallyValidated`/`unverified` (kept this variable name since it still feeds the existing `unverified-*` ids) replace the old `verified`/`unverified` filters, all now driven by `getValidationTier()` counts instead of a flat boolean check.
+- **`repeater-validation.html`**: added a third stat card, "Partially Validated" (new `id="stat-partial"`), between the existing "Fully Validated" (`stat-verified`, relabeled) and "Not Validated" (`stat-unverified`) cards. The Not Validated section's intro prose rewritten to explain the three-source model and clarify that a repeater only lands in that table if **none** of the three are confirmed — a repeater with e.g. only `owner: true` now shows as "Partially Validated" in the summary stats, not in the Not Validated table, which is a real behavior change from the single-boolean version (previously anything with `verified: false` — which was really just "not RepeaterBook-confirmed" — landed in that table).
+- **`CLAUDE.md`**: schema table field #11 rewritten with a sub-table describing all three sources and how each is confirmed (automated vs. manual); "Validating Repeater Data" section's "Validation Source" (singular, RepeaterBook-only) rewritten to "Validation Sources" (plural, three-way) with the same source/key/process table and the tiering rule, plus an explicit note that RepeaterBook is one input among three, not an authority the whole object defers to.
+- **Left unchanged, on purpose**: `refurl` (still the RepeaterBook reference link, unaffected by this — it's a citation URL, not a validation flag) and every RepeaterBook system-membership URL/process in the rest of the "Validating Repeater Data" section (those describe the `repeaterbook` sub-source specifically, not the whole object).
+- Version bumped to `20260804e`.
 
 ### 2026-07-08 — `repeater-health.html` → `repeater-validation.html` rename, footer entry point moved
 
