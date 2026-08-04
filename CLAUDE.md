@@ -1170,6 +1170,13 @@ refactor: Simplify alert filtering logic
 - `js/scripts.js`: `renderAdminPage()` gained a `sourceCell(isConfirmed)` helper (green ✓/red ✗ span) and a render block populating `#sources-repeaters-tbody` from the full `all` array — placed right after `adminRow()`, ahead of the existing Inactive/Not-Validated/etc. table renders. Rows use the same `.repeater-row` / `data-repeater-id` pattern as every other table on this page, so clicking a row opens the standard detail modal — no extra wiring needed since `setupRepeaterModalHandlers()` already runs after `renderAdminPage()` resolves and re-queries `.repeater-row` fresh each load.
 - Version bumped to `20260804h`.
 
+#### Eighth follow-up same day: removed the empty "Not Validated Repeaters" section, grouped Validation Sources by tier
+- With every repeater now having at least one confirmed source (see the fifth follow-up above), the "Not Validated Repeaters" section always showed 0 rows — Jack asked to remove it, and to group the new Validation Sources table (seventh follow-up) by tier instead of listing all 59 repeaters flat.
+- `repeater-validation.html`: removed the entire `#unverified-card` section and its page-nav entry. `#sources-card` restructured from one 59-row table into four, each preceded by a `.section-subheader` label (the site's standard in-card group-label component) and its own count span: "Not Validated" (`#sources-none-count`/`#sources-none-tbody`), "Partially Validated" (`#sources-partial-*`), "Validated" (`#sources-validated-*`), "Fully Validated" (`#sources-fully-*`). Ordered worst-to-best to keep the same "issues first" convention as the rest of the dashboard.
+- `js/scripts.js`: extracted the old flat-table renderer into two reusable helpers — `sourceRow(r)` (single row) and `renderSourceGroup(tbodyId, countId, list)` (fills a tbody + count span from a filtered array, shows "None." when empty) — called once per tier using the same `unverified`/`partiallyValidated`/`validated`/`fullyValidated` arrays already computed for the Summary stats. Removed the old `unverified-count`/`unverified-repeaters-tbody` render block entirely (used `adminRow()`, now dead in that spot but `adminRow()` itself is still used by the Unknown Callsigns and Missing Club tables).
+- **Left unchanged, on purpose**: the "Not Validated" stat card in the Summary section (`#stat-unverified`) — still useful as a live 0 count confirming nothing has silently regressed, even with the standalone section gone.
+- Version bumped to `20260804i`.
+
 ### 2026-07-08 — `repeater-health.html` → `repeater-validation.html` rename, footer entry point moved
 
 #### Rename: `repeater-health.html` → `repeater-validation.html`

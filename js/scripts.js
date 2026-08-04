@@ -1144,24 +1144,38 @@
           : '<span style="color:var(--accent-red);font-weight:700;">✗</span>';
       }
 
-      // ── Validation Sources (all repeaters, per-source breakdown) ────────
-      set('sources-count', all.length);
-      const sourcesTbody = document.getElementById('sources-repeaters-tbody');
-      if (sourcesTbody) {
-        sourcesTbody.innerHTML = all.map(r => {
-          const v = r.validation || {};
-          return `
-            <tr class="repeater-row" data-repeater-id="${sanitizeHTML(r.id)}">
-              <td><strong>${sanitizeHTML(r.location)}</strong><br>
-                <span style="color:var(--text-secondary);font-size:0.9rem;">${sanitizeHTML(r.callsign)}</span></td>
-              <td class="center"><strong>${sanitizeHTML(r.frequency)}</strong><br>
-                <span style="font-size:0.9rem;">${sanitizeHTML(r.tone || 'None')}</span></td>
-              <td class="center">${sourceCell(v.owner === true)}</td>
-              <td class="center">${sourceCell(v.repeaterbook === true)}</td>
-              <td class="center">${sourceCell(v.club === true)}</td>
-            </tr>`;
-        }).join('');
+      // ── Helper: build a validation-source row (Location/Freq + 3 check cells) ──
+      function sourceRow(r) {
+        const v = r.validation || {};
+        return `
+          <tr class="repeater-row" data-repeater-id="${sanitizeHTML(r.id)}">
+            <td><strong>${sanitizeHTML(r.location)}</strong><br>
+              <span style="color:var(--text-secondary);font-size:0.9rem;">${sanitizeHTML(r.callsign)}</span></td>
+            <td class="center"><strong>${sanitizeHTML(r.frequency)}</strong><br>
+              <span style="font-size:0.9rem;">${sanitizeHTML(r.tone || 'None')}</span></td>
+            <td class="center">${sourceCell(v.owner === true)}</td>
+            <td class="center">${sourceCell(v.repeaterbook === true)}</td>
+            <td class="center">${sourceCell(v.club === true)}</td>
+          </tr>`;
       }
+
+      // ── Helper: render one validation-tier group's table body + count ───
+      function renderSourceGroup(tbodyId, countId, list) {
+        set(countId, list.length);
+        const tbody = document.getElementById(tbodyId);
+        if (tbody) {
+          tbody.innerHTML = list.length === 0
+            ? '<tr><td colspan="5" class="center" style="color:var(--text-secondary);">None.</td></tr>'
+            : list.map(sourceRow).join('');
+        }
+      }
+
+      // ── Validation Sources, grouped by tier (reuses the tier arrays above) ──
+      set('sources-count', all.length);
+      renderSourceGroup('sources-none-tbody',      'sources-none-count',      unverified);
+      renderSourceGroup('sources-partial-tbody',   'sources-partial-count',   partiallyValidated);
+      renderSourceGroup('sources-validated-tbody', 'sources-validated-count', validated);
+      renderSourceGroup('sources-fully-tbody',     'sources-fully-count',     fullyValidated);
 
       // ── Inactive ────────────────────────────────────────────────────────
       set('inactive-count', inactive.length);
@@ -1182,15 +1196,6 @@
                   <td class="center"><a href="${window.UTILS.sanitizeURL(r.refurl)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">RepeaterBook →</a></td>
                 </tr>`;
             }).join('');
-      }
-
-      // ── Not Validated ────────────────────────────────────────────────────
-      set('unverified-count', unverified.length);
-      const unverifiedTbody = document.getElementById('unverified-repeaters-tbody');
-      if (unverifiedTbody) {
-        unverifiedTbody.innerHTML = unverified.length === 0
-          ? '<tr><td colspan="5" class="center" style="color:var(--accent-green);">✓ All repeaters validated.</td></tr>'
-          : unverified.map(r => adminRow(r)).join('');
       }
 
       // ── Unknown callsigns ────────────────────────────────────────────────

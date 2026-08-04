@@ -22,7 +22,6 @@
       <li><a href="#stats-card">Summary</a></li>
       <li><a href="#sources-card">Sources</a></li>
       <li><a href="#inactive-card">Inactive</a></li>
-      <li><a href="#unverified-card">Not Validated</a></li>
       <li><a href="#nocall-card">Unknown Callsigns</a></li>
       <li><a href="#noclub-card">Missing Club</a></li>
     </ul>
@@ -61,8 +60,10 @@
       </header>
       <div class="card-body">
         <aside class="callout note">
-          <p>Per-repeater breakdown of the three independent sources tracked in each record's <code>validation</code> object. A repeater's overall tier (shown in the Summary above and on the public detail modal) is derived from how many of these three are checked.</p>
+          <p>Per-repeater breakdown of the three independent sources tracked in each record's <code>validation</code> object, grouped by tier. A repeater's overall tier (shown in the Summary above and on the public detail modal) is derived from how many of these three are checked.</p>
         </aside>
+
+        <h3 class="section-subheader">Not Validated (<span id="sources-none-count">—</span>)</h3>
         <div class="table-wrapper">
           <table class="repeater-table">
             <thead>
@@ -74,7 +75,61 @@
                 <th class="center">Club</th>
               </tr>
             </thead>
-            <tbody id="sources-repeaters-tbody">
+            <tbody id="sources-none-tbody">
+              <tr><td colspan="5" class="center">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="section-subheader">Partially Validated (<span id="sources-partial-count">—</span>)</h3>
+        <div class="table-wrapper">
+          <table class="repeater-table">
+            <thead>
+              <tr>
+                <th>Location / Callsign</th>
+                <th class="center">Frequency / Tone</th>
+                <th class="center">Owner</th>
+                <th class="center">RepeaterBook</th>
+                <th class="center">Club</th>
+              </tr>
+            </thead>
+            <tbody id="sources-partial-tbody">
+              <tr><td colspan="5" class="center">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="section-subheader">Validated (<span id="sources-validated-count">—</span>)</h3>
+        <div class="table-wrapper">
+          <table class="repeater-table">
+            <thead>
+              <tr>
+                <th>Location / Callsign</th>
+                <th class="center">Frequency / Tone</th>
+                <th class="center">Owner</th>
+                <th class="center">RepeaterBook</th>
+                <th class="center">Club</th>
+              </tr>
+            </thead>
+            <tbody id="sources-validated-tbody">
+              <tr><td colspan="5" class="center">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="section-subheader">Fully Validated (<span id="sources-fully-count">—</span>)</h3>
+        <div class="table-wrapper">
+          <table class="repeater-table">
+            <thead>
+              <tr>
+                <th>Location / Callsign</th>
+                <th class="center">Frequency / Tone</th>
+                <th class="center">Owner</th>
+                <th class="center">RepeaterBook</th>
+                <th class="center">Club</th>
+              </tr>
+            </thead>
+            <tbody id="sources-fully-tbody">
               <tr><td colspan="5" class="center">Loading...</td></tr>
             </tbody>
           </table>
@@ -103,34 +158,6 @@
               </tr>
             </thead>
             <tbody id="inactive-repeaters-tbody">
-              <tr><td colspan="5" class="center">Loading...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- Not Validated Repeaters -->
-    <section class="card" id="unverified-card">
-      <header class="card-header card-header--yellow">
-        <h2 class="card-title">Not Validated Repeaters (<span id="unverified-count">—</span>)</h2>
-      </header>
-      <div class="card-body">
-        <aside class="callout note">
-          <p>Each repeater's <code>validation</code> object tracks three independent sources: <code>repeaterbook</code>, <code>owner</code>, and <code>club</code>. These repeaters have <strong>none of the three confirmed</strong> — click the RepeaterBook link to compare frequency, tone, and callsign, and set <code>"validation": { "repeaterbook": true, ... }</code> in the JSON once confirmed. Repeaters with at least one source confirmed appear as "Partially Validated," "Validated," or "Fully Validated" in the summary above, not here.</p>
-        </aside>
-        <div class="table-wrapper">
-          <table class="repeater-table">
-            <thead>
-              <tr>
-                <th>Location / Callsign</th>
-                <th>Frequency / Tone</th>
-                <th>Linked</th>
-                <th>Tags</th>
-                <th>Reference</th>
-              </tr>
-            </thead>
-            <tbody id="unverified-repeaters-tbody">
               <tr><td colspan="5" class="center">Loading...</td></tr>
             </tbody>
           </table>
