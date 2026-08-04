@@ -1935,6 +1935,22 @@ a:hover, a:focus-visible {
   text-align: center;
 }
 
+/* Validation Sources (repeater-validation.html): four separate <table>
+   elements (Not Validated / Partially / Validated / Fully) share identical
+   headers but were auto-sizing columns independently per table, so they
+   drifted out of alignment with each other. A shared colgroup + fixed
+   layout locks every table to the same column widths so they line up
+   exactly regardless of each tier's content. */
+.sources-table {
+  table-layout: fixed;
+}
+
+.sources-table .col-location { width: 22%; }
+.sources-table .col-freq     { width: 14%; }
+.sources-table .col-county   { width: 12%; }
+.sources-table .col-tags     { width: 22%; }
+.sources-table .col-source   { width: 10%; }
+
 .repeater-table td {
   padding: 0.85rem 1rem;
   border-bottom: 1px solid var(--card-border);
@@ -2843,6 +2859,36 @@ a:hover, a:focus-visible {
 }
 
 .detail-value a:hover { color: var(--accent-blue); }
+
+/* Repeater Audit Modal (repeater-validation.html only) — data-quality
+   issue list and raw-JSON block, used alongside .detail-section/.detail-grid
+   above for the Summary Status block. */
+.audit-issues {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.audit-issue {
+  color: var(--accent-red);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.audit-json {
+  background: var(--bg-body);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 1rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 400px;
+  overflow-y: auto;
+  color: var(--text-primary);
+}
 
 /* Clickable table rows */
 .repeater-table tbody tr {

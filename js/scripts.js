@@ -1072,10 +1072,19 @@
   // REPEATER VALIDATION PAGE (repeater-validation.html) — Database quality dashboard
   // ========================================================================
   if (currentPage === 'repeater-validation.html') {
+    // ── Helper: render a single validation-source check/x cell ────────────
+    // Shared by renderAdminPage()'s Sources table rows and the audit modal
+    // below (moved out of renderAdminPage so both can reach it via closure).
+    function sourceCell(isConfirmed) {
+      return isConfirmed
+        ? '<span style="color:var(--accent-green);font-weight:700;">✓</span>'
+        : '<span style="color:var(--accent-red);font-weight:700;">✗</span>';
+    }
+
     async function renderAdminPage() {
       const all = await fetchRepeaterData();
 
-      // Store globally so openRepeaterModal() can look up records
+      // Store globally so openRepeaterAuditModal() can look up records
       window.repeatersData = all;
 
       // ── Categorize ──────────────────────────────────────────────────────
@@ -1142,13 +1151,6 @@
           </tr>`;
       }
 
-      // ── Helper: render a single validation-source check/x cell ──────────
-      function sourceCell(isConfirmed) {
-        return isConfirmed
-          ? '<span style="color:var(--accent-green);font-weight:700;">✓</span>'
-          : '<span style="color:var(--accent-red);font-weight:700;">✗</span>';
-      }
-
       // ── Helper: build a validation-source row (Location/Freq + 3 check cells) ──
       function sourceRow(r) {
         const v = r.validation || {};
@@ -1158,6 +1160,8 @@
               <span style="color:var(--text-secondary);font-size:0.9rem;">${sanitizeHTML(r.callsign)}</span></td>
             <td class="center"><strong>${sanitizeHTML(r.frequency)}</strong><br>
               <span style="font-size:0.9rem;">${sanitizeHTML(r.tone || 'None')}</span></td>
+            <td>${sanitizeHTML(r.county)}</td>
+            <td>${tagsToBadges(r.tags)}</td>
             <td class="center">${sourceCell(v.owner === true)}</td>
             <td class="center">${sourceCell(v.repeaterbook === true)}</td>
             <td class="center">${sourceCell(v.club === true)}</td>
@@ -1170,7 +1174,7 @@
         const tbody = document.getElementById(tbodyId);
         if (tbody) {
           tbody.innerHTML = list.length === 0
-            ? '<tr><td colspan="5" class="center" style="color:var(--text-secondary);">None.</td></tr>'
+            ? '<tr><td colspan="7" class="center" style="color:var(--text-secondary);">None.</td></tr>'
             : list.map(sourceRow).join('');
         }
       }
@@ -1202,15 +1206,6 @@
             }).join('');
       }
 
-      // ── Unknown callsigns ────────────────────────────────────────────────
-      set('nocall-count', noCalls.length);
-      const noCallTbody = document.getElementById('nocall-repeaters-tbody');
-      if (noCallTbody) {
-        noCallTbody.innerHTML = noCalls.length === 0
-          ? '<tr><td colspan="5" class="center" style="color:var(--accent-green);">✓ No unknown callsigns.</td></tr>'
-          : noCalls.map(r => adminRow(r)).join('');
-      }
-
       // ── Missing club ─────────────────────────────────────────────────────
       set('noclub-count', noClub.length);
       const noClubTbody = document.getElementById('noclub-repeaters-tbody');
@@ -1221,7 +1216,190 @@
       }
     }
 
-    renderAdminPage().then(() => setupRepeaterModalHandlers());
+    // ── Helper: scan one repeater record for data-quality problems ─────────
+    // Single source of truth for what "auditable" means on this page — feeds
+    // the Raw JSON / Data-Quality Issues section of the audit modal below.
+    // Not exhaustive of every possible schema violation, just the checks
+    // that map onto real fields staff have gotten wrong before (see
+    // CLAUDE.md changelog: id typo, statusNote left behind, etc.)
+    function computeRepeaterIssues(repeater, allRepeaters) {
+      const issues = [];
+      const v = repeater.validation || {};
+      const knownTags = ['wx4ptc system', 'peach state intertie', 'cherry blossom intertie', 'se linked repeater', 'wx4ema'];
+
+      if (repeater.callsign === 'n0call') {
+        issues.push('Callsign not yet identified (n0call) — look up on RepeaterBook and update callsign/refurl.');
+      }
+      if (!repeater.clubName) {
+        issues.push('Missing sponsoring club (clubName is null).');
+      }
+      if (repeater.active === false && !repeater.statusNote) {
+        issues.push('Marked inactive but has no statusNote explaining the outage.');
+      }
+      if (repeater.active !== false && repeater.statusNote) {
+        issues.push('Has a statusNote but is not marked inactive — statusNote should be removed once restored.');
+      }
+      const tierCount = ['repeaterbook', 'owner', 'club'].filter(k => v[k] === true).length;
+      if (tierCount === 0) {
+        issues.push('Zero validation sources confirmed (Not Validated tier).');
+      }
+      if (!repeater.refurl) {
+        issues.push('Missing refurl (RepeaterBook reference URL).');
+      }
+      if (!repeater.county) {
+        issues.push('Missing county field.');
+      }
+      (repeater.tags || []).forEach(tag => {
+        if (!knownTags.includes(tag.toLowerCase())) {
+          issues.push(`Unrecognized tag "${tag}" — not one of the 5 documented network tags.`);
+        }
+      });
+      if (repeater.callsign !== 'n0call' && repeater.id && !repeater.id.startsWith(`${repeater.callsign}-`)) {
+        issues.push(`ID "${repeater.id}" does not follow the CALLSIGN-FREQUENCY convention (expected to start with "${repeater.callsign}-").`);
+      }
+      const duplicateCount = allRepeaters.filter(r => r.id === repeater.id).length;
+      if (duplicateCount > 1) {
+        issues.push(`Duplicate ID — ${duplicateCount} records share id "${repeater.id}".`);
+      }
+      if (repeater.picUrl && repeater.frequency !== '444.600+' && repeater.frequency !== '442.500+') {
+        issues.push('Has picUrl set but is not one of the two documented photo-gallery repeaters (444.600+ / 442.500+).');
+      }
+
+      return issues;
+    }
+
+    // ── Opens the admin audit modal for one repeater ──────────────────────
+    // Distinct from the public openRepeaterModal() (repeaters.html): shows
+    // which Summary-stat buckets this record falls into, a computed
+    // data-quality issue list, and the raw JSON record for direct audit
+    // against data/repeaters.json.
+    function openRepeaterAuditModal(repeaterId) {
+      const all = window.repeatersData || [];
+      const repeater = all.find(r => r.id === repeaterId);
+      if (!repeater) {
+        console.error('Repeater not found:', repeaterId);
+        return;
+      }
+
+      const modal = document.getElementById('repeaterAuditModal');
+      const modalBody = document.getElementById('repeaterAuditBody');
+      const modalTitle = document.getElementById('repeaterAuditTitle');
+      if (!modal || !modalBody || !modalTitle) return;
+
+      modalTitle.textContent = `${repeater.location} — ${repeater.frequency}`;
+
+      const tier = getValidationTier(repeater);
+      const v = repeater.validation || {};
+      const issues = computeRepeaterIssues(repeater, all);
+
+      let html = '';
+
+      // Summary Status — mirrors the Database Summary card's categorization
+      html += `
+        <div class="detail-section">
+          <h3>Summary Status</h3>
+          <div class="detail-grid">
+            <div class="detail-label">Active:</div>
+            <div class="detail-value">${repeater.active === false
+              ? '<span style="color:var(--accent-red);font-weight:700;">✗ Inactive</span>'
+              : '<span style="color:var(--accent-green);font-weight:700;">✓ Active</span>'}</div>
+            <div class="detail-label">Linked:</div>
+            <div class="detail-value">${repeater.linked
+              ? '<span style="color:var(--accent-green);font-weight:700;">✓ Linked</span>'
+              : '<span style="color:var(--accent-orange);">County Only</span>'}</div>
+            <div class="detail-label">Validation Tier:</div>
+            <div class="detail-value" style="color:${tier.colorVar};font-weight:700;">${tier.symbol} ${tier.label} (${tier.count}/3)</div>
+            <div class="detail-label">Owner Confirmed:</div>
+            <div class="detail-value">${sourceCell(v.owner === true)}</div>
+            <div class="detail-label">RepeaterBook Confirmed:</div>
+            <div class="detail-value">${sourceCell(v.repeaterbook === true)}</div>
+            <div class="detail-label">Club Confirmed:</div>
+            <div class="detail-value">${sourceCell(v.club === true)}</div>
+            <div class="detail-label">Unknown Callsign:</div>
+            <div class="detail-value">${repeater.callsign === 'n0call'
+              ? '<span style="color:var(--accent-yellow);font-weight:700;">Yes</span>'
+              : 'No'}</div>
+          </div>
+        </div>`;
+
+      // Data-Quality Issues — computed, not stored
+      html += `
+        <div class="detail-section">
+          <h3>Data-Quality Issues (${issues.length})</h3>
+          ${issues.length === 0
+            ? '<p style="color:var(--accent-green);font-weight:700;">✓ No issues detected on this record.</p>'
+            : `<ul class="audit-issues">${issues.map(i => `<li class="audit-issue">${sanitizeHTML(i)}</li>`).join('')}</ul>`}
+        </div>`;
+
+      // Raw JSON — for direct comparison against data/repeaters.json
+      html += `
+        <div class="detail-section">
+          <h3 style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+            <span>Raw JSON</span>
+            <button id="auditCopyJsonBtn" class="btn btn-blue" type="button" style="font-size:0.8rem;padding:0.4rem 0.8rem;">Copy JSON</button>
+          </h3>
+          <pre class="audit-json" id="auditJsonBlock">${window.UTILS.sanitizeHTML(JSON.stringify(repeater, null, 2), false)}</pre>
+        </div>`;
+
+      modalBody.innerHTML = html;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
+    // ── Wires up the admin audit modal (open/close/copy) and repeater rows ──
+    function setupRepeaterAuditModalHandlers() {
+      const modal = document.getElementById('repeaterAuditModal');
+      if (!modal) return;
+
+      const closeBtn = document.getElementById('repeaterAuditClose');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          modal.classList.remove('open');
+          modal.setAttribute('aria-hidden', 'true');
+        });
+      }
+
+      // Click outside modal to close
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('open');
+          modal.setAttribute('aria-hidden', 'true');
+        }
+      });
+
+      // Copy-JSON button (delegated — content is rebuilt on every open)
+      modal.addEventListener('click', (e) => {
+        const btn = e.target.closest('#auditCopyJsonBtn');
+        if (!btn) return;
+        e.stopPropagation();
+        const jsonBlock = document.getElementById('auditJsonBlock');
+        if (jsonBlock && navigator.clipboard) {
+          navigator.clipboard.writeText(jsonBlock.textContent).then(() => {
+            const original = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(() => { btn.textContent = original; }, 1500);
+          }).catch(() => {});
+        }
+      });
+
+      // Escape key to close
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('open')) {
+          modal.classList.remove('open');
+          modal.setAttribute('aria-hidden', 'true');
+        }
+      });
+
+      // Repeater rows open the audit modal, not the public detail modal
+      document.querySelectorAll('.repeater-row').forEach(row => {
+        row.addEventListener('click', () => {
+          const repeaterId = row.getAttribute('data-repeater-id');
+          openRepeaterAuditModal(repeaterId);
+        });
+      });
+    }
+
+    renderAdminPage().then(() => setupRepeaterAuditModalHandlers());
   }
 
   // ========================================================================

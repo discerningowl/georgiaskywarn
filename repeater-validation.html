@@ -22,7 +22,6 @@
       <li><a href="#stats-card">Summary</a></li>
       <li><a href="#sources-card">Sources</a></li>
       <li><a href="#inactive-card">Inactive</a></li>
-      <li><a href="#nocall-card">Unknown Callsigns</a></li>
       <li><a href="#noclub-card">Missing Club</a></li>
     </ul>
   </nav>
@@ -65,72 +64,116 @@
 
         <h3 class="section-subheader">Not Validated (<span id="sources-none-count">—</span>)</h3>
         <div class="table-wrapper">
-          <table class="repeater-table">
+          <table class="repeater-table sources-table">
+            <colgroup>
+              <col class="col-location">
+              <col class="col-freq">
+              <col class="col-county">
+              <col class="col-tags">
+              <col class="col-source">
+              <col class="col-source">
+              <col class="col-source">
+            </colgroup>
             <thead>
               <tr>
                 <th>Location / Callsign</th>
                 <th class="center">Frequency / Tone</th>
+                <th>County</th>
+                <th>Tags</th>
                 <th class="center">Owner</th>
                 <th class="center">RepeaterBook</th>
                 <th class="center">Club</th>
               </tr>
             </thead>
             <tbody id="sources-none-tbody">
-              <tr><td colspan="5" class="center">Loading...</td></tr>
+              <tr><td colspan="7" class="center">Loading...</td></tr>
             </tbody>
           </table>
         </div>
 
         <h3 class="section-subheader">Partially Validated (<span id="sources-partial-count">—</span>)</h3>
         <div class="table-wrapper">
-          <table class="repeater-table">
+          <table class="repeater-table sources-table">
+            <colgroup>
+              <col class="col-location">
+              <col class="col-freq">
+              <col class="col-county">
+              <col class="col-tags">
+              <col class="col-source">
+              <col class="col-source">
+              <col class="col-source">
+            </colgroup>
             <thead>
               <tr>
                 <th>Location / Callsign</th>
                 <th class="center">Frequency / Tone</th>
+                <th>County</th>
+                <th>Tags</th>
                 <th class="center">Owner</th>
                 <th class="center">RepeaterBook</th>
                 <th class="center">Club</th>
               </tr>
             </thead>
             <tbody id="sources-partial-tbody">
-              <tr><td colspan="5" class="center">Loading...</td></tr>
+              <tr><td colspan="7" class="center">Loading...</td></tr>
             </tbody>
           </table>
         </div>
 
         <h3 class="section-subheader">Validated (<span id="sources-validated-count">—</span>)</h3>
         <div class="table-wrapper">
-          <table class="repeater-table">
+          <table class="repeater-table sources-table">
+            <colgroup>
+              <col class="col-location">
+              <col class="col-freq">
+              <col class="col-county">
+              <col class="col-tags">
+              <col class="col-source">
+              <col class="col-source">
+              <col class="col-source">
+            </colgroup>
             <thead>
               <tr>
                 <th>Location / Callsign</th>
                 <th class="center">Frequency / Tone</th>
+                <th>County</th>
+                <th>Tags</th>
                 <th class="center">Owner</th>
                 <th class="center">RepeaterBook</th>
                 <th class="center">Club</th>
               </tr>
             </thead>
             <tbody id="sources-validated-tbody">
-              <tr><td colspan="5" class="center">Loading...</td></tr>
+              <tr><td colspan="7" class="center">Loading...</td></tr>
             </tbody>
           </table>
         </div>
 
         <h3 class="section-subheader">Fully Validated (<span id="sources-fully-count">—</span>)</h3>
         <div class="table-wrapper">
-          <table class="repeater-table">
+          <table class="repeater-table sources-table">
+            <colgroup>
+              <col class="col-location">
+              <col class="col-freq">
+              <col class="col-county">
+              <col class="col-tags">
+              <col class="col-source">
+              <col class="col-source">
+              <col class="col-source">
+            </colgroup>
             <thead>
               <tr>
                 <th>Location / Callsign</th>
                 <th class="center">Frequency / Tone</th>
+                <th>County</th>
+                <th>Tags</th>
                 <th class="center">Owner</th>
                 <th class="center">RepeaterBook</th>
                 <th class="center">Club</th>
               </tr>
             </thead>
             <tbody id="sources-fully-tbody">
-              <tr><td colspan="5" class="center">Loading...</td></tr>
+              <tr><td colspan="7" class="center">Loading...</td></tr>
             </tbody>
           </table>
         </div>
@@ -151,41 +194,13 @@
             <thead>
               <tr>
                 <th>Location / Callsign</th>
-                <th>Frequency / Tone</th>
+                <th class="center">Frequency / Tone</th>
                 <th>Tags</th>
                 <th>Status Note</th>
               </tr>
             </thead>
             <tbody id="inactive-repeaters-tbody">
               <tr><td colspan="4" class="center">Loading...</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- Unknown Callsigns -->
-    <section class="card" id="nocall-card">
-      <header class="card-header card-header--yellow">
-        <h2 class="card-title">Unknown Callsigns (<span id="nocall-count">—</span>)</h2>
-      </header>
-      <div class="card-body">
-        <aside class="callout note">
-          <p>These repeaters have callsign <code>n0call</code> — the actual licensee hasn't been identified yet. Look up the frequency on <a href="https://www.repeaterbook.com/repeaters/index.php?state_id=13" target="_blank" rel="noopener noreferrer">RepeaterBook Georgia</a> and update the <code>callsign</code> and <code>refurl</code> fields.</p>
-        </aside>
-        <div class="table-wrapper">
-          <table class="repeater-table">
-            <thead>
-              <tr>
-                <th>Location</th>
-                <th>Frequency / Tone</th>
-                <th>Linked</th>
-                <th>Tags</th>
-                <th>Reference</th>
-              </tr>
-            </thead>
-            <tbody id="nocall-repeaters-tbody">
-              <tr><td colspan="5" class="center">Loading...</td></tr>
             </tbody>
           </table>
         </div>
@@ -206,8 +221,8 @@
             <thead>
               <tr>
                 <th>Location / Callsign</th>
-                <th>Frequency</th>
-                <th>Linked</th>
+                <th class="center">Frequency / Tone</th>
+                <th class="center">Linked</th>
                 <th>Tags</th>
               </tr>
             </thead>
@@ -221,14 +236,16 @@
 
   </main>
 
-  <!-- Repeater Detail Modal -->
-  <div id="repeaterDetailModal" class="repeater-detail-modal" role="dialog" aria-labelledby="repeaterModalTitle" aria-hidden="true">
+  <!-- Repeater Audit Modal (repeater-validation.html only — admin-specific,
+       shows summary-status fields, computed data-quality issues, and the
+       raw JSON record for auditing data/repeaters.json) -->
+  <div id="repeaterAuditModal" class="repeater-detail-modal" role="dialog" aria-labelledby="repeaterAuditTitle" aria-hidden="true">
     <div class="repeater-detail-content">
       <div class="repeater-detail-header">
-        <h2 id="repeaterModalTitle">Repeater Details</h2>
-        <button id="repeaterDetailClose" class="repeater-detail-close" aria-label="Close modal">&times;</button>
+        <h2 id="repeaterAuditTitle">Repeater Audit</h2>
+        <button id="repeaterAuditClose" class="repeater-detail-close" aria-label="Close modal">&times;</button>
       </div>
-      <div class="repeater-detail-body" id="repeaterDetailBody">
+      <div class="repeater-detail-body" id="repeaterAuditBody">
         <!-- Content populated by JavaScript -->
       </div>
     </div>
