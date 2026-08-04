@@ -426,7 +426,7 @@
       html += '<p style="color: var(--accent-orange); font-weight: 700; font-size: 1.1rem;">🏛️ County SKYWARN Only</p>';
     }
     if (repeater.verified === true) {
-      html += '<p style="color: var(--accent-blue); font-weight: 700;">✓ RepeaterBook Verified</p>';
+      html += '<p style="color: var(--accent-blue); font-weight: 700;">✓ Compared with RepeaterBook</p>';
     } else if (repeater.verified === false) {
       html += '<p style="color: var(--accent-red); font-weight: 700;">✗ Needs Verification</p>';
     }

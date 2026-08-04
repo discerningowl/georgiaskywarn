@@ -1083,6 +1083,23 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-08-04 — RepeaterBook attribution & wording changes (API reinstatement request)
+
+#### Background
+- RepeaterBook.com revoked Jack's API access used by `scripts/verify_repeaters.py` (the quarterly validation script) and requested, before reinstatement: (1) proof the script only compares targeted records and doesn't write RepeaterBook response data into public exports, (2) confirmation `data/repeaters.json` is an independently-maintained source and CSVs are generated from it, (3) visible attribution near the directory/export section, and (4) a change from "RepeaterBook Verified" wording to language reflecting comparison rather than endorsement.
+- Audit confirmed the underlying behavior already satisfied asks #1 and #2: `apply_fixes()` in `scripts/verify_repeaters.py` only ever writes the pre-existing `active`/`verified` booleans back to `data/repeaters.json` (callsign/frequency/tone mismatches are report-only, never auto-applied); no RepeaterBook field content is copied into the JSON or into either CSV exporter, both of which read exclusively from `data/repeaters.json` via `fetchRepeaterData()` in `js/scripts.js`. Only asks #3 and #4 required code changes.
+
+#### `repeaters.html` — new attribution text (ask #3)
+- Added a `.callout note` block near the top of the page (right after the "Repeaters validated since..." heading, before the search card): "Georgia SKYWARN maintains this directory. Selected records are periodically compared with RepeaterBook. RepeaterBook detail links are provided for reference. CSV exports are generated from the Georgia SKYWARN directory and are not RepeaterBook exports."
+- Added a second, shorter line inside the existing CSV Export card's callout, next to the "Repeater list current as of..." text: "CSV exports are generated from the Georgia SKYWARN directory and are not RepeaterBook exports."
+
+#### `js/scripts.js` — reworded verification badge (ask #4)
+- `openRepeaterModal()`: the repeater detail modal's "✓ RepeaterBook Verified" badge (shown when `repeater.verified === true`) changed to "✓ Compared with RepeaterBook" — same styling/position, wording no longer implies RepeaterBook endorsement. The "✗ Needs Verification" badge and the "View on RepeaterBook →" reference link were left as-is (already comparison-neutral).
+- `repeater-validation.html`'s internal admin dashboard ("Verified"/"Needs Verification" stat labels, "cross-checked against RepeaterBook" copy) was left unchanged — already framed as comparison rather than endorsement, and the page is `noindex`/internal.
+
+#### Version
+- Bumped to `20260804a`.
+
 ### 2026-07-08 — `repeater-health.html` → `repeater-validation.html` rename, footer entry point moved
 
 #### Rename: `repeater-health.html` → `repeater-validation.html`
