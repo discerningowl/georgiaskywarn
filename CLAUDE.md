@@ -1100,6 +1100,12 @@ refactor: Simplify alert filtering logic
 #### Version
 - Bumped to `20260804a`.
 
+#### Follow-up same day: emphasis + badge wording change
+- Jack asked for the attribution text to visually stand out and for the verification badge wording to read "Verified from public sources" instead of "Compared with RepeaterBook."
+- `repeaters.html`: both attribution blocks (top-of-page and CSV export section) now bold the key sentences (`<strong>`) rather than sitting as plain/secondary-colored text — the CSV-section line was previously styled `font-size: 0.9rem; color: var(--text-secondary)` (de-emphasized), now full-size and bold to match the intent of standing out.
+- `js/scripts.js`: `openRepeaterModal()`'s badge changed again, `"✓ Compared with RepeaterBook"` → `"✓ Verified from public sources"`.
+- Version bumped to `20260804b`.
+
 ### 2026-07-08 — `repeater-health.html` → `repeater-validation.html` rename, footer entry point moved
 
 #### Rename: `repeater-health.html` → `repeater-validation.html`
