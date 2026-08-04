@@ -1,6 +1,21 @@
 {
   "updates": [
     {
+      "month": "August",
+      "year": 2026,
+      "date": "2026-08-04",
+      "items": [
+        {
+          "title": "Multi-Source Repeater Validation",
+          "description": "Replaced the single RepeaterBook-only verification flag with a three-source validation model: direct confirmation from the repeater owner, comparison with RepeaterBook, and confirmation from the sponsoring club. Each repeater's detail popup now shows a tier — Not Validated, Partially Validated, Validated, or Fully Validated — based on how many of the three sources confirm it, and the repeater validation dashboard breaks every repeater down by source."
+        },
+        {
+          "title": "RepeaterBook Attribution",
+          "description": "Added attribution text to the repeater directory clarifying that Georgia SKYWARN independently maintains this database, RepeaterBook is one of several comparison sources rather than a single authority, and CSV exports are generated from our own directory, not from RepeaterBook."
+        }
+      ]
+    },
+    {
       "month": "July",
       "year": 2026,
       "date": "2026-07-01",

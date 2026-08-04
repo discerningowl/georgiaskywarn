@@ -1201,6 +1201,12 @@ refactor: Simplify alert filtering logic
 - `repeaters.html`: removed "RepeaterBook detail links are provided for reference." from `#repeaterbook-attribution`. The three-source validation sentence and the CSV-export sentence are unchanged.
 - HTML-only change, no version bump.
 
+#### Thirteenth follow-up same day: added a public changelog.html entry for the validation overhaul
+- Jack asked for the site's public changelog (`data/changelog.json`, rendered on `changelog.html`/`about.html` via `js/changelog.js`) to reflect this session's work — previously only `CLAUDE.md`'s internal dev log had it.
+- `data/changelog.json`: new `"August" 2026-08-04` entry (first of the month, inserted at the top per newest-first ordering) with two items: "Multi-Source Repeater Validation" (the `validation` object schema, four-tier badge, and the Sources dashboard) and "RepeaterBook Attribution" (the public attribution text). Written in the site's existing user-facing tone, not internal implementation detail.
+- No version bump — `data/changelog.json` isn't part of the `?v=` cache-busting scheme (that only applies to JS files); `js/changelog.js` itself wasn't touched.
+- No new year container needed on `changelog.html` since 2026's `#y2026` div already exists (see "Adding a Changelog Year" — only required for the first entry of a new year).
+
 ### 2026-07-08 — `repeater-health.html` → `repeater-validation.html` rename, footer entry point moved
 
 #### Rename: `repeater-health.html` → `repeater-validation.html`
