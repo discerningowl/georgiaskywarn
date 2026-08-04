@@ -1106,6 +1106,13 @@ refactor: Simplify alert filtering logic
 - `js/scripts.js`: `openRepeaterModal()`'s badge changed again, `"✓ Compared with RepeaterBook"` → `"✓ Verified from public sources"`.
 - Version bumped to `20260804b`.
 
+#### Second follow-up same day: "Validated" / "Not Validated" wording, repeater-validation.html cleanup
+- Jack asked to standardize on "Validated" / "Not Validated" as the two-state label pair (replacing "Verified" / "Needs Verification" / "Unverified"), and to fix the remaining RepeaterBook-endorsement-flavored wording on `repeater-validation.html` that a prior round had explicitly left alone.
+- `js/scripts.js`: `openRepeaterModal()` badge wording changed again — `"✓ Verified from public sources"` → `"✓ Validated from public sources"`, `"✗ Needs Verification"` → `"✗ Not Validated"`. The Not-Validated-table empty-state message changed `"✓ All repeaters verified."` → `"✓ All repeaters validated."` The `// ── Unverified ──` code comment was relabeled `// ── Not Validated ──` for consistency (comment only, no behavior change).
+- `repeater-validation.html`: page-nav link text "Unverified" → "Not Validated"; stat card labels "Verified" → "Validated" and "Needs Verification" → "Not Validated"; section heading "Unverified Repeaters" → "Not Validated Repeaters"; section intro prose "have not been cross-checked against RepeaterBook. ... verify frequency, tone, and callsign" → "have not been compared against RepeaterBook. ... validate frequency, tone, and callsign" (reverses the 2026-08-04 first-round decision to leave this page's copy untouched — the RepeaterBook relationship-repair effort now extends to the internal dashboard too, not just public pages).
+- **Left unchanged, on purpose**: all `id` attributes (`unverified-card`, `stat-verified`, `stat-unverified`, `unverified-count`, `unverified-repeaters-tbody`) and the underlying `data/repeaters.json` schema field `verified` (boolean) — only user-facing display text changed, not internal identifiers or the data schema itself. Renaming the JSON field would be a breaking schema change out of scope here.
+- Version bumped to `20260804c`.
+
 ### 2026-07-08 — `repeater-health.html` → `repeater-validation.html` rename, footer entry point moved
 
 #### Rename: `repeater-health.html` → `repeater-validation.html`

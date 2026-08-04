@@ -21,7 +21,7 @@
     <ul id="page-nav-list" class="nav-list">
       <li><a href="#stats-card">Summary</a></li>
       <li><a href="#inactive-card">Inactive</a></li>
-      <li><a href="#unverified-card">Unverified</a></li>
+      <li><a href="#unverified-card">Not Validated</a></li>
       <li><a href="#nocall-card">Unknown Callsigns</a></li>
       <li><a href="#noclub-card">Missing Club</a></li>
     </ul>
@@ -44,8 +44,8 @@
           <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-red);" id="stat-inactive">—</p><p style="color:var(--text-secondary);">Inactive</p></div>
           <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-blue);" id="stat-linked">—</p><p style="color:var(--text-secondary);">Linked</p></div>
           <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-orange);" id="stat-nonlinked">—</p><p style="color:var(--text-secondary);">Non-Linked</p></div>
-          <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-green);" id="stat-verified">—</p><p style="color:var(--text-secondary);">Verified</p></div>
-          <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-yellow);" id="stat-unverified">—</p><p style="color:var(--text-secondary);">Needs Verification</p></div>
+          <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-green);" id="stat-verified">—</p><p style="color:var(--text-secondary);">Validated</p></div>
+          <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-yellow);" id="stat-unverified">—</p><p style="color:var(--text-secondary);">Not Validated</p></div>
           <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-yellow);" id="stat-nocall">—</p><p style="color:var(--text-secondary);">Unknown Callsign</p></div>
         </div>
       </div>
@@ -79,14 +79,14 @@
       </div>
     </section>
 
-    <!-- Unverified Repeaters -->
+    <!-- Not Validated Repeaters -->
     <section class="card" id="unverified-card">
       <header class="card-header card-header--yellow">
-        <h2 class="card-title">Unverified Repeaters (<span id="unverified-count">—</span>)</h2>
+        <h2 class="card-title">Not Validated Repeaters (<span id="unverified-count">—</span>)</h2>
       </header>
       <div class="card-body">
         <aside class="callout note">
-          <p>These repeaters have <code>verified: false</code> and have not been cross-checked against RepeaterBook. Click the RepeaterBook link to verify frequency, tone, and callsign, then set <code>"verified": true</code> in the JSON.</p>
+          <p>These repeaters have <code>verified: false</code> and have not been compared against RepeaterBook. Click the RepeaterBook link to validate frequency, tone, and callsign, then set <code>"verified": true</code> in the JSON.</p>
         </aside>
         <div class="table-wrapper">
           <table class="repeater-table">

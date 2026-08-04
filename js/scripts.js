@@ -426,9 +426,9 @@
       html += '<p style="color: var(--accent-orange); font-weight: 700; font-size: 1.1rem;">🏛️ County SKYWARN Only</p>';
     }
     if (repeater.verified === true) {
-      html += '<p style="color: var(--accent-blue); font-weight: 700;">✓ Verified from public sources</p>';
+      html += '<p style="color: var(--accent-blue); font-weight: 700;">✓ Validated from public sources</p>';
     } else if (repeater.verified === false) {
-      html += '<p style="color: var(--accent-red); font-weight: 700;">✗ Needs Verification</p>';
+      html += '<p style="color: var(--accent-red); font-weight: 700;">✗ Not Validated</p>';
     }
     html += '</div>';
 
@@ -1131,12 +1131,12 @@
             }).join('');
       }
 
-      // ── Unverified ──────────────────────────────────────────────────────
+      // ── Not Validated ────────────────────────────────────────────────────
       set('unverified-count', unverified.length);
       const unverifiedTbody = document.getElementById('unverified-repeaters-tbody');
       if (unverifiedTbody) {
         unverifiedTbody.innerHTML = unverified.length === 0
-          ? '<tr><td colspan="5" class="center" style="color:var(--accent-green);">✓ All repeaters verified.</td></tr>'
+          ? '<tr><td colspan="5" class="center" style="color:var(--accent-green);">✓ All repeaters validated.</td></tr>'
           : unverified.map(r => adminRow(r)).join('');
       }
 
