@@ -1191,6 +1191,11 @@ refactor: Simplify alert filtering logic
 - **Left unchanged, on purpose**: the Missing Club Info intro prose ("Check RepeaterBook or contact the trustee...") — that's guidance text, not a data reference link, so it wasn't part of this ask. Unknown Callsigns keeps its RepeaterBook link since Jack only asked about Missing Club Info this time.
 - Version bumped to `20260804k`.
 
+#### Eleventh follow-up same day: attribution text now names the three validation sources
+- Jack asked for the public attribution block on `repeaters.html` (added in the first round above) to explicitly reference the three-source validation model documented in CLAUDE.md's "Validating Repeater Data" section, rather than only mentioning RepeaterBook comparison.
+- `repeaters.html`: `#repeaterbook-attribution` reworded — "Selected records are periodically compared with RepeaterBook" → "Each repeater is validated against up to three independent sources — direct confirmation from the repeater owner, comparison with RepeaterBook, and confirmation from the sponsoring club — rather than relying on any single source." The bolded opening/closing sentences and the CSV-export section's separate attribution line were left unchanged.
+- HTML-only change (no JS touched), so no version bump — consistent with prior HTML-only attribution edits this session.
+
 ### 2026-07-08 — `repeater-health.html` → `repeater-validation.html` rename, footer entry point moved
 
 #### Rename: `repeater-health.html` → `repeater-validation.html`
