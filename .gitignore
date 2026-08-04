@@ -12,4 +12,7 @@ data/nonlinked-repeaters.json.backup
 *.env
 .env.local
 config.local.json
-.claude
+.claude/
+
+# Local-only tooling — never upload
+scripts/
