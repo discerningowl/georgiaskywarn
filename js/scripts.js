@@ -1182,7 +1182,7 @@
       const inactiveTbody = document.getElementById('inactive-repeaters-tbody');
       if (inactiveTbody) {
         inactiveTbody.innerHTML = inactive.length === 0
-          ? '<tr><td colspan="5" class="center" style="color:var(--accent-green);">✓ No inactive repeaters.</td></tr>'
+          ? '<tr><td colspan="4" class="center" style="color:var(--accent-green);">✓ No inactive repeaters.</td></tr>'
           : inactive.map(r => {
               const tags = tagsToBadges(r.tags);
               return `
@@ -1193,7 +1193,6 @@
                     <span style="font-size:0.9rem;">${sanitizeHTML(r.tone || 'None')}</span></td>
                   <td>${tags}</td>
                   <td>${sanitizeHTML(r.statusNote || '—')}</td>
-                  <td class="center"><a href="${window.UTILS.sanitizeURL(r.refurl)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">RepeaterBook →</a></td>
                 </tr>`;
             }).join('');
       }

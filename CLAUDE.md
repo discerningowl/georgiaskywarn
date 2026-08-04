@@ -1177,6 +1177,13 @@ refactor: Simplify alert filtering logic
 - **Left unchanged, on purpose**: the "Not Validated" stat card in the Summary section (`#stat-unverified`) — still useful as a live 0 count confirming nothing has silently regressed, even with the standalone section gone.
 - Version bumped to `20260804i`.
 
+#### Ninth follow-up same day: removed the RepeaterBook reference link from the Inactive Repeaters table
+- Jack asked to drop the "Reference" column (the `RepeaterBook →` link) from `repeater-validation.html`'s Inactive Repeaters table specifically.
+- `repeater-validation.html`: removed the `<th>Reference</th>` header and dropped the loading-row `colspan` from 5 to 4.
+- `js/scripts.js`: `renderAdminPage()`'s inactive-table renderer — removed the `<td class="center"><a ...>RepeaterBook →</a></td>` cell and updated the empty-state `colspan` from 5 to 4.
+- **Left unchanged, on purpose**: the RepeaterBook reference links on the Unknown Callsigns and Missing Club tables (`adminRow()`, still used by both) — this ask was specific to Inactive Repeaters only.
+- Version bumped to `20260804j`.
+
 ### 2026-07-08 — `repeater-health.html` → `repeater-validation.html` rename, footer entry point moved
 
 #### Rename: `repeater-health.html` → `repeater-validation.html`
