@@ -20,6 +20,7 @@
     <button class="page-nav-toggle" aria-expanded="false" aria-controls="page-nav-list">☰ PAGE</button>
     <ul id="page-nav-list" class="nav-list">
       <li><a href="#stats-card">Summary</a></li>
+      <li><a href="#sources-card">Sources</a></li>
       <li><a href="#inactive-card">Inactive</a></li>
       <li><a href="#unverified-card">Not Validated</a></li>
       <li><a href="#nocall-card">Unknown Callsigns</a></li>
@@ -49,6 +50,34 @@
           <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-yellow);" id="stat-partial">—</p><p style="color:var(--text-secondary);">Partially Validated</p></div>
           <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-red);" id="stat-unverified">—</p><p style="color:var(--text-secondary);">Not Validated</p></div>
           <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-yellow);" id="stat-nocall">—</p><p style="color:var(--text-secondary);">Unknown Callsign</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Validation Source Breakdown -->
+    <section class="card" id="sources-card">
+      <header class="card-header card-header--blue">
+        <h2 class="card-title">Validation Sources (<span id="sources-count">—</span>)</h2>
+      </header>
+      <div class="card-body">
+        <aside class="callout note">
+          <p>Per-repeater breakdown of the three independent sources tracked in each record's <code>validation</code> object. A repeater's overall tier (shown in the Summary above and on the public detail modal) is derived from how many of these three are checked.</p>
+        </aside>
+        <div class="table-wrapper">
+          <table class="repeater-table">
+            <thead>
+              <tr>
+                <th>Location / Callsign</th>
+                <th class="center">Frequency / Tone</th>
+                <th class="center">Owner</th>
+                <th class="center">RepeaterBook</th>
+                <th class="center">Club</th>
+              </tr>
+            </thead>
+            <tbody id="sources-repeaters-tbody">
+              <tr><td colspan="5" class="center">Loading...</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>

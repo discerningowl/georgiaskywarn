@@ -1164,6 +1164,12 @@ refactor: Simplify alert filtering logic
 - **Left unchanged, on purpose**: the "Not Validated" table's underlying rule (`count === 0`) — this tier split only affects the three non-zero buckets, not what counts as needing staff attention.
 - Version bumped to `20260804g`.
 
+#### Seventh follow-up same day: added a per-repeater "Validation Sources" table
+- Jack asked for a new card near the top of `repeater-validation.html` listing every repeater with a check/x per source, rather than only the aggregate tier counts in the Summary stats.
+- `repeater-validation.html`: new `<section class="card" id="sources-card">` inserted between Summary Stats and Inactive Repeaters (and in the page-nav as "Sources"). Table columns: Location/Callsign, Frequency/Tone, Owner, RepeaterBook, Club — one row per repeater (all 59, unfiltered), each source column showing a green ✓ or red ✗.
+- `js/scripts.js`: `renderAdminPage()` gained a `sourceCell(isConfirmed)` helper (green ✓/red ✗ span) and a render block populating `#sources-repeaters-tbody` from the full `all` array — placed right after `adminRow()`, ahead of the existing Inactive/Not-Validated/etc. table renders. Rows use the same `.repeater-row` / `data-repeater-id` pattern as every other table on this page, so clicking a row opens the standard detail modal — no extra wiring needed since `setupRepeaterModalHandlers()` already runs after `renderAdminPage()` resolves and re-queries `.repeater-row` fresh each load.
+- Version bumped to `20260804h`.
+
 ### 2026-07-08 — `repeater-health.html` → `repeater-validation.html` rename, footer entry point moved
 
 #### Rename: `repeater-health.html` → `repeater-validation.html`

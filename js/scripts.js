@@ -1137,6 +1137,32 @@
           </tr>`;
       }
 
+      // ── Helper: render a single validation-source check/x cell ──────────
+      function sourceCell(isConfirmed) {
+        return isConfirmed
+          ? '<span style="color:var(--accent-green);font-weight:700;">✓</span>'
+          : '<span style="color:var(--accent-red);font-weight:700;">✗</span>';
+      }
+
+      // ── Validation Sources (all repeaters, per-source breakdown) ────────
+      set('sources-count', all.length);
+      const sourcesTbody = document.getElementById('sources-repeaters-tbody');
+      if (sourcesTbody) {
+        sourcesTbody.innerHTML = all.map(r => {
+          const v = r.validation || {};
+          return `
+            <tr class="repeater-row" data-repeater-id="${sanitizeHTML(r.id)}">
+              <td><strong>${sanitizeHTML(r.location)}</strong><br>
+                <span style="color:var(--text-secondary);font-size:0.9rem;">${sanitizeHTML(r.callsign)}</span></td>
+              <td class="center"><strong>${sanitizeHTML(r.frequency)}</strong><br>
+                <span style="font-size:0.9rem;">${sanitizeHTML(r.tone || 'None')}</span></td>
+              <td class="center">${sourceCell(v.owner === true)}</td>
+              <td class="center">${sourceCell(v.repeaterbook === true)}</td>
+              <td class="center">${sourceCell(v.club === true)}</td>
+            </tr>`;
+        }).join('');
+      }
+
       // ── Inactive ────────────────────────────────────────────────────────
       set('inactive-count', inactive.length);
       const inactiveTbody = document.getElementById('inactive-repeaters-tbody');
