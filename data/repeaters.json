@@ -14,8 +14,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Atlanta Radio Club (ARC)",
@@ -59,7 +59,7 @@
     "validation": {
       "repeaterbook": true,
       "owner": false,
-      "club": false
+      "club": true
     },
     "active": true,
     "clubName": "Barrow Amateur Radio Club (BARC)",
@@ -80,8 +80,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Southeastern Linked Repeater Net",
@@ -102,8 +102,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Southeastern Linked Repeater Net",
@@ -124,8 +124,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Southeastern Linked Repeater Net",
@@ -147,8 +147,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": false,
     "statusNote": "DOWN — Needs PA replacement. PA on hand, awaiting time to install and tune. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
@@ -171,8 +171,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Middle Georgia Radio Association (MGRA)",
@@ -192,7 +192,7 @@
     "validation": {
       "repeaterbook": true,
       "owner": false,
-      "club": false
+      "club": true
     },
     "active": true,
     "clubName": "Amateur Radio Club of Butts County (ARCBC)",
@@ -214,8 +214,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Peach State Emergency Intertie System",
@@ -235,7 +235,7 @@
     "validation": {
       "repeaterbook": true,
       "owner": false,
-      "club": false
+      "club": true
     },
     "active": true,
     "clubName": "West Georgia Amateur Radio Society (WGARS)",
@@ -257,8 +257,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Peach State Emergency Intertie System",
@@ -278,7 +278,7 @@
     "validation": {
       "repeaterbook": true,
       "owner": false,
-      "club": false
+      "club": true
     },
     "active": true,
     "clubName": "Cherokee Amateur Radio Society (CARS)",
@@ -317,8 +317,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Lanierland Amateur Radio Club (LARC)",
@@ -361,8 +361,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Bleckley Co. Amateur Radio Club",
@@ -381,8 +381,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Bob Williams",
@@ -419,8 +419,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Concord Amateur Radio Society (CARS)",
@@ -455,8 +455,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "WA4ASI Repeater System",
@@ -505,7 +505,7 @@
     "validation": {
       "repeaterbook": true,
       "owner": false,
-      "club": false
+      "club": true
     },
     "active": true,
     "clubName": "WA4ASI Repeater System",
@@ -534,7 +534,7 @@
     "validation": {
       "repeaterbook": true,
       "owner": false,
-      "club": false
+      "club": true
     },
     "active": true,
     "clubName": "Newnan Regional Amateur Radio Club",
@@ -563,8 +563,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Paulding Amateur Radio Club (PARC)",
@@ -608,8 +608,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Paulding Amateur Radio Club (PARC)",
@@ -653,8 +653,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": false,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "K4DBN / Laurens County 911",
@@ -676,8 +676,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": false,
     "statusNote": "DOWN — Needs new antenna, work in progress. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
@@ -700,8 +700,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Fayette County Amateur Radio Club, Inc. (FCARC)",
@@ -740,8 +740,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "picUrl": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6",
@@ -785,7 +785,7 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
+      "owner": true,
       "club": false
     },
     "active": true,
@@ -847,8 +847,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Peach State Emergency Intertie System",
@@ -869,8 +869,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Peach State Emergency Intertie System",
@@ -891,7 +891,7 @@
     "linked": true,
     "validation": {
       "repeaterbook": false,
-      "owner": false,
+      "owner": true,
       "club": false
     },
     "active": true,
@@ -913,8 +913,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Southeast Linked Repeater Net",
@@ -944,7 +944,7 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
+      "owner": true,
       "club": false
     },
     "active": true,
@@ -982,7 +982,7 @@
     "validation": {
       "repeaterbook": true,
       "owner": false,
-      "club": false
+      "club": true
     },
     "active": true,
     "clubName": "Charles T. Rauch, Jr. (Trustee)",
@@ -1001,8 +1001,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Tri-States Amateur Radio Club (TSARC)",
@@ -1069,7 +1069,7 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
+      "owner": true,
       "club": false
     },
     "active": true,
@@ -1101,7 +1101,7 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
+      "owner": true,
       "club": false
     },
     "active": true,
@@ -1124,8 +1124,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Macon-Bibb County Emergency Management Agency",
@@ -1146,8 +1146,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Macon-Bibb County Emergency Management Agency",
@@ -1168,8 +1168,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": false,
     "statusNote": "2021-02-01 K4DRS has requested the following changes: Operational status changed to Off-Air.",
@@ -1192,8 +1192,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": false,
     "statusNote": "REPEATER UP, NOT YET LINKED — Repeater is operational. PSI link (11-element UHF Yagi to Irwinton) was removed; awaiting replacement antenna before rejoining PSI. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
@@ -1214,7 +1214,7 @@
     "validation": {
       "repeaterbook": true,
       "owner": false,
-      "club": false
+      "club": true
     },
     "active": true,
     "clubName": "Paulding County ARES",
@@ -1243,8 +1243,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Southeastern Linked Repeater Net",
@@ -1274,8 +1274,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Northwest Georgia Repeater Club (NWGRC)",
@@ -1305,8 +1305,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Washington County Amateur Radio Club (WCARC)",
@@ -1325,8 +1325,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Sawnee Mountain Amateur Group (SMAG)",
@@ -1356,8 +1356,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Sun City Amateur Radio (SCAR)",
@@ -1388,7 +1388,7 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
+      "owner": true,
       "club": false
     },
     "active": true,
@@ -1419,8 +1419,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Fayette County Amateur Radio Club",
@@ -1449,7 +1449,7 @@
     "validation": {
       "repeaterbook": true,
       "owner": false,
-      "club": false
+      "club": true
     },
     "active": true,
     "clubName": "Walton County Repeater Group (WCRG)",
@@ -1469,7 +1469,7 @@
     "validation": {
       "repeaterbook": true,
       "owner": false,
-      "club": false
+      "club": true
     },
     "active": true,
     "clubName": "Walton County Repeater Group (WCRG)",
@@ -1488,8 +1488,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Columbus Amateur Radio Club (W4CVY)",
@@ -1531,7 +1531,7 @@
     "validation": {
       "repeaterbook": true,
       "owner": false,
-      "club": false
+      "club": true
     },
     "active": true,
     "clubName": "Amateur Radio Station WM4B",
@@ -1561,8 +1561,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Central Georgia Amateur Radio Club (CGARC)",
@@ -1582,7 +1582,7 @@
     "validation": {
       "repeaterbook": true,
       "owner": false,
-      "club": false
+      "club": true
     },
     "active": true,
     "clubName": "Amateur Radio Station WM4B",
@@ -1611,7 +1611,7 @@
     "validation": {
       "repeaterbook": true,
       "owner": false,
-      "club": false
+      "club": true
     },
     "active": true,
     "clubName": "Gateway Amateur Radio Club (GARC)",
@@ -1650,8 +1650,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "Concord Amateur Radio Society (CARS)",
@@ -1695,8 +1695,8 @@
     "linked": true,
     "validation": {
       "repeaterbook": true,
-      "owner": false,
-      "club": false
+      "owner": true,
+      "club": true
     },
     "active": true,
     "clubName": "ARCCC, Inc.",

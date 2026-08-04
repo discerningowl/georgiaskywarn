@@ -1146,6 +1146,16 @@ refactor: Simplify alert filtering logic
 - **Left unchanged, on purpose**: `refurl` (still the RepeaterBook reference link, unaffected by this — it's a citation URL, not a validation flag) and every RepeaterBook system-membership URL/process in the rest of the "Validating Repeater Data" section (those describe the `repeaterbook` sub-source specifically, not the whole object).
 - Version bumped to `20260804e`.
 
+#### Fifth follow-up same day: bulk-populated `validation.owner` and `validation.club` from existing data + a screenshot
+- Jack provided a screenshot of a folder/list view (location+frequency names, some combined for RF-linked pairs/trios) representing repeaters he's personally confirmed with owners, and gave three rules to apply against all 59 records:
+  1. Any repeater tagged `WX4PTC System`, `SE Linked Repeater`, `Peach State Intertie`, `Cherry Blossom Intertie`, or `WX4EMA` → `validation.owner: true` (36 records newly flipped).
+  2. Any repeater matching an entry in the screenshot by location + frequency → `validation.owner: true` (7 additional records not already covered by rule 1: Clermont `KA3JIJ-145.310`, Commerce `KF4DGN-146.850`, Covington `WA4ASI-146.925`, Lookout Mountain `W4GTA-145.350`, Sawnee Mtn `WB4GQX-441.900` — screenshot listed this as "Cumming 441.900," Cumming being the coverage-area text in the description, not the `location` field — Warm Springs `KN4FE-146.985`, Woodbury `WB4GWA-443.800`).
+  3. Any repeater with a non-null `clubName` → `validation.club: true` (50 records newly flipped).
+- Applied programmatically (Python, same in-place-mutate-and-redump approach as the schema migration) rather than by hand, to avoid transcription errors across 59 records.
+- **Two screenshot entries flagged, not guessed on**: "Griffin 147.390" had no match in `data/repeaters.json` — Griffin's actual repeater is `K4HYB-146.910`, and `147.390` belongs to Thomaston (`W4OHH-147.390`) — left `K4HYB-146.910`'s `owner` untouched (still `false`) rather than assume a typo; Jack should confirm what this entry was meant to reference. "Concord 145.250" doesn't match `WB4GWA-145.390` (Concord) — likely a screenshot transcription of 145.390, and moot either way since that record already gets `owner: true` via the tag rule (carries `SE Linked Repeater`).
+- Net effect: every repeater now has `validation.owner: true` (either via tag or direct screenshot confirmation) except `K4HYB-146.910` (Griffin) and a handful of others not tagged with a qualifying network and not in the screenshot (e.g. `WR4BC-145.280`, `WX4BCA-147.285`, `W4FWD-146.640`, `KG4VUB-145.270`, `WX4NN-443.075`, `K4NRC-145.130`, `W8JI-147.225`, `WX4PCA-146.955`, `WC4RG-147.270`, `WC4RG-442.050`, `WM4B-146.670`, `WM4B-443.150`, `K4GAR-146.910`, `N4BZJ-147.135`, `WA4ASI-444.800`).
+- Version bumped to `20260804f`.
+
 ### 2026-07-08 — `repeater-health.html` → `repeater-validation.html` rename, footer entry point moved
 
 #### Rename: `repeater-health.html` → `repeater-validation.html`
