@@ -316,7 +316,10 @@
     if (count === 3) {
       return { count, label: 'Fully Validated', colorVar: 'var(--accent-blue)', symbol: '✓' };
     }
-    if (count > 0) {
+    if (count === 2) {
+      return { count, label: 'Validated', colorVar: 'var(--accent-green)', symbol: '✓' };
+    }
+    if (count === 1) {
       return { count, label: 'Partially Validated', colorVar: 'var(--accent-yellow)', symbol: '◐' };
     }
     return { count, label: 'Not Validated', colorVar: 'var(--accent-red)', symbol: '✗' };
@@ -1081,11 +1084,13 @@
       const linked     = all.filter(r => r.linked === true);
       const nonLinked  = all.filter(r => r.linked === false);
       // Validation tiers, driven by the shared getValidationTier() rule (repeaterbook/owner/club):
-      //   fully validated    = all 3 sources confirmed
-      //   partially validated = 1-2 sources confirmed
-      //   not validated (unverified) = 0 sources confirmed — this is what needs staff attention
+      //   3 sources confirmed = fully validated
+      //   2 sources confirmed = validated
+      //   1 source confirmed  = partially validated
+      //   0 sources confirmed = not validated (unverified) — this is what needs staff attention
       const fullyValidated     = all.filter(r => getValidationTier(r).count === 3);
-      const partiallyValidated = all.filter(r => { const c = getValidationTier(r).count; return c > 0 && c < 3; });
+      const validated          = all.filter(r => getValidationTier(r).count === 2);
+      const partiallyValidated = all.filter(r => getValidationTier(r).count === 1);
       const unverified          = all.filter(r => getValidationTier(r).count === 0);
       const noCalls    = all.filter(r => r.callsign === 'n0call');
       const noClub     = all.filter(r => !r.clubName);
@@ -1098,6 +1103,7 @@
       set('stat-linked',     linked.length);
       set('stat-nonlinked',  nonLinked.length);
       set('stat-verified',      fullyValidated.length);
+      set('stat-validated',     validated.length);
       set('stat-partial',       partiallyValidated.length);
       set('stat-unverified',    unverified.length);
       set('stat-nocall',     noCalls.length);

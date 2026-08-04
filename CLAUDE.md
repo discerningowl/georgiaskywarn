@@ -719,7 +719,7 @@ Repeater tables are dynamically generated from the unified repeaters.json file:
 | 8 | `callsign` | string | Yes | Amateur radio callsign (e.g., `"WX4PTC"`) or `"n0call"` if unknown |
 | 9 | `refurl` | string | Yes | RepeaterBook reference URL (single source of truth) |
 | 10 | `linked` | boolean | Yes | `true` if part of linked SKYWARN network, `false` otherwise |
-| 11 | `validation` | object | Yes | Multi-source validation record: `{ "repeaterbook": bool, "owner": bool, "club": bool }`. Tracks three independent confirmation sources — RepeaterBook comparison, direct owner confirmation, and club website/roster confirmation — rather than a single boolean, since these are separate processes with separate reliability. `repeaterbook` is the only sub-field ever written automatically (by `scripts/verify_repeaters.py`); `owner` and `club` are set manually as Jack actually confirms with those sources. See "Validating Repeater Data" below and `getValidationTier()` in `js/scripts.js` for how these three flags are reduced to a display tier (Fully/Partially/Not Validated). |
+| 11 | `validation` | object | Yes | Multi-source validation record: `{ "repeaterbook": bool, "owner": bool, "club": bool }`. Tracks three independent confirmation sources — RepeaterBook comparison, direct owner confirmation, and club website/roster confirmation — rather than a single boolean, since these are separate processes with separate reliability. `repeaterbook` is the only sub-field ever written automatically (by `scripts/verify_repeaters.py`); `owner` and `club` are set manually as Jack actually confirms with those sources. See "Validating Repeater Data" below and `getValidationTier()` in `js/scripts.js` for how these three flags are reduced to a display tier (Fully Validated/Validated/Partially Validated/Not Validated). |
 | 12 | `active` | boolean | Yes | `true` if currently on-air/operational, `false` if confirmed off-air. Drives filtering: inactive repeaters are excluded from the public tables (`renderAllRepeaters()`) and CSV exports, and surfaced on `repeater-validation.html`'s Inactive list. |
 | 13 | `statusNote` | string | Only when `active: false` | Free-text explanation of the outage (who reported it, what's needed, follow-up date). Read by `repeater-validation.html`'s Inactive table (`r.statusNote`). Omit entirely when the repeater is active. |
 | 14 | `picUrl` | string | Only when applicable | Link to station photos (currently only 444.600+ and 442.500+). Omit if not applicable. |
@@ -775,9 +775,10 @@ Repeater tables are dynamically generated from the unified repeaters.json file:
 | Sponsoring club | `club` | Confirmed against the club's own website/roster (see `clubName`/`clubUrl`) | No — set manually in the JSON when confirmed |
 
 A repeater's display tier (shown on the public detail modal and on `repeater-validation.html`) is derived from how many of these three are `true` — see `getValidationTier()` in `js/scripts.js`, the single source of truth for that reduction logic:
-- **Fully Validated** — all three confirmed
-- **Partially Validated** — one or two confirmed
-- **Not Validated** — none confirmed (this is what drives `repeater-validation.html`'s "Not Validated" table — repeaters with at least one confirmed source are excluded from that list, even if RepeaterBook specifically hasn't confirmed them)
+- **Fully Validated** — all three confirmed (3 of 3)
+- **Validated** — two confirmed (2 of 3)
+- **Partially Validated** — one confirmed (1 of 3)
+- **Not Validated** — none confirmed (0 of 3; this is what drives `repeater-validation.html`'s "Not Validated" table — repeaters with at least one confirmed source are excluded from that list, even if RepeaterBook specifically hasn't confirmed them)
 
 RepeaterBook is one input among three, not an authority the whole `validation` object defers to — this distinction matters for how we describe the relationship publicly (see the 2026-08-04 changelog entries below on attribution wording).
 
@@ -1155,6 +1156,13 @@ refactor: Simplify alert filtering logic
 - **Two screenshot entries flagged, not guessed on**: "Griffin 147.390" had no match in `data/repeaters.json` — Griffin's actual repeater is `K4HYB-146.910`, and `147.390` belongs to Thomaston (`W4OHH-147.390`) — left `K4HYB-146.910`'s `owner` untouched (still `false`) rather than assume a typo; Jack should confirm what this entry was meant to reference. "Concord 145.250" doesn't match `WB4GWA-145.390` (Concord) — likely a screenshot transcription of 145.390, and moot either way since that record already gets `owner: true` via the tag rule (carries `SE Linked Repeater`).
 - Net effect: every repeater now has `validation.owner: true` (either via tag or direct screenshot confirmation) except `K4HYB-146.910` (Griffin) and a handful of others not tagged with a qualifying network and not in the screenshot (e.g. `WR4BC-145.280`, `WX4BCA-147.285`, `W4FWD-146.640`, `KG4VUB-145.270`, `WX4NN-443.075`, `K4NRC-145.130`, `W8JI-147.225`, `WX4PCA-146.955`, `WC4RG-147.270`, `WC4RG-442.050`, `WM4B-146.670`, `WM4B-443.150`, `K4GAR-146.910`, `N4BZJ-147.135`, `WA4ASI-444.800`).
 - Version bumped to `20260804f`.
+
+#### Sixth follow-up same day: split the middle tier into "Validated" (2/3) and "Partially Validated" (1/3)
+- Jack asked for a 4-way tier instead of 3: 0 confirmed = Not Validated, 1 confirmed = Partially Validated, 2 confirmed = Validated, 3 confirmed = Fully Validated (previously 1-2 confirmed was collapsed into a single "Partially Validated" bucket).
+- `js/scripts.js`: `getValidationTier()` now has four branches instead of three — added the `count === 2` case returning `{ label: 'Validated', colorVar: 'var(--accent-green)' }`, sitting between `count === 3` (Fully Validated, blue) and `count === 1` (Partially Validated, yellow, unchanged). `renderAdminPage()` gained a new `validated` bucket (`count === 2`) alongside the existing `fullyValidated`/`partiallyValidated`/`unverified` (renamed `partiallyValidated`'s filter from `count > 0 && count < 3` to exactly `count === 1` now that 2 has its own bucket) and wires it to a new `set('stat-validated', ...)` call.
+- `repeater-validation.html`: added a fourth stat card, "Validated" (`id="stat-validated"`, green), between "Fully Validated" (`stat-verified`, recolored from green to blue to match `getValidationTier()`'s blue-for-3 convention) and "Partially Validated" (`stat-partial`, yellow, unchanged). Not Validated section's prose updated to name all three non-zero tiers ("Partially Validated," "Validated," or "Fully Validated") instead of just one, since the "at least one source confirmed" rule for exclusion from that table is unchanged but now maps to three possible labels instead of one.
+- **Left unchanged, on purpose**: the "Not Validated" table's underlying rule (`count === 0`) — this tier split only affects the three non-zero buckets, not what counts as needing staff attention.
+- Version bumped to `20260804g`.
 
 ### 2026-07-08 — `repeater-health.html` → `repeater-validation.html` rename, footer entry point moved
 
