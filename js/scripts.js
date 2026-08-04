@@ -454,9 +454,7 @@
           <div class="detail-label">Frequency:</div>
           <div class="detail-value">${sanitizeHTML(repeater.frequency)}</div>
           <div class="detail-label">Tone:</div>
-          <div class="detail-value">${sanitizeHTML(repeater.tone || 'None')}</div>
-          <div class="detail-label">RepeaterBook:</div>
-          <div class="detail-value"><a href="${window.UTILS.sanitizeURL(repeater.refurl)}" target="_blank" rel="noopener noreferrer">View on RepeaterBook →</a></div>`;
+          <div class="detail-value">${sanitizeHTML(repeater.tone || 'None')}</div>`;
 
     if (repeater.clubName && repeater.clubUrl) {
       html += `

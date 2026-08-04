@@ -1113,6 +1113,12 @@ refactor: Simplify alert filtering logic
 - **Left unchanged, on purpose**: all `id` attributes (`unverified-card`, `stat-verified`, `stat-unverified`, `unverified-count`, `unverified-repeaters-tbody`) and the underlying `data/repeaters.json` schema field `verified` (boolean) — only user-facing display text changed, not internal identifiers or the data schema itself. Renaming the JSON field would be a breaking schema change out of scope here.
 - Version bumped to `20260804c`.
 
+#### Third follow-up same day: hid the RepeaterBook link row in the public repeater detail modal
+- Jack asked to hide the "RepeaterBook: View on RepeaterBook →" row from the public repeater detail modal (`repeaters.html`, click any repeater row), while leaving the underlying `refurl` field and value untouched in `data/repeaters.json`.
+- `js/scripts.js`: `openRepeaterModal()` — removed the `<div class="detail-label">RepeaterBook:</div>` / `<div class="detail-value">...View on RepeaterBook →</a></div>` row from the "Basic Information" detail grid template literal (was directly below "Tone:"). No other detail rows changed; `repeater.refurl` is simply no longer read in this function.
+- **Left unchanged, on purpose**: `data/repeaters.json`'s `refurl` field (name and values) — data stays in the file. The `RepeaterBook →` reference links on `repeater-validation.html`'s Inactive/Not-Validated admin tables (`js/scripts.js` lines ~1109, ~1129) still use `r.refurl` and still render — those are on the internal noindex dashboard, not the public modal, and weren't part of this ask.
+- Version bumped to `20260804d`.
+
 ### 2026-07-08 — `repeater-health.html` → `repeater-validation.html` rename, footer entry point moved
 
 #### Rename: `repeater-health.html` → `repeater-validation.html`
