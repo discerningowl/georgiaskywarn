@@ -1196,6 +1196,11 @@ refactor: Simplify alert filtering logic
 - `repeaters.html`: `#repeaterbook-attribution` reworded — "Selected records are periodically compared with RepeaterBook" → "Each repeater is validated against up to three independent sources — direct confirmation from the repeater owner, comparison with RepeaterBook, and confirmation from the sponsoring club — rather than relying on any single source." The bolded opening/closing sentences and the CSV-export section's separate attribution line were left unchanged.
 - HTML-only change (no JS touched), so no version bump — consistent with prior HTML-only attribution edits this session.
 
+#### Twelfth follow-up same day: dropped the "RepeaterBook detail links are provided for reference" sentence
+- Jack pointed out `repeaters.html` no longer links out to RepeaterBook anywhere (the modal's "View on RepeaterBook →" row was removed in the third follow-up above, and the public repeater table/search results never linked to it either — confirmed via grep that the only remaining `RepeaterBook →` link in `js/scripts.js` lives in `repeater-validation.html`'s internal admin tables), so the attribution sentence claiming those links exist was stale.
+- `repeaters.html`: removed "RepeaterBook detail links are provided for reference." from `#repeaterbook-attribution`. The three-source validation sentence and the CSV-export sentence are unchanged.
+- HTML-only change, no version bump.
+
 ### 2026-07-08 — `repeater-health.html` → `repeater-validation.html` rename, footer entry point moved
 
 #### Rename: `repeater-health.html` → `repeater-validation.html`
