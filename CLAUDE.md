@@ -1184,6 +1184,13 @@ refactor: Simplify alert filtering logic
 - **Left unchanged, on purpose**: the RepeaterBook reference links on the Unknown Callsigns and Missing Club tables (`adminRow()`, still used by both) — this ask was specific to Inactive Repeaters only.
 - Version bumped to `20260804j`.
 
+#### Tenth follow-up same day: removed the RepeaterBook reference link from Missing Club Info
+- Jack asked to also drop the "Reference" column from `repeater-validation.html`'s Missing Club Info table (the ninth follow-up above already removed it from Inactive Repeaters). Unlike Inactive Repeaters, Missing Club Info shares its row-rendering helper (`adminRow()`) with the Unknown Callsigns table, which was NOT part of this ask — needed a way to omit the column for one caller without affecting the other.
+- `js/scripts.js`: `adminRow(r, col3Label)` gained a third parameter, `showRef = true`, that conditionally includes the trailing `<td>...RepeaterBook →</a></td>` cell. Missing Club Info's call site changed to `adminRow(r, undefined, false)`; Unknown Callsigns' call site (`adminRow(r)`) is untouched and still gets the link, defaulting to `true`.
+- `repeater-validation.html`: removed the `<th>Reference</th>` header from the Missing Club Info table and dropped its loading/empty-state `colspan` from 5 to 4.
+- **Left unchanged, on purpose**: the Missing Club Info intro prose ("Check RepeaterBook or contact the trustee...") — that's guidance text, not a data reference link, so it wasn't part of this ask. Unknown Callsigns keeps its RepeaterBook link since Jack only asked about Missing Club Info this time.
+- Version bumped to `20260804k`.
+
 ### 2026-07-08 — `repeater-health.html` → `repeater-validation.html` rename, footer entry point moved
 
 #### Rename: `repeater-health.html` → `repeater-validation.html`

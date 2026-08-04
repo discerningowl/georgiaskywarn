@@ -1119,12 +1119,17 @@
         return `<div class="tags-container">${badges}</div>`;
       }
 
-      // ── Helper: build a standard 5-col row ──────────────────────────────
-      function adminRow(r, col3Label) {
+      // ── Helper: build a standard admin row (4 or 5 cols) ─────────────────
+      // showRef=false omits the trailing RepeaterBook reference-link column
+      // (used by Missing Club Info, which isn't about RepeaterBook data).
+      function adminRow(r, col3Label, showRef = true) {
         const tags = tagsToBadges(r.tags);
         const linkedBadge = r.linked
           ? '<span style="color:var(--accent-green);font-weight:700;">✓ Linked</span>'
           : '<span style="color:var(--accent-orange);">County Only</span>';
+        const refCell = showRef
+          ? `<td class="center"><a href="${window.UTILS.sanitizeURL(r.refurl)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">RepeaterBook →</a></td>`
+          : '';
         return `
           <tr class="repeater-row" data-repeater-id="${sanitizeHTML(r.id)}">
             <td><strong>${sanitizeHTML(r.location)}</strong><br>
@@ -1133,7 +1138,7 @@
               <span style="font-size:0.9rem;">${sanitizeHTML(r.tone || 'None')}</span></td>
             <td class="center">${col3Label !== undefined ? col3Label : linkedBadge}</td>
             <td>${tags}</td>
-            <td class="center"><a href="${window.UTILS.sanitizeURL(r.refurl)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">RepeaterBook →</a></td>
+            ${refCell}
           </tr>`;
       }
 
@@ -1211,8 +1216,8 @@
       const noClubTbody = document.getElementById('noclub-repeaters-tbody');
       if (noClubTbody) {
         noClubTbody.innerHTML = noClub.length === 0
-          ? '<tr><td colspan="5" class="center" style="color:var(--accent-green);">✓ All repeaters have club info.</td></tr>'
-          : noClub.map(r => adminRow(r)).join('');
+          ? '<tr><td colspan="4" class="center" style="color:var(--accent-green);">✓ All repeaters have club info.</td></tr>'
+          : noClub.map(r => adminRow(r, undefined, false)).join('');
       }
     }
 
