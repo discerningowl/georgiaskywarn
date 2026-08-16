@@ -1085,6 +1085,134 @@ a:hover, a:focus-visible {
   margin-top: 1rem;
 }
 
+/* ---------- Activation Flow (numbered infographic step sequence) ----------
+   Added 2026-08-16: reusable component for presenting a strict, ordered
+   sequence (as opposed to .sub-cards, which implies an unordered set).
+   Horizontal icon-circle + numbered-badge row on wide viewports, collapses
+   to a left-rail vertical timeline on narrow ones. Container-query driven
+   (matches the .sub-cards / T3.11 convention) so it responds to the card's
+   actual width, not the viewport. Default accent is flat --accent-blue;
+   the --escalate modifier shifts each step's color from blue → indigo →
+   orange → red to visually imply rising urgency (used by Spotter Activation
+   on wx4ptc.html). First used on wx4ptc.html's Spotter Activation and
+   Activation Flow sections — see CLAUDE.md changelog 2026-08-16. */
+.activation-flow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+  position: relative;
+  counter-reset: activation-step;
+}
+
+/* Narrow (default): vertical rail running down the left side, behind the
+   icon column. 34px = half the 68px icon width, centering the line on it. */
+.activation-flow::before {
+  content: "";
+  position: absolute;
+  top: 34px;
+  bottom: 34px;
+  left: 34px;
+  width: 3px;
+  background: var(--flow-line, var(--accent-blue));
+  opacity: 0.35;
+  z-index: 0;
+}
+
+@container cardbody (min-width: 640px) {
+  .activation-flow {
+    grid-template-columns: repeat(var(--flow-count, 4), 1fr);
+    gap: 0;
+  }
+
+  .activation-flow::before {
+    top: 34px;
+    bottom: auto;
+    left: 12%;
+    right: 12%;
+    width: auto;
+    height: 3px;
+  }
+
+  .activation-step {
+    flex-direction: column;
+    text-align: center;
+    padding: 0 0.75rem;
+  }
+
+  .activation-step .step-icon {
+    margin-bottom: 0.9rem;
+  }
+}
+
+/* Escalating color variant — step color shifts blue -> indigo -> orange -> red */
+.activation-flow--escalate {
+  --flow-line: linear-gradient(90deg, var(--accent-blue), var(--accent-indigo), var(--accent-orange), var(--accent-red));
+}
+.activation-flow--escalate .activation-step:nth-child(1) { --step-color: var(--accent-blue); }
+.activation-flow--escalate .activation-step:nth-child(2) { --step-color: var(--accent-indigo); }
+.activation-flow--escalate .activation-step:nth-child(3) { --step-color: var(--accent-orange); }
+.activation-flow--escalate .activation-step:nth-child(4) { --step-color: var(--accent-red); }
+
+.activation-step {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  counter-increment: activation-step;
+}
+
+.step-icon {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7rem;
+  flex-shrink: 0;
+  background: var(--card-bg);
+  border: 3px solid var(--step-color, var(--accent-blue));
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+
+.step-icon::after {
+  content: counter(activation-step);
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--step-color, var(--accent-blue));
+  color: var(--white);
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.activation-step h4 {
+  margin: 0 0 0.4rem;
+  font-size: var(--text-base);
+  color: var(--text-primary);
+}
+
+.activation-step p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+@container cardbody (min-width: 640px) {
+  .activation-step h4 { text-align: center; }
+  .activation-step p  { text-align: center; }
+}
+
 /* Section subheaders for visual separation */
 .section-subheader {
   margin: 1.5rem 0 1rem 0;

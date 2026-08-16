@@ -124,39 +124,51 @@
     <section id="activation" class="card">
       <header class="card-header"><h2>Spotter Activation</h2></header>
       <div class="card-body">
-        <div class="sub-cards">
+        <div class="activation-flow activation-flow--escalate" style="--flow-count: 4;">
 
-          <div class="sub-card">
-            <h4>Hazardous Weather Outlook</h4>
-            <p>
-              NWS issues a <a href="https://www.weather.gov/ffc/hwo" target="_blank" rel="noopener noreferrer">Hazardous Weather Outlook (HWO)</a>
-              statement when severe weather is expected, providing advance notice to spotters before
-              conditions develop.
-            </p>
+          <div class="activation-step">
+            <div class="step-icon" aria-hidden="true">📋</div>
+            <div>
+              <h4>Hazardous Weather Outlook</h4>
+              <p>
+                NWS issues a <a href="https://www.weather.gov/ffc/hwo" target="_blank" rel="noopener noreferrer">Hazardous Weather Outlook (HWO)</a>
+                statement when severe weather is expected, providing advance notice to spotters before
+                conditions develop.
+              </p>
+            </div>
           </div>
 
-          <div class="sub-card">
-            <h4>Coordinator Notification</h4>
-            <p>
-              The NWS Warnings Coordinator contacts the WX4PTC Net Control Team to initiate the
-              activation process once a threat is confirmed.
-            </p>
+          <div class="activation-step">
+            <div class="step-icon" aria-hidden="true">📞</div>
+            <div>
+              <h4>Coordinator Notification</h4>
+              <p>
+                The NWS Warnings Coordinator contacts the WX4PTC Net Control Team to initiate the
+                activation process once a threat is confirmed.
+              </p>
+            </div>
           </div>
 
-          <div class="sub-card">
-            <h4>Severe Weather Trigger</h4>
-            <p>
-              Significant weather events — including tornadoes, large hail, damaging winds, and
-              flash flooding — trigger formal activation of the spotter network.
-            </p>
+          <div class="activation-step">
+            <div class="step-icon" aria-hidden="true">⚠️</div>
+            <div>
+              <h4>Severe Weather Trigger</h4>
+              <p>
+                Significant weather events — including tornadoes, large hail, damaging winds, and
+                flash flooding — trigger formal activation of the spotter network.
+              </p>
+            </div>
           </div>
 
-          <div class="sub-card">
-            <h4>Station Staffing</h4>
-            <p>
-              Volunteer ARES/SKYWARN operators staff the WX4PTC station, open the net, and begin
-              coordinating incoming reports from field spotters across the state.
-            </p>
+          <div class="activation-step">
+            <div class="step-icon" aria-hidden="true">📡</div>
+            <div>
+              <h4>Station Staffing</h4>
+              <p>
+                Volunteer ARES/SKYWARN operators staff the WX4PTC station, open the net, and begin
+                coordinating incoming reports from field spotters across the state.
+              </p>
+            </div>
           </div>
 
         </div>
@@ -167,16 +179,43 @@
     <section id="net-flow" class="card">
       <header class="card-header"><h2>Activation Flow</h2></header>
       <div class="card-body">
-        <div class="sub-cards">
-          <div class="sub-card sub-card--full">
-            <ol>
-              <li>NWS issues a severe‑weather statement or warning requesting spotter activation.</li>
-              <li>NWS Warnings Coordinator activates the WX4PTC team.</li>
-              <li>WX4PTC operates the SKYWARN net on the linked repeater system.</li>
-              <li>Spotters submit reports via radio on the SKYWARN linked repeater system, by phone
-                (866‑763‑4466), or via the <a href="https://www.weather.gov/ffc/strmsubm1" target="_blank" rel="noopener noreferrer">NWS online storm‑report form</a>.</li>
-            </ol>
+        <div class="activation-flow" style="--flow-count: 4;">
+
+          <div class="activation-step">
+            <div class="step-icon" aria-hidden="true">📢</div>
+            <div>
+              <h4>Statement Issued</h4>
+              <p>NWS issues a severe‑weather statement or warning requesting spotter activation.</p>
+            </div>
           </div>
+
+          <div class="activation-step">
+            <div class="step-icon" aria-hidden="true">🤝</div>
+            <div>
+              <h4>Team Activated</h4>
+              <p>NWS Warnings Coordinator activates the WX4PTC team.</p>
+            </div>
+          </div>
+
+          <div class="activation-step">
+            <div class="step-icon" aria-hidden="true">🎙️</div>
+            <div>
+              <h4>Net Operating</h4>
+              <p>WX4PTC operates the SKYWARN net on the linked repeater system.</p>
+            </div>
+          </div>
+
+          <div class="activation-step">
+            <div class="step-icon" aria-hidden="true">📨</div>
+            <div>
+              <h4>Reports Submitted</h4>
+              <p>
+                Spotters submit reports via radio on the SKYWARN linked repeater system, by phone
+                (866‑763‑4466), or via the <a href="https://www.weather.gov/ffc/strmsubm1" target="_blank" rel="noopener noreferrer">NWS online storm‑report form</a>.
+              </p>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
