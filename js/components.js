@@ -82,6 +82,28 @@ function loadHeader() {
     initThemeToggle();
     initBackToTop();
     initStickyHeaderShadow();
+    setActiveNavLink();
+}
+
+/**
+ * Active-page indicator on the site nav (2026-08-27)
+ *
+ * Marks the #desktopNav / #mobileNav link matching the current page with
+ * .is-active + aria-current="page", mirroring the .is-active scroll-spy
+ * treatment T2.8 already applies to in-page .page-nav pills — so a visitor
+ * can tell which page they're on the same way they can tell which page
+ * section they're in.
+ */
+function setActiveNavLink() {
+    // Last path segment, e.g. "repeaters.html". Root ("/" or "") means index.html.
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+    document.querySelectorAll('#desktopNav a[href], .mobile-nav a[href]').forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+            link.classList.add('is-active');
+            link.setAttribute('aria-current', 'page');
+        }
+    });
 }
 
 /**

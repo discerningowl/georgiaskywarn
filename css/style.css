@@ -385,6 +385,20 @@ a:hover, a:focus-visible {
   background: rgba(96, 165, 250, 0.1);
 }
 
+/* Active-page indicator (2026-08-27) — mirrors the .page-nav .is-active
+   filled-pill treatment so the current page reads the same way the
+   current in-page section does. */
+#desktopNav a.is-active {
+  color: var(--white);
+  background: var(--accent-blue);
+}
+
+#desktopNav a.is-active:hover,
+#desktopNav a.is-active:focus-visible {
+  color: var(--white);
+  background: var(--accent-blue-dark);
+}
+
 /* Theme toggle in nav */
 #themeToggle,
 #themeToggleMobile {
@@ -467,6 +481,20 @@ a:hover, a:focus-visible {
 .mobile-nav button:active {
   background: rgba(59, 130, 246, 0.25);
   color: var(--blue-400);
+}
+
+/* Active-page indicator (2026-08-27) — left accent border (same idiom as
+   .section-subheader) plus a tinted fill so the current page stands out
+   from the rest of the full-width mobile menu rows. */
+.mobile-nav a.is-active {
+  background: rgba(59, 130, 246, 0.2);
+  color: var(--blue-400);
+  border-left: 4px solid var(--accent-blue);
+}
+
+.mobile-nav a.is-active:hover,
+.mobile-nav a.is-active:active {
+  background: rgba(59, 130, 246, 0.3);
 }
 
 /* Ensure theme toggle icons in mobile menu are white */
