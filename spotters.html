@@ -124,9 +124,9 @@
     <button class="page-nav-toggle" aria-expanded="false" aria-controls="page-nav-list">☰ PAGE</button>
     <ul id="page-nav-list" class="nav-list">
       <li><a href="#SKYWARNcard">SKYWARN Info</a></li>
-      <li><a href="#nwscard">Spotter Resources</a></li>
       <li><a href="#reportcard">Reporting Requirements</a></li>
       <li><a href="#submitcard">Submit Reports</a></li>
+      <li><a href="#nwscard">Spotter Resources</a></li>
     </ul>
   </nav>
 
@@ -186,6 +186,144 @@
     </section>
 
     <!-- ════ 2. Spotter Resources Card ════ -->
+
+    <!-- ════ 3. Reporting Requirements Card ════ -->
+    <section class="card report-card" id="reportcard">
+      <header class="card-header">
+        <h2 class="card-title">Reporting Requirements</h2>
+      </header>
+      <div class="card-body">
+
+        <!-- Top row: Include checklist + Spotter Guide link -->
+        <h3 class="section-subheader">How to Report</h3>
+        <div class="sub-cards">
+          <div class="sub-card">
+            <h4>Please Include in Your Report</h4>
+            <ul class="report-checklist">
+              <li>Your name and callsign (or phone number)</li>
+              <li>Identify yourself as a trained spotter</li>
+              <li>What you saw — keep it brief</li>
+              <li>Exact location or cross streets</li>
+              <li>Time of the event</li>
+            </ul>
+          </div>
+          <div class="sub-card">
+            <h4>NWS Spotter Guidebook</h4>
+            <p>The definitive guide for weather spotters — cloud identification, severe weather recognition, safety procedures, and reporting protocols.</p>
+            <a href="https://www.weather.gov/media/owlie/SGJune6-11.pdf" target="_blank" rel="noopener noreferrer" class="link-url">Download Spotter Guidebook (PDF)</a>
+          </div>
+        </div>
+
+        <!-- What to Report grid -->
+        <h3 class="section-subheader">What to Report <span style="font-size: 0.85rem; font-weight: 400; color: var(--text-muted);">(click any card for full criteria)</span></h3>
+        <div class="sub-cards sub-cards--3col">
+          <div class="sub-card report-card-tornado report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="tornado">
+            <h4>Tornadoes / Funnel Clouds / Wall Clouds</h4>
+            <p>Organized, persistent rotation</p>
+            <span class="report-card-hint">Tap for full criteria →</span>
+          </div>
+          <div class="sub-card report-card-hail report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="hail">
+            <h4>Hail</h4>
+            <p>Report the size of the largest stone and any damage. Compare to coins or balls, or measure with a ruler.</p>
+            <span class="report-card-hint">Tap for full criteria →</span>
+          </div>
+          <div class="sub-card report-card-wind report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="wind">
+            <h4>Damaging Winds</h4>
+            <p>Wind speeds ≥58 mph • Large branches/trees down • Roof or structure damage</p>
+            <span class="report-card-hint">Tap for full criteria →</span>
+          </div>
+          <div class="sub-card report-card-flood report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="flood">
+            <h4>Flooding</h4>
+            <p>Flooded roadways/rivers • Water depth • Standing or flowing • Rising/steady/falling • Known flood area • Damage</p>
+            <span class="report-card-hint">Tap for full criteria →</span>
+          </div>
+          <div class="sub-card report-card-winter report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="winter">
+            <h4>Winter Weather</h4>
+            <p>Any ice/snow accumulation</p>
+            <span class="report-card-hint">Tap for full criteria →</span>
+          </div>
+          <div class="sub-card report-card-lightning report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="lightning">
+            <h4>Lightning</h4>
+            <p>Injuries or damage caused</p>
+            <span class="report-card-hint">Tap for full criteria →</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════ 4. Submit Reports Card ════ -->
+    <section class="card" id="submitcard">
+      <header class="card-header">
+        <h2 class="card-title">Submit Reports</h2>
+      </header>
+      <div class="card-body">
+
+        <h3 class="section-subheader">Report to Your Local Network First</h3>
+        <div class="sub-cards">
+          <div class="sub-card">
+            <h4>Local SKYWARN Network</h4>
+            <p>
+              The NWS forecast office operates under the <a href="wx4ptc.html"><strong>WX4PTC</strong></a> call sign
+              to coordinate SKYWARN severe-weather reporting nets. Bring reports to your local SKYWARN network first
+              when possible.
+            </p>
+            <p>Not sure which repeater to use? The <a href="repeaters.html"><strong>SKYWARN Repeater Directory</strong></a>
+              lists all linked and local repeaters — searchable by frequency, location, or network.</p>
+          </div>
+          <div class="sub-card">
+            <h4>EchoLink Access to WX4PTC</h4>
+            <p>
+              <strong>Node:</strong> KK4GQ-R → WX4PTC<br>
+              <strong>Repeater:</strong> 145.210- (131.8 Hz), Fayetteville, GA<br>
+              <strong>Status:</strong> Full-time (unless technical difficulties require control ops to disconnect)
+            </p>
+          </div>
+          <div class="sub-card">
+            <h4>AllStar Access to WX4PTC</h4>
+            <p>
+              <strong>Node:</strong> 684141<br>
+              <strong>Repeater:</strong> 444.600+ (Fayetteville, GA)<br>
+              <strong>Status:</strong> Full-time (unless technical difficulties require control ops to disconnect)
+            </p>
+          </div>
+          <div class="sub-card">
+            <h4>Listen Live via Broadcastify</h4>
+            <p>
+              Can't get on the radio but still want to follow the net? Stream the WX4PTC SKYWARN net live
+              on <a href="https://www.broadcastify.com/listen/feed/47764" target="_blank" rel="noopener noreferrer"><strong>Broadcastify</strong></a>.
+            </p>
+          </div>
+        </div>
+
+        <h3 class="section-subheader">Contact NWS Atlanta</h3>
+        <div class="sub-cards">
+          <div class="sub-card sub-card--full">
+            <h4>Can't Get Through on the Radio?</h4>
+            <p>
+              If you have a severe weather report and cannot submit it via radio or online,
+              <strong>call on the phone.</strong> Others down the road may benefit from your report.
+            </p>
+          </div>
+        </div>
+        <div class="action-buttons">
+          <a href="https://www.weather.gov/ffc/SubmitStormReport" class="btn btn-red" target="_blank" rel="noopener noreferrer">
+            Submit Storm Reports
+            <small>via NWS website</small>
+          </a>
+          <a href="tel:8667634466" class="btn btn-red">
+            866-763-4466
+            <small>Severe Weather Only</small>
+          </a>
+          <a href="tel:7704861133" class="btn btn-red">
+            770-486-1133
+            <small>Main Office</small>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
     <section class="card" id="nwscard">
       <header class="card-header">
         <h2 class="card-title">Spotter Resources</h2>
@@ -296,125 +434,6 @@
       </div>
     </section>
 
-    <!-- ════ 3. Reporting Requirements Card ════ -->
-    <section class="card report-card" id="reportcard">
-      <header class="card-header">
-        <h2 class="card-title">Reporting Requirements</h2>
-      </header>
-      <div class="card-body">
-
-        <!-- Top row: Include checklist + Spotter Guide link -->
-        <h3 class="section-subheader">How to Report</h3>
-        <div class="sub-cards">
-          <div class="sub-card">
-            <h4>Please Include in Your Report</h4>
-            <ul class="report-checklist">
-              <li>Your name and callsign (or phone number)</li>
-              <li>Identify yourself as a trained spotter</li>
-              <li>What you saw — keep it brief</li>
-              <li>Exact location or cross streets</li>
-              <li>Time of the event</li>
-            </ul>
-          </div>
-          <div class="sub-card">
-            <h4>NWS Spotter Guidebook</h4>
-            <p>The definitive guide for weather spotters — cloud identification, severe weather recognition, safety procedures, and reporting protocols.</p>
-            <a href="https://www.weather.gov/media/owlie/SGJune6-11.pdf" target="_blank" rel="noopener noreferrer" class="link-url">Download Spotter Guidebook (PDF)</a>
-          </div>
-        </div>
-
-        <!-- What to Report grid -->
-        <h3 class="section-subheader">What to Report <span style="font-size: 0.85rem; font-weight: 400; color: var(--text-muted);">(click any card for full criteria)</span></h3>
-        <div class="sub-cards sub-cards--3col">
-          <div class="sub-card report-card-tornado report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="tornado">
-            <h4>Tornadoes / Funnel Clouds / Wall Clouds</h4>
-            <p>Organized, persistent rotation</p>
-            <span class="report-card-hint">Tap for full criteria →</span>
-          </div>
-          <div class="sub-card report-card-hail report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="hail">
-            <h4>Hail</h4>
-            <p>Report the size of the largest stone and any damage. Compare to coins or balls, or measure with a ruler.</p>
-            <span class="report-card-hint">Tap for full criteria →</span>
-          </div>
-          <div class="sub-card report-card-wind report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="wind">
-            <h4>Damaging Winds</h4>
-            <p>Wind speeds ≥58 mph • Large branches/trees down • Roof or structure damage</p>
-            <span class="report-card-hint">Tap for full criteria →</span>
-          </div>
-          <div class="sub-card report-card-flood report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="flood">
-            <h4>Flooding</h4>
-            <p>Flooded roadways/rivers • Water depth • Standing or flowing • Rising/steady/falling • Known flood area • Damage</p>
-            <span class="report-card-hint">Tap for full criteria →</span>
-          </div>
-          <div class="sub-card report-card-winter report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="winter">
-            <h4>Winter Weather</h4>
-            <p>Any ice/snow accumulation</p>
-            <span class="report-card-hint">Tap for full criteria →</span>
-          </div>
-          <div class="sub-card report-card-lightning report-card-clickable" role="button" tabindex="0" aria-haspopup="dialog" data-report="lightning">
-            <h4>Lightning</h4>
-            <p>Injuries or damage caused</p>
-            <span class="report-card-hint">Tap for full criteria →</span>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ════ 4. Submit Reports Card ════ -->
-    <section class="card" id="submitcard">
-      <header class="card-header">
-        <h2 class="card-title">Submit Reports</h2>
-      </header>
-      <div class="card-body">
-
-        <h3 class="section-subheader">Report to Your Local Network First</h3>
-        <div class="sub-cards">
-          <div class="sub-card">
-            <h4>Local SKYWARN Network</h4>
-            <p>
-              The NWS forecast office operates under the <a href="wx4ptc.html"><strong>WX4PTC</strong></a> call sign
-              to coordinate SKYWARN severe-weather reporting nets. Bring reports to your local SKYWARN network first
-              when possible.
-            </p>
-            <p>Not sure which repeater to use? The <a href="repeaters.html"><strong>SKYWARN Repeater Directory</strong></a>
-              lists all linked and local repeaters — searchable by frequency, location, or network.</p>
-          </div>
-          <div class="sub-card">
-            <h4>EchoLink Access to WX4PTC</h4>
-            <p>
-              <strong>Node:</strong> KK4GQ-R → WX4PTC<br>
-              <strong>Repeater:</strong> 145.210- (131.8 Hz), Fayetteville, GA<br>
-              <strong>Status:</strong> Full-time (unless technical difficulties require control ops to disconnect)
-            </p>
-          </div>
-          <div class="sub-card sub-card--full">
-            <h4>Can't Get Through on the Radio?</h4>
-            <p>
-              If you have a severe weather report and cannot submit it via radio or online,
-              <strong>call on the phone.</strong> Others down the road may benefit from your report.
-            </p>
-          </div>
-        </div>
-
-        <h3 class="section-subheader">Contact NWS Atlanta</h3>
-        <div class="action-buttons">
-          <a href="https://www.weather.gov/ffc/SubmitStormReport" class="btn btn-red" target="_blank" rel="noopener noreferrer">
-            Submit Storm Reports
-            <small>via NWS website</small>
-          </a>
-          <a href="tel:8667634466" class="btn btn-red">
-            866-763-4466
-            <small>Severe Weather Only</small>
-          </a>
-          <a href="tel:7704861133" class="btn btn-red">
-            770-486-1133
-            <small>Main Office</small>
-          </a>
-        </div>
-
-      </div>
-    </section>
 
   </main>
 
