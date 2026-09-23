@@ -2055,6 +2055,16 @@ a:hover, a:focus-visible {
   border-color: var(--white);
 }
 
+.scanner-pulse-icon {
+  display: inline-block;
+  animation: scannerPulse 2s ease-in-out infinite;
+}
+
+@keyframes scannerPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.25); opacity: 0.65; }
+}
+
 /* --- REPEATER TABLES --- */
 
 .table-wrapper {
