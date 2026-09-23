@@ -7,7 +7,7 @@
       "items": [
         {
           "title": "Repeater Linking Data Review",
-          "description": "Completed a full review of how the linked repeaters actually connect back to the WX4PTC hub. Found and corrected several missing or outdated links: the northwest Georgia chain into Jasper (and onward to Lookout Mountain, Commerce, and Clermont), the Peach State Intertie's real structure (it connects through Irwinton, not directly from Thomaston), the Warner Robins (WM4B) repeaters' link into the Peach State Intertie, and the Cherry Blossom Intertie's connection to the wider network. Tags and radio-link listings across dozens of repeaters were corrected to match."
+          "description": "Completed a full review of how the linked repeaters actually connect back to the WX4PTC hub. Found and corrected several missing or outdated links: the northwest Georgia chain into Jasper (and onward to Lookout Mountain, Commerce, and Clermont), the Peach State Intertie's real structure (it connects through Irwinton, not directly from Thomaston), the Warner Robins (WM4B) repeaters' link into the Peach State Intertie, and the Cherry Blossom Intertie's connection to the wider network. Tags and radio-link listings across dozens of repeaters were corrected to match. Also corrected several repeaters that were pointed at the Tyrone backup repeater (444.675) instead of the actual WX4PTC hub (444.600), per the Peach State Intertie's published network diagram."
         },
         {
           "title": "Repeater Network Map",

@@ -327,15 +327,15 @@
 
   /**
    * Builds the RF-link graph across every repeater and computes, for each
-   * one, its Tier and Role relative to the WX4PTC hub (444.600+/444.675+).
+   * one, its Tier and Role relative to the WX4PTC hub (W4PSZ-444.600+).
    * Derived entirely from `rflinks` — never hand-tagged — so it can't drift
    * the way the `SE Linked Repeater`/`Peach State Intertie` tags once did.
    *
    * Tier = hop-distance from the hub (a same-site "direct" companion link
    * costs 0 hops, since it's the same physical system, not a real network
    * hop; an "rf" link costs 1 hop):
-   *   Hub       = the 444.600/444.675 hub pair itself (and anything
-   *               direct-companioned to it)
+   *   Hub       = W4PSZ-444.600+ itself (and anything direct-companioned
+   *               to it)
    *   Primary   = 1 hop from the hub
    *   Secondary = 2+ hops from the hub
    *   Standalone = has network tags/rflinks but no path reaches the hub —
@@ -381,11 +381,15 @@
       });
     });
 
-    // 0-1 BFS (deque-based) from the hub pair, so a 0-weight companion edge
+    // 0-1 BFS (deque-based) from the hub, so a 0-weight companion edge
     // never gets a longer path than a direct one just because of queue order.
+    // W4PSZ-444.600+ is the sole hub root. KN4YZ-444.675+ (Tyrone) is a
+    // backup/net-control repeater that links TO the hub via its own
+    // rflinks entry — it is not itself a hub root (per PSI's own diagram
+    // at peachstateintertie.com/diagram.html, everything converges on
+    // 444.600, not 444.675).
     const hubIds = allRepeaters
-      .filter(r => (r.callsign === 'W4PSZ' && r.frequency === '444.600+') ||
-                   (r.callsign === 'KN4YZ' && r.frequency === '444.675+'))
+      .filter(r => r.callsign === 'W4PSZ' && r.frequency === '444.600+')
       .map(r => r.id);
 
     const depth = new Map();
@@ -1227,8 +1231,7 @@
       const byId = new Map(allRepeaters.map(r => [r.id, r]));
 
       const hubSeedIds = allRepeaters
-        .filter(r => (r.callsign === 'W4PSZ' && r.frequency === '444.600+') ||
-                     (r.callsign === 'KN4YZ' && r.frequency === '444.675+'))
+        .filter(r => r.callsign === 'W4PSZ' && r.frequency === '444.600+')
         .map(r => r.id);
 
       const flagged = [...status.entries()].filter(([, st]) => st.tier === 'Standalone');
@@ -1272,7 +1275,7 @@
 
       // Nothing to draw
       if (hubSeedIds.length === 0) {
-        container.innerHTML = '<p class="center" style="color:var(--text-secondary);">No hub repeater (W4PSZ-444.600 / KN4YZ-444.675) found in the data.</p>';
+        container.innerHTML = '<p class="center" style="color:var(--text-secondary);">No hub repeater (W4PSZ-444.600) found in the data.</p>';
         return;
       }
 
@@ -1323,12 +1326,10 @@
       }
 
       const pos = new Map();
-      hubSeedIds.forEach((id, i) => {
-        // Two hub anchors sit just left/right of dead-center; a 3rd+ seed (not
-        // expected today) falls back into the angular layout like any other node.
-        if (i === 0) pos.set(id, { x: CX - HUB_ANCHOR_R, y: CY });
-        else if (i === 1) pos.set(id, { x: CX + HUB_ANCHOR_R, y: CY });
-        else pos.set(id, { x: CX, y: CY });
+      hubSeedIds.forEach((id) => {
+        // A single hub root sits at dead-center; a 2nd+ seed (not expected
+        // today) falls back into the angular layout like any other node.
+        pos.set(id, { x: CX, y: CY });
       });
       function place(id) {
         const st = status.get(id);

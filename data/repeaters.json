@@ -35,13 +35,6 @@
         "linksToFreq": "444.600+",
         "linksToLoc": "WX4PTC System",
         "linksToCall": "W4PSZ"
-      },
-      {
-        "linkType": "on-demand",
-        "linkMethod": "rf",
-        "linksToFreq": "444.675+",
-        "linksToLoc": "WX4PTC System",
-        "linksToCall": "KN4YZ"
       }
     ]
   },
@@ -583,9 +576,9 @@
       {
         "linkType": "on-demand",
         "linkMethod": "rf",
-        "linksToFreq": "444.675+",
+        "linksToFreq": "444.600+",
         "linksToLoc": "WX4PTC System",
-        "linksToCall": "KN4YZ"
+        "linksToCall": "W4PSZ"
       }
     ]
   },
@@ -681,13 +674,6 @@
         "linksToFreq": "444.600+",
         "linksToLoc": "WX4PTC System",
         "linksToCall": "W4PSZ"
-      },
-      {
-        "linkType": "on-demand",
-        "linkMethod": "rf",
-        "linksToFreq": "444.675+",
-        "linksToLoc": "WX4PTC System",
-        "linksToCall": "KN4YZ"
       }
     ]
   },
@@ -726,13 +712,6 @@
         "linksToFreq": "444.600+",
         "linksToLoc": "WX4PTC System",
         "linksToCall": "W4PSZ"
-      },
-      {
-        "linkType": "on-demand",
-        "linkMethod": "rf",
-        "linksToFreq": "444.675+",
-        "linksToLoc": "WX4PTC System",
-        "linksToCall": "KN4YZ"
       }
     ]
   },
@@ -1725,9 +1704,9 @@
       {
         "linkType": "on-demand",
         "linkMethod": "rf",
-        "linksToFreq": "444.675+",
+        "linksToFreq": "444.600+",
         "linksToLoc": "WX4PTC System",
-        "linksToCall": "KN4YZ"
+        "linksToCall": "W4PSZ"
       }
     ]
   },
