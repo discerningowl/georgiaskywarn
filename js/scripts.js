@@ -326,6 +326,133 @@
   }
 
   /**
+   * Builds the RF-link graph across every repeater and computes, for each
+   * one, its Tier and Role relative to the WX4PTC hub (444.600+/444.675+).
+   * Derived entirely from `rflinks` — never hand-tagged — so it can't drift
+   * the way the `SE Linked Repeater`/`Peach State Intertie` tags once did.
+   *
+   * Tier = hop-distance from the hub (a same-site "direct" companion link
+   * costs 0 hops, since it's the same physical system, not a real network
+   * hop; an "rf" link costs 1 hop):
+   *   Hub       = the 444.600/444.675 hub pair itself (and anything
+   *               direct-companioned to it)
+   *   Primary   = 1 hop from the hub
+   *   Secondary = 2+ hops from the hub
+   *   Standalone = has network tags/rflinks but no path reaches the hub —
+   *                a red flag that an rflinks edge is missing from the data
+   *                (see the "linked stays linked" rule below), not that the
+   *                repeater doesn't belong on the map.
+   *
+   * Role is independent of Tier, based on in-degree in the graph:
+   *   Relay = one or more other repeaters' rflinks connect through this one
+   *   Spoke = a pure leaf; nothing links through it
+   * ("Relay" rather than "Hub" specifically to avoid colliding with "Hub"
+   * already meaning the WX4PTC root everywhere else on the site.)
+   *
+   * Keys nodes by the compound (callsign, frequency) pair — not frequency
+   * alone — since frequency reuse across unrelated Georgia repeaters (e.g.
+   * two different repeaters both on 147.135) is normal and would otherwise
+   * cause false graph edges.
+   *
+   * @param {Array<Object>} allRepeaters - Full repeater array from JSON
+   * @returns {Map<string, {tier: string, role: string, depth: number|null, parentId: string|null, childIds: string[]}>}
+   *          Keyed by repeater.id. Only repeaters with tags, rflinks, or
+   *          linked===true are included (plain untagged county-only
+   *          repeaters aren't part of any network and are omitted).
+   */
+  function computeNetworkStatus(allRepeaters) {
+    // Compound (callsign, frequency) -> repeater, used to resolve each
+    // rflinks entry's linksToCall/linksToFreq to the record it points at.
+    const byKey = new Map();
+    allRepeaters.forEach(r => byKey.set(`${r.callsign}|${r.frequency}`, r));
+
+    // Undirected weighted adjacency: direct (same-site companion) = 0,
+    // rf (a real hop) = 1. Built from both ends, so a one-sided rflinks
+    // entry (missing its reciprocal) still connects the graph.
+    const adjacency = new Map();
+    allRepeaters.forEach(r => adjacency.set(r.id, []));
+    allRepeaters.forEach(r => {
+      (r.rflinks || []).forEach(link => {
+        const target = byKey.get(`${link.linksToCall}|${link.linksToFreq}`);
+        if (!target || target.id === r.id) return;
+        const weight = link.linkMethod === 'direct' ? 0 : 1;
+        adjacency.get(r.id).push({ id: target.id, weight, linkType: link.linkType, linkMethod: link.linkMethod });
+        adjacency.get(target.id).push({ id: r.id, weight, linkType: link.linkType, linkMethod: link.linkMethod });
+      });
+    });
+
+    // 0-1 BFS (deque-based) from the hub pair, so a 0-weight companion edge
+    // never gets a longer path than a direct one just because of queue order.
+    const hubIds = allRepeaters
+      .filter(r => (r.callsign === 'W4PSZ' && r.frequency === '444.600+') ||
+                   (r.callsign === 'KN4YZ' && r.frequency === '444.675+'))
+      .map(r => r.id);
+
+    const depth = new Map();
+    const parentId = new Map();
+    const parentEdgeWeight = new Map(); // 0 = same-site companion edge to parent, 1 = a real rf hop
+    const parentEdgeMeta = new Map(); // {linkType, linkMethod} of the edge to parent, for drawing
+    const deque = [];
+    hubIds.forEach(id => { depth.set(id, 0); deque.push(id); });
+    let head = 0;
+    while (head < deque.length) {
+      const cur = deque[head++];
+      const d = depth.get(cur);
+      adjacency.get(cur).forEach(({ id: nextId, weight, linkType, linkMethod }) => {
+        const nd = d + weight;
+        if (!depth.has(nextId) || nd < depth.get(nextId)) {
+          depth.set(nextId, nd);
+          parentId.set(nextId, cur);
+          parentEdgeWeight.set(nextId, weight);
+          parentEdgeMeta.set(nextId, { linkType, linkMethod });
+          if (weight === 0) {
+            // 0-cost edge: splice it in at the current front of the REMAINING
+            // queue (index `head`), not absolute index 0 — a plain unshift()
+            // would shift every already-processed index and desync `head`,
+            // silently dropping/reordering nodes reached through it.
+            deque.splice(head, 0, nextId);
+          } else {
+            deque.push(nextId);
+          }
+        }
+      });
+    }
+
+    // Role: does anything else's shortest path run through this node?
+    const childIds = new Map(allRepeaters.map(r => [r.id, []]));
+    parentId.forEach((p, child) => { childIds.get(p).push(child); });
+
+    const status = new Map();
+    allRepeaters.forEach(r => {
+      const isParticipant = depth.has(r.id) || r.linked === true ||
+        (r.tags && r.tags.length > 0) || (r.rflinks && r.rflinks.length > 0);
+      if (!isParticipant) return;
+
+      const d = depth.has(r.id) ? depth.get(r.id) : null;
+      let tier;
+      if (d === 0) tier = 'Hub';
+      else if (d === 1) tier = 'Primary';
+      else if (d !== null) tier = 'Secondary';
+      else tier = 'Standalone';
+
+      const role = (childIds.get(r.id) || []).length > 0 ? 'Relay' : 'Spoke';
+
+      const edgeMeta = parentEdgeMeta.get(r.id) || null;
+      status.set(r.id, {
+        tier,
+        role,
+        depth: d,
+        parentId: parentId.get(r.id) || null,
+        childIds: childIds.get(r.id) || [],
+        viaCompanion: parentEdgeWeight.get(r.id) === 0,
+        parentLinkType: edgeMeta ? edgeMeta.linkType : null
+      });
+    });
+
+    return status;
+  }
+
+  /**
    * Renders a repeater table row with new multi-column structure
    * @param {Object} repeater - Repeater object from JSON
    * @returns {string} - HTML table row
@@ -1081,11 +1208,203 @@
         : '<span style="color:var(--accent-red);font-weight:700;">✗</span>';
     }
 
+
+    /**
+     * Renders the Network Map card: an SVG generated live from computeNetworkStatus(),
+     * plus a legend and a "needs a link" panel for any tagged/linked repeater the
+     * graph can't reach from the hub (should be empty — if it isn't, that's a real
+     * missing rflinks edge, not a repeater to reclassify; see the "linked stays
+     * linked" rule in the project notes).
+     * @param {Array<Object>} allRepeaters
+     */
+    function renderNetworkMap(allRepeaters) {
+      const container = document.getElementById('network-map-container');
+      const legendEl = document.getElementById('network-map-legend');
+      const flaggedEl = document.getElementById('network-map-flagged');
+      if (!container) return;
+
+      const status = computeNetworkStatus(allRepeaters);
+      const byId = new Map(allRepeaters.map(r => [r.id, r]));
+
+      const hubSeedIds = allRepeaters
+        .filter(r => (r.callsign === 'W4PSZ' && r.frequency === '444.600+') ||
+                     (r.callsign === 'KN4YZ' && r.frequency === '444.675+'))
+        .map(r => r.id);
+
+      const flagged = [...status.entries()].filter(([, st]) => st.tier === 'Standalone');
+
+      // ── Legend ────────────────────────────────────────────────────────────
+      if (legendEl) {
+        legendEl.innerHTML = `
+          <div class="netmap-legend-group">
+            <span class="netmap-legend-label">Tier (hop-distance from the hub):</span>
+            <span class="netmap-legend-item"><span class="netmap-swatch" style="background:var(--netmap-hub);"></span>Hub</span>
+            <span class="netmap-legend-item"><span class="netmap-swatch" style="background:var(--netmap-primary);"></span>Primary (1 hop)</span>
+            <span class="netmap-legend-item"><span class="netmap-swatch" style="background:var(--netmap-secondary);"></span>Secondary (2+ hops)</span>
+          </div>
+          <div class="netmap-legend-group">
+            <span class="netmap-legend-label">Role:</span>
+            <span class="netmap-legend-item"><span class="netmap-swatch netmap-swatch--relay"></span>Relay (others link through it)</span>
+            <span class="netmap-legend-item"><span class="netmap-swatch netmap-swatch--spoke"></span>Spoke (leaf)</span>
+          </div>
+          <div class="netmap-legend-group">
+            <span class="netmap-legend-label">Link:</span>
+            <span class="netmap-legend-item"><svg width="24" height="10" aria-hidden="true"><line x1="0" y1="5" x2="24" y2="5" stroke="var(--text-secondary)" stroke-width="2"></line></svg>Full-time</span>
+            <span class="netmap-legend-item"><svg width="24" height="10" aria-hidden="true"><line x1="0" y1="5" x2="24" y2="5" stroke="var(--text-secondary)" stroke-width="2" stroke-dasharray="5,4"></line></svg>On-demand</span>
+            <span class="netmap-legend-item"><svg width="24" height="10" aria-hidden="true"><line x1="0" y1="5" x2="24" y2="5" stroke="var(--text-secondary)" stroke-width="2" stroke-dasharray="1,3"></line></svg>Same-site companion</span>
+          </div>`;
+      }
+
+      if (flagged.length === 0) {
+        if (flaggedEl) flaggedEl.innerHTML = '';
+      } else if (flaggedEl) {
+        flaggedEl.innerHTML = `
+          <aside class="callout warning" style="margin-top:1rem;">
+            <p><strong>${flagged.length} repeater${flagged.length === 1 ? '' : 's'} tagged/linked but no path reaches the hub in the current <code>rflinks</code> data</strong> — per the review rule, this means an edge is missing from the data, not that the repeater should be reclassified:</p>
+            <ul style="margin:0.5rem 0 0 1.25rem;">
+              ${flagged.map(([id]) => {
+                const r = byId.get(id);
+                return `<li><a href="#" class="netmap-flagged-link" data-repeater-id="${sanitizeHTML(id)}">${sanitizeHTML(r.location)} (${sanitizeHTML(r.callsign)} ${sanitizeHTML(r.frequency)})</a></li>`;
+              }).join('')}
+            </ul>
+          </aside>`;
+      }
+
+      // Nothing to draw
+      if (hubSeedIds.length === 0) {
+        container.innerHTML = '<p class="center" style="color:var(--text-secondary);">No hub repeater (W4PSZ-444.600 / KN4YZ-444.675) found in the data.</p>';
+        return;
+      }
+
+      // ── Layout ────────────────────────────────────────────────────────────
+      const CX = 1050, CY = 1050;
+      const HUB_ANCHOR_R = 45;
+      const HUB_COMPANION_R = 150;
+      const PRIMARY_R = 280;
+      const RING_GAP = 190;
+      const COMPANION_PUSH = 90;
+
+      function nodeWeight(id, memo) {
+        if (memo.has(id)) return memo.get(id);
+        const st = status.get(id);
+        const kids = (st && st.childIds) || [];
+        const w = kids.length === 0 ? 1 : kids.reduce((sum, c) => sum + nodeWeight(c, memo), 0);
+        memo.set(id, w);
+        return w;
+      }
+      const weightMemo = new Map();
+
+      const angle = new Map();
+      function assignAngles(ids, startAngle, endAngle) {
+        const weights = ids.map(id => Math.pow(nodeWeight(id, weightMemo), 0.75));
+        const total = weights.reduce((a, b) => a + b, 0) || 1;
+        let a = startAngle;
+        ids.forEach((id, i) => {
+          const span = (endAngle - startAngle) * (weights[i] / total);
+          angle.set(id, a + span / 2);
+          const st = status.get(id);
+          if (st && st.childIds.length > 0) assignAngles(st.childIds, a, a + span);
+          a += span;
+        });
+      }
+      let topLevel = [];
+      hubSeedIds.forEach(hid => {
+        const st = status.get(hid);
+        if (st) topLevel = topLevel.concat(st.childIds);
+      });
+      topLevel = [...new Set(topLevel)];
+      assignAngles(topLevel, 0, 2 * Math.PI);
+
+      function nodeRadius(id, st) {
+        if (hubSeedIds.includes(id)) return HUB_ANCHOR_R;
+        if (st.depth === 0) return HUB_COMPANION_R;
+        const ring = PRIMARY_R + (st.depth - 1) * RING_GAP;
+        return ring + (st.viaCompanion ? COMPANION_PUSH : 0);
+      }
+
+      const pos = new Map();
+      hubSeedIds.forEach((id, i) => {
+        // Two hub anchors sit just left/right of dead-center; a 3rd+ seed (not
+        // expected today) falls back into the angular layout like any other node.
+        if (i === 0) pos.set(id, { x: CX - HUB_ANCHOR_R, y: CY });
+        else if (i === 1) pos.set(id, { x: CX + HUB_ANCHOR_R, y: CY });
+        else pos.set(id, { x: CX, y: CY });
+      });
+      function place(id) {
+        const st = status.get(id);
+        if (!st || pos.has(id)) return;
+        const r = nodeRadius(id, st);
+        const a = angle.get(id) || 0;
+        pos.set(id, { x: CX + r * Math.cos(a), y: CY + r * Math.sin(a) });
+        st.childIds.forEach(place);
+      }
+      topLevel.forEach(place);
+
+      // ── Draw ──────────────────────────────────────────────────────────────
+      const tierVar = { Hub: 'var(--netmap-hub)', Primary: 'var(--netmap-primary)', Secondary: 'var(--netmap-secondary)' };
+      const dashForLinkType = { 'on-demand': '5,4' };
+
+      let edgesSvg = '';
+      let nodesSvg = '';
+
+      function labelFor(id) {
+        const r = byId.get(id);
+        return `${r.location} — ${r.callsign} ${r.frequency}`;
+      }
+
+      // Edges: draw from each non-hub-seed node back to its parent
+      status.forEach((st, id) => {
+        if (hubSeedIds.includes(id) || !st.parentId) return;
+        const p = pos.get(st.parentId);
+        const c = pos.get(id);
+        if (!p || !c) return;
+        const dash = st.viaCompanion ? '1,3' : (dashForLinkType[st.parentLinkType] || '');
+        const strokeWidth = st.viaCompanion ? 3 : 1.75;
+        edgesSvg += `<line x1="${p.x.toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${c.x.toFixed(1)}" y2="${c.y.toFixed(1)}" stroke="var(--text-secondary)" stroke-opacity="0.55" stroke-width="${strokeWidth}"${dash ? ` stroke-dasharray="${dash}"` : ''}/>`;
+      });
+
+      // Nodes (drawn after edges so they sit on top)
+      status.forEach((st, id) => {
+        const p = pos.get(id);
+        if (!p) return;
+        const r = byId.get(id);
+        const isSeed = hubSeedIds.includes(id);
+        const baseR = isSeed ? 10 : (st.role === 'Relay' ? 8 : 5);
+        const fill = tierVar[st.tier] || 'var(--netmap-secondary)';
+        const halo = (st.role === 'Relay')
+          ? `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${(baseR + 4)}" fill="none" stroke="${fill}" stroke-width="1.5" opacity="0.55"></circle>`
+          : '';
+        // Label anchor flips at the left/right hemisphere so text never runs back over its own node
+        const anchor = p.x >= CX ? 'start' : 'end';
+        const dx = p.x >= CX ? baseR + 6 : -(baseR + 6);
+        const tooltip = `${labelFor(id)}\n${st.tier} · ${st.role}${st.parentId ? `\nLinks to: ${labelFor(st.parentId)}` : ''}`;
+        nodesSvg += `
+          <g class="netmap-node" tabindex="0" role="button" data-repeater-id="${sanitizeHTML(id)}" aria-label="${sanitizeHTML(labelFor(id))}, ${st.tier}, ${st.role}">
+            <title>${sanitizeHTML(tooltip)}</title>
+            ${halo}
+            <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${baseR}" fill="${fill}" stroke="var(--bg-body)" stroke-width="1.5"></circle>
+            <text x="${(p.x + dx).toFixed(1)}" y="${(p.y - 1).toFixed(1)}" text-anchor="${anchor}" class="netmap-label">${sanitizeHTML(r.location)}</text>
+            <text x="${(p.x + dx).toFixed(1)}" y="${(p.y + 12).toFixed(1)}" text-anchor="${anchor}" class="netmap-label netmap-label-freq">${sanitizeHTML(r.frequency)}</text>
+          </g>`;
+      });
+
+      const svg = `
+        <svg viewBox="0 0 2100 2100" role="img" aria-label="Repeater network map: tier and role of every linked repeater, generated from data/repeaters.json's rflinks graph" class="netmap-svg">
+          <text x="${CX}" y="${CY - HUB_ANCHOR_R - 18}" text-anchor="middle" class="netmap-hub-label">WX4PTC Hub</text>
+          ${edgesSvg}
+          ${nodesSvg}
+        </svg>`;
+
+      container.innerHTML = svg;
+    }
+
     async function renderAdminPage() {
       const all = await fetchRepeaterData();
 
       // Store globally so openRepeaterAuditModal() can look up records
       window.repeatersData = all;
+
+      renderNetworkMap(all);
 
       // ── Categorize ──────────────────────────────────────────────────────
       const inactive   = all.filter(r => r.active === false);
@@ -1397,6 +1716,34 @@
           openRepeaterAuditModal(repeaterId);
         });
       });
+
+      // Network map nodes open the same audit modal (click or keyboard)
+      const mapContainer = document.getElementById('network-map-container');
+      if (mapContainer) {
+        mapContainer.addEventListener('click', (e) => {
+          const node = e.target.closest('.netmap-node');
+          if (!node) return;
+          openRepeaterAuditModal(node.getAttribute('data-repeater-id'));
+        });
+        mapContainer.addEventListener('keydown', (e) => {
+          if (e.key !== 'Enter' && e.key !== ' ') return;
+          const node = e.target.closest('.netmap-node');
+          if (!node) return;
+          e.preventDefault();
+          openRepeaterAuditModal(node.getAttribute('data-repeater-id'));
+        });
+      }
+
+      // "Needs a link" flagged-repeater links also open the audit modal
+      const flaggedContainer = document.getElementById('network-map-flagged');
+      if (flaggedContainer) {
+        flaggedContainer.addEventListener('click', (e) => {
+          const link = e.target.closest('.netmap-flagged-link');
+          if (!link) return;
+          e.preventDefault();
+          openRepeaterAuditModal(link.getAttribute('data-repeater-id'));
+        });
+      }
     }
 
     renderAdminPage().then(() => setupRepeaterAuditModalHandlers());

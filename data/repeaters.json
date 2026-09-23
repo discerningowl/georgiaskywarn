@@ -85,7 +85,16 @@
     },
     "active": true,
     "clubName": "Southeastern Linked Repeater Net",
-    "clubUrl": "http://www.selinkedrepeater.net/"
+    "clubUrl": "http://www.selinkedrepeater.net/",
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "direct",
+        "linksToFreq": "224.160-",
+        "linksToLoc": "Biskey Mtn",
+        "linksToCall": "KC4JNN"
+      }
+    ]
   },
   {
     "id": "KC4JNN-224.160",
@@ -107,7 +116,30 @@
     },
     "active": true,
     "clubName": "Southeastern Linked Repeater Net",
-    "clubUrl": "http://www.selinkedrepeater.net/"
+    "clubUrl": "http://www.selinkedrepeater.net/",
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "W4PSZ"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "direct",
+        "linksToFreq": "53.050-",
+        "linksToLoc": "Biskey Mtn",
+        "linksToCall": "KC4JNN"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "direct",
+        "linksToFreq": "443.500+",
+        "linksToLoc": "Biskey Mtn",
+        "linksToCall": "KC4JNN"
+      }
+    ]
   },
   {
     "id": "KC4JNN-443.500",
@@ -129,7 +161,16 @@
     },
     "active": true,
     "clubName": "Southeastern Linked Repeater Net",
-    "clubUrl": "http://www.selinkedrepeater.net/"
+    "clubUrl": "http://www.selinkedrepeater.net/",
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "direct",
+        "linksToFreq": "224.160-",
+        "linksToLoc": "Biskey Mtn",
+        "linksToCall": "KC4JNN"
+      }
+    ]
   },
   {
     "id": "WB4NFG-146.835",
@@ -138,8 +179,7 @@
     "tone": "77.0 Hz",
     "county": "Monroe",
     "tags": [
-      "Peach State Intertie",
-      "SE Linked Repeater"
+      "Peach State Intertie"
     ],
     "description": "Part of Peach State Intertie. Covers Monroe County and surrounding areas. Coverage extends from Forsyth area north to McDonough, bridging central and metro Georgia.",
     "callsign": "WB4NFG",
@@ -151,9 +191,18 @@
       "club": true
     },
     "active": false,
-    "statusNote": "DOWN — Needs PA replacement. PA on hand, awaiting time to install and tune. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
+    "statusNote": "DOWN \u2014 Needs PA replacement. PA on hand, awaiting time to install and tune. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
     "clubName": "Peach State Emergency Intertie System",
-    "clubUrl": "http://www.peachstateintertie.com/"
+    "clubUrl": "http://www.peachstateintertie.com/",
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "443.275+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      }
+    ]
   },
   {
     "id": "WR4MG-444.950",
@@ -162,8 +211,7 @@
     "tone": "107.2 Hz",
     "county": "Taylor",
     "tags": [
-      "Peach State Intertie",
-      "SE Linked Repeater"
+      "Peach State Intertie"
     ],
     "description": "Part of Peach State Intertie. Covers Taylor County and surrounding west-central Georgia counties. Located between Columbus and Macon areas.",
     "callsign": "WR4MG",
@@ -176,7 +224,16 @@
     },
     "active": true,
     "clubName": "Middle Georgia Radio Association (MGRA)",
-    "clubUrl": "http://www.wr4mg.us/"
+    "clubUrl": "http://www.wr4mg.us/",
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "443.275+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      }
+    ]
   },
   {
     "id": "WX4BCA-147.285",
@@ -205,8 +262,7 @@
     "tone": "82.5 Hz",
     "county": "Peach",
     "tags": [
-      "Peach State Intertie",
-      "SE Linked Repeater"
+      "Peach State Intertie"
     ],
     "description": "Byron Fire Department site. Part of Peach State Intertie. Covers Peach County and surrounding areas in central Georgia.",
     "callsign": "WX4PCH",
@@ -219,7 +275,16 @@
     },
     "active": true,
     "clubName": "Peach State Emergency Intertie System",
-    "clubUrl": "http://www.peachstateintertie.com/repeaters.html"
+    "clubUrl": "http://www.peachstateintertie.com/repeaters.html",
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "443.275+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      }
+    ]
   },
   {
     "id": "W4FWD-146.640",
@@ -248,8 +313,7 @@
     "tone": "123.0 Hz",
     "county": "Laurens",
     "tags": [
-      "Peach State Intertie",
-      "SE Linked Repeater"
+      "Peach State Intertie"
     ],
     "description": "Covers Laurens County (including East Dublin) and surrounding counties such as Treutlen.",
     "callsign": "K4DBN",
@@ -262,7 +326,16 @@
     },
     "active": true,
     "clubName": "Peach State Emergency Intertie System",
-    "clubUrl": "http://peachstateintertie.com/repeaters.html"
+    "clubUrl": "http://peachstateintertie.com/repeaters.html",
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "443.275+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      }
+    ]
   },
   {
     "id": "KG4VUB-145.270",
@@ -271,7 +344,7 @@
     "tone": "100.0 Hz",
     "county": "Cherokee",
     "tags": [],
-    "description": "Coverage – Cherokee, Pickens, Bartow, Cobb – NW Georgia with occasional check-in's from TN, AL",
+    "description": "Coverage \u2013 Cherokee, Pickens, Bartow, Cobb \u2013 NW Georgia with occasional check-in's from TN, AL",
     "callsign": "KG4VUB",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=232",
     "linked": false,
@@ -291,7 +364,7 @@
     "tone": "D411 DCS",
     "county": "Cherokee",
     "tags": [],
-    "description": "Secondary Coverage – Cherokee, Pickens, Bartow, Cobb – NW Georgia with occasional check-in's from TN, AL",
+    "description": "Secondary Coverage \u2013 Cherokee, Pickens, Bartow, Cobb \u2013 NW Georgia with occasional check-in's from TN, AL",
     "callsign": "WX4NN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=347",
     "linked": false,
@@ -310,7 +383,9 @@
     "frequency": "145.310-",
     "tone": "123.0 Hz",
     "county": "Hall",
-    "tags": [],
+    "tags": [
+      "SE Linked Repeater"
+    ],
     "description": "Wauka Mountain site at 1,100 ft above average terrain. Full-time link to Commerce 146.850- (KF4DGN). Covers Hall, Dawson, and White counties with partial coverage of Jackson, Habersham, and Gwinnett counties. Generator backup. AllStar connected.",
     "callsign": "KA3JIJ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=79",
@@ -343,6 +418,13 @@
         "linksToFreq": "146.850-",
         "linksToLoc": "Commerce",
         "linksToCall": "KF4DGN"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "146.805+",
+        "linksToLoc": "Jasper",
+        "linksToCall": "KC4AQS"
       }
     ]
   },
@@ -353,9 +435,9 @@
     "tone": "77.0 Hz",
     "county": "Bleckley",
     "tags": [
-      "SE Linked Repeater"
+      "Peach State Intertie"
     ],
-    "description": "Covers Bleckley County (Cochran area) and surrounding central Georgia counties between Macon and Eastman. Currently NOT linked to Peach State Intertie — link radio issue.",
+    "description": "Covers Bleckley County (Cochran area) and surrounding central Georgia counties between Macon and Eastman. Currently NOT linked to Peach State Intertie \u2014 link radio issue.",
     "callsign": "K4DBN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23269",
     "linked": true,
@@ -366,7 +448,16 @@
     },
     "active": true,
     "clubName": "Bleckley Co. Amateur Radio Club",
-    "clubUrl": null
+    "clubUrl": null,
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "443.275+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      }
+    ]
   },
   {
     "id": "KF4DGN-146.850",
@@ -374,7 +465,9 @@
     "frequency": "146.850-",
     "tone": "131.8 Hz",
     "county": "Jackson",
-    "tags": [],
+    "tags": [
+      "SE Linked Repeater"
+    ],
     "description": "Full-time link to Clermont/Wauka Mountain 145.310- (KA3JIJ). Together these repeaters provide thorough coverage of northeast Georgia. Covers Banks and Jackson counties with partial coverage of Madison, Clarke, and Barrow counties. Generator backup. AllStar connected. 30-mile radius.",
     "callsign": "KF4DGN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23184",
@@ -401,6 +494,13 @@
         "linksToFreq": "145.310-",
         "linksToLoc": "Clermont/Wauka Mountain",
         "linksToCall": "KA3JIJ"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "146.805+",
+        "linksToLoc": "Jasper",
+        "linksToCall": "KC4AQS"
       }
     ]
   },
@@ -410,9 +510,7 @@
     "frequency": "145.390-",
     "tone": "110.9 Hz",
     "county": "Spalding",
-    "tags": [
-      "SE Linked Repeater"
-    ],
+    "tags": [],
     "description": "Links to 444.600+ WX4PTC hub on demand. Covers Pike, Lamar, Monroe, and surrounding central Georgia counties. AllStar node 46796.",
     "callsign": "WB4GWA",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=137",
@@ -514,7 +612,7 @@
       {
         "linkType": "full-time",
         "linkMethod": "rf",
-        "linksToFreq": "146.925+",
+        "linksToFreq": "146.925-",
         "linksToLoc": "Covington Fire Tower",
         "linksToCall": "WA4ASI"
       }
@@ -658,7 +756,16 @@
     },
     "active": true,
     "clubName": "K4DBN / Laurens County 911",
-    "clubUrl": null
+    "clubUrl": null,
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "443.275+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      }
+    ]
   },
   {
     "id": "KB4MQ-145.210",
@@ -667,8 +774,7 @@
     "tone": "103.5 Hz",
     "county": "Dodge",
     "tags": [
-      "Peach State Intertie",
-      "SE Linked Repeater"
+      "Peach State Intertie"
     ],
     "description": "Part of Peach State Intertie. Covers Dodge County (Eastman area) extending into Bleckley County including Cochran. Central Georgia coverage between Macon and Dublin.",
     "callsign": "KB4MQ",
@@ -680,9 +786,18 @@
       "club": true
     },
     "active": false,
-    "statusNote": "DOWN — Needs new antenna, work in progress. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
+    "statusNote": "DOWN \u2014 Needs new antenna, work in progress. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
     "clubName": "Three Rivers Amateur Radio Club (TRARC)",
-    "clubUrl": "http://www.arrl.org/Groups/view/three-rivers-arc-1/type:club"
+    "clubUrl": "http://www.arrl.org/Groups/view/three-rivers-arc-1/type:club",
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "443.275+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      }
+    ]
   },
   {
     "id": "KK4GQ-145.210",
@@ -767,6 +882,27 @@
         "linksToFreq": "145.210-",
         "linksToLoc": "Fayetteville",
         "linksToCall": "KK4GQ"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "146.805+",
+        "linksToLoc": "Jasper",
+        "linksToCall": "KC4AQS"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "224.160-",
+        "linksToLoc": "Biskey Mtn",
+        "linksToCall": "KC4JNN"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "147.390+",
+        "linksToLoc": "Thomaston",
+        "linksToCall": "W4OHH"
       }
     ]
   },
@@ -852,7 +988,30 @@
     },
     "active": true,
     "clubName": "Peach State Emergency Intertie System",
-    "clubUrl": "http://www.peachstateintertie.com/"
+    "clubUrl": "http://www.peachstateintertie.com/",
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "direct",
+        "linksToFreq": "443.275+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "145.430-",
+        "linksToLoc": "Macon",
+        "linksToCall": "AA4RI"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "147.120+",
+        "linksToLoc": "Wrens",
+        "linksToCall": "W4CDC"
+      }
+    ]
   },
   {
     "id": "K4DBN-443.275",
@@ -874,7 +1033,128 @@
     },
     "active": true,
     "clubName": "Peach State Emergency Intertie System",
-    "clubUrl": "http://www.peachstateintertie.com/"
+    "clubUrl": "http://www.peachstateintertie.com/",
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "147.390+",
+        "linksToLoc": "Thomaston",
+        "linksToCall": "W4OHH"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "146.835-",
+        "linksToLoc": "Bolingbroke",
+        "linksToCall": "WB4NFG"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "444.950+",
+        "linksToLoc": "Butler",
+        "linksToCall": "WR4MG"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "145.290-",
+        "linksToLoc": "Byron",
+        "linksToCall": "WX4PCH"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "147.150+",
+        "linksToLoc": "Cedar Grove (Dublin)",
+        "linksToCall": "K4DBN"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "146.610-",
+        "linksToLoc": "Dublin",
+        "linksToCall": "K4DBN"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "145.210-",
+        "linksToLoc": "Eastman",
+        "linksToCall": "KB4MQ"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "146.895-",
+        "linksToLoc": "Macon",
+        "linksToCall": "KD4UTQ"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "147.015+",
+        "linksToLoc": "Macon (WX4EMA)",
+        "linksToCall": "WX4EMA"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "147.135+",
+        "linksToLoc": "Milledgeville",
+        "linksToCall": "W4PCF"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "146.640-",
+        "linksToLoc": "Montezuma",
+        "linksToCall": "KI4BEO"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "145.270-",
+        "linksToLoc": "Sandersville",
+        "linksToCall": "W4SAN"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "145.490-",
+        "linksToLoc": "Cochran",
+        "linksToCall": "K4DBN"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "146.850-",
+        "linksToLoc": "Warner Robins",
+        "linksToCall": "WA4ORT"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "direct",
+        "linksToFreq": "147.240+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "direct",
+        "linksToFreq": "444.925+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "146.670-",
+        "linksToLoc": "Warner Robins",
+        "linksToCall": "WM4B"
+      }
+    ]
   },
   {
     "id": "K4DBN-444.925",
@@ -896,7 +1176,16 @@
     },
     "active": true,
     "clubName": null,
-    "clubUrl": null
+    "clubUrl": null,
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "direct",
+        "linksToFreq": "443.275+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      }
+    ]
   },
   {
     "id": "KC4AQS-146.805",
@@ -926,6 +1215,34 @@
         "linksToFreq": "443.200+",
         "linksToLoc": "Rome",
         "linksToCall": "N4RMG"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "W4PSZ"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "145.350-",
+        "linksToLoc": "Lookout Mtn",
+        "linksToCall": "W4GTA"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "146.850-",
+        "linksToLoc": "Commerce",
+        "linksToCall": "KF4DGN"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "145.310-",
+        "linksToLoc": "Clermont",
+        "linksToCall": "KA3JIJ"
       }
     ]
   },
@@ -1051,6 +1368,13 @@
         "linksToFreq": "146.715-",
         "linksToLoc": "South White Oak Mountain",
         "linksToCall": "W4ABZ"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "146.805+",
+        "linksToLoc": "Jasper",
+        "linksToCall": "KC4AQS"
       }
     ]
   },
@@ -1063,7 +1387,7 @@
     "tags": [
       "Cherry Blossom Intertie"
     ],
-    "description": "Hub repeater for Cherry Blossom Intertie System. Full-time link to Gray/Round Oak 145.370- (WB4JOE). Covers Bibb, Jones, Houston, Twiggs, Baldwin, Monroe, and Crawford counties with 34-mile radius from Macon.",
+    "description": "Hub repeater for Cherry Blossom Intertie System. Full-time link to Gray/Round Oak 145.370- (WB4JOE). On-demand link to Peach State Intertie via Irwinton 147.240+ (K4DBN). Covers Bibb, Jones, Houston, Twiggs, Baldwin, Monroe, and Crawford counties with 34-mile radius from Macon.",
     "callsign": "AA4RI",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=166",
     "linked": true,
@@ -1082,6 +1406,13 @@
         "linksToFreq": "145.370-",
         "linksToLoc": "Gray/Round Oak",
         "linksToCall": "WB4JOE"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "147.240+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
       }
     ]
   },
@@ -1092,8 +1423,7 @@
     "tone": "88.5 Hz",
     "county": "Bibb",
     "tags": [
-      "Peach State Intertie",
-      "SE Linked Repeater"
+      "Peach State Intertie"
     ],
     "description": "Part of Peach State Intertie. Covers Bibb County (Macon metro area) and surrounding central Georgia counties including Houston, Jones, and Twiggs.",
     "callsign": "KD4UTQ",
@@ -1106,7 +1436,16 @@
     },
     "active": true,
     "clubName": null,
-    "clubUrl": null
+    "clubUrl": null,
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "443.275+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      }
+    ]
   },
   {
     "id": "WX4EMA-147.015",
@@ -1129,7 +1468,23 @@
     },
     "active": true,
     "clubName": "Macon-Bibb County Emergency Management Agency",
-    "clubUrl": "https://www.maconbibb.us/EMA/"
+    "clubUrl": "https://www.maconbibb.us/EMA/",
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "443.075+",
+        "linksToLoc": "Macon (WX4EMA)",
+        "linksToCall": "WX4EMA"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "443.275+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      }
+    ]
   },
   {
     "id": "WX4EMA-443.075",
@@ -1151,7 +1506,16 @@
     },
     "active": true,
     "clubName": "Macon-Bibb County Emergency Management Agency",
-    "clubUrl": "https://www.maconbibb.us/EMA/"
+    "clubUrl": "https://www.maconbibb.us/EMA/",
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "147.015+",
+        "linksToLoc": "Macon (WX4EMA)",
+        "linksToCall": "WX4EMA"
+      }
+    ]
   },
   {
     "id": "W4PCF-147.135",
@@ -1174,7 +1538,16 @@
     "active": false,
     "statusNote": "2021-02-01 K4DRS has requested the following changes: Operational status changed to Off-Air.",
     "clubName": "Milledgeville Amateur Radio Club (MARC)",
-    "clubUrl": "https://www.facebook.com/groups/1110123253370066/"
+    "clubUrl": "https://www.facebook.com/groups/1110123253370066/",
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "443.275+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      }
+    ]
   },
   {
     "id": "KI4BEO-146.640",
@@ -1183,8 +1556,7 @@
     "tone": "97.4 Hz",
     "county": "Macon",
     "tags": [
-      "Peach State Intertie",
-      "SE Linked Repeater"
+      "Peach State Intertie"
     ],
     "description": "Part of Peach State Intertie. Covers Macon County (Montezuma area) and surrounding counties in west-central Georgia between Macon and Americus.",
     "callsign": "KI4BEO",
@@ -1196,9 +1568,18 @@
       "club": true
     },
     "active": false,
-    "statusNote": "REPEATER UP, NOT YET LINKED — Repeater is operational. PSI link (11-element UHF Yagi to Irwinton) was removed; awaiting replacement antenna before rejoining PSI. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
+    "statusNote": "REPEATER UP, NOT YET LINKED \u2014 Repeater is operational. PSI link (11-element UHF Yagi to Irwinton) was removed; awaiting replacement antenna before rejoining PSI. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
     "clubName": "Peach State Emergency Intertie System",
-    "clubUrl": "http://www.peachstateintertie.com"
+    "clubUrl": "http://www.peachstateintertie.com",
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "443.275+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      }
+    ]
   },
   {
     "id": "WX4PCA-146.955",
@@ -1310,7 +1691,16 @@
     },
     "active": true,
     "clubName": "Washington County Amateur Radio Club (WCARC)",
-    "clubUrl": "http://www.arrl.org/Groups/view/washington-county-amateur-radio-club-1/type:club"
+    "clubUrl": "http://www.arrl.org/Groups/view/washington-county-amateur-radio-club-1/type:club",
+    "rflinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "443.275+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      }
+    ]
   },
   {
     "id": "WB4GQX-441.900",
@@ -1401,6 +1791,13 @@
         "linksToFreq": "444.600+",
         "linksToLoc": "WX4PTC System",
         "linksToCall": "W4PSZ"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "rf",
+        "linksToFreq": "443.275+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
       }
     ]
   },
@@ -1523,8 +1920,10 @@
     "frequency": "146.670-",
     "tone": "82.5 Hz",
     "county": "Houston",
-    "tags": [],
-    "description": "Covers Houston County and Warner Robins area near Robins Air Force Base. Covers Macon metro southern suburbs and surrounding central Georgia counties.",
+    "tags": [
+      "Peach State Intertie"
+    ],
+    "description": "Part of Peach State Intertie (on-demand link for nets). Covers Houston County and Warner Robins area near Robins Air Force Base. Covers Macon metro southern suburbs and surrounding central Georgia counties.",
     "callsign": "WM4B",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=5525",
     "linked": true,
@@ -1543,6 +1942,13 @@
         "linksToFreq": "443.150+",
         "linksToLoc": "Warner Robins",
         "linksToCall": "WM4B"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "443.275+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
       }
     ]
   },
@@ -1566,7 +1972,16 @@
     },
     "active": true,
     "clubName": "Central Georgia Amateur Radio Club (CGARC)",
-    "clubUrl": "http://www.wa4ort.com"
+    "clubUrl": "http://www.wa4ort.com",
+    "rflinks": [
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "443.275+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      }
+    ]
   },
   {
     "id": "WM4B-443.150",
@@ -1574,8 +1989,10 @@
     "frequency": "443.150+",
     "tone": "82.5 Hz",
     "county": "Houston",
-    "tags": [],
-    "description": "Covers Houston County and Warner Robins area near Robins Air Force Base. UHF companion to 146.670- repeater. Covers Macon metro southern suburbs.",
+    "tags": [
+      "Peach State Intertie"
+    ],
+    "description": "Part of Peach State Intertie (on-demand link for nets). Covers Houston County and Warner Robins area near Robins Air Force Base. UHF companion to 146.670- repeater. Covers Macon metro southern suburbs.",
     "callsign": "WM4B",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=6484",
     "linked": true,
@@ -1624,7 +2041,7 @@
     "tone": "141.3 Hz",
     "county": "Whitfield",
     "tags": [],
-    "description": "Dalton • Dug Gap Mtn • Whitfield County. Whitfield SKYWARN Coordinator is Alan Bryant, N4ABB, assistant is Greg Williams, N4JGW.",
+    "description": "Dalton \u2022 Dug Gap Mtn \u2022 Whitfield County. Whitfield SKYWARN Coordinator is Alan Bryant, N4ABB, assistant is Greg Williams, N4JGW.",
     "callsign": "N4BZJ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=107",
     "linked": false,
@@ -1689,7 +2106,7 @@
     "tags": [
       "Cherry Blossom Intertie"
     ],
-    "description": "Part of Cherry Blossom Intertie System. Covers Jefferson County (Wrens area) and surrounding east Georgia counties between Augusta and Sandersville.",
+    "description": "Part of Cherry Blossom Intertie System. On-demand link to Peach State Intertie via Irwinton 147.240+ (K4DBN). Covers Jefferson County (Wrens area) and surrounding east Georgia counties between Augusta and Sandersville.",
     "callsign": "W4CDC",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=244",
     "linked": true,
@@ -1700,6 +2117,15 @@
     },
     "active": true,
     "clubName": "ARCCC, Inc.",
-    "clubUrl": "https://www.arccc.org/"
+    "clubUrl": "https://www.arccc.org/",
+    "rflinks": [
+      {
+        "linkType": "on-demand",
+        "linkMethod": "rf",
+        "linksToFreq": "147.240+",
+        "linksToLoc": "Irwinton",
+        "linksToCall": "K4DBN"
+      }
+    ]
   }
 ]

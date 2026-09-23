@@ -20,6 +20,7 @@
     <button class="page-nav-toggle" aria-expanded="false" aria-controls="page-nav-list">☰ PAGE</button>
     <ul id="page-nav-list" class="nav-list">
       <li><a href="#stats-card">Summary</a></li>
+      <li><a href="#network-map-card">Network Map</a></li>
       <li><a href="#sources-card">Sources</a></li>
       <li><a href="#inactive-card">Inactive</a></li>
       <li><a href="#noclub-card">Missing Club</a></li>
@@ -49,6 +50,23 @@
           <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-red);" id="stat-unverified">—</p><p style="color:var(--text-secondary);">Not Validated</p></div>
           <div class="sub-card center"><p style="font-size:2rem;font-weight:700;color:var(--accent-yellow);" id="stat-nocall">—</p><p style="color:var(--text-secondary);">Unknown Callsign</p></div>
         </div>
+      </div>
+    </section>
+
+    <!-- Network Map -->
+    <section class="card" id="network-map-card">
+      <header class="card-header card-header--blue">
+        <h2 class="card-title">Network Map</h2>
+      </header>
+      <div class="card-body">
+        <aside class="callout note">
+          <p>Generated live from each repeater's <code>rflinks</code> in <code>data/repeaters.json</code> — not hand-drawn. <strong>Tier</strong> (color) is hop-distance from the WX4PTC hub (444.600+/444.675+): Hub, Primary (1 hop), Secondary (2+ hops). <strong>Role</strong> (halo ring vs. plain dot) is independent of tier: a <strong>Relay</strong> has other repeaters linking through it; a <strong>Spoke</strong> is a pure leaf. Line style shows link type — solid full-time, dashed on-demand, short-dashed same-site companion. Click or press Enter on a node for its full audit record; hover for a quick summary. Repeaters with no network tags and no <code>rflinks</code> (plain county-only systems) aren't part of this graph and don't appear here.</p>
+        </aside>
+        <div id="network-map-legend" class="netmap-legend"></div>
+        <div id="network-map-container" class="netmap-container">
+          <p class="center" style="color:var(--text-secondary);">Loading…</p>
+        </div>
+        <div id="network-map-flagged"></div>
       </div>
     </section>
 

@@ -3171,3 +3171,102 @@ a:hover, a:focus-visible {
     page-break-inside: avoid;
   }
 }
+/* ---------------------------------------------------------------------
+   Repeater Network Map (repeater-validation.html)
+   Generated live from data/repeaters.json's rflinks graph — see
+   computeNetworkStatus()/renderNetworkMap() in scripts.js.
+   Tier = sequential (ordered hop-distance from the hub), so it's one
+   ramp light->dark rather than unrelated categorical hues. Role and
+   link-type are encoded separately (shape/size, line style) so identity
+   is never carried by color alone.
+   --------------------------------------------------------------------- */
+:root {
+  --netmap-hub:       light-dark(#0d3d78, #1e4f9c);
+  --netmap-primary:   var(--accent-blue);
+  --netmap-secondary: light-dark(#8fc1f2, #7fa8d9);
+}
+
+.netmap-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.netmap-legend-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+.netmap-legend-label {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.netmap-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+.netmap-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+}
+.netmap-swatch--relay {
+  border: 2px solid var(--text-secondary);
+  background: transparent;
+  width: 12px;
+  height: 12px;
+}
+.netmap-swatch--spoke {
+  background: var(--text-secondary);
+}
+
+.netmap-container {
+  width: 100%;
+  overflow-x: auto;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 1rem;
+}
+.netmap-svg {
+  width: 100%;
+  height: auto;
+  min-width: 700px;
+  display: block;
+  margin: 0 auto;
+}
+.netmap-node {
+  cursor: pointer;
+}
+.netmap-node:focus {
+  outline: none;
+}
+.netmap-node:hover circle:last-of-type,
+.netmap-node:focus circle:last-of-type {
+  stroke: var(--accent-yellow);
+  stroke-width: 3;
+}
+.netmap-node:hover .netmap-label,
+.netmap-node:focus .netmap-label {
+  font-weight: 700;
+}
+.netmap-label {
+  font-size: 12px;
+  fill: var(--text-primary);
+}
+.netmap-label-freq {
+  font-size: 10px;
+  fill: var(--text-secondary);
+}
+.netmap-hub-label {
+  font-size: 14px;
+  font-weight: 700;
+  fill: var(--text-primary);
+}
