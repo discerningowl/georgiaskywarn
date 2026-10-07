@@ -111,7 +111,7 @@ You'll need a program to edit HTML files. Good free options:
 
 ### File Organization
 
-The Georgia SKYWARN website uses a **flat directory structure** - all important files are in the main folder, not organized into subfolders. This is intentional and **MUST NOT be changed**.
+The Georgia SKYWARN website keeps every **HTML page in the main folder** (the "root"), while styles, scripts, data, and images live in four named folders (`css/`, `js/`, `data/`, `assets/`). This layout is intentional and **MUST NOT be changed**.
 
 ```
 georgiaskywarn/
@@ -122,6 +122,10 @@ georgiaskywarn/
 ├── about.html              ← About the site page
 ├── photoarchive.html       ← Historical photos page
 ├── spotters.html           ← Spotter resources and training
+├── changelog.html          ← Full website changelog history (linked from the About page)
+├── repeater-validation.html ← Internal quarterly repeater-data review dashboard (hidden from search engines)
+├── sitemap.xml             ← Site map for search engines
+├── robots.txt              ← Search engine directives
 ├── css/                    ← Stylesheets
 │   └── style.css           ← Stylesheet (colors, layout, design)
 ├── js/                     ← JavaScript files
@@ -170,6 +174,7 @@ georgiaskywarn/
 | File | What It Contains | How Often Updated |
 |------|------------------|-------------------|
 | `data/repeaters.json` | **All repeater data** (linked + non-linked) | When repeaters change |
+| `data/changelog.json` | Public "what's new" list shown on the About and Changelog pages | When something notable changes |
 | `about.html` | Contact information | When contacts change |
 | `nwsffclinks.html` | NWS resource links | Annual check |
 | `css/style.css` | Visual design and colors | Rarely |
@@ -194,56 +199,80 @@ JSON (JavaScript Object Notation) is a simple text format for storing data. The 
 
 ### JSON File Structure
 
-The repeater JSON files contain an **array** (list) of repeater objects. Each repeater is a set of key-value pairs enclosed in curly braces `{ }`.
+`data/repeaters.json` contains an **array** (list) of repeater objects. Each repeater is a set of key-value pairs enclosed in curly braces `{ }`. The file is kept in this order: repeaters tagged `WX4PTC System` first, then everything else, each group alphabetical by city.
 
-**Example from `data/linked-repeaters.json`**:
+**Example record** (real entry, trimmed to the common fields):
 
 ```json
-[
-  {
-    "location": "Fayetteville",
-    "frequency": "444.600+",
-    "tone": "77.0 Hz",
-    "tags": ["Hub", "WX4PTC"],
-    "description": "Hub and net control repeater. Emergency Power.",
-    "url": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6"
+{
+  "id": "W4DOC-146.820",
+  "location": {
+    "city": "Atlanta",
+    "county": "Fulton"
   },
-  {
-    "location": "Peachtree City",
-    "frequency": "147.390+",
-    "tone": "141.3 Hz",
-    "tags": ["WX4PTC"],
-    "description": "Wide coverage, generator backup",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?ID=12345"
-  }
-]
+  "frequency": "146.820-",
+  "tone": "146.2 Hz",
+  "tags": ["SE Linked Repeater"],
+  "description": "Atlanta Radio Club repeater with excellent metro Atlanta coverage.",
+  "callsign": "W4DOC",
+  "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=6482",
+  "linked": true,
+  "validation": { "repeaterbook": true, "owner": true, "club": true },
+  "active": true,
+  "clubName": "Atlanta Radio Club (ARC)",
+  "clubUrl": "https://www.w4doc.org"
+}
 ```
+
+**`location` has three parts**:
+
+```json
+"location": { "city": "Jasper", "county": "Pickens", "site": "Biskey Mtn" }
+```
+
+- `city` - the nearest city or town (never a placeholder like "Barrow County")
+- `county` - the Georgia county, written without the word "County"
+- `site` - **optional**; a landmark or community people know the repeater by (Biskey Mtn, Sawnee Mtn, Pine Mountain). Leave it out when the city is enough. When present, the site displays with its city, like "Biskey Mtn (Jasper)".
 
 ### JSON Syntax Rules (CRITICAL!)
 
 **Follow these rules exactly or the file won't work**:
 
 1. **Square brackets `[ ]`** - Wrap the entire list of repeaters
-2. **Curly braces `{ }`** - Wrap each individual repeater
+2. **Curly braces `{ }`** - Wrap each individual repeater (and each `location`, `validation`, and link entry)
 3. **Double quotes `" "`** - ALL text values must be in double quotes (not single quotes)
 4. **Commas between entries** - Separate repeaters with commas
 5. **NO comma after last entry** - The last repeater should NOT have a comma after its closing `}`
 6. **Commas between fields** - Separate fields within a repeater with commas
 7. **Colon `:`** - Separates the field name from its value
 8. **Tags array `["tag1", "tag2"]`** - Multiple tags enclosed in square brackets with quotes
+9. **`true` / `false` / `null`** - Written without quotes
 
 ### Field Descriptions
 
-Each repeater entry has these fields:
+Fields must appear **in this order** in every entry:
 
 | Field | Description | Example | Required |
 |-------|-------------|---------|----------|
-| `location` | City or county name | `"Peachtree City"` | Yes |
+| `id` | Unique ID: `CALLSIGN-FREQUENCY` | `"W4PSZ-444.600"` | Yes |
+| `location` | Object with `city`, `county`, and optional `site` | `{ "city": "Fayetteville", "county": "Fayette" }` | Yes |
 | `frequency` | Frequency with offset | `"147.390+"` or `"444.600-"` | Yes |
-| `tone` | PL/CTCSS tone | `"141.3 Hz"` | Yes |
-| `tags` | Array of tags | `["Hub"]` or `["WX4PTC"]` or `["Hub", "WX4PTC"]` | Yes |
+| `tone` | PL/CTCSS tone, or `null` for none | `"141.3 Hz"` | Yes |
+| `tags` | Network affiliations (can be empty `[]`). Valid values: `WX4PTC System`, `Peach State Intertie`, `Cherry Blossom Intertie`, `SE Linked Repeater`, `WX4EMA` | `["WX4PTC System"]` | Yes |
 | `description` | Coverage, power info | `"Wide coverage, generator backup"` | Yes |
-| `url` | RepeaterBook link | `"https://www.repeaterbook.com/repeaters/details.php?ID=12345"` | Yes |
+| `callsign` | Amateur radio callsign, or `"n0call"` if unknown | `"W4PSZ"` | Yes |
+| `refurl` | RepeaterBook reference URL | `".../details.php?state_id=13&ID=12345"` | Yes |
+| `linked` | `true` if part of the linked SKYWARN network | `true` | Yes |
+| `validation` | Three independent confirmations: `{ "repeaterbook": bool, "owner": bool, "club": bool }` | see example above | Yes |
+| `active` | `true` if on the air, `false` if confirmed off the air | `true` | Yes |
+| `statusNote` | Why it's off the air and who to follow up with | `"DOWN - needs new antenna"` | Only when `active` is `false` |
+| `picUrl` | Station photo link (only a few repeaters) | `"https://photos.app.goo.gl/..."` | Only when applicable |
+| `clubName` | Sponsoring club, or `null` | `"Atlanta Radio Club (ARC)"` | Yes |
+| `clubUrl` | Club website, or `null` | `"https://www.w4doc.org"` | Yes |
+| `iplinks` | Internet linking (AllStar, EchoLink, etc.) | see CLAUDE.md | No - omit if none |
+| `rflinks` | Radio links to other repeaters | see CLAUDE.md | No - omit if none |
+
+[CLAUDE.md](CLAUDE.md) has the complete technical reference, including the `iplinks` / `rflinks` formats and how the validation tiers work.
 
 ### Common JSON Mistakes to Avoid
 
@@ -251,11 +280,11 @@ Each repeater entry has these fields:
 ```json
 [
   {
-    "location": "City1",
+    "callsign": "W1AAA",
     "frequency": "146.520"
   }
   {
-    "location": "City2",
+    "callsign": "W1BBB",
     "frequency": "147.390"
   }
 ]
@@ -264,11 +293,11 @@ Each repeater entry has these fields:
 ```json
 [
   {
-    "location": "City1",
+    "callsign": "W1AAA",
     "frequency": "146.520"
   },  ← COMMA HERE!
   {
-    "location": "City2",
+    "callsign": "W1BBB",
     "frequency": "147.390"
   }
 ]
@@ -278,7 +307,7 @@ Each repeater entry has these fields:
 ```json
 [
   {
-    "location": "City1",
+    "callsign": "W1AAA",
     "frequency": "146.520"
   },
 ]  ← NO COMMA AFTER LAST ENTRY!
@@ -287,14 +316,14 @@ Each repeater entry has these fields:
 ❌ **Single quotes instead of double quotes**:
 ```json
 {
-  'location': 'City1'  ← WRONG! Use double quotes
+  'callsign': 'W1AAA'  ← WRONG! Use double quotes
 }
 ```
 
 ❌ **Missing quotes around text**:
 ```json
 {
-  location: City1  ← WRONG! Needs quotes
+  callsign: W1AAA  ← WRONG! Needs quotes
 }
 ```
 
@@ -410,73 +439,53 @@ Before starting new work, always click "Fetch origin" to download the latest cha
 
 ### Task 1: Adding a New Repeater
 
-**Files to edit**: `data/linked-repeaters.json` or `data/nonlinked-repeaters.json`
+**File to edit**: `data/repeaters.json`
 
-The repeater tables are dynamically generated from JSON files. You need to edit the appropriate JSON file:
-- **Linked repeaters**: Edit `data/linked-repeaters.json`
-- **Non-linked repeaters**: Edit `data/nonlinked-repeaters.json`
+All repeaters (linked and non-linked) live in this one file. The tables on `repeaters.html`, the repeater detail popups, the network map, and the CHIRP / RT Systems CSV downloads are all generated from it automatically. You never edit the HTML for repeater information.
 
 **Steps**:
 
-1. **Open the appropriate JSON file** in your text editor
+1. **Open `data/repeaters.json`** in your text editor.
 
-2. **Add a new repeater entry** in alphabetical order by location:
+2. **Add a new entry in alphabetical order by city** (`location.city`). Repeaters tagged `WX4PTC System` stay grouped at the very top of the file, also alphabetical.
+
+3. **Fill in every required field, in this order**:
 
 ```json
 {
-  "location": "Peachtree City",
+  "id": "W4ABC-147.390",
+  "location": {
+    "city": "Peachtree City",
+    "county": "Fayette"
+  },
   "frequency": "147.390+",
   "tone": "141.3 Hz",
-  "tags": ["WX4PTC"],
+  "tags": ["WX4PTC System"],
   "description": "Wide coverage, generator backup",
-  "url": "https://www.repeaterbook.com/repeaters/details.php?ID=12345"
+  "callsign": "W4ABC",
+  "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=12345",
+  "linked": true,
+  "validation": { "repeaterbook": true, "owner": false, "club": false },
+  "active": true,
+  "clubName": "Club Name Here",
+  "clubUrl": "https://example.com"
 }
 ```
 
-3. **Important JSON formatting rules**:
-   - Each repeater entry is enclosed in curly braces `{ }`
-   - Entries are separated by commas
-   - The last entry in the file should NOT have a comma after it
-   - All text values must be in double quotes `""`
-   - Tags are in square brackets `["tag1", "tag2"]`
+4. **Notes on specific fields**:
+   - `id`: callsign, a dash, then the frequency without the offset sign (e.g., `W4PSZ-444.600`)
+   - `location`: `city` and `county` are required; add `"site": "Landmark Name"` only if people know the repeater by a landmark or community name (see the Field Descriptions table above)
+   - `tags`: use only the five valid tag values listed in the table above
+   - `validation`: set `repeaterbook` to `true` only if the details match RepeaterBook; `owner` and `club` are `true` only after you have confirmed with the repeater's owner or sponsoring club
+   - `iplinks` / `rflinks`: add only if the repeater has them; leave them out entirely otherwise
 
-4. **Replace the placeholders**:
-   - `location`: City or county name
-   - `frequency`: Frequency and offset (e.g., "147.390+", "444.600-", "145.210")
-   - `tone`: PL/CTCSS tone (e.g., "141.3 Hz", "77.0 Hz")
-   - `tags`: Array of tags like `["Hub"]`, `["WX4PTC"]`, `["Hub", "WX4PTC"]`
-   - `description`: Coverage notes, emergency power status, etc.
-   - `url`: Link to RepeaterBook or repeater website
+5. **Follow the JSON syntax rules** (commas between entries, no comma after the last one, double quotes around all text).
 
-5. **Validate your JSON**:
-   - Use [jsonlint.com](https://jsonlint.com/) to check for syntax errors
-   - Common mistakes: missing commas, extra commas, missing quotes
+6. **Validate your JSON** at [jsonlint.com](https://jsonlint.com/) before saving.
 
-6. **Save the file** and commit your changes
+7. **Save the file**, load `repeaters.html` locally to confirm the new repeater appears with the right city and county, and commit your changes.
 
-**Complete Example**:
-```json
-[
-  {
-    "location": "Fayetteville",
-    "frequency": "444.600+",
-    "tone": "77.0 Hz",
-    "tags": ["Hub", "WX4PTC"],
-    "description": "Hub and net control repeater. Emergency Power.",
-    "url": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6"
-  },
-  {
-    "location": "Peachtree City",
-    "frequency": "147.390+",
-    "tone": "141.3 Hz",
-    "tags": ["WX4PTC"],
-    "description": "Wide coverage, generator backup",
-    "url": "https://www.repeaterbook.com/repeaters/details.php?ID=12345"
-  }
-]
-```
-
-**Note**: The repeater tables on `index.html` and `repeaters.html` are automatically generated from these JSON files. You do NOT need to edit the HTML files directly.
+**Note**: If you are not sure about a field, ask Jack (KQ4JP) - the data file is the source of truth for the whole site, so it's better to confirm than guess.
 
 ### Task 2: Updating Contact Information
 
@@ -1161,6 +1170,12 @@ If you want to learn more:
 
 ## Changelog
 
+### Version 1.5 (October 7, 2026)
+- Repeater `location` is now an object with `city`, `county`, and an optional `site`, instead of a single text line; the old top-level `county` field no longer exists
+- Rewrote "Understanding JSON Files" and "Task 1: Adding a New Repeater" for the current single-file layout (`data/repeaters.json`): full field list in required order, the five valid tags, the three-source `validation` object, `active` / `statusNote`, and the new ordering rule (alphabetical by city, `WX4PTC System` repeaters first)
+- Removed references to the retired `linked-repeaters.json` / `nonlinked-repeaters.json` files and the old `"Hub"` / `"WX4PTC"` tag names
+- Added `changelog.html`, `repeater-validation.html`, `sitemap.xml`, `robots.txt`, and `data/changelog.json` to the file listings
+
 ### Version 1.4 (July 1, 2026)
 - Fixed a data-accuracy bug in the six county JSON files (`data/*-counties.json`): county codes had been silently wrong for many counties, causing the county alert filter to occasionally show the wrong county's weather alerts
 - No administrator action needed — this was a developer-side data fix, not a change to how repeater or contact information is maintained
@@ -1202,6 +1217,6 @@ If you have ideas for improving this guide, please contact:
 
 ---
 
-**Last Updated**: July 1, 2026
-**Document Version**: 1.4
+**Last Updated**: October 7, 2026
+**Document Version**: 1.5
 **Website Version**: See [README.md](README.md) for current production status

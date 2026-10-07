@@ -69,6 +69,8 @@ A static website providing resources for amateur radio weather spotters in North
 georgiaskywarn/
 ├── index.html              # Spotter dashboard with HWO and all alerts (home page)
 ├── spotters.html           # Spotter resources and training
+├── changelog.html          # Full website changelog history
+├── repeater-validation.html # Internal quarterly repeater-data review dashboard (noindex)
 ├── repeaters.html          # Linked and non-linked repeaters
 ├── nwsffclinks.html        # NWS links and resources
 ├── wx4ptc.html             # WX4PTC station information
@@ -131,7 +133,7 @@ All repeater data is stored in a single unified JSON file. Fields appear in the 
 | # | Field | Type | Required | Description |
 |---|-------|------|----------|-------------|
 | 1 | `id` | string | Yes | Unique identifier: `CALLSIGN-FREQUENCY` (e.g., `W4PSZ-444.600`) |
-| 2 | `location` | string | Yes | City or geographic location |
+| 2 | `location` | object | Yes | `{ "city": string, "county": string, "site"?: string }` — nearest city, Georgia county (no "County" suffix), and an optional landmark/community name |
 | 3 | `frequency` | string | Yes | Frequency with offset (e.g., `"147.390+"`, `"145.210-"`) |
 | 4 | `tone` | string/null | Yes | CTCSS/PL tone in Hz (e.g., `"141.3 Hz"`) or `null` if no tone |
 | 5 | `tags` | array | Yes | Network affiliations (can be empty `[]`) |
@@ -140,11 +142,15 @@ All repeater data is stored in a single unified JSON file. Fields appear in the 
 | 8 | `refurl` | string | Yes | RepeaterBook reference URL |
 | 9 | `linked` | boolean | Yes | `true` if part of linked SKYWARN network |
 | 10 | `validation` | object | Yes | `{ "repeaterbook": bool, "owner": bool, "club": bool }` — three independent confirmation sources, not a single flag. See `CLAUDE.md` for details. |
-| 11 | `picUrl` | string | When applicable | Station photo link (only select repeaters) |
-| 12 | `clubName` | string/null | Yes | Sponsoring club name, or `null` if unknown |
-| 13 | `clubUrl` | string/null | Yes | Sponsoring club URL, or `null` if unknown |
-| 14 | `iplinks` | array | No | Internet linking (AllStar, EchoLink, etc.). Omit if none. |
-| 15 | `rflinks` | array | No | Radio frequency links. Omit if none. |
+| 11 | `active` | boolean | Yes | `true` if currently on the air, `false` if confirmed off the air |
+| 12 | `statusNote` | string | Only when `active: false` | Why it is off the air and the follow-up needed |
+| 13 | `picUrl` | string | When applicable | Station photo link (only select repeaters) |
+| 14 | `clubName` | string/null | Yes | Sponsoring club name, or `null` if unknown |
+| 15 | `clubUrl` | string/null | Yes | Sponsoring club URL, or `null` if unknown |
+| 16 | `iplinks` | array | No | Internet linking (AllStar, EchoLink, etc.). Omit if none. |
+| 17 | `rflinks` | array | No | Radio frequency links. Omit if none. |
+
+The file is ordered alphabetically by `location.city`, with repeaters tagged `WX4PTC System` grouped first.
 
 ### Network Tags
 
@@ -166,6 +172,14 @@ All repeater data is stored in a single unified JSON file. Fields appear in the 
 ---
 
 ## 🚀 Recent Improvements
+
+### October 7, 2026 - Repeater Location Hierarchy
+
+**Data Structure: city / county / site** ✅
+- Each repeater's `location` is now an object — `{ city, county, site? }` — replacing the old single-line string and the separate top-level `county` field
+- County-only placeholders (e.g. "Walton County") replaced with real cities; landmark names (Biskey Mtn, Sawnee Mtn, Pine Mountain, Round Oak, Cedar Grove, Sun City) moved into the optional `site` field and still display alongside their city
+- Repeater list is now alphabetical by city with the WX4PTC System repeaters first
+- Tables, detail popups, network map, and both CSV exports read the new structure through shared helpers in `js/scripts.js`
 
 ### July 1, 2026 - County Data Integrity Overhaul
 

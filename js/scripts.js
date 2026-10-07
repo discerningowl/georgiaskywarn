@@ -303,6 +303,32 @@
   }
 
   /**
+   * Location helpers. repeaters.json stores location as an object:
+   *   { "city": "Jasper", "county": "Pickens", "site": "Biskey Mtn" }   (site optional)
+   * These are the single place that turns it into display strings, so every
+   * table/modal/export/map label stays consistent.
+   *   formatLocation  — full label: "Biskey Mtn (Jasper)" or just "Jasper"
+   *   shortLocation   — compact label (site if present, else city) for map
+   *                     labels and radio-memory names where space is tight
+   *   locationCounty  — county name, or '' if missing
+   */
+  function formatLocation(repeater) {
+    const loc = (repeater && repeater.location) || {};
+    if (!loc.city) return '';
+    return loc.site ? `${loc.site} (${loc.city})` : loc.city;
+  }
+
+  function shortLocation(repeater) {
+    const loc = (repeater && repeater.location) || {};
+    return loc.site || loc.city || '';
+  }
+
+  function locationCounty(repeater) {
+    const loc = (repeater && repeater.location) || {};
+    return loc.county || '';
+  }
+
+  /**
    * Reduces a repeater's multi-source validation object (repeaterbook/owner/club)
    * to a single tier for display. Single source of truth — used by the detail
    * modal badge and the repeater-validation dashboard stats/table so the tiering
@@ -492,12 +518,12 @@
       ? repeater.rflinks.map(link => sanitizeHTML(link.linksToCall)).join(', ')
       : '—';
 
-    const countyDisplay = repeater.county ? sanitizeHTML(repeater.county) : '—';
+    const countyDisplay = locationCounty(repeater) ? sanitizeHTML(locationCounty(repeater)) : '—';
 
     return `
       <tr class="repeater-row" data-repeater-id="${sanitizeHTML(repeater.id)}">
         <td>
-          <strong>${sanitizeHTML(repeater.location)}</strong><br>
+          <strong>${sanitizeHTML(formatLocation(repeater))}</strong><br>
           <span style="color: var(--text-secondary); font-size: 0.9rem;">${sanitizeHTML(repeater.callsign)}</span>
         </td>
         <td class="center">
@@ -567,7 +593,7 @@
     const modalBody = document.getElementById('repeaterDetailBody');
     const modalTitle = document.getElementById('repeaterModalTitle');
 
-    modalTitle.textContent = `${repeater.location} - ${repeater.frequency}`;
+    modalTitle.textContent = `${formatLocation(repeater)} - ${repeater.frequency}`;
 
     // Build modal content
     let html = '';
@@ -601,7 +627,9 @@
           <div class="detail-label">Callsign:</div>
           <div class="detail-value">${sanitizeHTML(repeater.callsign)}</div>
           <div class="detail-label">Location:</div>
-          <div class="detail-value">${sanitizeHTML(repeater.location)}</div>
+          <div class="detail-value">${sanitizeHTML(formatLocation(repeater))}</div>
+          <div class="detail-label">County:</div>
+          <div class="detail-value">${sanitizeHTML(locationCounty(repeater) || '—')}</div>
           <div class="detail-label">Frequency:</div>
           <div class="detail-value">${sanitizeHTML(repeater.frequency)}</div>
           <div class="detail-label">Tone:</div>
@@ -840,18 +868,18 @@
 
     // Generate name (callsign + location, max ~20 chars for radio compatibility)
     // Callsign first so truncation keeps callsign visible
-    let name = repeater.location;
+    let name = shortLocation(repeater);
     if (repeater.callsign && repeater.callsign !== 'Unknown') {
-      name = `${repeater.callsign} ${repeater.location}`;
+      name = `${repeater.callsign} ${shortLocation(repeater)}`;
     }
     // Truncate to 20 chars if needed
     name = name.substring(0, 20);
 
     // Build comment from location + tags
-    let comment = repeater.location;
+    let comment = formatLocation(repeater);
     if (repeater.tags && repeater.tags.length > 0) {
       const tagStr = repeater.tags.join(', ');
-      comment = `${repeater.location} - ${tagStr}`;
+      comment = `${formatLocation(repeater)} - ${tagStr}`;
     }
 
     // CHIRP CSV columns:
@@ -1026,9 +1054,9 @@
 
     // Generate name (callsign + location, max 16 chars for most radios)
     // Callsign first so truncation keeps callsign visible
-    let name = repeater.location;
+    let name = shortLocation(repeater);
     if (repeater.callsign && repeater.callsign !== 'Unknown') {
-      name = `${repeater.callsign} ${repeater.location}`;
+      name = `${repeater.callsign} ${shortLocation(repeater)}`;
     }
     name = name.substring(0, 16);
 
@@ -1036,10 +1064,10 @@
     const bank = '22: Skywarn';
 
     // Build comment from location + tags
-    let comment = repeater.location;
+    let comment = formatLocation(repeater);
     if (repeater.tags && repeater.tags.length > 0) {
       const tagStr = repeater.tags.join(', ');
-      comment = `${repeater.location} - ${tagStr}`;
+      comment = `${formatLocation(repeater)} - ${tagStr}`;
     }
 
     // RT Systems CSV columns:
@@ -1267,7 +1295,7 @@
             <ul style="margin:0.5rem 0 0 1.25rem;">
               ${flagged.map(([id]) => {
                 const r = byId.get(id);
-                return `<li><a href="#" class="netmap-flagged-link" data-repeater-id="${sanitizeHTML(id)}">${sanitizeHTML(r.location)} (${sanitizeHTML(r.callsign)} ${sanitizeHTML(r.frequency)})</a></li>`;
+                return `<li><a href="#" class="netmap-flagged-link" data-repeater-id="${sanitizeHTML(id)}">${sanitizeHTML(formatLocation(r))} (${sanitizeHTML(r.callsign)} ${sanitizeHTML(r.frequency)})</a></li>`;
               }).join('')}
             </ul>
           </aside>`;
@@ -1350,7 +1378,7 @@
 
       function labelFor(id) {
         const r = byId.get(id);
-        return `${r.location} — ${r.callsign} ${r.frequency}`;
+        return `${formatLocation(r)} — ${r.callsign} ${r.frequency}`;
       }
 
       // Edges: draw from each non-hub-seed node back to its parent
@@ -1384,7 +1412,7 @@
             <title>${sanitizeHTML(tooltip)}</title>
             ${halo}
             <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${baseR}" fill="${fill}" stroke="var(--bg-body)" stroke-width="1.5"></circle>
-            <text x="${(p.x + dx).toFixed(1)}" y="${(p.y - 1).toFixed(1)}" text-anchor="${anchor}" class="netmap-label">${sanitizeHTML(r.location)}</text>
+            <text x="${(p.x + dx).toFixed(1)}" y="${(p.y - 1).toFixed(1)}" text-anchor="${anchor}" class="netmap-label">${sanitizeHTML(shortLocation(r))}</text>
             <text x="${(p.x + dx).toFixed(1)}" y="${(p.y + 12).toFixed(1)}" text-anchor="${anchor}" class="netmap-label netmap-label-freq">${sanitizeHTML(r.frequency)}</text>
           </g>`;
       });
@@ -1461,7 +1489,7 @@
           : '';
         return `
           <tr class="repeater-row" data-repeater-id="${sanitizeHTML(r.id)}">
-            <td><strong>${sanitizeHTML(r.location)}</strong><br>
+            <td><strong>${sanitizeHTML(formatLocation(r))}</strong><br>
               <span style="color:var(--text-secondary);font-size:0.9rem;">${sanitizeHTML(r.callsign)}</span></td>
             <td class="center"><strong>${sanitizeHTML(r.frequency)}</strong><br>
               <span style="font-size:0.9rem;">${sanitizeHTML(r.tone || 'None')}</span></td>
@@ -1476,11 +1504,11 @@
         const v = r.validation || {};
         return `
           <tr class="repeater-row" data-repeater-id="${sanitizeHTML(r.id)}">
-            <td><strong>${sanitizeHTML(r.location)}</strong><br>
+            <td><strong>${sanitizeHTML(formatLocation(r))}</strong><br>
               <span style="color:var(--text-secondary);font-size:0.9rem;">${sanitizeHTML(r.callsign)}</span></td>
             <td class="center"><strong>${sanitizeHTML(r.frequency)}</strong><br>
               <span style="font-size:0.9rem;">${sanitizeHTML(r.tone || 'None')}</span></td>
-            <td>${sanitizeHTML(r.county)}</td>
+            <td>${sanitizeHTML(locationCounty(r))}</td>
             <td>${tagsToBadges(r.tags)}</td>
             <td class="center">${sourceCell(v.owner === true)}</td>
             <td class="center">${sourceCell(v.repeaterbook === true)}</td>
@@ -1516,7 +1544,7 @@
               const tags = tagsToBadges(r.tags);
               return `
                 <tr class="repeater-row" data-repeater-id="${sanitizeHTML(r.id)}">
-                  <td><strong>${sanitizeHTML(r.location)}</strong><br>
+                  <td><strong>${sanitizeHTML(formatLocation(r))}</strong><br>
                     <span style="color:var(--text-secondary);font-size:0.9rem;">${sanitizeHTML(r.callsign)}</span></td>
                   <td class="center"><strong>${sanitizeHTML(r.frequency)}</strong><br>
                     <span style="font-size:0.9rem;">${sanitizeHTML(r.tone || 'None')}</span></td>
@@ -1566,8 +1594,11 @@
       if (!repeater.refurl) {
         issues.push('Missing refurl (RepeaterBook reference URL).');
       }
-      if (!repeater.county) {
-        issues.push('Missing county field.');
+      if (!repeater.location || typeof repeater.location !== 'object') {
+        issues.push('Missing location object ({ city, county, site? }).');
+      } else {
+        if (!repeater.location.city) issues.push('Missing location.city.');
+        if (!repeater.location.county) issues.push('Missing location.county.');
       }
       (repeater.tags || []).forEach(tag => {
         if (!knownTags.includes(tag.toLowerCase())) {
@@ -1606,7 +1637,7 @@
       const modalTitle = document.getElementById('repeaterAuditTitle');
       if (!modal || !modalBody || !modalTitle) return;
 
-      modalTitle.textContent = `${repeater.location} — ${repeater.frequency}`;
+      modalTitle.textContent = `${formatLocation(repeater)} — ${repeater.frequency}`;
 
       const tier = getValidationTier(repeater);
       const v = repeater.validation || {};

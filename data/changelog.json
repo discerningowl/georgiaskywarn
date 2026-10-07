@@ -1,6 +1,21 @@
 {
   "updates": [
     {
+      "month": "October",
+      "year": 2026,
+      "date": "2026-10-07",
+      "items": [
+        {
+          "title": "Repeater Locations Restructured",
+          "description": "Every repeater's location is now stored as a city, a county, and, where it helps, a separate landmark or community name, instead of a single line of text. The repeater tables, detail popups (which now show the county on its own line), network map, and radio-programming CSV exports all read from the new structure, and the repeater list is now in alphabetical order by city with the WX4PTC system repeaters first."
+        },
+        {
+          "title": "City, County, and Site Cleanup",
+          "description": "Replaced county-only placeholders such as \"Walton County\" and \"Butts County\" with the actual city each repeater is in. Landmark and community names (Biskey Mtn, Sawnee Mtn, Pine Mountain, Round Oak, Cedar Grove, and Sun City) now appear alongside their city, so the names you're used to seeing are still there. Also corrected the Concord repeater (145.390) to Pike County and listed Warm Springs as the city for the Pine Mountain repeater (145.190)."
+        }
+      ]
+    },
+    {
       "month": "September",
       "year": 2026,
       "date": "2026-09-23",
