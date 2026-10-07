@@ -12,6 +12,10 @@
         {
           "title": "City, County, and Site Cleanup",
           "description": "Replaced county-only placeholders such as \"Walton County\" and \"Butts County\" with the actual city each repeater is in. Landmark and community names (Biskey Mtn, Sawnee Mtn, Pine Mountain, Round Oak, Cedar Grove, and Sun City) now appear alongside their city, so the names you're used to seeing are still there. Also corrected the Concord repeater (145.390) to Pike County and listed Warm Springs as the city for the Pine Mountain repeater (145.190)."
+        },
+        {
+          "title": "Repeater Table Column Alignment",
+          "description": "The Linked and Non-Linked repeater tables on the Repeaters page now share identical column widths, so Location, Frequency, County, Tags, Internet Links, and Radio Links line up the same way in both. Previously each table sized its columns to its own content, which made them look uneven and different from each other."
         }
       ]
     },

@@ -68,8 +68,8 @@
     <button class="page-nav-toggle" aria-expanded="false" aria-controls="page-nav-list">☰ PAGE</button>
     <ul id="page-nav-list" class="nav-list">
       <li><a href="#repeater-search">Search Repeaters</a></li>
-      <li><a href="#repeater-table">Linked Repeaters</a></li>
-      <li><a href="#nonlinkcard">Non-Linked Repeaters</a></li>
+      <li><a href="#linkedcard">Linked Repeaters</a></li>
+      <li><a href="#nonlinkedcard">Non-Linked Repeaters</a></li>
       <li><a href="#csv-export-card">Export CSV</a></li>
     </ul>
   </nav>
@@ -123,7 +123,8 @@
     </section>
 
     <!-- Linked Repeaters Table Card -->
-    <section class="card table-card" id="repeater-table">
+    <section class="card table-card" id="linkedcard">
+      <span id="repeater-table"></span><!-- legacy anchor, kept for existing external links -->
       <header class="card-header">
         <h2 class="card-title">Georgia SKYWARN Linked Repeater System</h2>
       </header>
@@ -136,7 +137,15 @@
         	</p>
         </aside>
         <div class="table-wrapper">
-            <table class="repeater-table">
+            <table class="repeater-table directory-table">
+            <colgroup>
+              <col class="col-location">
+              <col class="col-freq">
+              <col class="col-county">
+              <col class="col-tags">
+              <col class="col-ilinks">
+              <col class="col-rlinks">
+            </colgroup>
                 <thead>
                     <tr>
                         <th><em><strong>Location &amp; Callsign</strong></em></th>
@@ -157,7 +166,8 @@
     </section>
 
     <!-- Non-linked Repeaters Card -->
-    <section class="card table-card" id="nonlinkcard">
+    <section class="card table-card" id="nonlinkedcard">
+      <span id="nonlinkcard"></span><!-- legacy anchor, kept for existing external links -->
       <header class="card-header">
         <h2 class="card-title">Local SKYWARN Nets (Not-Linked)</h2>
       </header>
@@ -169,7 +179,15 @@
         	</p>
         </aside>
         <div class="table-wrapper">
-          <table class="repeater-table">
+          <table class="repeater-table directory-table">
+            <colgroup>
+              <col class="col-location">
+              <col class="col-freq">
+              <col class="col-county">
+              <col class="col-tags">
+              <col class="col-ilinks">
+              <col class="col-rlinks">
+            </colgroup>
               <thead>
                   <tr>
                       <th><em><strong>Location &amp; Callsign</strong></em></th>

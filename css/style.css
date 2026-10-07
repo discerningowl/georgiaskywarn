@@ -2117,6 +2117,23 @@ a:hover, a:focus-visible {
 .sources-table .col-tags     { width: 22%; }
 .sources-table .col-source   { width: 10%; }
 
+/* Directory tables (repeaters.html): the Linked and Non-Linked tables are
+   separate <table> elements, so with auto layout each sized its columns from
+   its own content and the two drifted apart. Shared colgroup + fixed layout
+   locks both to identical widths. Same technique as .sources-table above;
+   min-width keeps columns readable and lets .table-wrapper scroll on mobile. */
+.directory-table {
+  table-layout: fixed;
+  min-width: 900px;
+}
+
+.directory-table .col-location { width: 20%; }
+.directory-table .col-freq     { width: 13%; }
+.directory-table .col-county   { width: 10%; }
+.directory-table .col-tags     { width: 23%; }
+.directory-table .col-ilinks   { width: 14%; }
+.directory-table .col-rlinks   { width: 20%; }
+
 .repeater-table td {
   padding: 0.85rem 1rem;
   border-bottom: 1px solid var(--card-border);
