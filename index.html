@@ -159,10 +159,10 @@
       </header>
       <div class="card-body">
         <div class="alert-status-bar">
-          <span class="alert-status-text" id="alert-count-summary">
-            <span class="legend-shape legend-shape--triangle legend-red" aria-hidden="true"></span>Warnings |
-            <span class="legend-shape legend-shape--triangle legend-yellow" aria-hidden="true"></span>Watches |
-            <span class="legend-shape legend-shape--triangle legend-blue" aria-hidden="true"></span>Alerts
+          <span class="alert-status-text alert-type-filter" id="alert-count-summary" role="group" aria-label="Filter alerts by type">
+            <button type="button" class="alert-type-toggle" data-type="warning" aria-pressed="true"><span class="legend-shape legend-shape--triangle legend-red" aria-hidden="true"></span><span class="alert-type-label">Warnings</span></button>
+            <button type="button" class="alert-type-toggle" data-type="watch" aria-pressed="true"><span class="legend-shape legend-shape--triangle legend-yellow" aria-hidden="true"></span><span class="alert-type-label">Watches</span></button>
+            <button type="button" class="alert-type-toggle" data-type="advisory" aria-pressed="true"><span class="legend-shape legend-shape--triangle legend-blue" aria-hidden="true"></span><span class="alert-type-label">Advisories</span></button>
           </span>
           <span class="alert-status-divider">•</span>
           <span class="alert-status-refresh"><span class="pulse"></span> Auto-refresh: 5 min</span>
@@ -195,6 +195,7 @@
           </div>
           <ul class="county-autocomplete" id="county-autocomplete-list" role="listbox" aria-label="County suggestions" hidden></ul>
         </div>
+        <p class="alert-filter-note" id="alert-filter-note" role="status" hidden></p>
         <div id="alerts-loading" class="skeleton-loader" aria-label="Loading active alerts"></div>
         <div id="alerts-container"></div>
       </div>

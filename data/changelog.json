@@ -16,6 +16,10 @@
         {
           "title": "Repeater Table Column Alignment",
           "description": "The Linked and Non-Linked repeater tables on the Repeaters page now share identical column widths, so Location, Frequency, County, Tags, Internet Links, and Radio Links line up the same way in both. Previously each table sized its columns to its own content, which made them look uneven and different from each other."
+        },
+        {
+          "title": "Filter Alerts by Type",
+          "description": "On the dashboard, the Warnings, Watches, and Advisories counts above the Active Area Alerts list are now buttons. Tap one to hide or show that type, for example to see only Warnings during an event. The counts and the card's header color always reflect everything that's active for your selected counties, and a note appears whenever a type is hidden so you can't miss an alert by accident. The type filter resets every time the page loads. The blue group is now labeled \"Advisories\" instead of \"Alerts.\""
         }
       ]
     },

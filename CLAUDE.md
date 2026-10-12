@@ -212,6 +212,7 @@ For scripts that only load on specific pages:
 **Key Features**:
 - Hazardous Weather Outlook (HWO) from NWS Atlanta with spotter activation detection
 - Shows all alert types: warnings (red), watches (orange), and advisories (teal)
+- Alert type filter: the Warnings / Watches / Advisories count row is three `aria-pressed` toggle buttons (see 2026-10-12 changelog); resets on every page load by design
 - Quick Maps section with essential weather/situational awareness tools
 - HWO cached for 4 hours, alerts refresh every 5 minutes
 - Modal popups for HWO details and individual alert details
@@ -1102,6 +1103,27 @@ refactor: Simplify alert filtering logic
 ---
 
 ## Changelog
+
+### 2026-10-12 — Alert type filter (Warnings / Watches / Advisories) on the dashboard
+
+#### Background
+- A visitor asked to filter Active Area Alerts by watches, warnings and advisories. Chose the lowest-chrome option: the existing "Warnings | Watches | Alerts" count row in the alerts status bar became the control (three toggle buttons) rather than adding a second row or a dropdown. The blue bucket is now labeled **Advisories** (was "Alerts"); it still contains every event that isn't a warning or watch (advisories, special weather statements, etc.), and the card tag on individual alerts still reads `ALERT` — unchanged on purpose.
+
+#### `js/nws-api.js`
+- `renderAllAlerts()` now filters in two stages: **county** → counts/severity → **type**. Counts and the card header color are computed from the county-filtered set *before* the type filter, so hiding a type never zeroes its own count and never makes the header look calmer than reality (hide Warnings while a Tornado Warning is active → header stays red). It returns `counts.shown` / `counts.total` in addition to the three type counts.
+- New `getAlertType(event)` is the single classifier (`'warning'|'watch'|'advisory'`), replacing three copy-pasted `.includes('warning'/'watch')` chains. `ALERT_TYPES` holds the per-type metadata (key, count key, color class, labels).
+- `updateAlertCountSummary()` builds the three buttons **once** and updates them in place — rebuilding them on every toggle would destroy keyboard focus. It also calls the new `updateAlertFilterNote()`.
+- **Not persisted, on purpose.** `activeTypeFilter` is in-memory only (unlike the county filter, which uses `localStorage['county-filter']`). A spotter who hides Warnings and forgets must not come back mid-event to a page that silently omits them. Do not add persistence without addressing that.
+- `#alert-filter-note` ("Hiding Watches and Advisories — showing 2 of 6 alerts. Show all") is visible whenever *any* type is off, even if nothing is currently hidden, because the next 5-minute refresh could bring in an alert of a hidden type. When the type filter hides everything, the empty state says how many alerts are hidden so "No active warnings" can't be read as all-clear.
+- Toggle clicks call `refreshAlertView()`, which re-renders from cache, or falls back to `loadAlerts()` if the 5-minute cache expired so a click is never a silent no-op. "Show all" returns focus to the first toggle because the note hides itself.
+
+#### `index.html` / `css/style.css`
+- Static markup in `#alert-count-summary` matches what JS builds (no layout shift before the first fetch); the old " | " text separators are gone — the buttons are flex items with a gap. New `<p id="alert-filter-note" role="status" hidden>` sits above `#alerts-loading`.
+- New `.alert-type-filter` / `.alert-type-toggle` / `.alert-filter-note` / `.alert-filter-reset` styles next to `.alert-status-text`. "Off" is signaled by a dashed border, struck-through label and dimmed triangle — never color alone.
+
+#### Verification
+- Headless Chromium against the local site with `api.weather.gov` mocked (6 alerts: 2 warnings, 1 watch, 3 advisories): initial state, mouse and keyboard (Enter/Space) toggling with focus retained, all-off and warnings-only states, county + type combinations, scoped empty-state message, header severity unchanged while a type is hidden, reset on reload, expired-cache fallback, 390px dark-mode layout (no horizontal overflow, tap targets ≥ 24px). Not tested against live NWS data.
+- Version bumped to `20261012a`. Public `data/changelog.json` October 2026 entry gained a "Filter Alerts by Type" item.
 
 ### 2026-10-07 — `location` is now a `{ city, county, site? }` object (city/county hierarchy)
 

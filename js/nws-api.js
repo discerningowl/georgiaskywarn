@@ -6,8 +6,24 @@
  *          - Fetch functions with timeout and retry logic
  *          - Cache management
  *          - Common constants and configuration
- * Version: 20260701a
+ * Version: 20261012a
  * Change-log:
+ *   • 2026-10-12a – FEATURE: Alert type filter on Active Area Alerts
+ *                  - The "Warnings | Watches | Alerts" count row in the status
+ *                    bar is now three toggle buttons (aria-pressed), all on by
+ *                    default. The blue bucket is relabeled "Advisories".
+ *                  - renderAllAlerts() filters in two stages: county, then type.
+ *                    Counts and header severity are computed from the
+ *                    county-filtered set BEFORE the type filter, so hiding a
+ *                    type never zeroes its own count and never makes the card
+ *                    header look calmer than the real situation.
+ *                  - Deliberately NOT persisted to localStorage (unlike the
+ *                    county filter): a spotter who hides Warnings and forgets
+ *                    must not return mid-event to a page that silently omits
+ *                    them. A "Hiding ... showing X of Y" note
+ *                    (#alert-filter-note) appears whenever any type is off.
+ *                  - Toggle buttons are built once and updated in place, so
+ *                    keyboard focus survives the re-render each toggle causes.
  *   • 2026-07-01a – DATA INTEGRITY FIX: data/*-counties.json restructured
  *                  - Root cause of a real false-match bug: ffc-counties.json's
  *                    GAC codes were systematically wrong (off by -2 or -4 FIPS)
@@ -135,6 +151,21 @@
   let ffcCountiesReverse = {}; // { "fayette": "GAC111", ... }
   let ffcCountyData = {};      // { "GAC111": { same: "013111", gaz: ["GAZ054"] }, ... }
   let activeCountyFilter = new Set(); // GAC codes currently filtering alerts
+
+  // ========================================================================
+  // ALERT TYPE FILTER STATE
+  // ========================================================================
+  // The three alert buckets shown in the status bar. `countKey` is the matching
+  // field on the counts object returned by renderAllAlerts().
+  const ALERT_TYPES = [
+    { key: 'warning',  countKey: 'warnings',   colorClass: 'legend-red',    singular: 'Warning',  plural: 'Warnings'   },
+    { key: 'watch',    countKey: 'watches',    colorClass: 'legend-yellow', singular: 'Watch',    plural: 'Watches'    },
+    { key: 'advisory', countKey: 'advisories', colorClass: 'legend-blue',   singular: 'Advisory', plural: 'Advisories' }
+  ];
+  // Types currently shown. All on by default. Intentionally NOT persisted to
+  // localStorage (unlike the county filter): it resets on every page load so a
+  // forgotten filter can never hide a Warning from a spotter mid-event.
+  const activeTypeFilter = new Set(ALERT_TYPES.map(t => t.key));
 
   // NOTE: data/ffc-counties.json (and the other 5 CWA county files) are keyed
   // by county name and store every NWS code that might reference that county:
@@ -616,39 +647,113 @@
   }
 
   /**
-   * Update the alert-count-summary span in the status bar with live counts.
-   * Renders CSS triangle shapes (.legend-shape--triangle) instead of emoji so the
-   * alerts row stays visually distinct from the activation-status row (which uses
-   * circles). DOM-built to avoid innerHTML/XSS surface.
-   * @param {{warnings: number, watches: number, advisories: number}} counts
+   * Classify an NWS event name into one of the three dashboard buckets.
+   * Warning wins over watch; everything else (advisories, statements, ...) is
+   * 'advisory'. Single source of truth for counts, filtering and card styling.
+   * @param {string} event - properties.event, e.g. "Tornado Warning"
+   * @returns {'warning'|'watch'|'advisory'}
+   */
+  function getAlertType(event) {
+    const e = (event || '').toLowerCase();
+    if (e.includes('warning')) return 'warning';
+    if (e.includes('watch')) return 'watch';
+    return 'advisory';
+  }
+
+  /** "a" / "a and b" / "a, b and c" */
+  function joinList(items, conjunction) {
+    if (items.length <= 1) return items.join('');
+    if (items.length === 2) return `${items[0]} ${conjunction} ${items[1]}`;
+    return `${items.slice(0, -1).join(', ')} ${conjunction} ${items[items.length - 1]}`;
+  }
+
+  /**
+   * Empty-state HTML for when the type filter hides every alert that the
+   * county filter let through. Always says how many alerts are hidden so
+   * "No warnings" can never be misread as "all clear".
+   */
+  function buildTypeFilterEmptyHtml(counts) {
+    const visible = ALERT_TYPES.filter(t => activeTypeFilter.has(t.key)).map(t => t.plural.toLowerCase());
+    const scope = activeCountyFilter.size > 0 ? 'for the selected counties' : 'in the NWS Atlanta (FFC) area';
+    const headline = visible.length === 0
+      ? 'No alert types selected.'
+      : `No active ${joinList(visible, 'or')} ${scope}.`;
+    const n = counts.total;
+    const other = visible.length === 0 ? '' : 'other ';
+    const detail = `${n} ${other}${n === 1 ? 'alert is' : 'alerts are'} hidden by the type filter.`;
+    return `<p class="no-alerts center"><strong>${headline}</strong><br><small>${detail}</small></p>`;
+  }
+
+  /**
+   * Update the Warnings / Watches / Advisories toggle row in the status bar.
+   * The buttons are created once and then updated in place (never rebuilt), so a
+   * keyboard user's focus survives the re-render that each toggle triggers.
+   * Counts come from the county-filtered set, before the type filter.
+   * @param {{warnings: number, watches: number, advisories: number, shown?: number, total?: number}} counts
    */
   function updateAlertCountSummary(counts) {
     const el = document.getElementById('alert-count-summary');
     if (!el) return;
-    const { warnings, watches, advisories } = counts;
-    const showCounts = (warnings + watches + advisories) > 0;
+    const showCounts = (counts.warnings + counts.watches + counts.advisories) > 0;
 
-    // Clear existing content (safe — no HTML injection)
-    while (el.firstChild) el.removeChild(el.firstChild);
-
-    function appendSegment(colorClass, count, label) {
-      const shape = document.createElement('span');
-      shape.className = `legend-shape legend-shape--triangle ${colorClass}`;
-      shape.setAttribute('aria-hidden', 'true');
-      el.appendChild(shape);
-      const text = showCounts ? ` ${count} ${label}` : ` ${label}`;
-      el.appendChild(document.createTextNode(text));
+    if (el.querySelectorAll('.alert-type-toggle').length !== ALERT_TYPES.length) {
+      while (el.firstChild) el.removeChild(el.firstChild);
+      ALERT_TYPES.forEach(t => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'alert-type-toggle';
+        btn.dataset.type = t.key;
+        const shape = document.createElement('span');
+        shape.className = `legend-shape legend-shape--triangle ${t.colorClass}`;
+        shape.setAttribute('aria-hidden', 'true');
+        const label = document.createElement('span');
+        label.className = 'alert-type-label';
+        btn.append(shape, label);
+        el.appendChild(btn);
+      });
     }
 
-    const wLabel  = showCounts && warnings === 1   ? 'Warning'  : 'Warnings';
-    const wtLabel = showCounts && watches === 1    ? 'Watch'    : 'Watches';
-    const aLabel  = showCounts && advisories === 1 ? 'Advisory' : 'Alerts';
+    ALERT_TYPES.forEach(t => {
+      const btn = el.querySelector(`.alert-type-toggle[data-type="${t.key}"]`);
+      const label = btn && btn.querySelector('.alert-type-label');
+      if (!btn || !label) return;
+      const n = counts[t.countKey];
+      const word = showCounts && n === 1 ? t.singular : t.plural;
+      label.textContent = showCounts ? `${n} ${word}` : word;
+      btn.setAttribute('aria-pressed', String(activeTypeFilter.has(t.key)));
+    });
 
-    appendSegment('legend-red',    warnings,    wLabel);
-    el.appendChild(document.createTextNode(' | '));
-    appendSegment('legend-yellow', watches,     wtLabel);
-    el.appendChild(document.createTextNode(' | '));
-    appendSegment('legend-blue',   advisories,  aLabel);
+    updateAlertFilterNote(counts);
+  }
+
+  /**
+   * Show/hide the "Hiding ... — showing X of Y" note under the filters.
+   * Visible whenever ANY type is toggled off (even if nothing is currently
+   * hidden), because the next refresh could bring in an alert of a hidden type.
+   */
+  function updateAlertFilterNote(counts) {
+    const note = document.getElementById('alert-filter-note');
+    if (!note) return;
+    const hiddenTypes = ALERT_TYPES.filter(t => !activeTypeFilter.has(t.key));
+    if (hiddenTypes.length === 0) {
+      note.hidden = true;
+      return;
+    }
+    let text = note.querySelector('.alert-filter-text');
+    if (!text) {
+      note.textContent = '';
+      text = document.createElement('span');
+      text.className = 'alert-filter-text';
+      const reset = document.createElement('button');
+      reset.type = 'button';
+      reset.className = 'alert-filter-reset';
+      reset.textContent = 'Show all';
+      note.append(text, ' ', reset);
+    }
+    const total = counts.total || 0;
+    const shown = counts.shown || 0;
+    text.textContent = `Hiding ${joinList(hiddenTypes.map(t => t.plural), 'and')} — showing ${shown} of ${total} ${total === 1 ? 'alert' : 'alerts'}.`;
+    note.hidden = false;
   }
 
   /**
@@ -698,7 +803,7 @@
     const activeCountyNames = activeCountyFilter.size > 0
       ? new Set([...activeCountyFilter].map(code => (ffcCounties[code] || '').toLowerCase()))
       : null;
-    const displayFeatures = activeCountyFilter.size > 0
+    const countyFeatures = activeCountyFilter.size > 0
       ? uniqueFeatures.filter(f => {
           const p = f.properties || {};
           const geocode = p.geocode || {};
@@ -716,46 +821,53 @@
 
     updateAlertsTimestamp();
 
-    if (displayFeatures.length === 0) {
+    // Nothing active (after the county filter): nothing to count or hide.
+    if (countyFeatures.length === 0) {
       const msg = activeCountyFilter.size > 0
         ? '<strong>No active alerts for the selected counties.</strong>'
         : '<strong>No active alerts in NWS Atlanta (FFC) area.</strong>';
       return {
         html: `<p class="no-alerts center">${msg}</p>`,
         severity: 'green',
-        counts: { warnings: 0, watches: 0, advisories: 0 }
+        counts: { warnings: 0, watches: 0, advisories: 0, shown: 0, total: 0 }
       };
     }
 
-    // Determine highest severity for header color and count each type
-    // Priority: warning (red) > watch (yellow) > other (blue)
-    let highestSeverity = 'blue'; // Default to blue for advisories/other
+    // Count and rank severity from the county-filtered set BEFORE the type
+    // filter: counts stay true when a type is hidden, and the header color
+    // keeps reflecting the real worst alert (hiding Warnings must not turn a
+    // red header yellow). Priority: warning (red) > watch (yellow) > other (blue).
     let warningCount = 0;
     let watchCount = 0;
     let advisoryCount = 0;
-
-    displayFeatures.forEach(f => {
-      const p = f.properties;
-      if (p.event?.toLowerCase().includes('warning')) warningCount++;
-      else if (p.event?.toLowerCase().includes('watch')) watchCount++;
+    countyFeatures.forEach(f => {
+      const kind = getAlertType(f.properties?.event);
+      if (kind === 'warning') warningCount++;
+      else if (kind === 'watch') watchCount++;
       else advisoryCount++;
     });
+    const highestSeverity = warningCount > 0 ? 'red' : watchCount > 0 ? 'yellow' : 'blue';
 
-    const hasWarning = warningCount > 0;
-    const hasWatch = watchCount > 0;
+    // Type filter (toggled by the user in the status bar)
+    const displayFeatures = countyFeatures.filter(f => activeTypeFilter.has(getAlertType(f.properties?.event)));
+    const counts = {
+      warnings: warningCount,
+      watches: watchCount,
+      advisories: advisoryCount,
+      shown: displayFeatures.length,
+      total: countyFeatures.length
+    };
 
-    // Set severity based on highest priority alert type
-    if (hasWarning) {
-      highestSeverity = 'red';
-    } else if (hasWatch) {
-      highestSeverity = 'yellow';
+    if (displayFeatures.length === 0) {
+      return { html: buildTypeFilterEmptyHtml(counts), severity: highestSeverity, counts };
     }
 
     const html = displayFeatures.map((f, index) => {
       alertDataCache[index] = f;
       const p = f.properties;
-      const isWarning = p.event?.toLowerCase().includes('warning');
-      const isWatch = p.event?.toLowerCase().includes('watch');
+      const kind = getAlertType(p.event);
+      const isWarning = kind === 'warning';
+      const isWatch = kind === 'watch';
       const type = isWarning ? 'WARNING' : isWatch ? 'WATCH' : 'ALERT';
       const colorClass = isWarning ? 'alert-warning' : isWatch ? 'alert-watch' : 'alert-other';
 
@@ -780,7 +892,7 @@
         </div>`;
     }).join('');
 
-    return { html, severity: highestSeverity, counts: { warnings: warningCount, watches: watchCount, advisories: advisoryCount } };
+    return { html, severity: highestSeverity, counts };
   }
 
   /**
@@ -1165,6 +1277,54 @@
   }
 
   /**
+   * Re-apply filters after a toggle. Falls back to a full load if the 5-minute
+   * alert cache expired between refresh ticks, so a click is never a no-op.
+   */
+  function refreshAlertView() {
+    if (alertsCache.get()) reRenderAlerts();
+    else loadAlerts();
+  }
+
+  /** Mirror activeTypeFilter onto the toggle buttons' aria-pressed state. */
+  function syncTypeToggles() {
+    document.querySelectorAll('#alert-count-summary .alert-type-toggle').forEach(btn => {
+      btn.setAttribute('aria-pressed', String(activeTypeFilter.has(btn.dataset.type)));
+    });
+  }
+
+  /**
+   * Wire the Warnings / Watches / Advisories toggles and the "Show all" link.
+   * Uses delegation on persistent containers; the type filter is intentionally
+   * not saved to localStorage (see ALERT_TYPES note above).
+   */
+  function initAlertTypeFilter() {
+    const summary = document.getElementById('alert-count-summary');
+    const note = document.getElementById('alert-filter-note');
+    if (!summary) return;
+
+    summary.addEventListener('click', e => {
+      const btn = e.target.closest('.alert-type-toggle');
+      if (!btn) return;
+      const type = btn.dataset.type;
+      if (activeTypeFilter.has(type)) activeTypeFilter.delete(type);
+      else activeTypeFilter.add(type);
+      syncTypeToggles();
+      refreshAlertView();
+    });
+
+    if (note) {
+      note.addEventListener('click', e => {
+        if (!e.target.closest('.alert-filter-reset')) return;
+        ALERT_TYPES.forEach(t => activeTypeFilter.add(t.key));
+        syncTypeToggles();
+        refreshAlertView();
+        // The note (and its button) just hid itself; keep keyboard focus on the row.
+        summary.querySelector('.alert-type-toggle')?.focus();
+      });
+    }
+  }
+
+  /**
    * Initialize the county filter search box and restore any saved filter
    */
   function initCountyFilter() {
@@ -1238,12 +1398,14 @@
       document.addEventListener('DOMContentLoaded', async () => {
         await loadFFCCounties();
         initCountyFilter();
+        initAlertTypeFilter();
         await Promise.all([loadDashboard(), loadAlerts()]);
       });
     } else {
       (async () => {
         await loadFFCCounties();
         initCountyFilter();
+        initAlertTypeFilter();
         await Promise.all([loadDashboard(), loadAlerts()]);
       })();
     }

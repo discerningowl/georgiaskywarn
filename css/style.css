@@ -2338,6 +2338,68 @@ a:hover, a:focus-visible {
   color: var(--text-primary);
 }
 
+/* ---- Alert type filter (Warnings / Watches / Advisories toggles) ----
+   The count row doubles as the filter. "On" = solid tinted pill; "off" is
+   signalled by a dashed border, struck-through label and dimmed marker, so
+   state never depends on color alone. */
+.alert-type-filter {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+}
+.alert-type-toggle {
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-primary);
+  background: color-mix(in oklch, var(--accent-blue) 10%, var(--card-bg));
+  border: 1px solid color-mix(in oklch, var(--accent-blue) 45%, var(--card-border));
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  transition: var(--t-fast);
+}
+.alert-type-toggle:hover {
+  border-color: var(--accent-blue);
+  background: color-mix(in oklch, var(--accent-blue) 18%, var(--card-bg));
+}
+.alert-type-toggle[aria-pressed="false"] {
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--card-border);
+  color: var(--text-secondary);
+}
+.alert-type-toggle[aria-pressed="false"] .alert-type-label {
+  text-decoration: line-through;
+}
+.alert-type-toggle[aria-pressed="false"] .legend-shape {
+  opacity: 0.45;
+}
+
+/* "Hiding Watches, showing 2 of 7 alerts, plus a Show all link" note */
+.alert-filter-note {
+  margin: 0 0 1rem;
+  padding: 0.5rem 0.9rem;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-align: center;
+  color: var(--text-primary);
+  background: color-mix(in oklch, var(--accent-yellow) 14%, transparent);
+  border-left: 4px solid var(--accent-yellow);
+  border-radius: 8px;
+}
+.alert-filter-reset {
+  font: inherit;
+  font-weight: 700;
+  color: var(--accent-blue);
+  background: none;
+  border: 0;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 /* ---- Legend shape markers ----
    Two shape families distinguish the two legends in the spotter dashboard:
      • Triangles = alert TYPES   (Warnings / Watches / Advisories)  — warning-sign metaphor
