@@ -361,7 +361,7 @@
     "tags": [
       "SE Linked Repeater"
     ],
-    "description": "Wauka Mountain site at 1,100 ft above average terrain. Full-time link to Commerce 146.850- (KF4DGN). Covers Hall, Dawson, and White counties with partial coverage of Jackson, Habersham, and Gwinnett counties. Generator backup. AllStar connected.",
+    "description": "Wauka Mountain site at 1,100 ft above average terrain. Full-time link to Commerce 146.850- (KF4DGN). Covers Hall, Dawson, and White counties with partial coverage of Jackson, Habersham, and Gwinnett counties. Generator backup.",
     "callsign": "KA3JIJ",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=79",
     "linked": true,
@@ -374,11 +374,6 @@
     "clubName": "Lanierland Amateur Radio Club (LARC)",
     "clubUrl": "https://www.lanierlandarc.org/p/repeaters.html",
     "iplinks": [
-      {
-        "system": "AllStar",
-        "node": "43135",
-        "connectionType": "available"
-      },
       {
         "system": "EchoLink",
         "node": "245250",
@@ -484,7 +479,7 @@
     "iplinks": [
       {
         "system": "AllStar",
-        "node": "43135",
+        "node": "61727",
         "connectionType": "available"
       }
     ],
