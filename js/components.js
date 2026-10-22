@@ -6,6 +6,9 @@
  *          Merged from header.js + footer.js for better code organization
  * Based on: atlantahamradio.org header structure
  * Change-log:
+ *   • 2026-10-22 – Theme control is Auto / Dark / Light (was a two-way
+ *                  sun/moon toggle), matching the net control dashboard;
+ *                  Auto saves nothing and follows the device
  *   • 2026-04-02 – Removed sitewide search button and modal (search feature removed)
  *   • 2026-01-09 – Created by merging header.js + footer.js
  *                  - Reduced total file count from 9 to 7 (-22%)
@@ -38,9 +41,10 @@ function loadHeader() {
                     <a href="wx4ptc.html">WX4PTC</a>
                     <a href="nwsffclinks.html">Resources</a>
                     <a href="about.html">About</a>
-                    <button id="themeToggle" aria-label="Toggle theme" style="background: none; border: none; cursor: pointer; padding: 0.5rem; display: flex; align-items: center;">
-                        <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
-                        <svg id="moonIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    <button class="theme-toggle" id="themeToggle" aria-label="Theme: Auto. Click for Dark." title="Theme: Auto. Click for Dark." style="background: none; border: none; cursor: pointer; padding: 0.5rem; display: flex; align-items: center;">
+                        <svg class="theme-icon icon-auto" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>
+                        <svg class="theme-icon icon-dark" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg class="theme-icon icon-light" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
                     </button>
                 </nav>
                 <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu">
@@ -55,10 +59,11 @@ function loadHeader() {
                 <a href="wx4ptc.html">WX4PTC</a>
                 <a href="nwsffclinks.html">Resources</a>
                 <a href="about.html">About</a>
-                <button id="themeToggleMobile" aria-label="Toggle theme">
-                    <svg id="sunIconMobile" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
-                    <svg id="moonIconMobile" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-                    <span id="themeToggleText">Light Mode</span>
+                <button class="theme-toggle" id="themeToggleMobile" aria-label="Theme: Auto. Click for Dark.">
+                    <svg class="theme-icon icon-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>
+                    <svg class="theme-icon icon-dark" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg class="theme-icon icon-light" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+                    <span id="themeToggleText">Theme: Auto</span>
                 </button>
             </nav>
         </header>
@@ -193,34 +198,37 @@ function initMobileMenu() {
 }
 
 /**
- * Theme toggle functionality
+ * Theme control: Auto / Dark / Light (2026-10-22, was a two-way toggle).
+ * Auto follows the device: no data-theme on <html> and nothing saved, so
+ * the stylesheet's `color-scheme: light dark` decides. Dark and Light
+ * override it and are saved under the existing 'theme' key. Each click
+ * moves to the next setting; CSS shows the matching icon from data-theme.
  */
 function initThemeToggle() {
     const themeToggle = document.getElementById('themeToggle');
     const themeToggleMobile = document.getElementById('themeToggleMobile');
-    const sunIcon = document.getElementById('sunIcon');
-    const moonIcon = document.getElementById('moonIcon');
-    const sunIconMobile = document.getElementById('sunIconMobile');
-    const moonIconMobile = document.getElementById('moonIconMobile');
     const themeToggleText = document.getElementById('themeToggleText');
 
-    // Function to update theme icons and text
-    function updateThemeUI(theme) {
-        if (theme === 'dark') {
-            // Show moon icon (dark mode active)
-            if (sunIcon) sunIcon.style.display = 'none';
-            if (moonIcon) moonIcon.style.display = 'block';
-            if (sunIconMobile) sunIconMobile.style.display = 'none';
-            if (moonIconMobile) moonIconMobile.style.display = 'block';
-            if (themeToggleText) themeToggleText.textContent = 'Dark Mode';
-        } else {
-            // Show sun icon (light mode active)
-            if (sunIcon) sunIcon.style.display = 'block';
-            if (moonIcon) moonIcon.style.display = 'none';
-            if (sunIconMobile) sunIconMobile.style.display = 'block';
-            if (moonIconMobile) moonIconMobile.style.display = 'none';
-            if (themeToggleText) themeToggleText.textContent = 'Light Mode';
-        }
+    const MODES = ['auto', 'dark', 'light'];
+    const LABELS = { auto: 'Auto', dark: 'Dark', light: 'Light' };
+
+    function currentMode() {
+        return document.documentElement.getAttribute('data-theme') || 'auto';
+    }
+
+    function nextMode(mode) {
+        return MODES[(MODES.indexOf(mode) + 1) % MODES.length];
+    }
+
+    // Labels say the current setting and what a click does
+    function updateThemeUI(mode) {
+        const label = `Theme: ${LABELS[mode]}. Click for ${LABELS[nextMode(mode)]}.`;
+        [themeToggle, themeToggleMobile].forEach(btn => {
+            if (!btn) return;
+            btn.setAttribute('aria-label', label);
+            btn.title = label;
+        });
+        if (themeToggleText) themeToggleText.textContent = `Theme: ${LABELS[mode]}`;
     }
 
     // Function to set theme
@@ -229,16 +237,20 @@ function initThemeToggle() {
     // and new states and crossfade between them, smoothing out the dark/light
     // flip instead of snapping. Reduced-motion users skip the transition.
     // Browsers without the API just apply the change directly.
-    function setTheme(theme) {
+    function setTheme(mode) {
         const applyTheme = () => {
-            if (theme === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                localStorage.setItem('theme', 'dark');
+            if (mode === 'auto') {
+                document.documentElement.removeAttribute('data-theme');
             } else {
-                document.documentElement.setAttribute('data-theme', 'light');
-                localStorage.setItem('theme', 'light');
+                document.documentElement.setAttribute('data-theme', mode);
             }
-            updateThemeUI(theme);
+            try {
+                if (mode === 'auto') localStorage.removeItem('theme');
+                else localStorage.setItem('theme', mode);
+            } catch (e) {
+                // Storage blocked: the choice lasts until the page is left
+            }
+            updateThemeUI(mode);
         };
 
         const reduceMotion = window.matchMedia &&
@@ -251,11 +263,8 @@ function initThemeToggle() {
         }
     }
 
-    // Function to toggle theme
     function toggleTheme() {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        setTheme(newTheme);
+        setTheme(nextMode(currentMode()));
     }
 
     // Add click listeners to both toggle buttons
@@ -266,9 +275,8 @@ function initThemeToggle() {
         themeToggleMobile.addEventListener('click', toggleTheme);
     }
 
-    // Set initial UI state based on current theme
-    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-    updateThemeUI(currentTheme);
+    // Set initial labels from the current setting
+    updateThemeUI(currentMode());
 }
 
 /**
@@ -308,32 +316,24 @@ function initBackToTop() {
 }
 
 /**
- * Initialize theme on page load (before header loads)
+ * Apply a saved Dark or Light choice. Every page's <head> already does this
+ * before first paint (2026-10-22), so the page never flashes the other
+ * theme; this is the fallback. No saved choice means Auto: no data-theme,
+ * and CSS follows the device live, so no prefers-color-scheme listener is
+ * needed.
  */
 function initializeTheme() {
-    // Check for saved theme preference or default to system preference
-    const savedTheme = localStorage.getItem('theme');
-
-    if (savedTheme) {
-        // Use saved preference
-        document.documentElement.setAttribute('data-theme', savedTheme);
-    } else {
-        // Check system preference
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+    try {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || savedTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+    } catch (e) {
+        // Storage blocked: stay on Auto
     }
 }
 
-// Initialize theme immediately (before DOM loads to prevent flash)
 initializeTheme();
-
-// Listen for system theme changes
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-    // Only update if user hasn't set a manual preference
-    if (!localStorage.getItem('theme')) {
-        document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
-    }
-});
 
 // ============================================================================
 // FOOTER COMPONENT

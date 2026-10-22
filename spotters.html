@@ -26,7 +26,7 @@
   <link rel="canonical" href="https://georgiaskywarn.com/spotters.html">
 
   <!-- Security headers -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://api.weather.gov; font-src 'self'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-eeVXfdf7yPkDfRd1jtfsOW0DJLIGnyYfwI5V0q/A/Yk='; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://api.weather.gov; font-src 'self'; base-uri 'self'; form-action 'self'">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="referrer" content="strict-origin-when-cross-origin">
 
@@ -39,6 +39,9 @@
   <meta property="og:site_name" content="Georgia SKYWARN">
 
   <!-- Stylesheet and favicon -->
+  <!-- Saved Dark/Light theme, applied before the stylesheet so the page never
+       flashes the other theme (2026-10-22). Its sha256 is allowed in the CSP. -->
+  <script>(() => { try { const t = localStorage.getItem('theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); } catch (e) {} })();</script>
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
 

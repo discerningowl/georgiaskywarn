@@ -20,6 +20,10 @@
         {
           "title": "Filter Alerts by Type",
           "description": "On the dashboard, the Warnings, Watches, and Advisories counts above the Active Area Alerts list are now buttons. Tap one to hide or show that type, for example to see only Warnings during an event. The counts and the card's header color always reflect everything that's active for your selected counties, and a note appears whenever a type is hidden so you can't miss an alert by accident. The type filter resets every time the page loads. The blue group is now labeled \"Advisories\" instead of \"Alerts.\""
+        },
+        {
+          "title": "Updated Colors and Theme Setting",
+          "description": "The site's colors now come from the Georgia SKYWARN logo. The header is the logo's deep navy, so the logo sits cleanly on it, and buttons and links use the blue of its rings. Dark mode is now a deeper navy, and blue buttons and banners are easier to read in it. The theme button in the header now has three settings: Auto, the default, follows your device's light or dark setting; Dark and Light override it. Your choice is remembered (a choice you made before is kept) and is applied as each page loads, so pages no longer flash the other theme first."
         }
       ]
     },

@@ -292,6 +292,12 @@ For scripts that only load on specific pages:
 
 ### Design System
 
+**Brand core** (2026-10-22, top of `:root`): `--brand-ink` (header; the logo's own
+background), `--brand-blue` (fills behind white text, same in both themes), `--link`
+(link text). Shared with the WX4PTC net control dashboard, which keeps the same names
+and values; change both together. `--brand-navy` (`.page-nav` and mobile menu rows) is
+site-only for now.
+
 **CSS Custom Properties** (Light/Dark mode):
 ```css
 --bg-body           # Body background
@@ -299,7 +305,7 @@ For scripts that only load on specific pages:
 --text-secondary    # Secondary/muted text
 --card-bg           # Card background (with opacity)
 --card-border       # Card border color
---accent-blue       # Primary accent color
+--accent-blue       # Accent text/borders (= --link); fills use --brand-blue
 --accent-red        # Warnings/danger
 --accent-green      # Success/safety
 --accent-indigo     # Links/interactive
@@ -486,7 +492,7 @@ fetch(url, { headers: { 'User-Agent': USER_AGENT } });
 - [ ] Tablet view (768px-1024px)
 - [ ] Desktop view (1024px+)
 - [ ] Light mode appearance
-- [ ] Dark mode appearance (`@media (prefers-color-scheme: dark)`)
+- [ ] Dark mode appearance: Auto on a dark device, and Dark forced on a light device
 - [ ] Keyboard navigation (Tab, Enter, Space)
 - [ ] Screen reader compatibility (ARIA attributes)
 - [ ] External links open in new tabs (`target="_blank"`)
@@ -988,10 +994,10 @@ const CACHE_TTL = 5 * 60 * 1000; // 5 minutes (in milliseconds)
 
 ### Dark Mode Not Working
 
-1. **Check browser/OS settings** - must prefer dark mode
-2. **Verify custom properties** in `@media (prefers-color-scheme: dark)`
+1. **Check the theme setting** - Auto follows the device; Dark/Light are saved in `localStorage['theme']`
+2. **Verify the colour is a `light-dark()` value** - there is no `prefers-color-scheme` block any more (2026-10-22); a colour set outside `light-dark()` stays the same in both themes
 3. **Clear browser cache** - styles may be cached
-4. **Test in browser DevTools** - toggle prefers-color-scheme
+4. **Test in browser DevTools** - toggle prefers-color-scheme (Auto), or set `data-theme` on `<html>`
 
 ### Styling Broken After Changes
 
@@ -1103,6 +1109,32 @@ refactor: Simplify alert filtering logic
 ---
 
 ## Changelog
+
+### 2026-10-22 — Brand alignment with the net control dashboard; Auto / Dark / Light theme
+
+#### Background
+- Jack wants georgiaskywarn.com and the WX4PTC net control dashboard to read as one Georgia SKYWARN brand. The dashboard side shipped first (wx4ptc-transwx PR #183). Both now take their colours from the logo: its background `#0a2234` (`--brand-ink`) and its ring blue, darkened to `#0b5ed7` to carry white text (`--brand-blue`, `--link`). The ring colour itself (`#4484e4`) is only 3.7:1 on white, so it is never used for text. Spelling was already right (SKYWARN in capitals; "Bank 22: Skywarn" on `repeaters.html` is a literal radio bank name and stays).
+
+#### `css/style.css`
+- New "Brand core" block at the top of `:root`: `--brand-ink`, `--brand-blue`, `--link`, plus site-only `--brand-navy` (`#1a3a5c`, the dashboard's nav-bar navy). `--brand-blue-dark` sits next to `--accent-blue-dark` for hovers.
+- **Header**: `.header` is opaque `--brand-ink` (was translucent slate `rgba(15,23,42,.95)` with a blur), so the logo has no visible square. `.logo-image` lost its tile background, padding and shadow. `.page-nav` and the mobile menu rows went from slate to `--brand-navy`; the mobile menu overlays use `--brand-ink`.
+- **Blue**: `--accent-blue` is now `var(--link)` (light `#0b5ed7`, was `#0066cc`; dark `#60a5fa` unchanged) and is for text and borders only. Every blue **fill behind white text** moved to `--brand-blue`, which is the same in both themes: `.btn` / `.btn-blue`, `#desktopNav a.is-active`, `.page-nav .nav-list a.is-active`, `.site-banner`, `--header-gradient-blue` (blue card/modal headers), step badges, `.map-card-icon`, `.back-to-top`. In dark mode these were `#60a5fa` behind white text, 2.5:1; now 5.8:1. The old `rgba(0,102,204,…)` tints are `color-mix()` of `--brand-blue`.
+- **Dark navy**: `--bg-body` dark `#0f172a` → `#0b1522` (the dashboard's dark page). `--card-bg`, `--nav-btn-bg` and `--bg-primary/secondary/tertiary` dark values moved from slate to the same navy family (`#0b1522` / `#132133` / `#1a2b40`).
+- **The `@media (prefers-color-scheme: dark)` block is gone.** It only applied when the *device* was dark, so choosing Dark on a light-mode device left callouts, contact cards, table striping, the repeater search fill, the loading skeleton and the back-to-top button light. Each is now a `light-dark()` value on its own rule. Keep it that way: a dark-only override in a media query breaks forced Dark.
+- New `.theme-toggle` icon rules: CSS shows the icon for the current setting from `data-theme` on `<html>` (none = Auto).
+
+#### `js/components.js`
+- Theme control is **Auto / Dark / Light** (was a two-way sun/moon toggle with no way back to following the device), with the dashboard's three icons: half-filled circle, moon, sun. Each click moves to the next. Auto removes `data-theme` and the saved key, so `color-scheme: light dark` follows the device live; the old `prefers-color-scheme` listener is removed. Dark/Light are saved under the **existing** `localStorage['theme']` key, so choices made before this change carry over. `core.js`'s version-change cache clearing only removes `ffc-`/`georgiaskywarn-` keys, so the theme survives version bumps. The label (aria-label and title) says the current setting and the next one; the mobile button reads "Theme: Auto/Dark/Light".
+- `initializeTheme()` now only applies a saved Dark/Light (fallback for the head script below); it no longer writes `data-theme` from the device setting.
+
+#### All nine HTML pages
+- New inline `<script>` in `<head>`, just before the stylesheet, applies a saved Dark/Light before first paint. Before, the theme was applied by `components.js` at the end of the page, so anyone whose choice differed from their device saw the other theme flash on every load.
+- Every page's CSP has `script-src 'self'`, which blocks inline scripts, so the script's hash is allowed: `script-src 'self' 'sha256-eeVXfdf7yPkDfRd1jtfsOW0DJLIGnyYfwI5V0q/A/Yk='`. **The script text must stay byte-identical on every page**; changing it means recomputing the hash (`printf '%s' '<script body>' | openssl dgst -sha256 -binary | base64`) and updating all nine CSPs. `www/` and `wx4ptc/` untouched.
+
+#### Verification
+- Local preview (Python static server) at 1280px and 375px, light and dark: Auto on a light and a dark device, the Auto → Dark → Light cycle (icons, labels, saved key), Light carried across pages, forced Dark on a light device (table striping, search fill, contact icons take their dark values), no CSP errors in the console. Contrast checked by hand: `--link` 5.5:1 on the light page and 7.2:1 on the dark page; white on `--brand-blue` 5.8:1; header text on `--brand-ink` 13.2:1, subtitle 6.3:1; page-nav pill text 9.9:1.
+- Known, not changed: `--text-muted` (`#6b7280`) is 3.8:1 on the dark page (3.7:1 before). An empty "Alert Details" modal appeared in the preview tool's first screenshot after each load on this branch **and on `main`**; the modals reported `display: none`, so it looks like a capture artifact, but it's unconfirmed on real devices.
+- Version bumped to `20261022`. Public `data/changelog.json` October 2026 entry gained an "Updated Colors and Theme Setting" item; `sitemap.xml` `lastmod` updated on all eight listed pages.
 
 ### 2026-10-12 — Alert type filter (Warnings / Watches / Advisories) on the dashboard
 
