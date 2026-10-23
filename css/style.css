@@ -445,6 +445,66 @@ a:hover, a:focus-visible {
 :root[data-theme="dark"] .theme-toggle .icon-dark,
 :root[data-theme="light"] .theme-toggle .icon-light { display: block; }
 
+/* Net Control Dashboard button (2026-10-23): headset icon, styled like the
+   theme toggle. One sits in #desktopNav, one beside the mobile hamburger;
+   both open #ncsModal (components.js). Unlayered so it sits with the rest
+   of the header rules. */
+.ncs-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #e2e8f0;
+  padding: 0.5rem;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  transition: var(--t-fast);
+}
+
+.ncs-btn:hover,
+.ncs-btn:focus-visible {
+  color: var(--blue-400);
+  background: rgba(96, 165, 250, 0.1);
+}
+
+/* Holds the mobile headset button and the hamburger; desktop hides it */
+.header-mobile-actions {
+  display: none;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Notice shown before leaving for the dashboard */
+.ncs-modal { max-width: 30rem; }
+
+.ncs-modal-lead {
+  color: var(--text-primary);
+  margin-top: 0;
+}
+
+.ncs-modal-actions {
+  border-top: 1px solid var(--card-border);
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn.ncs-btn-cancel {
+  --btn-bg: transparent;
+  --btn-bg-hover: color-mix(in oklch, var(--text-primary) 10%, transparent);
+  color: var(--text-primary);
+  box-shadow: inset 0 0 0 1px var(--card-border);
+}
+
+.btn.ncs-btn-cancel:hover,
+.btn.ncs-btn-cancel:focus-visible { color: var(--text-primary); }
+
 /* Mobile hamburger button */
 .mobile-menu-btn {
   display: none;
@@ -541,13 +601,17 @@ a:hover, a:focus-visible {
     display: flex;
   }
 
+  .header-mobile-actions {
+    display: flex;
+  }
+
   .logo-image {
     width: 48px;
     height: 48px;
   }
 
   .logo-text {
-    max-width: calc(100vw - 180px); /* Leave room for logo image + hamburger */
+    max-width: calc(100vw - 220px); /* Leave room for logo image + headset + hamburger; the title wraps below ~400px */
   }
 
   .logo-text h1 {
@@ -2137,7 +2201,7 @@ a:hover, a:focus-visible {
   text-align: center;
 }
 
-/* Validation Sources (repeater-validation.html): four separate <table>
+/* Validation Sources (repeater-audit.html): four separate <table>
    elements (Not Validated / Partially / Validated / Fully) share identical
    headers but were auto-sizing columns independently per table, so they
    drifted out of alignment with each other. A shared colgroup + fixed
@@ -3100,7 +3164,7 @@ a:hover, a:focus-visible {
 
 .detail-value a:hover { color: var(--accent-blue); }
 
-/* Repeater Audit Modal (repeater-validation.html only) — data-quality
+/* Repeater Audit Modal (repeater-audit.html only) — data-quality
    issue list and raw-JSON block, used alongside .detail-section/.detail-grid
    above for the Summary Status block. */
 .audit-issues {
@@ -3246,7 +3310,7 @@ a:hover, a:focus-visible {
   }
 }
 /* ---------------------------------------------------------------------
-   Repeater Network Map (repeater-validation.html)
+   Repeater Network Map (repeater-audit.html)
    Generated live from data/repeaters.json's rflinks graph — see
    computeNetworkStatus()/renderNetworkMap() in scripts.js.
    Tier = sequential (ordered hop-distance from the hub), so it's one

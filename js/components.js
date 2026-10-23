@@ -6,6 +6,12 @@
  *          Merged from header.js + footer.js for better code organization
  * Based on: atlantahamradio.org header structure
  * Change-log:
+ *   • 2026-10-23 – Headset button in the header (desktop nav and beside the
+ *                  mobile hamburger) opens a WX4PTC-only notice, then the
+ *                  Net Control Dashboard in a new tab (NCS_DASHBOARD_URL).
+ *                  Footer "⋯" link is now a faint "Audit" link to
+ *                  repeater-audit.html (was repeater-validation.html).
+ *                  Nav active-page highlight works on Pages' .html-less URLs.
  *   • 2026-10-22 – Theme control is Auto / Dark / Light (was a two-way
  *                  sun/moon toggle), matching the net control dashboard;
  *                  Auto saves nothing and follows the device
@@ -19,6 +25,16 @@
 // ============================================================================
 // HEADER COMPONENT
 // ============================================================================
+
+/**
+ * Net Control Dashboard (2026-10-23): the WX4PTC transcriber, behind
+ * Cloudflare Access. The header's headset button opens a notice first, then
+ * this opens in a new tab. Access does the real gatekeeping; the notice only
+ * tells the public it isn't for them. Change the hostname here only.
+ */
+const NCS_DASHBOARD_URL = 'https://skywarn.tytonest.xyz/';
+
+const NCS_HEADSET_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/></svg>`;
 
 /**
  * Load common header with logo, navigation, and theme toggle
@@ -41,16 +57,20 @@ function loadHeader() {
                     <a href="wx4ptc.html">WX4PTC</a>
                     <a href="nwsffclinks.html">Resources</a>
                     <a href="about.html">About</a>
+                    <button type="button" class="ncs-btn" data-ncs-open aria-haspopup="dialog" aria-label="Net Control Dashboard (WX4PTC team only)" title="Net Control Dashboard (WX4PTC team only)">${NCS_HEADSET_ICON}</button>
                     <button class="theme-toggle" id="themeToggle" aria-label="Theme: Auto. Click for Dark." title="Theme: Auto. Click for Dark." style="background: none; border: none; cursor: pointer; padding: 0.5rem; display: flex; align-items: center;">
                         <svg class="theme-icon icon-auto" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>
                         <svg class="theme-icon icon-dark" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                         <svg class="theme-icon icon-light" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
                     </button>
                 </nav>
-                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu">
-                    <svg class="hamburger-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-                    <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                </button>
+                <div class="header-mobile-actions">
+                    <button type="button" class="ncs-btn" data-ncs-open aria-haspopup="dialog" aria-label="Net Control Dashboard (WX4PTC team only)" title="Net Control Dashboard (WX4PTC team only)">${NCS_HEADSET_ICON}</button>
+                    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu">
+                        <svg class="hamburger-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+                        <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    </button>
+                </div>
             </div>
             <nav class="mobile-nav" id="mobileNav">
                 <a href="index.html">Home</a>
@@ -82,9 +102,31 @@ function loadHeader() {
     `;
     document.body.insertAdjacentHTML('beforeend', backToTopHTML);
 
+    // Net Control Dashboard notice, opened by either headset button
+    const ncsModalHTML = `
+        <div class="modal-backdrop" id="ncsModal" role="dialog" aria-modal="true" aria-labelledby="ncsModalTitle">
+            <div class="modal-content ncs-modal">
+                <div class="modal-header modal-header--blue">
+                    <h2 class="modal-title" id="ncsModalTitle">Net Control Dashboard</h2>
+                    <button type="button" class="modal-close" data-ncs-close aria-label="Close">×</button>
+                </div>
+                <div class="modal-body">
+                    <p class="ncs-modal-lead"><strong>Restricted service.</strong> The Net Control Dashboard is for WX4PTC team members only.</p>
+                    <p>You'll be asked to sign in, and only approved team members get through. Spotters don't need it: check in on the repeaters as usual.</p>
+                    <div class="ncs-modal-actions">
+                        <button type="button" class="btn ncs-btn-cancel" data-ncs-close>Cancel</button>
+                        <a href="${NCS_DASHBOARD_URL}" target="_blank" rel="noopener noreferrer" class="btn btn-blue" id="ncsContinue">Continue to Dashboard ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', ncsModalHTML);
+
     // Initialize mobile menu, theme toggle, and back to top after DOM insertion
     initMobileMenu();
     initThemeToggle();
+    initNcsModal();
     initBackToTop();
     initStickyHeaderShadow();
     setActiveNavLink();
@@ -101,7 +143,9 @@ function loadHeader() {
  */
 function setActiveNavLink() {
     // Last path segment, e.g. "repeaters.html". Root ("/" or "") means index.html.
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    // Cloudflare Pages serves /repeaters without .html extension
+    const page = window.location.pathname.split('/').pop() || 'index.html';
+    const currentPage = page.includes('.') ? page : page + '.html';
 
     document.querySelectorAll('#desktopNav a[href], .mobile-nav a[href]').forEach(link => {
         if (link.getAttribute('href') === currentPage) {
@@ -280,6 +324,41 @@ function initThemeToggle() {
 }
 
 /**
+ * Net Control Dashboard notice (2026-10-23). Either headset button opens
+ * it; Cancel, ×, Esc or a click on the backdrop closes it. Continue is a
+ * real link (new tab), so it also closes the notice behind it.
+ */
+function initNcsModal() {
+    const modal = document.getElementById('ncsModal');
+    if (!modal) return;
+
+    let opener = null;
+
+    function open(e) {
+        opener = e.currentTarget;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        document.getElementById('ncsContinue')?.focus();
+    }
+
+    function close() {
+        if (!modal.classList.contains('active')) return;
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        opener?.focus();
+    }
+
+    document.querySelectorAll('[data-ncs-open]').forEach(btn => btn.addEventListener('click', open));
+    modal.querySelectorAll('[data-ncs-close], #ncsContinue').forEach(el => el.addEventListener('click', close));
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) close();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') close();
+    });
+}
+
+/**
  * Back to top button functionality
  */
 function initBackToTop() {
@@ -376,7 +455,7 @@ function loadFooter() {
                             <li><a href="https://www.weather.gov/ffc/" target="_blank" rel="noopener noreferrer">NWS Atlanta</a></li>
                             <li><a href="https://www.weather.gov/ffc/SKYWARNsched" target="_blank" rel="noopener noreferrer">Spotter Training</a></li>
                             <li><a href="https://www.weather.gov/ffc/strmsubm1" target="_blank" rel="noopener noreferrer">Submit Storm Report</a></li>
-                            <li><a href="repeater-validation.html" style="opacity: 0.4;" aria-label="Repeater Database Validation">&#8943;</a></li>
+                            <li><a href="repeater-audit.html" style="opacity: 0.4;" aria-label="Repeater Database Audit">Audit</a></li>
                         </ul>
                     </div>
                 </div>

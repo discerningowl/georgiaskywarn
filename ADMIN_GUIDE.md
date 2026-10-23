@@ -123,7 +123,7 @@ georgiaskywarn/
 ├── photoarchive.html       ← Historical photos page
 ├── spotters.html           ← Spotter resources and training
 ├── changelog.html          ← Full website changelog history (linked from the About page)
-├── repeater-validation.html ← Internal quarterly repeater-data review dashboard (hidden from search engines)
+├── repeater-audit.html ← Internal quarterly repeater-data review dashboard (hidden from search engines)
 ├── sitemap.xml             ← Site map for search engines
 ├── robots.txt              ← Search engine directives
 ├── css/                    ← Stylesheets

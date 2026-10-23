@@ -23,7 +23,7 @@ georgiaskywarn/
 ├── changelog.html          # Full changelog history, grouped by year (linked from about.html, not in main nav)
 ├── photoarchive.html       # Photo archive of WX4PTC station
 ├── spotters.html           # Spotter resources and reporting guidelines
-├── repeater-validation.html # Repeater database validation dashboard for quarterly review (stats, inactive, unverified) — noindex
+├── repeater-audit.html # Repeater database validation dashboard for quarterly review (stats, inactive, unverified) — noindex
 ├── css/                    # Stylesheets directory
 │   └── style.css           # Shared stylesheet for all pages
 ├── js/                     # JavaScript files directory (8 files total)
@@ -333,7 +333,7 @@ site-only for now.
    - Flexbox and CSS Grid for layouts
 
 3. **Component Classes**:
-   - **`.card-header` color standard (set 2026-06-30)**: the plain `.card-header` (no color modifier — dark navy gradient) is the **site-wide default for every purely-informational card banner**. Do NOT add `.card-header--blue` or any other color modifier to a card just to make it stand out. Color modifiers (`--red`, `--yellow`, `--blue`, `--orange`, `--green`) are reserved for **functional/semantic** meaning only: index.html's Spotter Activation and Active Area Alerts headers change color dynamically based on real severity (red/yellow/blue/green), and `repeater-validation.html`'s section headers use color to flag data-quality categories (red = inactive, yellow = needs review, blue = informational summary). If you're tempted to color a header purely for visual variety, don't — use the default.
+   - **`.card-header` color standard (set 2026-06-30)**: the plain `.card-header` (no color modifier — dark navy gradient) is the **site-wide default for every purely-informational card banner**. Do NOT add `.card-header--blue` or any other color modifier to a card just to make it stand out. Color modifiers (`--red`, `--yellow`, `--blue`, `--orange`, `--green`) are reserved for **functional/semantic** meaning only: index.html's Spotter Activation and Active Area Alerts headers change color dynamically based on real severity (red/yellow/blue/green), and `repeater-audit.html`'s section headers use color to flag data-quality categories (red = inactive, yellow = needs review, blue = informational summary). If you're tempted to color a header purely for visual variety, don't — use the default.
    - **`.section-subheader` standard (set 2026-06-30)**: use this class — not inline styles — for any `<h3>` that introduces a labeled cluster of content *within* a `.card-body` (e.g. "Radar Maps", "How to Import into CHIRP", "Our Forecast Area..."). It renders as a centered, bold, blue-tinted banner with a left accent border (`css/style.css` ~line 1088); the first one in a card automatically gets `margin-top: 0` via `.section-subheader:first-of-type`. Originally only used on `spotters.html`; standardized across `about.html`, `repeaters.html`, and `index.html` in the same pass that fixed `.card-header`. Do NOT reinvent this with inline `style="color: var(--accent-blue);"` on a bare `<h3>`/`<h4>` — that's exactly the drift this class exists to prevent. Plain intro/tagline text that isn't really a section label (e.g. index.html's "Essential weather and situational awareness tools for spotters.") should stay plain text, not `.section-subheader`. This is a different component from `.sub-card h4` (the title *inside* an individual sub-card, not a group label).
    - **`.search-pill` standard (set 2026-06-30)**: the single shared search/filter box component (`css/style.css`, "Standard Search Pill" block just above the repeater-search section) used by the repeater search (`repeaters.html`), the county alert filter (`index.html`), and the county coverage search (`about.html`). Structure: `.search-pill` wraps a `.search-pill-icon` (magnifying glass, shown when idle), a `.search-pill-error-icon` (amber warning triangle with a `data-tooltip` CSS tooltip, only shown when the wrapping `.search-pill` has `.has-error` — currently only the county alert filter ever toggles this), a `.search-pill-clear` (circular red × button, left-justified, toggled via the `hidden` attribute — NOT a `.visible` class, that pattern was retired), and the `.search-pill-input` itself. A `:has()` rule hides the idle search icon automatically whenever the clear button or error triangle is showing, so only one indicator ever occupies the leading slot. Page-specific wrapper markup (labels, autocomplete dropdowns, outer padding bars like `.county-filter-bar` or `.county-search-wrap`) stays in each page's own CSS — only the pill itself (icon/error/clear/input) is shared. Do NOT hand-roll a new search box style; add `.search-pill` + the four child classes to any new search/filter UI instead.
    - `.card` - Reusable content container (outer card with header)
@@ -369,7 +369,8 @@ The site uses a **two-tier navigation system**:
 **DO NOT write site navigation markup manually.** The site-wide header and navigation are automatically injected by `js/components.js` into every page via `loadHeader()`. The injected HTML uses:
 - `<header class="header">` — main header element
 - `<nav id="desktopNav">` — desktop nav with plain `<a>` links (no extra classes)
-- `<button class="mobile-menu-btn" id="mobileMenuBtn">` — mobile hamburger
+- `<button class="ncs-btn" data-ncs-open>` — headset icon for the WX4PTC Net Control Dashboard (2026-10-23). One sits in `#desktopNav` before the theme toggle; one sits beside the hamburger in `.header-mobile-actions`. Both open `#ncsModal`, a "restricted, WX4PTC team only" notice whose Continue link opens `NCS_DASHBOARD_URL` (top of `components.js`, currently `https://skywarn.tytonest.xyz/`) in a new tab. The dashboard's own Cloudflare Access login is what actually restricts it. To move the dashboard to another hostname, change only that constant.
+- `<div class="header-mobile-actions">` wrapping `<button class="mobile-menu-btn" id="mobileMenuBtn">` — mobile hamburger
 - `<nav class="mobile-nav" id="mobileNav">` — mobile nav (toggled with `.active` class)
 
 **To add a page to site navigation**: Edit `js/components.js` `loadHeader()` function — add an `<a href="newpage.html">New Page</a>` to **both** `#desktopNav` and `#mobileNav`.
@@ -729,8 +730,8 @@ Repeater tables are dynamically generated from the unified repeaters.json file:
 | 8 | `refurl` | string | Yes | RepeaterBook reference URL (single source of truth) |
 | 9 | `linked` | boolean | Yes | `true` if part of linked SKYWARN network, `false` otherwise |
 | 10 | `validation` | object | Yes | Multi-source validation record: `{ "repeaterbook": bool, "owner": bool, "club": bool }`. Tracks three independent confirmation sources — RepeaterBook comparison, direct owner confirmation, and club website/roster confirmation — rather than a single boolean, since these are separate processes with separate reliability. `repeaterbook` is the only sub-field ever written automatically (by `scripts/verify_repeaters.py`); `owner` and `club` are set manually as Jack actually confirms with those sources. See "Validating Repeater Data" below and `getValidationTier()` in `js/scripts.js` for how these three flags are reduced to a display tier (Fully Validated/Validated/Partially Validated/Not Validated). |
-| 11 | `active` | boolean | Yes | `true` if currently on-air/operational, `false` if confirmed off-air. Drives filtering: inactive repeaters are excluded from the public tables (`renderAllRepeaters()`) and CSV exports, and surfaced on `repeater-validation.html`'s Inactive list. |
-| 12 | `statusNote` | string | Only when `active: false` | Free-text explanation of the outage (who reported it, what's needed, follow-up date). Read by `repeater-validation.html`'s Inactive table (`r.statusNote`). Omit entirely when the repeater is active. |
+| 11 | `active` | boolean | Yes | `true` if currently on-air/operational, `false` if confirmed off-air. Drives filtering: inactive repeaters are excluded from the public tables (`renderAllRepeaters()`) and CSV exports, and surfaced on `repeater-audit.html`'s Inactive list. |
+| 12 | `statusNote` | string | Only when `active: false` | Free-text explanation of the outage (who reported it, what's needed, follow-up date). Read by `repeater-audit.html`'s Inactive table (`r.statusNote`). Omit entirely when the repeater is active. |
 | 13 | `picUrl` | string | Only when applicable | Link to station photos (currently only 444.600+ and 442.500+). Omit if not applicable. |
 | 14 | `clubName` | string/null | Yes | Sponsoring club name, or `null` if unknown |
 | 15 | `clubUrl` | string/null | Yes | Sponsoring club URL, or `null` if unknown |
@@ -783,11 +784,11 @@ Repeater tables are dynamically generated from the unified repeaters.json file:
 | Repeater owner/trustee | `owner` | Direct confirmation from the licensee or trustee (phone, email, in-person, net check-in) | No — set manually in the JSON when confirmed |
 | Sponsoring club | `club` | Confirmed against the club's own website/roster (see `clubName`/`clubUrl`) | No — set manually in the JSON when confirmed |
 
-A repeater's display tier (shown on the public detail modal and on `repeater-validation.html`) is derived from how many of these three are `true` — see `getValidationTier()` in `js/scripts.js`, the single source of truth for that reduction logic:
+A repeater's display tier (shown on the public detail modal and on `repeater-audit.html`) is derived from how many of these three are `true` — see `getValidationTier()` in `js/scripts.js`, the single source of truth for that reduction logic:
 - **Fully Validated** — all three confirmed (3 of 3)
 - **Validated** — two confirmed (2 of 3)
 - **Partially Validated** — one confirmed (1 of 3)
-- **Not Validated** — none confirmed (0 of 3; this is what drives `repeater-validation.html`'s "Not Validated" table — repeaters with at least one confirmed source are excluded from that list, even if RepeaterBook specifically hasn't confirmed them)
+- **Not Validated** — none confirmed (0 of 3; this is what drives `repeater-audit.html`'s "Not Validated" table — repeaters with at least one confirmed source are excluded from that list, even if RepeaterBook specifically hasn't confirmed them)
 
 RepeaterBook is one input among three, not an authority the whole `validation` object defers to — this distinction matters for how we describe the relationship publicly (see the 2026-08-04 changelog entries below on attribution wording).
 
@@ -1109,6 +1110,15 @@ refactor: Simplify alert filtering logic
 ---
 
 ## Changelog
+
+### 2026-10-23 — Net Control Dashboard button; repeater-validation.html → repeater-audit.html
+
+- **Header** (`js/components.js`, `css/style.css`): a headset button (`.ncs-btn`) in `#desktopNav` and next to the mobile hamburger opens `#ncsModal`, which says the Net Control Dashboard is a restricted service for WX4PTC team members, then opens `NCS_DASHBOARD_URL` in a new tab. Cancel, ×, Esc and a backdrop click close it; focus goes to Continue on open and back to the button on close. The hamburger now sits inside `.header-mobile-actions` with the mobile headset. On phones narrower than ~400px, "Georgia SKYWARN" wraps to two lines to make room (`.logo-text` max-width is `calc(100vw - 220px)`, was `180px`).
+- **Rename**: `repeater-validation.html` → `repeater-audit.html` (`git mv`), page title "Repeater Audit". Updated the `currentPage` gate in `js/scripts.js`, CSS comments, README, ADMIN_GUIDE and the reference sections above. Older changelog entries keep the old name. Nothing else links to the page, so there is no redirect.
+- **Footer**: the faint "⋯" link in Connect is now a faint "Audit" link (same 0.4 opacity).
+- **Fix**: `setActiveNavLink()` now adds `.html` to Cloudflare Pages' extensionless paths (`/repeaters`), the same as `UTILS.getCurrentPage()` and `loader.js`, so the active-page highlight works there.
+- `APP_VERSION` → `20261023`.
+- Verified on a local Python static server at 1280px (light) and 375px / 430px (dark): the modal opens from both buttons, Continue is `target="_blank"` to the dashboard, every close path works, the header stays on one row, the footer link renders, and repeater-audit.html loads its tables with no console errors.
 
 ### 2026-10-22 — Brand alignment with the net control dashboard; Auto / Dark / Light theme
 

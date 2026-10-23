@@ -9,7 +9,7 @@
  *          - Repeater data rendering from JSON (repeaters.html)
  *          - Repeater detail modal (repeaters.html)
  *          - CHIRP and RT Systems CSV export (repeaters.html)
- *          - Repeater validation dashboard (repeater-validation.html)
+ *          - Repeater validation dashboard (repeater-audit.html)
  *          - Page navigation toggle (mobile, all pages)
  *          - What to Report modals (spotters.html)
  * NOTE: NWS alert fetching is handled by nws-api.js
@@ -1228,9 +1228,9 @@
   }
 
   // ========================================================================
-  // REPEATER VALIDATION PAGE (repeater-validation.html) — Database quality dashboard
+  // REPEATER VALIDATION PAGE (repeater-audit.html) — Database quality dashboard
   // ========================================================================
-  if (currentPage === 'repeater-validation.html') {
+  if (currentPage === 'repeater-audit.html') {
     // ── Helper: render a single validation-source check/x cell ────────────
     // Shared by renderAdminPage()'s Sources table rows and the audit modal
     // below (moved out of renderAdminPage so both can reach it via closure).

@@ -70,7 +70,7 @@ georgiaskywarn/
 ├── index.html              # Spotter dashboard with HWO and all alerts (home page)
 ├── spotters.html           # Spotter resources and training
 ├── changelog.html          # Full website changelog history
-├── repeater-validation.html # Internal quarterly repeater-data review dashboard (noindex)
+├── repeater-audit.html # Internal quarterly repeater-data review dashboard (noindex)
 ├── repeaters.html          # Linked and non-linked repeaters
 ├── nwsffclinks.html        # NWS links and resources
 ├── wx4ptc.html             # WX4PTC station information
