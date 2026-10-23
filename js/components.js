@@ -57,13 +57,15 @@ function loadHeader() {
                     <a href="wx4ptc.html">WX4PTC</a>
                     <a href="nwsffclinks.html">Resources</a>
                     <a href="about.html">About</a>
+                </nav>
+                <div class="header-actions">
                     <button type="button" class="ncs-btn" data-ncs-open aria-haspopup="dialog" aria-label="Net Control Dashboard (WX4PTC team only)" title="Net Control Dashboard (WX4PTC team only)">${NCS_HEADSET_ICON}</button>
                     <button class="theme-toggle" id="themeToggle" aria-label="Theme: Auto. Click for Dark." title="Theme: Auto. Click for Dark." style="background: none; border: none; cursor: pointer; padding: 0.5rem; display: flex; align-items: center;">
                         <svg class="theme-icon icon-auto" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>
                         <svg class="theme-icon icon-dark" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
                         <svg class="theme-icon icon-light" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
                     </button>
-                </nav>
+                </div>
                 <div class="header-mobile-actions">
                     <button type="button" class="ncs-btn" data-ncs-open aria-haspopup="dialog" aria-label="Net Control Dashboard (WX4PTC team only)" title="Net Control Dashboard (WX4PTC team only)">${NCS_HEADSET_ICON}</button>
                     <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu">

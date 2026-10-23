@@ -333,9 +333,13 @@ a:hover, a:focus-visible {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
+/* Three zones across the full width (2026-10-23, Jack's ask): the title
+   flush left, the page nav in the middle, the headset and theme buttons
+   flush right. It was a 1280px centred row. Below 1600px the nav centres
+   in the space between the other two (and wraps under the title, buttons
+   beside it, when the row runs out); the grid that centres it on the page
+   is in the 1600px block further down. */
 .header-content {
-  max-width: 1280px;
-  margin: 0 auto;
   padding: 1rem 1.5rem;
   display: flex;
   justify-content: space-between;
@@ -383,8 +387,16 @@ a:hover, a:focus-visible {
 /* Desktop navigation - right side */
 #desktopNav {
   display: flex;
+  margin: 0 auto; /* centres it in the space between the title and the buttons */
   gap: 1.5rem;
   align-items: center;
+}
+
+/* Headset + theme, right of the nav on desktop */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 #desktopNav a {
@@ -593,7 +605,8 @@ a:hover, a:focus-visible {
 
 /* Responsive behavior */
 @media (max-width: 768px) {
-  #desktopNav {
+  #desktopNav,
+  .header-actions {
     display: none;
   }
 
@@ -636,6 +649,20 @@ a:hover, a:focus-visible {
   .mobile-menu-btn {
     display: none !important;
   }
+}
+
+/* Wide enough for the nav to sit at the true centre of the page with the
+   title and buttons beside it: two equal outer columns. Narrower, the
+   flex row above keeps everything on one line. */
+@media (min-width: 1600px) {
+  .header-content {
+    display: grid;
+    grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr);
+  }
+
+  #desktopNav { margin: 0; }
+  .logo { justify-self: start; }
+  .header-actions { justify-self: end; }
 }
 
 /* --- MODAL SYSTEM --- */
