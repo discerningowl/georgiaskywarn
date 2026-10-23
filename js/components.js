@@ -34,7 +34,10 @@
  */
 const NCS_DASHBOARD_URL = 'https://skywarn.tytonest.xyz/';
 
-const NCS_HEADSET_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5Zm0 0a9 9 0 1 1 18 0m0 0v5a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M21 16v2a4 4 0 0 1-4 4h-5"/></svg>`;
+// A net control operator: head and shoulders in a headset with a mic boom
+// (2026-10-23, Jack's ask; was a bare headset). Drawn for this site in the
+// same 24px, 2px-stroke style as the theme icons.
+const NCS_HEADSET_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="3"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/><path d="M5.5 9.5a6.5 6.5 0 0 1 13 0"/><rect x="4" y="9" width="2.5" height="4" rx="1"/><rect x="17.5" y="9" width="2.5" height="4" rx="1"/><path d="M5.25 13c0 1 1.5 1.5 4.25 1.5"/></svg>`;
 
 /**
  * Load common header with logo, navigation, and theme toggle
