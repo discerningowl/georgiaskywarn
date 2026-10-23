@@ -368,8 +368,9 @@ The site uses a **two-tier navigation system**:
 
 **DO NOT write site navigation markup manually.** The site-wide header and navigation are automatically injected by `js/components.js` into every page via `loadHeader()`. The injected HTML uses:
 - `<header class="header">` — main header element
-- `<nav id="desktopNav">` — desktop nav with plain `<a>` links (no extra classes)
-- `<button class="ncs-btn" data-ncs-open>` — headset icon for the WX4PTC Net Control Dashboard (2026-10-23). One sits in `#desktopNav` before the theme toggle; one sits beside the hamburger in `.header-mobile-actions`. Both open `#ncsModal`, a "restricted, WX4PTC team only" notice whose Continue link opens `NCS_DASHBOARD_URL` (top of `components.js`, currently `https://skywarn.tytonest.xyz/`) in a new tab. The dashboard's own Cloudflare Access login is what actually restricts it. To move the dashboard to another hostname, change only that constant.
+- `<nav id="desktopNav">` — desktop nav with plain `<a>` links only (no extra classes)
+- `<div class="header-actions">` — the desktop headset button and theme toggle, right of the nav (2026-10-23; they were inside `#desktopNav`). The header is three zones across the full width: title flush left, nav in the middle, `.header-actions` flush right. From 1600px a grid centres the nav on the page; narrower, the nav centres in the space between the other two and wraps under the title when the row runs out. Hidden at 768px and below, like `#desktopNav`.
+- `<button class="ncs-btn" data-ncs-open>` — headset icon for the WX4PTC Net Control Dashboard (2026-10-23). One sits in `.header-actions` before the theme toggle; one sits beside the hamburger in `.header-mobile-actions`. Both open `#ncsModal`, a "restricted, WX4PTC team only" notice whose Continue link opens `NCS_DASHBOARD_URL` (top of `components.js`, currently `https://skywarn.tytonest.xyz/`) in a new tab. The dashboard's own Cloudflare Access login is what actually restricts it. To move the dashboard to another hostname, change only that constant.
 - `<div class="header-mobile-actions">` wrapping `<button class="mobile-menu-btn" id="mobileMenuBtn">` — mobile hamburger
 - `<nav class="mobile-nav" id="mobileNav">` — mobile nav (toggled with `.active` class)
 
