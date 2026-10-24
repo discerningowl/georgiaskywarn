@@ -386,10 +386,10 @@ a:hover, a:focus-visible {
 
 /* Three zones across the full width (2026-10-23, Jack's ask): the title
    flush left, the page nav in the middle, the headset and theme buttons
-   flush right. It was a 1280px centred row. Below 1600px the nav centres
-   in the space between the other two (and wraps under the title, buttons
-   beside it, when the row runs out); the grid that centres it on the page
-   is in the 1600px block further down. */
+   flush right. It was a 1280px centred row. From 1220px a grid puts the
+   nav as near the page's true centre as the two sides allow (exactly
+   centred from about 1540px); 769-1219px gives the nav its own row under
+   the title and buttons. Both are in blocks further down. */
 .header-content {
   padding: 1rem 1.5rem;
   display: flex;
@@ -728,9 +728,12 @@ a:hover, a:focus-visible {
   }
 }
 
-/* Wide enough for the nav to sit at the true centre of the page with the
-   title and buttons beside it: two equal outer columns. Narrower, the
-   flex row above keeps everything on one line. */
+/* From 1220px (2026-10-23; was 1600px): two equal outer columns put the
+   nav at the page's true centre. Each outer column is at least as wide as
+   its content, so below about 1540px the wider title side pulls the nav a
+   little right, still far closer to centre than the flex row was (46px off
+   at 1440px instead of 162px). Measured at every 20px with no overflow,
+   the subtitle on one line, and 16px or more between title and nav. */
 /* 769-1219px (2026-10-23): the nav is narrower since links are 15px, so
    from 1100px it fitted beside the title and left the two icons alone on
    a second row. In this range the title and icons share the top row and
@@ -740,7 +743,7 @@ a:hover, a:focus-visible {
   .header-actions { margin-left: auto; }
 }
 
-@media (min-width: 1600px) {
+@media (min-width: 1220px) {
   .header-content {
     display: grid;
     grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr);
