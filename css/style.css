@@ -40,6 +40,10 @@
   --black: #000000;
   --slate-400: #94a3b8;
   --blue-400: #60a5fa;
+  /* Nav link hover text (2026-10-23), shared with the dashboard: 5.5:1 on
+     the navy page nav and 7.6:1 on the header. --blue-400 is 3.9:1 on
+     navy. */
+  --blue-300: #93c5fd;
   --green-500: #4caf50;
 
   /* Theme-aware tokens — first arg = light, second = dark */
@@ -398,7 +402,7 @@ a:hover, a:focus-visible {
 #desktopNav {
   display: flex;
   margin: 0 auto; /* centres it in the space between the title and the buttons */
-  gap: 1.5rem;
+  gap: 0.75rem;
   align-items: center;
 }
 
@@ -409,19 +413,27 @@ a:hover, a:focus-visible {
   gap: 0.25rem;
 }
 
+/* Nav links (2026-10-23): the size both apps' nav bars share, a middle
+   ground between the dashboard's 27px links and this nav's 42px: 36px
+   tall, 15px semibold, 8px corners. .page-nav links are the same. */
 #desktopNav a {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 36px;
   color: #e2e8f0;
   text-decoration: none;
   font-weight: 600;
   transition: var(--t-fast);
-  font-size: 1rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
+  font-size: 0.9375rem;
+  line-height: 1.2; /* not the page's 1.6, which made them 40px */
+  padding: 0.5rem 0.875rem;
+  border-radius: 8px;
 }
 
 #desktopNav a:hover,
 #desktopNav a:focus-visible {
-  color: var(--blue-400);
+  color: var(--blue-300);
   background: rgba(96, 165, 250, 0.1);
 }
 
@@ -682,6 +694,15 @@ a:hover, a:focus-visible {
 /* Wide enough for the nav to sit at the true centre of the page with the
    title and buttons beside it: two equal outer columns. Narrower, the
    flex row above keeps everything on one line. */
+/* 769-1219px (2026-10-23): the nav is narrower since links are 15px, so
+   from 1100px it fitted beside the title and left the two icons alone on
+   a second row. In this range the title and icons share the top row and
+   the nav gets its own row, centred. From 1220px all three fit on one. */
+@media (min-width: 769px) and (max-width: 1219px) {
+  #desktopNav { order: 3; flex-basis: 100%; justify-content: center; }
+  .header-actions { margin-left: auto; }
+}
+
 @media (min-width: 1600px) {
   .header-content {
     display: grid;
@@ -873,31 +894,49 @@ a:hover, a:focus-visible {
                       regardless of theme. Previously used var(--text-primary)
                       which is near-black in light mode → unreadable. */
 .page-nav .nav-list a {
-  display: inline-block;
-  padding: 0.5rem 1.1rem;
+  /* 2026-10-23: the shared nav link (see #desktopNav a), replacing the
+     tinted pills. 36px tall, 15px semibold, 8px corners, no resting fill;
+     hover and the current section look the same as in the header nav. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 36px;
+  padding: 0.5rem 0.875rem;
   font-weight: 600;
   text-decoration: none;
-  border-radius: 999px;
-  background: color-mix(in oklch, var(--accent-blue) 15%, transparent);
+  border-radius: 8px;
+  background: transparent;
   color: #e2e8f0;
-  border: 1px solid color-mix(in oklch, var(--accent-blue) 30%, transparent);
-  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+  transition: background-color 160ms ease, color 160ms ease;
   text-align: center;
-  font-size: 0.9rem;
+  font-size: 0.9375rem;
+  line-height: 1.2;
   white-space: nowrap;
 }
 
 .page-nav .nav-list a:hover,
 .page-nav .nav-list a:focus-visible {
-  background: color-mix(in oklch, var(--accent-blue) 28%, transparent);
-  border-color: color-mix(in oklch, var(--accent-blue) 50%, transparent);
-  color: var(--white);
+  background: rgba(96, 165, 250, 0.1);
+  color: var(--blue-300);
+}
+
+/* The site-wide li margin-bottom (0.8rem) put 13px of empty bar under the
+   links and lifted them off centre (2026-10-23). The phone menu keeps it
+   as spacing between its rows. */
+@media (min-width: 769px) {
+  .page-nav .nav-list li { margin: 0; }
 }
 
 /* Active section indicator — fills in fully when section is in view */
 .page-nav .nav-list a.is-active {
   background: var(--brand-blue);
-  border-color: var(--brand-blue);
+  color: var(--white);
+}
+
+.page-nav .nav-list a.is-active:hover,
+.page-nav .nav-list a.is-active:focus-visible {
+  background: var(--brand-blue-dark);
   color: var(--white);
 }
 
@@ -925,14 +964,16 @@ a:hover, a:focus-visible {
     position: fixed;
     bottom: 1rem;
     left: 1rem;
-    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    /* Brand blue (2026-10-23): the green gradient's light end was 3.3:1
+       under white text, and green means "accept" on buttons. */
+    background: var(--brand-blue);
     color: white;
     padding: 0.85rem 1.25rem;
     border-radius: 50px;
     font-weight: 800;
     font-size: 0.9rem;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 20px color-mix(in oklch, var(--brand-blue) 40%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.2);
     z-index: 998;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 2px solid rgba(255, 255, 255, 0.15);
@@ -945,7 +986,7 @@ a:hover, a:focus-visible {
     outline: 3px solid rgba(255, 255, 255, 0.6);
     outline-offset: 2px;
     transform: scale(0.95);
-    box-shadow: 0 3px 12px rgba(22, 163, 74, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 3px 12px color-mix(in oklch, var(--brand-blue) 30%, transparent), inset 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
   /* Page-nav list - hidden by default on mobile */

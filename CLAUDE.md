@@ -1112,6 +1112,16 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-10-23 — Nav links share the dashboard's size; menu accessibility
+
+- **Size**: `#desktopNav a` and `.page-nav .nav-list a` are the size both apps now share: 36px tall, 15px semibold (`0.9375rem`, line-height 1.2), `0.5rem 0.875rem` padding, 8px corners. `.page-nav` links lost their resting tinted pill; the current section is still a solid `--brand-blue` fill. `#desktopNav` gap is `0.75rem` (was `1.5rem`).
+- **Page nav bar** is 61px (60 + its 1px rule; was 79). The site-wide `li { margin-bottom: 0.8rem }` had added 13px under the links; `.page-nav .nav-list li` sets `margin: 0` above 768px.
+- **Hover**: both navs use `--blue-300` (`#93c5fd`) text on the faint blue tint. `--blue-400` is 3.9:1 on the navy page nav.
+- **Header, 769–1219px**: the nav takes its own centred row under the title and icons. With the narrower links it had fitted beside the title from 1100px and left the icons alone on a second row.
+- **Accessibility**: `#mobileMenuBtn` has `aria-expanded` (kept in step on open, link click and outside click), `aria-controls="mobileNav"` and the label "Menu". `#desktopNav` and `#mobileNav` are labelled "Main" and "Main menu".
+- **Phone ☰ PAGE button** is `--brand-blue` (its green gradient's light end was 3.3:1 under white).
+- `APP_VERSION` → `20261023e`.
+
 ### 2026-10-23 — Button contrast, fonts and sizes
 
 - **Contrast**: `.btn-red` fills with the new `--btn-red-bg` (`#c62828`, both themes): white on it is 5.6:1, where `--accent-red` gave 4.2:1 light and 2.8:1 dark. `.btn-green` and `.btn-orange` take black text (white was 1.9:1 and 2.2:1).
