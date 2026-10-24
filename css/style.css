@@ -71,6 +71,10 @@
   --brand-blue-dark:    oklch(from var(--brand-blue)       calc(l - 0.06) c h);
   --accent-red:         light-dark(#e63946, #f87171);
   --accent-red-dark:    oklch(from var(--accent-red)       calc(l - 0.06) c h);
+  /* 2026-10-23: the fill behind white text on .btn-red. --accent-red is a
+     text colour, lifted in dark mode to #f87171, and white on it was 4.2:1
+     light and 2.8:1 dark. This red is 5.6:1 in both themes. */
+  --btn-red-bg:         #c62828;
   --accent-green:       #4ad38e;
   --accent-green-dark:  oklch(from var(--accent-green)     calc(l - 0.06) c h);
   --accent-indigo:      #5C6BC0;
@@ -271,6 +275,12 @@ body {
   flex-direction: column;
 }
 
+/* Buttons take the page font (2026-10-23). Browsers give <button> its
+   own font (Arial at 13.3px), so the header icons, Back to top and the
+   repeater download buttons didn't match the links beside them. Classes
+   that set their own size still win. */
+button { font: inherit; }
+
 /* ---------- Typography ---------- */
 h1, h2, h3, h4, h5, h6 {
   margin: 1.5rem 0 1rem;
@@ -439,12 +449,30 @@ a:hover, a:focus-visible {
 #themeToggle svg,
 #themeToggleMobile svg { stroke: #e2e8f0; }
 
-#themeToggle:hover {
-  color: var(--blue-400);
-  transform: scale(1.1);
+/* Desktop theme button (2026-10-23): the same 44px square and hover tint
+   as the headset button beside it. It was 36px and grew on hover. Its
+   inline styles moved here. */
+#themeToggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
 }
 
-#themeToggle:hover svg { stroke: var(--blue-400); }
+#themeToggle:hover,
+#themeToggle:focus-visible {
+  color: var(--blue-400);
+  background: rgba(96, 165, 250, 0.1);
+}
+
+#themeToggle:hover svg,
+#themeToggle:focus-visible svg { stroke: var(--blue-400); }
 
 /* Theme control icons (2026-10-22): Auto / Dark / Light, the same three as
    the net control dashboard. CSS picks the icon from data-theme on <html>
@@ -1436,10 +1464,16 @@ a:hover, a:focus-visible {
 
 /* Color modifiers with hover variants */
 .btn-blue    { --btn-bg: var(--brand-blue); --btn-bg-hover: var(--brand-blue-dark); }
-.btn-red     { --btn-bg: var(--accent-red); --btn-bg-hover: var(--accent-red-dark); }
-.btn-green   { --btn-bg: var(--accent-green); --btn-bg-hover: var(--accent-green-dark); }
-.btn-orange  { --btn-bg: var(--accent-orange); --btn-bg-hover: var(--accent-orange-dark); }
+.btn-red     { --btn-bg: var(--btn-red-bg); --btn-bg-hover: oklch(from var(--btn-red-bg) calc(l - 0.06) c h); }
+/* Green, orange and yellow are light fills, so they take black text
+   (2026-10-23; white on green was 1.9:1 and on orange 2.2:1). No page
+   uses green or orange now: blue is the colour for an ordinary link
+   button, and red is kept for the storm-report links. */
+.btn-green   { --btn-bg: var(--accent-green); --btn-bg-hover: var(--accent-green-dark); color: var(--black); }
+.btn-orange  { --btn-bg: var(--accent-orange); --btn-bg-hover: var(--accent-orange-dark); color: var(--black); }
 .btn-yellow  { --btn-bg: var(--accent-yellow); --btn-bg-hover: var(--accent-yellow-dark); color: var(--black);}
+.btn-green:hover, .btn-green:focus-visible,
+.btn-orange:hover, .btn-orange:focus-visible,
 .btn-yellow:hover,
 .btn-yellow:focus-visible { color: var(--black); }
 
@@ -1569,6 +1603,9 @@ a:hover, a:focus-visible {
   background: none;
   border: none;
   font-family: inherit;
+  /* Tighter than the page's 1.6, which button { font: inherit } would
+     otherwise bring in, so the two-line card keeps its height. */
+  line-height: 1.3;
   cursor: pointer;
   /* Match original <a> layout */
   display: block;

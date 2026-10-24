@@ -342,7 +342,7 @@ site-only for now.
    - `.sub-card--full` - Modifier to span full width across all grid columns
    - `.sub-cards--3col` - Modifier for 3-column grid at 1024px+ (e.g., weather report types)
    - `.callout` - Highlighted tip/warning boxes (used in repeaters.html, JS error states)
-   - `.btn` - Button component with color modifiers (`btn-blue`, `btn-red`, `btn-green`, `btn-orange`, `btn-yellow`)
+   - `.btn` - Button component with color modifiers (`btn-blue`, `btn-red`, `btn-green`, `btn-orange`, `btn-yellow`). Blue is the ordinary link button; red is for the storm-report links. Green, orange and yellow are light fills and take black text. No page uses green or orange now.
    - `.action-buttons` - Flex container for rows of action buttons
    - `.repeater-table` - Styled tables for repeater info
    - `.alert-item` - Weather alert display cards
@@ -1111,6 +1111,13 @@ refactor: Simplify alert filtering logic
 ---
 
 ## Changelog
+
+### 2026-10-23 — Button contrast, fonts and sizes
+
+- **Contrast**: `.btn-red` fills with the new `--btn-red-bg` (`#c62828`, both themes): white on it is 5.6:1, where `--accent-red` gave 4.2:1 light and 2.8:1 dark. `.btn-green` and `.btn-orange` take black text (white was 1.9:1 and 2.2:1).
+- **Colour meaning**: the RT Systems training video (repeaters.html) and View Archived Station Photos (wx4ptc.html) buttons are now `btn-blue`.
+- **Fonts**: `button { font: inherit; }`, so the header icons, Back to top and the CHIRP/RT Systems download buttons use the page font, not Arial. `.nws-office-btn` sets `line-height: 1.3` to keep its height.
+- **Size**: `#themeToggle` is a 44px square with the same hover tint as `.ncs-btn` (was 36px and grew on hover); its inline styles moved into `css/style.css`.
 
 ### 2026-10-23 — Net Control Dashboard button; repeater-validation.html → repeater-audit.html
 
