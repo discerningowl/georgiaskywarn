@@ -53,7 +53,7 @@ function loadHeader() {
                         <p>Linked Repeater System for Amateur Radio Spotters</p>
                     </div>
                 </a>
-                <nav id="desktopNav">
+                <nav id="desktopNav" aria-label="Main">
                     <a href="index.html">Home</a>
                     <a href="spotters.html">Spotters</a>
                     <a href="repeaters.html">Repeaters</a>
@@ -71,13 +71,13 @@ function loadHeader() {
                 </div>
                 <div class="header-mobile-actions">
                     <button type="button" class="ncs-btn" data-ncs-open aria-haspopup="dialog" aria-label="Net Control Dashboard (WX4PTC team only)" title="Net Control Dashboard (WX4PTC team only)">${NCS_HEADSET_ICON}</button>
-                    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu" aria-expanded="false" aria-controls="mobileNav">
                         <svg class="hamburger-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
                         <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                     </button>
                 </div>
             </div>
-            <nav class="mobile-nav" id="mobileNav">
+            <nav class="mobile-nav" id="mobileNav" aria-label="Main menu">
                 <a href="index.html">Home</a>
                 <a href="spotters.html">Spotters</a>
                 <a href="repeaters.html">Repeaters</a>
@@ -207,6 +207,7 @@ function initMobileMenu() {
 
     mobileMenuBtn.addEventListener('click', () => {
         const isOpen = mobileNav.classList.toggle('active');
+        mobileMenuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 
         // Toggle icons
         if (hamburgerIcon && closeIcon) {
@@ -223,6 +224,7 @@ function initMobileMenu() {
     mobileNavLinks.forEach(link => {
         link.addEventListener('click', () => {
             mobileNav.classList.remove('active');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
             if (hamburgerIcon && closeIcon) {
                 hamburgerIcon.style.display = 'block';
                 closeIcon.style.display = 'none';
@@ -236,6 +238,7 @@ function initMobileMenu() {
         if (!mobileMenuBtn.contains(e.target) && !mobileNav.contains(e.target)) {
             if (mobileNav.classList.contains('active')) {
                 mobileNav.classList.remove('active');
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
                 if (hamburgerIcon && closeIcon) {
                     hamburgerIcon.style.display = 'block';
                     closeIcon.style.display = 'none';
