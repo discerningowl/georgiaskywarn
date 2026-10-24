@@ -138,7 +138,14 @@
      single solid color, not a linear-gradient — derived from the card
      header's end-stop token via color-mix() so it stays theme-aware
      automatically. */
-  --header-bg-th: color-mix(in oklch, var(--header-grad-end) 80%, white 20%);
+  /* Tables (2026-10-23), shared with the dashboard: navy header row, and
+     one line colour between rows. */
+  --table-head-bg: var(--brand-navy);
+  --table-line:    light-dark(#d8dee6, #2c405a);
+  /* Text-field borders (2026-10-23), shared with the dashboard: 3.4:1 or
+     more on every background a field sits on. The 10% black/white card
+     border was close to invisible around a field. */
+  --field-border:  light-dark(#7b8794, #6f86a3);
 
   --header-gradient:        linear-gradient(135deg, var(--header-grad-start) 0%, var(--header-grad-end) 100%);
   --header-gradient-red:    linear-gradient(135deg, #8B0000 0%, var(--nws-warning-red) 100%);
@@ -164,9 +171,13 @@
      Single source of truth for keyboard focus outlines. Apply via
      :focus-visible on any interactive element. The 70%-opacity color-mix
      keeps the ring readable against both light and dark backgrounds without
-     a separate dark-mode definition. */
-  --focus-ring:        2px solid color-mix(in oklch, var(--accent-blue) 75%, transparent);
-  --focus-ring-offset: 3px;
+     a separate dark-mode definition.
+     2026-10-23: one ring for both WX4PTC apps, a solid 2px --focus line
+     2px out (light #1d6fd1, dark #6aa8f0), light grey on the dark header
+     and navs. It was a 75% mix of the accent blue, 3px out. */
+  --focus:             light-dark(#1d6fd1, #6aa8f0);
+  --focus-ring:        2px solid var(--focus);
+  --focus-ring-offset: 2px;
 
   /* T3.14 (2026-05-16): fluid type scale.
      Each token scales smoothly between mobile-min and desktop-max via clamp().
@@ -250,6 +261,31 @@ html {
   border-radius: 4px;
 }
 
+/* On the dark header, menus and page nav the blue ring would disappear. */
+.header :focus-visible,
+.mobile-nav :focus-visible,
+.page-nav .nav-list :focus-visible { outline-color: #e2e8f0; }
+
+/* Skip link (2026-10-23): the first thing a keyboard reaches, hidden until
+   focused. Jumps past the header and nav to <main id="main">, which
+   components.js sets. Same as the dashboard's. */
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -60px;
+  z-index: 1100;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: var(--bg-body);
+  color: var(--link);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: var(--shadow-md);
+}
+.skip-link:focus { top: 8px; }
+/* <main> takes focus only as the skip target; no ring around the page. */
+main[tabindex="-1"]:focus { outline: none; }
+
 /* ---------- Reduced-Motion Accessibility (PATCH 1, 2026-05-16) ----------
    Honors the user's prefers-reduced-motion: reduce setting by collapsing all
    animations, transitions, and smooth scrolling. Critical for users with
@@ -317,9 +353,10 @@ a {
   transition: var(--t-fast);
 }
 
+/* No outline: none here (2026-10-23). It outranked the :where() focus
+   ring above, so no link on the site showed a ring, nav links included. */
 a:hover, a:focus-visible {
   color: var(--accent-blue-dark);
-  outline: none;
 }
 
 .center { text-align: center; }
@@ -768,7 +805,7 @@ a:hover, a:focus-visible {
 }
 
 .modal-header {
-  padding: 1.5rem;
+  padding: 1rem 1.25rem; /* 2026-10-23: the dialog frame shared with the dashboard, 20px sides */
   background: var(--header-gradient-red);
   color: white;
   display: flex;
@@ -785,7 +822,7 @@ a:hover, a:focus-visible {
 .modal-header h5,
 .modal-header h6 {
   margin: 0;
-  font-size: var(--text-xl); /* T3.14: fluid 1.25rem → 1.5rem (was fixed 1.4rem) */
+  font-size: 1.125rem; /* 18px, shared with the dashboard's dialogs (2026-10-23; was fluid 1.25-1.5rem) */
   font-weight: 700;
   color: white;
   line-height: 1.3;
@@ -813,7 +850,7 @@ a:hover, a:focus-visible {
 
 .modal-title {
   margin: 0;
-  font-size: var(--text-xl); /* T3.14: fluid scale (was fixed 1.4rem) */
+  font-size: 1.125rem; /* 18px, shared with the dashboard (2026-10-23) */
   font-weight: 700;
   color: white;
 }
@@ -842,7 +879,7 @@ a:hover, a:focus-visible {
 }
 
 .modal-body {
-  padding: 1.5rem;
+  padding: 1.25rem;
   color: var(--text-secondary);
 }
 
@@ -983,8 +1020,8 @@ a:hover, a:focus-visible {
 
   .page-nav-toggle:active,
   .page-nav-toggle:focus-visible {
-    outline: 3px solid rgba(255, 255, 255, 0.6);
-    outline-offset: 2px;
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
     transform: scale(0.95);
     box-shadow: 0 3px 12px color-mix(in oklch, var(--brand-blue) 30%, transparent), inset 0 2px 4px rgba(0, 0, 0, 0.2);
   }
@@ -1760,7 +1797,7 @@ a:hover, a:focus-visible {
   outline: none;
 }
 .ga-cwa-path:focus-visible {
-  outline: 2px solid var(--accent-blue);
+  outline: var(--focus-ring);
   outline-offset: 1px;
 }
 
@@ -1831,18 +1868,19 @@ a:hover, a:focus-visible {
 
 .cwa-county-filter-input {
   flex: 1;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--card-border);
+  box-sizing: border-box;
+  min-height: 36px;
+  padding: 0.5rem 0.625rem;
+  border: 1px solid var(--field-border);
   border-radius: 8px;
   background: var(--bg-tertiary);
   color: var(--text-primary);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-family: inherit;
 }
 .cwa-county-filter-input:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
-  border-color: var(--accent-blue);
 }
 
 /* Pill chip to clear the filter — hidden until a filter is active */
@@ -2017,15 +2055,17 @@ a:hover, a:focus-visible {
   align-items: center;
   gap: 0.5rem;
   background: color-mix(in oklch, var(--accent-blue) 6%, var(--card-bg));
-  border: 1px solid color-mix(in oklch, var(--accent-blue) 25%, var(--card-border));
+  border: 1px solid var(--field-border);
   border-radius: 999px;
   padding: 0.6rem 0.9rem;
   transition: var(--t-fast);
 }
 
 .search-pill:focus-within {
-  border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent-blue) 18%, transparent);
+  /* The shared focus ring, drawn on the pill since the input inside it
+     has none (2026-10-23; was a soft 3px blue glow). */
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .search-pill.has-error {
@@ -2136,8 +2176,8 @@ a:hover, a:focus-visible {
 }
 
 .search-pill-clear:focus-visible {
-  outline: 3px solid var(--accent-red);
-  outline-offset: 2px;
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .search-pill-clear[hidden] {
@@ -2205,7 +2245,11 @@ a:hover, a:focus-visible {
   text-transform: uppercase;
   white-space: nowrap;
   background: color-mix(in oklch, var(--badge-hue) 14%, transparent);
-  color: var(--badge-hue);
+  /* Text is the hue darkened in light mode and lightened in dark
+     (2026-10-23). The bare hue failed contrast for most networks: WX4EMA
+     green was 1.7:1 on white, County Only orange 1.9:1. */
+  color: light-dark(color-mix(in oklch, var(--badge-hue), black 35%),
+                    color-mix(in oklch, var(--badge-hue), white 25%));
   border: 1px solid color-mix(in oklch, var(--badge-hue) 32%, transparent);
   /* Property-specific transitions (no `all`) */
   transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
@@ -2289,9 +2333,9 @@ a:hover, a:focus-visible {
 }
 
 .repeater-table th {
-  background: var(--header-bg-th);
+  background: var(--table-head-bg);
   color: white;
-  font-weight: 700;
+  font-weight: 600;
   text-align: left;
   padding: 0.9rem 1rem;
   position: sticky;
@@ -2341,7 +2385,7 @@ a:hover, a:focus-visible {
 
 .repeater-table td {
   padding: 0.85rem 1rem;
-  border-bottom: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--table-line);
   vertical-align: top;
   transition: background 0.2s ease;
 }
@@ -2732,8 +2776,8 @@ a:hover, a:focus-visible {
 .report-card-clickable:hover { transform: translateY(-3px); }
 
 .report-card-clickable:focus-visible {
-  outline: 3px solid var(--accent-blue);
-  outline-offset: 2px;
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
 }
 
 .report-card-hint {
@@ -3048,10 +3092,11 @@ a:hover, a:focus-visible {
   position: fixed;
   bottom: 2rem;
   right: 2rem;
-  width: 50px;
-  height: 50px;
-  background: color-mix(in oklch, var(--brand-blue) 85%, transparent);
-  backdrop-filter: blur(10px);
+  /* 2026-10-23: the same 48px solid brand-blue circle as the dashboard's
+     (was 50px, 85% see-through with a blur). */
+  width: 48px;
+  height: 48px;
+  background: var(--brand-blue);
   color: var(--white);
   border: none;
   border-radius: 50%;

@@ -1112,6 +1112,18 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-10-23 — Skip link, focus ring, back-to-top; tables, fields, dialogs, badge contrast
+
+- **Skip link**: `components.js` puts "Skip to content" first in the page and gives `<main>` `id="main"` and `tabindex="-1"`, so Enter lands focus in the page. `.skip-link` is hidden until focused.
+- **Focus ring**: `--focus-ring` is `2px solid var(--focus)` with a 2px offset; the new `--focus` is light `#1d6fd1`, dark `#6aa8f0` (it was a 75% mix of `--accent-blue`, 3px out). On `.header`, `.mobile-nav` and the page nav it is `#e2e8f0`. The map counties, search clear button, report cards and ☰ PAGE button use the same ring.
+- **Fix**: `a:hover, a:focus-visible` set `outline: none`, which outranked the `:where()` ring, so no link on the site showed one. Removed.
+- **Back to top**: a 48px solid `--brand-blue` circle (was 50px, 85% see-through with a blur), the same as the dashboard's.
+- **Tables**: `.repeater-table th` uses `--table-head-bg` (`--brand-navy`) with semibold white text (was a blue from `--header-bg-th`, now removed); rows use `--table-line`.
+- **Fields**: `--field-border` (light `#7b8794`, dark `#6f86a3`, 3.4:1+) on `.search-pill` and `.cwa-county-filter-input`; the pill shows the shared focus ring instead of a soft glow. The county filter is 36px.
+- **Dialogs**: `.modal-header` padding `1rem 1.25rem`, titles 18px (`1.125rem`), `.modal-body` padding `1.25rem`; corners stay `--radius`.
+- **Network badges**: text is `--badge-hue` darkened 35% (light) or lightened 25% (dark). The bare hue failed for most networks (WX4EMA 1.7:1, County Only 1.9:1 in light); every badge is now 4.9:1 or more.
+- `APP_VERSION` → `20261023f`.
+
 ### 2026-10-23 — Nav links share the dashboard's size; menu accessibility
 
 - **Size**: `#desktopNav a` and `.page-nav .nav-list a` are the size both apps now share: 36px tall, 15px semibold (`0.9375rem`, line-height 1.2), `0.5rem 0.875rem` padding, 8px corners. `.page-nav` links lost their resting tinted pill; the current section is still a solid `--brand-blue` fill. `#desktopNav` gap is `0.75rem` (was `1.5rem`).

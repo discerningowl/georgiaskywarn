@@ -44,6 +44,7 @@ const NCS_HEADSET_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="20" hei
  */
 function loadHeader() {
     const headerHTML = `
+        <a class="skip-link" href="#main">Skip to content</a>
         <header class="header">
             <div class="header-content">
                 <a href="index.html" class="logo">
@@ -96,6 +97,15 @@ function loadHeader() {
     `;
 
     document.body.insertAdjacentHTML('afterbegin', headerHTML);
+
+    // The skip link's target. tabindex lets focus land on <main> itself,
+    // so the next Tab starts inside the page, not back in the header.
+    const main = document.querySelector('main');
+    if (main) {
+        if (!main.id) main.id = 'main';
+        main.setAttribute('tabindex', '-1');
+        if (main.id !== 'main') document.querySelector('.skip-link').setAttribute('href', '#' + main.id);
+    }
 
     // Add back to top button
     const backToTopHTML = `
