@@ -369,7 +369,7 @@ The site uses a **two-tier navigation system**:
 **DO NOT write site navigation markup manually.** The site-wide header and navigation are automatically injected by `js/components.js` into every page via `loadHeader()`. The injected HTML uses:
 - `<header class="header">` — main header element
 - `<nav id="desktopNav">` — desktop nav with plain `<a>` links only (no extra classes)
-- `<div class="header-actions">` — the desktop headset button and theme toggle, right of the nav (2026-10-23; they were inside `#desktopNav`). The header is three zones across the full width: title flush left, nav in the middle, `.header-actions` flush right. From 1600px a grid centres the nav on the page; narrower, the nav centres in the space between the other two and wraps under the title when the row runs out. Hidden at 768px and below, like `#desktopNav`.
+- `<div class="header-actions">` — the desktop headset button and theme toggle, right of the nav (2026-10-23; they were inside `#desktopNav`). The header is three zones across the full width: title flush left, nav in the middle, `.header-actions` flush right. From 1220px a grid centres the nav on the page (exactly from about 1540px; below that the wider title side pulls it a little right). From 769px to 1219px the nav gets its own centred row under the title and buttons. Hidden at 768px and below, like `#desktopNav`.
 - `<button class="ncs-btn" data-ncs-open>` — operator icon (a person in a headset, `NCS_HEADSET_ICON`) for the WX4PTC Net Control Dashboard (2026-10-23). One sits in `.header-actions` before the theme toggle; one sits beside the hamburger in `.header-mobile-actions`. Both open `#ncsModal`, a "restricted, WX4PTC team only" notice whose Continue link opens `NCS_DASHBOARD_URL` (top of `components.js`, currently `https://skywarn.tytonest.xyz/`) in a new tab. The dashboard's own Cloudflare Access login is what actually restricts it. To move the dashboard to another hostname, change only that constant.
 - `<div class="header-mobile-actions">` wrapping `<button class="mobile-menu-btn" id="mobileMenuBtn">` — mobile hamburger
 - `<nav class="mobile-nav" id="mobileNav">` — mobile nav (toggled with `.active` class)
@@ -1111,6 +1111,11 @@ refactor: Simplify alert filtering logic
 ---
 
 ## Changelog
+
+### 2026-10-23 — Header grid from 1220px
+
+- The true-centre header grid starts at 1220px (was 1600px), where the title, nav and icons first fit on one row. The nav is exactly centred from about 1540px; below that the wider title side pulls it a little right (46px off at 1440px, where the flex row was 162px off). Measured every 20px from 1220 to 1600: no overflow, subtitle on one line, at least 16px between title and nav.
+- `APP_VERSION` → `20261023g`.
 
 ### 2026-10-23 — Skip link, focus ring, back-to-top; tables, fields, dialogs, badge contrast
 
