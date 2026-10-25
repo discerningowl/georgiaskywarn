@@ -2230,8 +2230,9 @@ a:hover, a:focus-visible {
 }
 
 /* A pill wider than its whole column ("Amateur Wire VOIP" is 145px; the
-   Internet Access column has 98px at 1024px) wraps its own text. */
-.tags-container > * {
+   Internet Access column has 98px at 1024px) wraps its own text. Scoped to
+   .repeater-table so it outranks the badge rule's nowrap further down. */
+.repeater-table .tags-container > * {
   max-width: 100%;
   white-space: normal;
   text-align: center;
