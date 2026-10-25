@@ -269,10 +269,10 @@ Fields must appear **in this order** in every entry:
 | `picUrl` | Station photo link (only a few repeaters) | `"https://photos.app.goo.gl/..."` | Only when applicable |
 | `clubName` | Sponsoring club, or `null` | `"Atlanta Radio Club (ARC)"` | Yes |
 | `clubUrl` | Club website, or `null` | `"https://www.w4doc.org"` | Yes |
-| `userAccess` | How a person can get on this repeater from the internet (AllStar node, EchoLink, etc.) | see CLAUDE.md | No - omit if none |
-| `repeaterLinks` | Links to other repeaters, whether by radio, at the same site, or over AllStar | see CLAUDE.md | No - omit if none |
+| `userAccess` | How a person can get on this repeater from the internet (AllStar node, EchoLink, etc.) | see REPEATER_DATA.md | No - omit if none |
+| `repeaterLinks` | Links to other repeaters, whether by radio, at the same site, or over AllStar | see REPEATER_DATA.md | No - omit if none |
 
-[CLAUDE.md](CLAUDE.md) has the complete technical reference, including the `userAccess` / `repeaterLinks` formats and how the validation tiers work.
+[REPEATER_DATA.md](REPEATER_DATA.md) has the complete technical reference, including the `userAccess` / `repeaterLinks` formats and how the validation tiers work.
 
 ### Common JSON Mistakes to Avoid
 

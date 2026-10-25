@@ -105,6 +105,8 @@ georgiaskywarn/
 │   └── archive/            # Historical station photos
 │       └── WX4PTC*.jpg
 ├── CLAUDE.md               # Technical documentation for developers
+├── DEV_CHANGELOG.md        # Developer changelog (history and reasoning behind past changes)
+├── REPEATER_DATA.md        # Repeater data schema and validation process
 ├── ADMIN_GUIDE.md          # Administrator's guide for non-technical users
 ├── README.md               # This file - project overview
 ├── www/                    # Legacy redirect (DO NOT REMOVE)
@@ -141,7 +143,7 @@ All repeater data is stored in a single unified JSON file. Fields appear in the 
 | 7 | `callsign` | string | Yes | Amateur radio callsign or `"n0call"` if unknown |
 | 8 | `refurl` | string | Yes | RepeaterBook reference URL |
 | 9 | `linked` | boolean | Yes | `true` if part of linked SKYWARN network |
-| 10 | `validation` | object | Yes | `{ "repeaterbook": bool, "owner": bool, "club": bool }` — three independent confirmation sources, not a single flag. See `CLAUDE.md` for details. |
+| 10 | `validation` | object | Yes | `{ "repeaterbook": bool, "owner": bool, "club": bool }` — three independent confirmation sources, not a single flag. See `REPEATER_DATA.md` for details. |
 | 11 | `active` | boolean | Yes | `true` if currently on the air, `false` if confirmed off the air |
 | 12 | `statusNote` | string | Only when `active: false` | Why it is off the air and the follow-up needed |
 | 13 | `picUrl` | string | When applicable | Station photo link (only select repeaters) |
