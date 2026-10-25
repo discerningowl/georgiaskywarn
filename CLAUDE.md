@@ -214,7 +214,7 @@ Alerts are filtered to `senderName` containing "NWS Peachtree City"; responses a
 
 **DON'T**:
 - Create new CSS files (use `style.css`)
-- Create new JavaScript files (use inline `<script>` tags)
+- Add `<script>` tags to pages (new JS files are registered in `js/loader.js`)
 - Remove or modify the `wx4ptc/` or `www/` directories
 - Move files into subdirectories
 - Change the cache key names (breaks existing user caches)
@@ -421,7 +421,7 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 - ❌ Don't create extra top-level directories beyond `css/`, `js/`, `data/`, `assets/`
 - ❌ Don't remove or rename the `wx4ptc/` or `www/` directories
 - ❌ Don't add external libraries (jQuery, Bootstrap, etc.)
-- ❌ Don't create new CSS/JS files (use existing ones)
+- ❌ Don't create new CSS files (use `style.css`); new JS files are fine but must be registered in `js/loader.js`
 - ❌ Don't hardcode colors (use CSS custom properties)
 - ❌ Don't skip ARIA attributes
 - ❌ Don't break mobile responsiveness
