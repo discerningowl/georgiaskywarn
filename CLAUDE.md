@@ -698,14 +698,14 @@ Repeater tables are dynamically generated from the unified repeaters.json file:
   "active": true,
   "clubName": "Club Name Here",
   "clubUrl": "https://example.com",
-  "iplinks": [
+  "userAccess": [
     {
       "system": "AllStar",
       "node": "12345",
       "connectionType": "available"
     }
   ],
-  "rflinks": [
+  "repeaterLinks": [
     {
       "linkType": "full-time",
       "linkMethod": "rf",
@@ -736,8 +736,10 @@ Repeater tables are dynamically generated from the unified repeaters.json file:
 | 13 | `picUrl` | string | Only when applicable | Link to station photos (currently only 444.600+ and 442.500+). Omit if not applicable. |
 | 14 | `clubName` | string/null | Yes | Sponsoring club name, or `null` if unknown |
 | 15 | `clubUrl` | string/null | Yes | Sponsoring club URL, or `null` if unknown |
-| 16 | `iplinks` | array | No | Internet linking info (AllStar, EchoLink, etc.). Omit entirely if none. |
-| 17 | `rflinks` | array | No | Radio frequency links to other repeaters. Omit entirely if none. |
+| 16 | `userAccess` | array | No | How one person can get on this repeater from the internet: EchoLink, an AllStar node, Hams Over IP, Amateur Wire VOIP. Each entry has `system`, `node` or `extension`, an optional `callsign` (EchoLink), and `connectionType` (`"available"`, `"full-time"` or `"on-demand"`). Omit entirely if none. Was `iplinks` until 2026-10-25. |
+| 17 | `repeaterLinks` | array | No | How this repeater ties into other repeaters in the system; these are the network map's edges. Each entry has `linkType` (`"full-time"` or `"on-demand"`), `linkMethod`, and `linksToFreq`/`linksToLoc`/`linksToCall` naming the other repeater. `linkMethod` is `"rf"` (a radio link), `"direct"` (same-site companion, 0 hops on the map) or `"allstar"` (over AllStar, one hop like `"rf"`; added 2026-10-25 for Covington 146.925-). Omit entirely if none. Was `rflinks` until 2026-10-25. |
+
+The two lists are split by purpose, not by medium. An AllStar node anyone can connect to goes in `userAccess`; an AllStar link that ties this repeater to another listed repeater goes in `repeaterLinks`. One repeater can have both. In anything people see, "link" means repeater to repeater (the Net Control Companion uses the word the same way), and "access" or "connect" means a person getting on.
 
 **Tag Badge Colors** (CSS classes):
 
@@ -768,7 +770,7 @@ Repeater tables are dynamically generated from the unified repeaters.json file:
 - Location names link to RepeaterBook (using `refurl`) as the single source of truth for repeater information
 - The `picUrl` field is only used for repeaters with station photos (currently 444.600+ and 442.500+). These repeaters will display a camera icon (📷) next to the location name that links to the photo gallery.
 - Do NOT add `picUrl` to other repeaters. If you need specialized URLs for a repeater in the future, create a new specific field.
-- Fields `iplinks` and `rflinks` should be omitted entirely when not applicable (do NOT include them as `null` or empty arrays).
+- Fields `userAccess` and `repeaterLinks` should be omitted entirely when not applicable (do NOT include them as `null` or empty arrays).
 - Fields `clubName` and `clubUrl` should always be present, set to `null` if unknown.
 
 **For detailed non-technical instructions**, see [ADMIN_GUIDE.md](ADMIN_GUIDE.md) Task 1.
@@ -1111,6 +1113,22 @@ refactor: Simplify alert filtering logic
 ---
 
 ## Changelog
+
+### 2026-10-25 — `rflinks` → `repeaterLinks`, `iplinks` → `userAccess`
+
+- The old names said how a connection travels; the lists are really split by who is connecting. `rflinks` stopped being true once a repeater-to-repeater link went over AllStar (Covington, below). Renamed across all 59 records in `data/repeaters.json` (47 `repeaterLinks`, 13 `userAccess`); entries inside are unchanged, and the field order (16, 17) holds. See the schema table under "Adding a New Repeater" for the rule on which list a link belongs in.
+- `js/scripts.js`: every reader uses the new names. `fetchRepeaterData()`, the one loader every page uses, maps `rflinks`/`iplinks` across when it gets a cached pre-rename `repeaters.json` (that file has no `?v=` stamp). Drop that shim after a release or two.
+- Labels: the table columns are "Internet Access" and "Repeater Links" (were "Internet Links" and "Radio Links"); the detail modal's sections are "Connect from the Internet" and "Links to Other Repeaters". Column classes `col-ilinks`/`col-rlinks` → `col-access`/`col-replinks` in `repeaters.html` and `style.css`, widths unchanged.
+- Docs: this file, README.md, ADMIN_GUIDE.md, and the Network Map blurb in `repeater-audit.html`. Older changelog entries keep the old names, since they describe what was true then.
+- `APP_VERSION` → `20261025a`.
+
+### 2026-10-25 — Covington 146.925- links to the hub over AllStar
+
+- Per Robert's 2026-10-25 email: George (WA4ASI) lost the Covington fire tower site that held the radio link into the WX4PTC system. The new site has no UHF antenna and has intermod/desense problems, so the link is now an on-demand AllStar link, set up from either end.
+- `data/repeaters.json` `WA4ASI-146.925`: the hub link (`W4PSZ` 444.600+) is `linkMethod: "allstar"` (was `"rf"`). The description no longer says "Links to 444.675+ WX4PTC backup hub" (stale since the 2026-09-23 hub fix). The AllStar entry in `iplinks` is spelled `"AllStar"` (was `"Allstar"`).
+- `js/scripts.js`: no logic change, since `computeNetworkStatus()` already counts anything other than `"direct"` as one hop; comments updated. The detail modal's "Radio Linking" heading is now "Links to Other Repeaters".
+- Still open: Robert isn't sure whether the 2m (146.925-) or 440 (444.800+) machine should be listed, so the AllStar hub link may belong on the other record. Also open: the new site's location, whether `WA4ASI-444.800` (and its full-time link to 146.925-) survived the move, and the node numbers. AllStarLink's stats (2026-10-25) show WA4ASI node 27457 registered as "146.925-/444.800+" and 29795, which we list, as 446.500, both on one server.
+- `APP_VERSION` → `20261025`.
 
 ### 2026-10-23 — Header grid from 1220px
 
