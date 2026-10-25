@@ -1485,13 +1485,21 @@ a:hover, a:focus-visible {
   border-left: 4px solid var(--accent-blue);
   border-radius: 8px;
   text-align: center;
-  font-size: 1.25rem;
+  font-size: 1rem; /* 16px, under the 18px card title (2026-10-25; was 1.25rem) */
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: 0.025em;
 }
 
 .section-subheader:first-of-type { margin-top: 0; }
+
+/* A card's one-line intro, above its first .section-subheader (index.html's
+   Quick Maps). 16px like the subheaders, under the card title (2026-10-25;
+   it was a bare h3 at the fluid --text-xl, 24px on desktop). */
+.card-intro {
+  font-size: 1rem;
+  margin-bottom: 1.75rem;
+}
 
 .link-url {
   display: inline-block;
