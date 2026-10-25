@@ -142,6 +142,10 @@
      one line colour between rows. */
   --table-head-bg: var(--brand-navy);
   --table-line:    light-dark(#d8dee6, #2c405a);
+  /* Row stripe (2026-10-25), shared with the dashboard: #f4f6f9 in light.
+     Dark is one step up from the table's own near-#0b1522 fill; the
+     dashboard's tables sit on #132133, so its dark stripe is #172a40. */
+  --table-stripe:  light-dark(#f4f6f9, #132133);
   /* Text-field borders (2026-10-23), shared with the dashboard: 3.4:1 or
      more on every background a field sits on. The 10% black/white card
      border was close to invisible around a field. */
@@ -183,7 +187,8 @@
      Each token scales smoothly between mobile-min and desktop-max via clamp().
      Eliminates the need for media-query font-size overrides. The 1.25× modular
      scale matches the existing visual rhythm. Adopt incrementally — currently
-     applied to h2, h3, .card-header h2. */
+     applied to h2 and h3. .card-header h2 left it on 2026-10-25 for a fixed
+     18px shared with the dashboard. */
   --text-xs:   clamp(0.75rem,  0.70rem + 0.25vw, 0.85rem);
   --text-sm:   clamp(0.875rem, 0.80rem + 0.40vw, 1rem);
   --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
@@ -1199,15 +1204,17 @@ a:hover, a:focus-visible {
 
 /* Shared header core – applies to every card header */
 .card-header {
-  padding: 1rem 1.5rem;
+  padding: 0.75rem 1.25rem; /* 12px 20px, shared with the dashboard (2026-10-25; was 1rem 1.5rem) */
   text-align: center;
   background: var(--header-gradient);   /* default */
 }
 
-/* Header title – keep one rule */
+/* Header title – keep one rule. 18px at every width (2026-10-25): the
+   dashboard's card titles and both apps' dialog titles are the same size.
+   It was the fluid --text-xl, 24px on desktop and 20px on phones. */
 .card-header h2 {
   margin: 0;
-  font-size: var(--text-xl); /* T3.14: fluid scale */
+  font-size: 1.125rem;
   color: var(--white);
   font-weight: 700;
   text-wrap: balance; /* PATCH 5: even line breaks on long card titles */
@@ -2211,12 +2218,23 @@ a:hover, a:focus-visible {
 
 /* --- REPEATER BADGE SYSTEM - Multi-tag support --- */
 
-/* Tags container for repeater table - max 2 per row */
+/* Tags container for repeater table: pills sit side by side and wrap to
+   the column's width (2026-10-25). A fixed two-across grid was wider than
+   the Tags and Internet Access columns, so pills spilled into the next
+   column at desktop widths. No column is wide enough for three across. */
 .tags-container {
-  display: grid;
-  grid-template-columns: repeat(2, auto);
+  display: flex;
+  flex-wrap: wrap;
   gap: 0.25rem;
   justify-content: center;
+}
+
+/* A pill wider than its whole column ("Amateur Wire VOIP" is 145px; the
+   Internet Access column has 98px at 1024px) wraps its own text. */
+.tags-container > * {
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
 }
 
 /* Base badge styling - shared properties */
@@ -2393,9 +2411,10 @@ a:hover, a:focus-visible {
   transition: background 0.2s ease;
 }
 
-/* Zebra striping */
+/* Zebra striping (2026-10-25: --table-stripe; the 2% tint before it was
+   too faint to see on most screens) */
 .repeater-table tbody tr:nth-child(even) {
-  background: light-dark(rgba(0, 0, 0, 0.02), rgba(255, 255, 255, 0.03));
+  background: var(--table-stripe);
 }
 
 /* Frequency column */

@@ -1114,6 +1114,15 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-10-25 — 18px card titles and a visible table stripe, shared with the dashboard; repeater tags stay in their columns
+
+- Jack wanted the two apps' cards and tables to look more alike: the site's card titles smaller, like the dashboard's, and the dashboard's tables rounded and striped, like the site's. The shared rules are in `../DESIGN.md` ("Cards, tabs, tables, fields and dialogs") and `../skeleton.css`; the dashboard side is a separate wx4ptc-transwx PR.
+- **Card titles**: `.card-header h2` is a fixed 18px (`1.125rem`, was the fluid `--text-xl`: 24px on desktop, 20px on phones), and `.card-header` padding is `0.75rem 1.25rem` (was `1rem 1.5rem`). The bar is 47px (was 63px). That is the dashboard's card title and both apps' dialog title size. Gradients and colour modifiers are unchanged. `--text-xl` itself is unchanged, since `h3` uses it.
+- **Not changed, raised with Jack**: some headings inside cards are now larger than the card title. `.section-subheader` is 20px, and index.html's Quick Maps intro line (a plain `h3`) is 20–24px.
+- **Table stripe**: new `--table-stripe` (`#f4f6f9` light, `#132133` dark) on `.repeater-table tbody tr:nth-child(even)`. The old 2% tint was close to invisible. The dashboard uses the same light value, with `#172a40` in dark, one step up from its `#132133` tables.
+- **Fix, tags spilling into the next column**: `.tags-container` (Tags and Internet Access cells on repeaters.html and repeater-audit.html) was a fixed two-across grid, wider than those columns. At 1024px, pills in 8 of 52 rows overlapped the next column by up to 70px, and 3 still did at 1440px. It is now a wrapping flex row, and a pill wider than its whole column wraps its own text ("Amateur Wire VOIP" is 145px; the Internet Access column has 98px at 1024px). Measured every tag group on both pages at 375, 1024 and 1440px: none overflow.
+- `APP_VERSION` → `20261025c`.
+
 ### 2026-10-25 — Repeater data no longer goes stale in the browser; "Repeater Linking"; Covington pair is `direct`
 
 - **Stale data**: after #97 went live, Covington's popup still showed `rf` for the hub link: new heading, old data. The host (Apache) sends `Last-Modified` and `ETag` but no `Cache-Control` for `data/repeaters.json`, so browsers cache it for a guessed time (about 10% of the file's age, a day or two here). `scripts.js` is `?v=`-stamped and loaded fresh; the JSON is not. All three `repeaters.json` fetches in `js/scripts.js` (`fetchRepeaterData()`, `updateRepeaterValidationDate()`, and the export-date `HEAD`) now pass `cache: 'no-cache'`, so the browser checks with the server every load (a small 304 when unchanged). A data-only change now shows on the next load, with no version bump needed for it.
