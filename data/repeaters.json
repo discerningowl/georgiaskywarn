@@ -575,7 +575,7 @@
     "repeaterLinks": [
       {
         "linkType": "full-time",
-        "linkMethod": "rf",
+        "linkMethod": "direct",
         "linksToFreq": "444.800+",
         "linksToLoc": "Covington Fire Tower",
         "linksToCall": "WA4ASI"
@@ -613,7 +613,7 @@
     "repeaterLinks": [
       {
         "linkType": "full-time",
-        "linkMethod": "rf",
+        "linkMethod": "direct",
         "linksToFreq": "146.925-",
         "linksToLoc": "Covington Fire Tower",
         "linksToCall": "WA4ASI"

@@ -27,7 +27,11 @@
         },
         {
           "title": "Covington Repeater Links In Over AllStar",
-          "description": "The WA4ASI Covington repeater (146.925-) now joins the WX4PTC system over AllStar when needed, instead of by radio. Its owner lost the fire tower site that held the old radio link. Since repeaters can now link to each other over AllStar as well as by radio, the repeater tables' \"Radio Links\" column is now \"Repeater Links\" and \"Internet Links\" is now \"Internet Access\". In a repeater's details, the sections are \"Connect from the Internet\" (EchoLink, AllStar and other ways to get on that repeater) and \"Links to Other Repeaters\", whose Method column shows radio or AllStar."
+          "description": "The WA4ASI Covington repeater (146.925-) now joins the WX4PTC system over AllStar when needed, instead of by radio. Its owner lost the fire tower site that held the old radio link. Since repeaters can now link to each other over AllStar as well as by radio, the repeater tables' \"Radio Links\" column is now \"Repeater Links\" and \"Internet Links\" is now \"Internet Access\". In a repeater's details, the sections are \"Connect from the Internet\" (EchoLink, AllStar and other ways to get on that repeater) and \"Repeater Linking\", whose Method column shows radio, AllStar, or direct for two repeaters at the same site."
+        },
+        {
+          "title": "Repeater Changes Show Up Right Away",
+          "description": "When the repeater list changes, the Repeaters page now shows the update on your next visit. Before, your browser could keep showing the old list for a day or two."
         }
       ]
     },
