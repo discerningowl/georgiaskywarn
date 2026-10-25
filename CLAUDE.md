@@ -1114,6 +1114,14 @@ refactor: Simplify alert filtering logic
 
 ## Changelog
 
+### 2026-10-25 — Repeater data no longer goes stale in the browser; "Repeater Linking"; Covington pair is `direct`
+
+- **Stale data**: after #97 went live, Covington's popup still showed `rf` for the hub link: new heading, old data. The host (Apache) sends `Last-Modified` and `ETag` but no `Cache-Control` for `data/repeaters.json`, so browsers cache it for a guessed time (about 10% of the file's age, a day or two here). `scripts.js` is `?v=`-stamped and loaded fresh; the JSON is not. All three `repeaters.json` fetches in `js/scripts.js` (`fetchRepeaterData()`, `updateRepeaterValidationDate()`, and the export-date `HEAD`) now pass `cache: 'no-cache'`, so the browser checks with the server every load (a small 304 when unchanged). A data-only change now shows on the next load, with no version bump needed for it.
+- That makes the `rflinks`/`iplinks` mapping in `fetchRepeaterData()` unnecessary, so it's gone.
+- The detail modal's "Links to Other Repeaters" is now "Repeater Linking".
+- `data/repeaters.json`: `WA4ASI-146.925` ↔ `WA4ASI-444.800` is `linkMethod: "direct"` both ways (was `"rf"`), per Jack. On the network map the 444.800+ is now Primary through its companion (was Secondary). `linksToLoc` still reads "Covington Fire Tower", a site George no longer has; fix it when the new site is confirmed.
+- `APP_VERSION` → `20261025b`.
+
 ### 2026-10-25 — `rflinks` → `repeaterLinks`, `iplinks` → `userAccess`
 
 - The old names said how a connection travels; the lists are really split by who is connecting. `rflinks` stopped being true once a repeater-to-repeater link went over AllStar (Covington, below). Renamed across all 59 records in `data/repeaters.json` (47 `repeaterLinks`, 13 `userAccess`); entries inside are unchanged, and the field order (16, 17) holds. See the schema table under "Adding a New Repeater" for the rule on which list a link belongs in.

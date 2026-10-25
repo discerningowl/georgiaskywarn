@@ -15,6 +15,10 @@
  * NOTE: NWS alert fetching is handled by nws-api.js
  * NOTE: Header/footer/navigation injection is handled by components.js
  * Change-log:
+ *   • 2026-10-25 (b) – Every repeaters.json fetch uses cache: 'no-cache',
+ *     so a data change shows on the next page load; that replaces the
+ *     old-name (rflinks/iplinks) mapping in fetchRepeaterData(). Detail
+ *     modal heading "Links to Other Repeaters" is now "Repeater Linking"
  *   • 2026-10-25 – repeaters.json fields renamed for what they hold, not how
  *     they travel: rflinks → repeaterLinks (gains linkMethod "allstar", for
  *     Covington 146.925- reaching the hub over AllStar), iplinks →
@@ -225,17 +229,12 @@
    */
   async function fetchRepeaterData() {
     try {
-      const response = await fetch('data/repeaters.json');
+      // no-cache: always ask the server whether the file changed (a 304 when
+      // it hasn't). The host sends no Cache-Control, so browsers otherwise
+      // keep it for a guessed day or two and show old repeater data.
+      const response = await fetch('data/repeaters.json', { cache: 'no-cache' });
       if (!response.ok) throw new Error('Failed to load repeaters.json');
-      const repeaters = await response.json();
-      // repeaters.json isn't version-stamped, so a browser can pair this
-      // script with a cached copy that still uses the pre-2026-10-25 names
-      // (rflinks/iplinks). Map them across; drop once that copy has aged out.
-      repeaters.forEach(r => {
-        if (!r.repeaterLinks && r.rflinks) r.repeaterLinks = r.rflinks;
-        if (!r.userAccess && r.iplinks) r.userAccess = r.iplinks;
-      });
-      return repeaters;
+      return await response.json();
     } catch (error) {
       console.error(`Error loading repeater data: ${error}`);
       return [];
@@ -250,7 +249,7 @@
     if (!dateElement) return;
 
     try {
-      const response = await fetch('data/repeaters.json');
+      const response = await fetch('data/repeaters.json', { cache: 'no-cache' });
 
       // Get Last-Modified header from response
       const lastModified = response.headers.get('Last-Modified');
@@ -718,10 +717,10 @@
       html += '</tbody></table></div></div>';
     }
 
-    // Links to other repeaters (repeaterLinks; linkMethod rf, direct or allstar)
+    // Repeater Linking (repeaterLinks; linkMethod rf, direct or allstar)
     if (repeater.repeaterLinks && repeater.repeaterLinks.length > 0) {
       html += '<div class="detail-section">';
-      html += '<h3>Links to Other Repeaters</h3>';
+      html += '<h3>Repeater Linking</h3>';
       html += '<div class="table-wrapper">';
       html += '<table class="repeater-table" style="width: 100%;">';
       html += `
@@ -1197,7 +1196,7 @@
     // Mirror the same human-readable date into the export section
     const exportDateEl = document.getElementById('export-date-display');
     if (exportDateEl) {
-      fetch('data/repeaters.json', { method: 'HEAD' }).then(resp => {
+      fetch('data/repeaters.json', { method: 'HEAD', cache: 'no-cache' }).then(resp => {
         const lm = resp.headers.get('Last-Modified');
         const d = lm ? new Date(lm) : new Date();
         const formatter = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
