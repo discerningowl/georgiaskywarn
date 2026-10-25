@@ -24,6 +24,10 @@
         {
           "title": "Updated Colors and Theme Setting",
           "description": "The site's colors now come from the Georgia SKYWARN logo. The header is the logo's deep navy, so the logo sits cleanly on it, and buttons and links use the blue of its rings. Dark mode is now a deeper navy, and blue buttons and banners are easier to read in it. The theme button in the header now has three settings: Auto, the default, follows your device's light or dark setting; Dark and Light override it. Your choice is remembered (a choice you made before is kept) and is applied as each page loads, so pages no longer flash the other theme first."
+        },
+        {
+          "title": "Covington Repeater Links In Over AllStar",
+          "description": "The WA4ASI Covington repeater (146.925-) now joins the WX4PTC system over AllStar when needed, instead of by radio. Its owner lost the fire tower site that held the old radio link. Since repeaters can now link to each other over AllStar as well as by radio, the repeater tables' \"Radio Links\" column is now \"Repeater Links\" and \"Internet Links\" is now \"Internet Access\". In a repeater's details, the sections are \"Connect from the Internet\" (EchoLink, AllStar and other ways to get on that repeater) and \"Links to Other Repeaters\", whose Method column shows radio or AllStar."
         }
       ]
     },

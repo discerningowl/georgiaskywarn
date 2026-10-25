@@ -147,8 +147,8 @@ All repeater data is stored in a single unified JSON file. Fields appear in the 
 | 13 | `picUrl` | string | When applicable | Station photo link (only select repeaters) |
 | 14 | `clubName` | string/null | Yes | Sponsoring club name, or `null` if unknown |
 | 15 | `clubUrl` | string/null | Yes | Sponsoring club URL, or `null` if unknown |
-| 16 | `iplinks` | array | No | Internet linking (AllStar, EchoLink, etc.). Omit if none. |
-| 17 | `rflinks` | array | No | Radio frequency links. Omit if none. |
+| 16 | `userAccess` | array | No | How a person can get on this repeater from the internet (AllStar, EchoLink, etc.). Omit if none. |
+| 17 | `repeaterLinks` | array | No | Links to other repeaters, by RF, same-site or AllStar. Omit if none. |
 
 The file is ordered alphabetically by `location.city`, with repeaters tagged `WX4PTC System` grouped first.
 

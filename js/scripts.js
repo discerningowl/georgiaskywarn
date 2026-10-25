@@ -15,6 +15,12 @@
  * NOTE: NWS alert fetching is handled by nws-api.js
  * NOTE: Header/footer/navigation injection is handled by components.js
  * Change-log:
+ *   • 2026-10-25 – repeaters.json fields renamed for what they hold, not how
+ *     they travel: rflinks → repeaterLinks (gains linkMethod "allstar", for
+ *     Covington 146.925- reaching the hub over AllStar), iplinks →
+ *     userAccess. fetchRepeaterData() maps the old names from a cached
+ *     copy. Detail modal headings: "Links to Other Repeaters" (was "Radio
+ *     Linking"), "Connect from the Internet" (was "Internet Linking")
  *   • 2026-06-30 – Code review cleanup:
  *     - Removed dead renderWeatherStationRow()/renderWeatherStations()
  *       (weather-stations feature was removed from repeaters.html in
@@ -221,7 +227,15 @@
     try {
       const response = await fetch('data/repeaters.json');
       if (!response.ok) throw new Error('Failed to load repeaters.json');
-      return await response.json();
+      const repeaters = await response.json();
+      // repeaters.json isn't version-stamped, so a browser can pair this
+      // script with a cached copy that still uses the pre-2026-10-25 names
+      // (rflinks/iplinks). Map them across; drop once that copy has aged out.
+      repeaters.forEach(r => {
+        if (!r.repeaterLinks && r.rflinks) r.repeaterLinks = r.rflinks;
+        if (!r.userAccess && r.iplinks) r.userAccess = r.iplinks;
+      });
+      return repeaters;
     } catch (error) {
       console.error(`Error loading repeater data: ${error}`);
       return [];
@@ -354,23 +368,23 @@
   /**
    * Builds the RF-link graph across every repeater and computes, for each
    * one, its Tier and Role relative to the WX4PTC hub (W4PSZ-444.600+).
-   * Derived entirely from `rflinks` — never hand-tagged — so it can't drift
+   * Derived entirely from `repeaterLinks` — never hand-tagged — so it can't drift
    * the way the `SE Linked Repeater`/`Peach State Intertie` tags once did.
    *
    * Tier = hop-distance from the hub (a same-site "direct" companion link
    * costs 0 hops, since it's the same physical system, not a real network
-   * hop; an "rf" link costs 1 hop):
+   * hop; an "rf" or "allstar" link costs 1 hop):
    *   Hub       = W4PSZ-444.600+ itself (and anything direct-companioned
    *               to it)
    *   Primary   = 1 hop from the hub
    *   Secondary = 2+ hops from the hub
-   *   Standalone = has network tags/rflinks but no path reaches the hub —
-   *                a red flag that an rflinks edge is missing from the data
+   *   Standalone = has network tags/repeaterLinks but no path reaches the hub —
+   *                a red flag that a repeaterLinks edge is missing from the data
    *                (see the "linked stays linked" rule below), not that the
    *                repeater doesn't belong on the map.
    *
    * Role is independent of Tier, based on in-degree in the graph:
-   *   Relay = one or more other repeaters' rflinks connect through this one
+   *   Relay = one or more other repeaters' repeaterLinks connect through this one
    *   Spoke = a pure leaf; nothing links through it
    * ("Relay" rather than "Hub" specifically to avoid colliding with "Hub"
    * already meaning the WX4PTC root everywhere else on the site.)
@@ -382,23 +396,23 @@
    *
    * @param {Array<Object>} allRepeaters - Full repeater array from JSON
    * @returns {Map<string, {tier: string, role: string, depth: number|null, parentId: string|null, childIds: string[]}>}
-   *          Keyed by repeater.id. Only repeaters with tags, rflinks, or
+   *          Keyed by repeater.id. Only repeaters with tags, repeaterLinks, or
    *          linked===true are included (plain untagged county-only
    *          repeaters aren't part of any network and are omitted).
    */
   function computeNetworkStatus(allRepeaters) {
     // Compound (callsign, frequency) -> repeater, used to resolve each
-    // rflinks entry's linksToCall/linksToFreq to the record it points at.
+    // repeaterLinks entry's linksToCall/linksToFreq to the record it points at.
     const byKey = new Map();
     allRepeaters.forEach(r => byKey.set(`${r.callsign}|${r.frequency}`, r));
 
     // Undirected weighted adjacency: direct (same-site companion) = 0,
-    // rf (a real hop) = 1. Built from both ends, so a one-sided rflinks
+    // rf or allstar (a real hop) = 1. Built from both ends, so a one-sided repeaterLinks
     // entry (missing its reciprocal) still connects the graph.
     const adjacency = new Map();
     allRepeaters.forEach(r => adjacency.set(r.id, []));
     allRepeaters.forEach(r => {
-      (r.rflinks || []).forEach(link => {
+      (r.repeaterLinks || []).forEach(link => {
         const target = byKey.get(`${link.linksToCall}|${link.linksToFreq}`);
         if (!target || target.id === r.id) return;
         const weight = link.linkMethod === 'direct' ? 0 : 1;
@@ -411,7 +425,7 @@
     // never gets a longer path than a direct one just because of queue order.
     // W4PSZ-444.600+ is the sole hub root. KN4YZ-444.675+ (Tyrone) is a
     // backup/net-control repeater that links TO the hub via its own
-    // rflinks entry — it is not itself a hub root (per PSI's own diagram
+    // repeaterLinks entry — it is not itself a hub root (per PSI's own diagram
     // at peachstateintertie.com/diagram.html, everything converges on
     // 444.600, not 444.675).
     const hubIds = allRepeaters
@@ -455,7 +469,7 @@
     const status = new Map();
     allRepeaters.forEach(r => {
       const isParticipant = depth.has(r.id) || r.linked === true ||
-        (r.tags && r.tags.length > 0) || (r.rflinks && r.rflinks.length > 0);
+        (r.tags && r.tags.length > 0) || (r.repeaterLinks && r.repeaterLinks.length > 0);
       if (!isParticipant) return;
 
       const d = depth.has(r.id) ? depth.get(r.id) : null;
@@ -508,14 +522,14 @@
 
     const tags = allTags.length > 0 ? `<div class="tags-container">${allTags.join('')}</div>` : '—';
 
-    // Internet Links - show system names as badges with indigo color
-    const ipLinks = (repeater.iplinks && repeater.iplinks.length > 0)
-      ? `<div class="tags-container">${repeater.iplinks.map(link => `<span class="badge-iplink">${sanitizeHTML(link.system)}</span>`).join('')}</div>`
+    // Internet Access - show system names as badges with indigo color
+    const accessBadges = (repeater.userAccess && repeater.userAccess.length > 0)
+      ? `<div class="tags-container">${repeater.userAccess.map(link => `<span class="badge-iplink">${sanitizeHTML(link.system)}</span>`).join('')}</div>`
       : '—';
 
-    // Radio Links - list callsigns
-    const rfLinks = (repeater.rflinks && repeater.rflinks.length > 0)
-      ? repeater.rflinks.map(link => sanitizeHTML(link.linksToCall)).join(', ')
+    // Repeater Links - list callsigns
+    const linkedCalls = (repeater.repeaterLinks && repeater.repeaterLinks.length > 0)
+      ? repeater.repeaterLinks.map(link => sanitizeHTML(link.linksToCall)).join(', ')
       : '—';
 
     const countyDisplay = locationCounty(repeater) ? sanitizeHTML(locationCounty(repeater)) : '—';
@@ -532,8 +546,8 @@
         </td>
         <td class="center">${countyDisplay}</td>
         <td class="center">${tags}</td>
-        <td class="center">${ipLinks}</td>
-        <td class="center" style="font-size: 0.9rem;">${rfLinks}</td>
+        <td class="center">${accessBadges}</td>
+        <td class="center" style="font-size: 0.9rem;">${linkedCalls}</td>
       </tr>`;
   }
 
@@ -656,10 +670,10 @@
         <p>${sanitizeHTML(repeater.description)}</p>
       </div>`;
 
-    // Internet Links
-    if (repeater.iplinks && repeater.iplinks.length > 0) {
+    // Ways for one person to get on this repeater (userAccess)
+    if (repeater.userAccess && repeater.userAccess.length > 0) {
       html += '<div class="detail-section">';
-      html += '<h3>Internet Linking</h3>';
+      html += '<h3>Connect from the Internet</h3>';
       html += '<div class="table-wrapper">';
       html += '<table class="repeater-table" style="width: 100%;">';
       html += `
@@ -673,7 +687,7 @@
         </thead>
         <tbody>`;
 
-      repeater.iplinks.forEach(link => {
+      repeater.userAccess.forEach(link => {
         const nodeInfo = link.node ? `Node ${link.node}` :
                         link.extension ? `Ext ${link.extension}` : '—';
         const callsign = link.callsign || '—';
@@ -704,10 +718,10 @@
       html += '</tbody></table></div></div>';
     }
 
-    // Radio Links
-    if (repeater.rflinks && repeater.rflinks.length > 0) {
+    // Links to other repeaters (repeaterLinks; linkMethod rf, direct or allstar)
+    if (repeater.repeaterLinks && repeater.repeaterLinks.length > 0) {
       html += '<div class="detail-section">';
-      html += '<h3>Radio Linking</h3>';
+      html += '<h3>Links to Other Repeaters</h3>';
       html += '<div class="table-wrapper">';
       html += '<table class="repeater-table" style="width: 100%;">';
       html += `
@@ -722,7 +736,7 @@
         </thead>
         <tbody>`;
 
-      repeater.rflinks.forEach(link => {
+      repeater.repeaterLinks.forEach(link => {
         html += `
           <tr>
             <td class="center">${sanitizeHTML(link.linksToCall)}</td>
@@ -1245,7 +1259,7 @@
      * Renders the Network Map card: an SVG generated live from computeNetworkStatus(),
      * plus a legend and a "needs a link" panel for any tagged/linked repeater the
      * graph can't reach from the hub (should be empty — if it isn't, that's a real
-     * missing rflinks edge, not a repeater to reclassify; see the "linked stays
+     * missing repeaterLinks edge, not a repeater to reclassify; see the "linked stays
      * linked" rule in the project notes).
      * @param {Array<Object>} allRepeaters
      */
@@ -1291,7 +1305,7 @@
       } else if (flaggedEl) {
         flaggedEl.innerHTML = `
           <aside class="callout warning" style="margin-top:1rem;">
-            <p><strong>${flagged.length} repeater${flagged.length === 1 ? '' : 's'} tagged/linked but no path reaches the hub in the current <code>rflinks</code> data</strong> — per the review rule, this means an edge is missing from the data, not that the repeater should be reclassified:</p>
+            <p><strong>${flagged.length} repeater${flagged.length === 1 ? '' : 's'} tagged/linked but no path reaches the hub in the current <code>repeaterLinks</code> data</strong> — per the review rule, this means an edge is missing from the data, not that the repeater should be reclassified:</p>
             <ul style="margin:0.5rem 0 0 1.25rem;">
               ${flagged.map(([id]) => {
                 const r = byId.get(id);
@@ -1418,7 +1432,7 @@
       });
 
       const svg = `
-        <svg viewBox="0 0 2100 2100" role="img" aria-label="Repeater network map: tier and role of every linked repeater, generated from data/repeaters.json's rflinks graph" class="netmap-svg">
+        <svg viewBox="0 0 2100 2100" role="img" aria-label="Repeater network map: tier and role of every linked repeater, generated from data/repeaters.json's repeaterLinks graph" class="netmap-svg">
           <text x="${CX}" y="${CY - HUB_ANCHOR_R - 18}" text-anchor="middle" class="netmap-hub-label">WX4PTC Hub</text>
           ${edgesSvg}
           ${nodesSvg}

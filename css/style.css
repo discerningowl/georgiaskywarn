@@ -2383,8 +2383,8 @@ a:hover, a:focus-visible {
 .directory-table .col-freq     { width: 13%; }
 .directory-table .col-county   { width: 10%; }
 .directory-table .col-tags     { width: 23%; }
-.directory-table .col-ilinks   { width: 14%; }
-.directory-table .col-rlinks   { width: 20%; }
+.directory-table .col-access   { width: 14%; }
+.directory-table .col-replinks { width: 20%; }
 
 .repeater-table td {
   padding: 0.85rem 1rem;
@@ -3464,7 +3464,7 @@ a:hover, a:focus-visible {
 }
 /* ---------------------------------------------------------------------
    Repeater Network Map (repeater-audit.html)
-   Generated live from data/repeaters.json's rflinks graph — see
+   Generated live from data/repeaters.json's repeaterLinks graph — see
    computeNetworkStatus()/renderNetworkMap() in scripts.js.
    Tier = sequential (ordered hop-distance from the hub), so it's one
    ramp light->dark rather than unrelated categorical hues. Role and

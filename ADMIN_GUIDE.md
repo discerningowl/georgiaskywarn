@@ -269,10 +269,10 @@ Fields must appear **in this order** in every entry:
 | `picUrl` | Station photo link (only a few repeaters) | `"https://photos.app.goo.gl/..."` | Only when applicable |
 | `clubName` | Sponsoring club, or `null` | `"Atlanta Radio Club (ARC)"` | Yes |
 | `clubUrl` | Club website, or `null` | `"https://www.w4doc.org"` | Yes |
-| `iplinks` | Internet linking (AllStar, EchoLink, etc.) | see CLAUDE.md | No - omit if none |
-| `rflinks` | Radio links to other repeaters | see CLAUDE.md | No - omit if none |
+| `userAccess` | How a person can get on this repeater from the internet (AllStar node, EchoLink, etc.) | see CLAUDE.md | No - omit if none |
+| `repeaterLinks` | Links to other repeaters, whether by radio, at the same site, or over AllStar | see CLAUDE.md | No - omit if none |
 
-[CLAUDE.md](CLAUDE.md) has the complete technical reference, including the `iplinks` / `rflinks` formats and how the validation tiers work.
+[CLAUDE.md](CLAUDE.md) has the complete technical reference, including the `userAccess` / `repeaterLinks` formats and how the validation tiers work.
 
 ### Common JSON Mistakes to Avoid
 
@@ -477,7 +477,7 @@ All repeaters (linked and non-linked) live in this one file. The tables on `repe
    - `location`: `city` and `county` are required; add `"site": "Landmark Name"` only if people know the repeater by a landmark or community name (see the Field Descriptions table above)
    - `tags`: use only the five valid tag values listed in the table above
    - `validation`: set `repeaterbook` to `true` only if the details match RepeaterBook; `owner` and `club` are `true` only after you have confirmed with the repeater's owner or sponsoring club
-   - `iplinks` / `rflinks`: add only if the repeater has them; leave them out entirely otherwise
+   - `userAccess` / `repeaterLinks`: add only if the repeater has them; leave them out entirely otherwise
 
 5. **Follow the JSON syntax rules** (commas between entries, no comma after the last one, double quotes around all text).
 

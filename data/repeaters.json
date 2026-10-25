@@ -23,7 +23,7 @@
     "active": true,
     "clubName": "Fayette County Amateur Radio Club, Inc. (FCARC)",
     "clubUrl": "https://www.kk4gq.org",
-    "iplinks": [
+    "userAccess": [
       {
         "system": "EchoLink",
         "node": "897538",
@@ -31,7 +31,7 @@
         "connectionType": "available"
       }
     ],
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "direct",
@@ -66,7 +66,7 @@
     "picUrl": "https://photos.app.goo.gl/EJB6ns91tw4oNkup6",
     "clubName": "Fayette County Amateur Radio Club (FCARC)",
     "clubUrl": "https://kk4gq.org/",
-    "iplinks": [
+    "userAccess": [
       {
         "system": "AllStar",
         "node": "684141",
@@ -79,7 +79,7 @@
         "connectionType": "available"
       }
     ],
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "direct",
@@ -133,7 +133,7 @@
     "active": true,
     "clubName": "Fayette County Amateur Radio Club",
     "clubUrl": "https://kk4gq.org/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -166,7 +166,7 @@
     "active": true,
     "clubName": "Atlanta Radio Club (ARC)",
     "clubUrl": "https://www.w4doc.org",
-    "iplinks": [
+    "userAccess": [
       {
         "system": "EchoLink",
         "node": "691899",
@@ -174,7 +174,7 @@
         "connectionType": "available"
       }
     ],
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "on-demand",
         "linkMethod": "rf",
@@ -230,7 +230,7 @@
     "statusNote": "DOWN \u2014 Needs PA replacement. PA on hand, awaiting time to install and tune. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://www.peachstateintertie.com/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -263,7 +263,7 @@
     "active": true,
     "clubName": "Middle Georgia Radio Association (MGRA)",
     "clubUrl": "http://www.wr4mg.us/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -296,7 +296,7 @@
     "active": true,
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://www.peachstateintertie.com/repeaters.html",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -373,7 +373,7 @@
     "active": true,
     "clubName": "Lanierland Amateur Radio Club (LARC)",
     "clubUrl": "https://www.lanierlandarc.org/p/repeaters.html",
-    "iplinks": [
+    "userAccess": [
       {
         "system": "EchoLink",
         "node": "245250",
@@ -381,7 +381,7 @@
         "connectionType": "available"
       }
     ],
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -443,7 +443,7 @@
     "active": true,
     "clubName": "Bleckley Co. Amateur Radio Club",
     "clubUrl": null,
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -476,14 +476,14 @@
     "active": true,
     "clubName": "Bob Williams",
     "clubUrl": null,
-    "iplinks": [
+    "userAccess": [
       {
         "system": "AllStar",
         "node": "61727",
         "connectionType": "available"
       }
     ],
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -521,14 +521,14 @@
     "active": true,
     "clubName": "Concord Amateur Radio Society (CARS)",
     "clubUrl": "http://www.arrl.org/Groups/view/concord-amateur-radio-society/type:club",
-    "iplinks": [
+    "userAccess": [
       {
         "system": "AllStar",
         "node": "46796",
         "connectionType": "on-demand"
       }
     ],
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "on-demand",
         "linkMethod": "rf",
@@ -547,7 +547,7 @@
     "frequency": "146.925-",
     "tone": "88.5 Hz",
     "tags": [],
-    "description": "Links to 444.675+ WX4PTC backup hub. Wide coverage east of Atlanta along I-20 corridor. Covers Newton, Rockdale, and Walton counties with extended reach into north Georgia.",
+    "description": "Links on demand to the 444.600+ WX4PTC hub over AllStar. Wide coverage east of Atlanta along I-20 corridor. Covers Newton, Rockdale, and Walton counties with extended reach into north Georgia.",
     "callsign": "WA4ASI",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=100",
     "linked": true,
@@ -559,9 +559,9 @@
     "active": true,
     "clubName": "WA4ASI Repeater System",
     "clubUrl": "https://sites.google.com/site/wa4asirepeater/home",
-    "iplinks": [
+    "userAccess": [
       {
-        "system": "Allstar",
+        "system": "AllStar",
         "node": "29795",
         "connectionType": "available"
       },
@@ -572,7 +572,7 @@
         "connectionType": "available"
       }
     ],
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -582,7 +582,7 @@
       },
       {
         "linkType": "on-demand",
-        "linkMethod": "rf",
+        "linkMethod": "allstar",
         "linksToFreq": "444.600+",
         "linksToLoc": "WX4PTC System",
         "linksToCall": "W4PSZ"
@@ -610,7 +610,7 @@
     "active": true,
     "clubName": "WA4ASI Repeater System",
     "clubUrl": "https://sites.google.com/site/wa4asirepeater/home",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -642,7 +642,7 @@
     "active": true,
     "clubName": "Sawnee Mountain Amateur Group (SMAG)",
     "clubUrl": "https://sawneeradio.org/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "on-demand",
         "linkMethod": "rf",
@@ -675,7 +675,7 @@
     "active": true,
     "clubName": "Paulding Amateur Radio Club (PARC)",
     "clubUrl": "http://www.pauldingarc.club/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "direct",
@@ -715,7 +715,7 @@
     "active": true,
     "clubName": "Paulding Amateur Radio Club (PARC)",
     "clubUrl": "http://www.pauldingarc.club/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "direct",
@@ -753,7 +753,7 @@
     "active": true,
     "clubName": "Paulding County ARES",
     "clubUrl": "http://www.pauldingares.com/",
-    "iplinks": [
+    "userAccess": [
       {
         "system": "EchoLink",
         "node": "3026",
@@ -808,7 +808,7 @@
     "active": true,
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://peachstateintertie.com/repeaters.html",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -841,7 +841,7 @@
     "active": true,
     "clubName": "K4DBN / Laurens County 911",
     "clubUrl": null,
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -875,7 +875,7 @@
     "statusNote": "DOWN \u2014 Needs new antenna, work in progress. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
     "clubName": "Three Rivers Amateur Radio Club (TRARC)",
     "clubUrl": "http://www.arrl.org/Groups/view/three-rivers-arc-1/type:club",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -909,7 +909,7 @@
     "active": true,
     "clubName": null,
     "clubUrl": null,
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -940,7 +940,7 @@
     "active": true,
     "clubName": null,
     "clubUrl": null,
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "on-demand",
         "linkMethod": "rf",
@@ -974,7 +974,7 @@
     "active": true,
     "clubName": "Sun City Amateur Radio (SCAR)",
     "clubUrl": "https://w4scp.wordpress.com/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "on-demand",
         "linkMethod": "rf",
@@ -1009,7 +1009,7 @@
     "active": true,
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://www.peachstateintertie.com/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "direct",
@@ -1056,7 +1056,7 @@
     "active": true,
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://www.peachstateintertie.com/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -1201,7 +1201,7 @@
     "active": true,
     "clubName": null,
     "clubUrl": null,
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "direct",
@@ -1257,7 +1257,7 @@
     "active": true,
     "clubName": "Southeastern Linked Repeater Net",
     "clubUrl": "http://www.selinkedrepeater.net/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "direct",
@@ -1291,7 +1291,7 @@
     "active": true,
     "clubName": "Southeastern Linked Repeater Net",
     "clubUrl": "http://www.selinkedrepeater.net/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -1339,7 +1339,7 @@
     "active": true,
     "clubName": "Southeastern Linked Repeater Net",
     "clubUrl": "http://www.selinkedrepeater.net/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "direct",
@@ -1372,7 +1372,7 @@
     "active": true,
     "clubName": "Southeast Linked Repeater Net",
     "clubUrl": "http://www.selinkedrepeater.net/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "on-demand",
         "linkMethod": "rf",
@@ -1433,7 +1433,7 @@
     "active": true,
     "clubName": null,
     "clubUrl": null,
-    "iplinks": [
+    "userAccess": [
       {
         "system": "EchoLink",
         "node": "481355",
@@ -1441,7 +1441,7 @@
         "connectionType": "available"
       }
     ],
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "on-demand",
         "linkMethod": "rf",
@@ -1472,7 +1472,7 @@
     "active": true,
     "clubName": "Tri-States Amateur Radio Club (TSARC)",
     "clubUrl": "https://tristatesarc.com/club/",
-    "iplinks": [
+    "userAccess": [
       {
         "system": "AllStar",
         "node": "46331",
@@ -1495,7 +1495,7 @@
         "connectionType": "available"
       }
     ],
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -1549,7 +1549,7 @@
     "active": true,
     "clubName": null,
     "clubUrl": null,
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -1589,7 +1589,7 @@
     "active": true,
     "clubName": null,
     "clubUrl": null,
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -1623,7 +1623,7 @@
     "active": true,
     "clubName": "Macon-Bibb County Emergency Management Agency",
     "clubUrl": "https://www.maconbibb.us/EMA/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -1663,7 +1663,7 @@
     "active": true,
     "clubName": "Macon-Bibb County Emergency Management Agency",
     "clubUrl": "https://www.maconbibb.us/EMA/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -1697,7 +1697,7 @@
     "statusNote": "2021-02-01 K4DRS has requested the following changes: Operational status changed to Off-Air.",
     "clubName": "Milledgeville Amateur Radio Club (MARC)",
     "clubUrl": "https://www.facebook.com/groups/1110123253370066/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -1775,7 +1775,7 @@
     "statusNote": "REPEATER UP, NOT YET LINKED \u2014 Repeater is operational. PSI link (11-element UHF Yagi to Irwinton) was removed; awaiting replacement antenna before rejoining PSI. (Per John Hamilton, 2026-06-29. Follow up Q3 2026 quarterly verification.)",
     "clubName": "Peach State Emergency Intertie System",
     "clubUrl": "http://www.peachstateintertie.com",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -1806,7 +1806,7 @@
     "active": true,
     "clubName": "Newnan Regional Amateur Radio Club",
     "clubUrl": "https://newnanradio.org/",
-    "iplinks": [
+    "userAccess": [
       {
         "system": "EchoLink",
         "node": "313887",
@@ -1838,7 +1838,7 @@
     "active": true,
     "clubName": "Northwest Georgia Repeater Club (NWGRC)",
     "clubUrl": "https://w4vo.org/local_repeaters.html",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "on-demand",
         "linkMethod": "rf",
@@ -1871,7 +1871,7 @@
     "active": true,
     "clubName": "Washington County Amateur Radio Club (WCARC)",
     "clubUrl": "http://www.arrl.org/Groups/view/washington-county-amateur-radio-club-1/type:club",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -1905,7 +1905,7 @@
     "active": true,
     "clubName": null,
     "clubUrl": null,
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "on-demand",
         "linkMethod": "rf",
@@ -1968,7 +1968,7 @@
     "active": true,
     "clubName": "Southeastern Linked Repeater Net",
     "clubUrl": "http://selinkedrepeater.net/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "on-demand",
         "linkMethod": "rf",
@@ -1999,7 +1999,7 @@
     "active": true,
     "clubName": "Columbus Amateur Radio Club (W4CVY)",
     "clubUrl": "https://w4cvy.org/repeaters/",
-    "iplinks": [
+    "userAccess": [
       {
         "system": "AllStar",
         "node": "473360",
@@ -2012,7 +2012,7 @@
         "connectionType": "available"
       }
     ],
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -2045,7 +2045,7 @@
     "active": true,
     "clubName": "Amateur Radio Station WM4B",
     "clubUrl": "http://wm4b.wikidot.com/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -2085,7 +2085,7 @@
     "active": true,
     "clubName": "Central Georgia Amateur Radio Club (CGARC)",
     "clubUrl": "http://www.wa4ort.com",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "on-demand",
         "linkMethod": "rf",
@@ -2118,7 +2118,7 @@
     "active": true,
     "clubName": "Amateur Radio Station WM4B",
     "clubUrl": "http://wm4b.wikidot.com/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -2171,14 +2171,14 @@
     "active": true,
     "clubName": "Concord Amateur Radio Society (CARS)",
     "clubUrl": "http://www.arrl.org/Groups/view/concord-amateur-radio-society/type:club",
-    "iplinks": [
+    "userAccess": [
       {
         "system": "AllStar",
         "node": "48225",
         "connectionType": "on-demand"
       }
     ],
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "full-time",
         "linkMethod": "rf",
@@ -2218,7 +2218,7 @@
     "active": true,
     "clubName": "ARCCC, Inc.",
     "clubUrl": "https://www.arccc.org/",
-    "rflinks": [
+    "repeaterLinks": [
       {
         "linkType": "on-demand",
         "linkMethod": "rf",
