@@ -663,7 +663,7 @@ The `www` redirect is **not** in the repository. It is a rule in the Cloudflare 
 
 ### Domain, DNS and email (as of October 26, 2026)
 
-These live in the Cloudflare account, not on GitHub. You only need them to change the domain setup. **Jack Parks (KQ4JP) holds the Cloudflare and Namecheap logins.** Ask him rather than sharing passwords.
+These live in the Cloudflare account, not on GitHub. You only need them to change the domain setup. **Jack Parks (KQ4JP) holds the Cloudflare and Namecheap logins for georgiaskywarn.com** (the `.org` name is Jim's, below). Ask him rather than sharing passwords.
 
 | Item | Setting |
 |---|---|
@@ -684,7 +684,7 @@ These live in the Cloudflare account, not on GitHub. You only need them to chang
 
 ### The old backup site (georgiaskywarn.org)
 
-The old setup copied the site to a backup at **georgiaskywarn.org** every day. As of October 26, 2026 that no longer happens. The domain is registered (Namecheap, expires April 12, 2027) and its nameservers point to Cloudflare, but it has no DNS records and shows nothing. **Do not rely on it as a backup.** The backup now is GitHub (every version of every file) plus Cloudflare's deployment history. The decision on what to do with the `.org` name, such as redirecting it to georgiaskywarn.com, is Jack's and the Site Administrator's.
+The old setup copied the site to a backup at **georgiaskywarn.org** every day. As of October 26, 2026 that no longer happens. The domain is registered at Namecheap (expires April 12, 2027) and **is still controlled by Jim Lynch (K4GVO); it has not been transferred to Jack**. Its nameservers point to Cloudflare, but it has no DNS records and shows nothing. **Do not rely on it as a backup.** The backup now is GitHub (every version of every file) plus Cloudflare's deployment history. Jim decides what happens to the `.org` name, such as redirecting it to georgiaskywarn.com. Renewals and DNS changes for it go through Jim.
 
 ### Good to know
 
