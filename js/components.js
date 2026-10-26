@@ -47,7 +47,7 @@ function loadHeader() {
         <a class="skip-link" href="#main">Skip to content</a>
         <header class="header">
             <div class="header-content">
-                <a href="index.html" class="logo">
+                <a href="/" class="logo">
                     <img src="assets/georgiaskywarnlogo.png" alt="Georgia SKYWARN Logo" class="logo-image">
                     <div class="logo-text">
                         <h1>Georgia SKYWARN</h1>
@@ -55,12 +55,12 @@ function loadHeader() {
                     </div>
                 </a>
                 <nav id="desktopNav" aria-label="Main">
-                    <a href="index.html">Home</a>
-                    <a href="spotters.html">Spotters</a>
-                    <a href="repeaters.html">Repeaters</a>
-                    <a href="wx4ptc.html">WX4PTC</a>
-                    <a href="nwsffclinks.html">Resources</a>
-                    <a href="about.html">About</a>
+                    <a href="/">Home</a>
+                    <a href="/spotters">Spotters</a>
+                    <a href="/repeaters">Repeaters</a>
+                    <a href="/wx4ptc">WX4PTC</a>
+                    <a href="/nwsffclinks">Resources</a>
+                    <a href="/about">About</a>
                 </nav>
                 <div class="header-actions">
                     <button type="button" class="ncs-btn" data-ncs-open aria-haspopup="dialog" aria-label="Net Control Dashboard (WX4PTC team only)" title="Net Control Dashboard (WX4PTC team only)">${NCS_HEADSET_ICON}</button>
@@ -79,12 +79,12 @@ function loadHeader() {
                 </div>
             </div>
             <nav class="mobile-nav" id="mobileNav" aria-label="Main menu">
-                <a href="index.html">Home</a>
-                <a href="spotters.html">Spotters</a>
-                <a href="repeaters.html">Repeaters</a>
-                <a href="wx4ptc.html">WX4PTC</a>
-                <a href="nwsffclinks.html">Resources</a>
-                <a href="about.html">About</a>
+                <a href="/">Home</a>
+                <a href="/spotters">Spotters</a>
+                <a href="/repeaters">Repeaters</a>
+                <a href="/wx4ptc">WX4PTC</a>
+                <a href="/nwsffclinks">Resources</a>
+                <a href="/about">About</a>
                 <button class="theme-toggle" id="themeToggleMobile" aria-label="Theme: Auto. Click for Dark.">
                     <svg class="theme-icon icon-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>
                     <svg class="theme-icon icon-dark" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -157,13 +157,14 @@ function loadHeader() {
  * section they're in.
  */
 function setActiveNavLink() {
-    // Last path segment, e.g. "repeaters.html". Root ("/" or "") means index.html.
-    // Cloudflare Pages serves /repeaters without .html extension
-    const page = window.location.pathname.split('/').pop() || 'index.html';
-    const currentPage = page.includes('.') ? page : page + '.html';
+    // Last path segment without .html, e.g. "repeaters". Root ("/" or "") is "index".
+    // The nav links are root-relative and extensionless: "/repeaters", and "/" for Home.
+    const page = window.location.pathname.split('/').pop() || 'index';
+    const currentPage = page.replace(/\.html$/, '');
 
     document.querySelectorAll('#desktopNav a[href], .mobile-nav a[href]').forEach(link => {
-        if (link.getAttribute('href') === currentPage) {
+        const target = link.getAttribute('href').replace(/^\//, '') || 'index';
+        if (target === currentPage) {
             link.classList.add('is-active');
             link.setAttribute('aria-current', 'page');
         }
@@ -458,11 +459,11 @@ function loadFooter() {
                     <div class="footer-section">
                         <h4>Quick Links</h4>
                         <ul class="footer-nav">
-                            <li><a href="spotters.html">Spotter Information</a></li>
-                            <li><a href="repeaters.html">SKYWARN Repeaters</a></li>
-                            <li><a href="wx4ptc.html">WX4PTC Station</a></li>
-                            <li><a href="nwsffclinks.html">NWS Resources</a></li>
-                            <li><a href="about.html">About This Site</a></li>
+                            <li><a href="/spotters">Spotter Information</a></li>
+                            <li><a href="/repeaters">SKYWARN Repeaters</a></li>
+                            <li><a href="/wx4ptc">WX4PTC Station</a></li>
+                            <li><a href="/nwsffclinks">NWS Resources</a></li>
+                            <li><a href="/about">About This Site</a></li>
                         </ul>
                     </div>
 
@@ -473,7 +474,7 @@ function loadFooter() {
                             <li><a href="https://www.weather.gov/ffc/" target="_blank" rel="noopener noreferrer">NWS Atlanta</a></li>
                             <li><a href="https://www.weather.gov/ffc/SKYWARNsched" target="_blank" rel="noopener noreferrer">Spotter Training</a></li>
                             <li><a href="https://www.weather.gov/ffc/strmsubm1" target="_blank" rel="noopener noreferrer">Submit Storm Report</a></li>
-                            <li><a href="repeater-audit.html" style="opacity: 0.4;" aria-label="Repeater Database Audit">Audit</a></li>
+                            <li><a href="/repeater-audit" style="opacity: 0.4;" aria-label="Repeater Database Audit">Audit</a></li>
                         </ul>
                     </div>
                 </div>

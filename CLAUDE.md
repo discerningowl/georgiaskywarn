@@ -14,7 +14,7 @@ The **Georgia SKYWARN** website (`georgiaskywarn.com`) is a static HTML/CSS webs
 ## Repository Structure
 
 Layout: HTML pages in the root; `css/style.css`; `js/` (loaded through `js/loader.js`); `data/` (JSON); `assets/`;
-`404.html` (Cloudflare Pages serves it, with a 404 status, for any unknown URL); `_redirects` (Pages redirects). Run `ls` for the current file list.
+`404.html` (Cloudflare Pages serves it, with a 404 status, for any unknown URL); `_redirects` (Pages redirects); `_headers` (Pages response headers); `scripts/serve.py` (local server that behaves like Pages). Run `ls` for the current file list.
 
 ### ⚠️ CRITICAL: Directory Structure Requirements
 
@@ -40,6 +40,9 @@ Layout: HTML pages in the root; `css/style.css`; `js/` (loaded through `js/loade
 2. All HTML pages MUST remain in the root directory
 3. All HTML pages share the same stylesheet at `css/style.css`
 4. **Component architecture**: Header and footer loaded via `js/components.js` (merged for efficiency)
+5. **URLs have no `.html`** (2026-10-26): Pages answers `/about.html` with a 308 to `/about`, so the site uses the short form everywhere it names one of its own pages: root-relative links (`href="/about"`, `href="/spotters#submitcard"`, Home is `href="/"`), `canonical`, `og:url`, JSON-LD `url`/`item`, and `sitemap.xml` `<loc>`. File names stay `about.html`, and the page keys in `loader.js`/`scripts.js` (`'about.html'`) are still derived from the URL, so they don't change. External links that end in `.html` are not ours; leave them.
+6. **`_headers`** sets the security headers and `Cache-Control: no-cache` on `/js/*`, `/css/*` and `/data/*`, because `version.js`, `loader.js` and the first `style.css` request are fetched without a `?v=` stamp (Cloudflare's default kept them in browsers for 4 hours). Pages merges header values when rules overlap, so give each `Cache-Control` rule its own path. After a deploy, check the live headers with `curl -I`, since the zone's Browser Cache TTL setting can raise a `max-age`.
+7. **Test locally with `python3 scripts/serve.py`** (port 8000, or pass one). It serves `/about` from `about.html`, applies `_redirects`, and returns `404.html` with a 404. Plain `python -m http.server` and Live Server can't resolve the short URLs.
 
 ---
 
@@ -147,7 +150,7 @@ The site uses a **two-tier navigation system**:
 - `<div class="header-mobile-actions">` wrapping `<button class="mobile-menu-btn" id="mobileMenuBtn">` — mobile hamburger
 - `<nav class="mobile-nav" id="mobileNav">` — mobile nav (toggled with `.active` class)
 
-**To add a page to site navigation**: Edit `js/components.js` `loadHeader()` function — add an `<a href="newpage.html">New Page</a>` to **both** `#desktopNav` and `#mobileNav`.
+**To add a page to site navigation**: Edit `js/components.js` `loadHeader()` function — add an `<a href="/newpage">New Page</a>` to **both** `#desktopNav` and `#mobileNav`.
 
 Page nav (`.page-nav`) is written directly in each page's HTML (not injected); its mobile toggle is in `scripts.js`. Both menus close on outside click and Escape.
 
@@ -322,11 +325,11 @@ Alerts are filtered to `senderName` containing "NWS Peachtree City"; responses a
 ### Adding a New Page
 
 1. Copy an existing page structure (e.g., `about.html`) — keep it in the **root directory**
-2. Update the `<title>` tag
+2. Update the `<title>` tag, and the `canonical`, `og:url` and JSON-LD URLs (no `.html`: `https://georgiaskywarn.com/newpage`). Add a `<loc>` for it to `sitemap.xml`
 3. Add the new page to **both nav lists** in `js/components.js` `loadHeader()`:
    ```html
    <!-- Add to BOTH #desktopNav and #mobileNav blocks -->
-   <a href="newpage.html">New Page</a>
+   <a href="/newpage">New Page</a>
    ```
 4. If the page has multiple sections, add a `.page-nav` directly in the HTML (below the component-injected header):
    ```html

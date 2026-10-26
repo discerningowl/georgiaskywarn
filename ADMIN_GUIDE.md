@@ -154,7 +154,10 @@ georgiaskywarn/
 │   └── archive/            ← Historical photos folder
 │       └── WX4PTC*.jpg     ← Station photos
 ├── 404.html                ← Page shown for any address that doesn't exist
-└── _redirects              ← DO NOT DELETE (sends the old /wx4ptc/ link to the right page)
+├── _redirects              ← DO NOT DELETE (sends the old /wx4ptc/ link to the right page)
+├── _headers                ← DO NOT DELETE (browser-caching and security rules for Cloudflare)
+└── scripts/
+    └── serve.py            ← Runs the site on your own computer for testing
 ```
 
 ### ⚠️ CRITICAL: What NOT to Do
@@ -162,7 +165,7 @@ georgiaskywarn/
 **NEVER** do the following:
 
 - ❌ Move HTML files into folders like `pages/` or `site/`
-- ❌ Delete `_redirects` (it handles an old link that NWS still uses)
+- ❌ Delete `_redirects` (it handles an old link that NWS still uses) or `_headers` (it keeps browsers from showing stale pages)
 - ❌ Rename files unless you know ALL places they're referenced
 
 **Why?** Many external websites (NWS, RepeaterBook, ham radio forums) link directly to these files. Moving them would break those links.
@@ -649,15 +652,16 @@ georgiaskywarn.com shows the change (usually within a minute or two)
 |---|---|
 | `georgiaskywarn.com` | The site. This is the real address. |
 | `www.georgiaskywarn.com` | Redirected (permanently, with the page kept) to `georgiaskywarn.com`. `www.georgiaskywarn.com/spotters.html` goes to `georgiaskywarn.com/spotters`. |
-| `georgiaskywarn.com/spotters.html` or `/spotters` | The same page either way. Cloudflare shows the shorter address without `.html`. |
+| `georgiaskywarn.com/spotters.html` or `/spotters` | The same page either way. Cloudflare sends `/spotters.html` to `/spotters`. The site's own links, page addresses and sitemap all use the short form (`/spotters`, `/about`), and the home page is just `/`. |
 | `georgiaskywarn.com/wx4ptc/` | Redirected to `georgiaskywarn.com/wx4ptc` (the WX4PTC page). The NWS SKYWARN page still links to this old address, so the rule must stay. |
 | Any address that doesn't exist | The "Page not found" page (`404.html`), with a real 404 status so search engines don't index it. |
 | `georgiaskywarn.pages.dev` | The same site at Cloudflare's own address. Fine to use for checking; not for sharing. |
 
-Two files in the repository control this. Do not delete either one:
+Three files in the repository control this. Do not delete any of them:
 
 - **`_redirects`**: the list of redirects handled by Cloudflare Pages. Right now it holds the two `/wx4ptc/` rules. To add one, add a line: `/old-address   /new-address   301`. Write the new address **without `.html`**. If you write `/new-page.html`, Cloudflare sends the visitor back to `/new-page` and the redirect loops.
 - **`404.html`**: the "Page not found" page.
+- **`_headers`**: rules Cloudflare adds to every reply. It tells browsers to ask before reusing a saved copy of a script, style sheet or data file (so a change shows up without a hard refresh), adds security headers, and keeps Cloudflare's own `pages.dev` copies of the site out of search results. You will almost never edit it. If you add a *new top-level folder* of scripts, styles or data, ask Jack to add a rule for it.
 
 The `www` redirect is **not** in the repository. It is a rule in the Cloudflare dashboard (Rules → Redirect Rules → "Redirect www to apex").
 
@@ -721,11 +725,11 @@ Before clicking **Merge pull request**:
 
 **Test your changes before you merge them.** You have two ways: the preview site that Cloudflare builds for every pull request (see [Publishing & Hosting](#publishing--hosting-cloudflare-pages)), or a copy running on your own computer, described below.
 
-**One difference to know about:** the local server below does not read `_redirects` or `404.html`, so redirects and the "Page not found" page only work on the preview or the live site.
+**Two differences to know about:** the local server reads `_redirects` and `404.html` but not `_headers`, so caching and security headers only apply on the preview or the live site. The `www` → `georgiaskywarn.com` redirect lives in Cloudflare and also only works there.
 
 #### Step 1: Start a Local Web Server
 
-**Why?** Opening HTML files directly (`file:///C:/...`) doesn't work properly with JavaScript and dynamic content loading.
+**Why?** Opening HTML files directly (`file:///C:/...`) doesn't work properly with JavaScript and dynamic content loading. The site's own `scripts/serve.py` also acts like Cloudflare: `/about` opens `about.html`, redirects work, and a missing address shows the "Page not found" page. Python's plain built-in server (`python -m http.server`) and the VS Code "Live Server" extension do **not** do this, so the menu links would show "Page not found" there. Use `serve.py`.
 
 **Windows Users**:
 ```
@@ -733,7 +737,7 @@ Before clicking **Merge pull request**:
 2. Open Command Prompt (search "cmd")
 3. Navigate to your website folder:
    cd C:\Users\YourName\Documents\Websites\georgiaskywarn
-4. Run: python -m http.server 8000
+4. Run: python scripts\serve.py
 5. Open browser to: http://localhost:8000
 ```
 
@@ -742,11 +746,11 @@ Before clicking **Merge pull request**:
 1. Open Terminal
 2. Navigate to your website folder:
    cd ~/Documents/Websites/georgiaskywarn
-3. Run: python3 -m http.server 8000
+3. Run: python3 scripts/serve.py
 4. Open browser to: http://localhost:8000
 ```
 
-**Alternative (Easier)**: Install [VS Code](https://code.visualstudio.com/) and the "Live Server" extension. Right-click any HTML file and select "Open with Live Server."
+Press Ctrl+C in that window to stop it. To use a different port: `python3 scripts/serve.py 8080`.
 
 #### Step 2: Test All Pages
 
@@ -1035,7 +1039,8 @@ If you want to learn more:
 - Removed the old SFTP, `public_html`, `www/` and `wx4ptc/` folder instructions and the georgiaskywarn.org automatic-backup description (that sync no longer runs)
 - Replaced "Changes Not Showing After Upload" with "Changes Not Showing After Merging"
 - Updated Prerequisites: Cloudflare access instead of SFTP credentials
-- Added `404.html` and `_redirects` to the file listing; removed `www/` and `wx4ptc/`
+- Added `404.html`, `_redirects`, `_headers` and `scripts/serve.py` to the file listing; removed `www/` and `wx4ptc/`
+- Local testing now uses `python3 scripts/serve.py` (it behaves like Cloudflare; the plain Python server and VS Code Live Server don't work with the shorter addresses)
 
 ### Version 1.5 (October 7, 2026)
 - Repeater `location` is now an object with `city`, `county`, and an optional `site`, instead of a single text line; the old top-level `county` field no longer exists

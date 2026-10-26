@@ -443,7 +443,7 @@
           <div class="alert-more">Click to view full outlook →</div>
         </div>
         <div style="margin-top: 1rem;">
-          <a href="spotters.html#submitcard" class="btn btn-red">How to Submit Reports →</a>
+          <a href="/spotters#submitcard" class="btn btn-red">How to Submit Reports →</a>
         </div>
       `;
     } else if (activationInfo.level === 'yellow') {
@@ -465,7 +465,7 @@
           <div class="alert-more">Click to view full outlook →</div>
         </div>
         <div style="margin-top: 1rem;">
-          <a href="spotters.html#submitcard" class="btn btn-yellow">How to Submit Reports →</a>
+          <a href="/spotters#submitcard" class="btn btn-yellow">How to Submit Reports →</a>
         </div>
       `;
     } else {
