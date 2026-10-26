@@ -32,7 +32,7 @@
  * this opens in a new tab. Access does the real gatekeeping; the notice only
  * tells the public it isn't for them. Change the hostname here only.
  */
-const NCS_DASHBOARD_URL = 'https://skywarn.tytonest.xyz/';
+const NCS_DASHBOARD_URL = 'https://team.georgiaskywarn.com/';
 
 // A net control operator: head and shoulders in a headset with a mic boom
 // (2026-10-23, Jack's ask; was a bare headset). Drawn for this site in the
