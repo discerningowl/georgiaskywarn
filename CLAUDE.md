@@ -14,7 +14,7 @@ The **Georgia SKYWARN** website (`georgiaskywarn.com`) is a static HTML/CSS webs
 ## Repository Structure
 
 Layout: HTML pages in the root; `css/style.css`; `js/` (loaded through `js/loader.js`); `data/` (JSON); `assets/`;
-the legacy redirect folder `wx4ptc/`; `404.html` (Cloudflare Pages serves it, with a 404 status, for any unknown URL). Run `ls` for the current file list.
+`404.html` (Cloudflare Pages serves it, with a 404 status, for any unknown URL); `_redirects` (Pages redirects). Run `ls` for the current file list.
 
 ### ⚠️ CRITICAL: Directory Structure Requirements
 
@@ -26,17 +26,17 @@ the legacy redirect folder `wx4ptc/`; `404.html` (Cloudflare Pages serves it, wi
 - ❌ Move files out of `assets/` back to root
 - ❌ Rename or remove `css/`, `js/`, `data/`, or `assets/` directories
 - ❌ Move `assets/archive/` photos out of `assets/`
-- ❌ Remove or modify the `wx4ptc/` directory
+- ❌ Remove a URL from `_redirects` without checking who still links to it
 
 **WHY**: This structure is required for:
 1. **External links** - Many external websites link directly to HTML files at their current root paths
-2. **Legacy redirects** - The `wx4ptc/` directory handles an old URL still in use (the NWS SKYWARN page links to it)
+2. **Legacy redirects** - `_redirects` sends the old `/wx4ptc/` URL to `/wx4ptc` (the NWS SKYWARN page still links to it)
 3. **Static hosting** - Deployment configuration depends on HTML files being in root
 4. **Code organization** - The `css/`, `js/`, `data/`, and `assets/` directories follow standard conventions
 
 ### Important Notes
 
-1. **DO NOT REMOVE** the `wx4ptc/` directory - it contains redirect scripts for external links referenced by NWS and other official sources
+1. **DO NOT REMOVE** the `/wx4ptc/` rules in `_redirects` - external links from NWS and other official sources still use that URL. Write redirect targets without `.html`: Pages 308s `/x.html` to `/x`, so a rule to `.html` loops
 2. All HTML pages MUST remain in the root directory
 3. All HTML pages share the same stylesheet at `css/style.css`
 4. **Component architecture**: Header and footer loaded via `js/components.js` (merged for efficiency)
@@ -214,7 +214,7 @@ Alerts are filtered to `senderName` containing "NWS Peachtree City"; responses a
 **DON'T**:
 - Create new CSS files (use `style.css`)
 - Add `<script>` tags to pages (new JS files are registered in `js/loader.js`)
-- Remove or modify the `wx4ptc/` directory
+- Remove the `/wx4ptc/` rules from `_redirects`
 - Move files into subdirectories
 - Change the cache key names (breaks existing user caches)
 - Remove ARIA attributes or semantic HTML
@@ -418,7 +418,7 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 - ❌ Don't move `css/style.css` back to root or rename the `css/` directory
 - ❌ Don't move assets out of `assets/` back to root
 - ❌ Don't create extra top-level directories beyond `css/`, `js/`, `data/`, `assets/`
-- ❌ Don't remove or rename the `wx4ptc/` directory
+- ❌ Don't remove the `/wx4ptc/` rules from `_redirects`
 - ❌ Don't add external libraries (jQuery, Bootstrap, etc.)
 - ❌ Don't create new CSS files (use `style.css`); new JS files are fine but must be registered in `js/loader.js`
 - ❌ Don't hardcode colors (use CSS custom properties)

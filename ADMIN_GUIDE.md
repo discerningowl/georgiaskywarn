@@ -152,11 +152,8 @@ georgiaskywarn/
 │   ├── nws.gif             ← NWS logo image
 │   └── archive/            ← Historical photos folder
 │       └── WX4PTC*.jpg     ← Station photos
-├── www/                    ← DO NOT DELETE (legacy redirects)
-│   └── index.html
-└── wx4ptc/                 ← DO NOT DELETE (legacy redirects)
-    ├── index.html
-    └── ReadMe.md
+├── 404.html                ← Page shown for any address that doesn't exist
+└── _redirects              ← DO NOT DELETE (sends the old /wx4ptc/ link to the right page)
 ```
 
 ### ⚠️ CRITICAL: What NOT to Do
@@ -164,7 +161,7 @@ georgiaskywarn/
 **NEVER** do the following:
 
 - ❌ Move HTML files into folders like `pages/` or `site/`
-- ❌ Delete the `wx4ptc/` or `www/` folders (these handle old links that are still in use)
+- ❌ Delete `_redirects` (it handles an old link that NWS still uses)
 - ❌ Rename files unless you know ALL places they're referenced
 
 **Why?** Many external websites (NWS, RepeaterBook, ham radio forums) link directly to these files. Moving them would break those links.

@@ -109,11 +109,8 @@ georgiaskywarn/
 ├── REPEATER_DATA.md        # Repeater data schema and validation process
 ├── ADMIN_GUIDE.md          # Administrator's guide for non-technical users
 ├── README.md               # This file - project overview
-├── www/                    # Legacy redirect (DO NOT REMOVE)
-│   └── index.html
-└── wx4ptc/                 # Legacy redirect (DO NOT REMOVE)
-    ├── index.html
-    └── ReadMe.md
+├── 404.html                # Not-found page (Cloudflare Pages serves it with a 404)
+└── _redirects              # Cloudflare Pages redirects (keep the /wx4ptc/ rules)
 ```
 
 ### ⚠️ Important: Directory Structure
@@ -121,7 +118,7 @@ georgiaskywarn/
 **HTML files MUST remain in the root directory.** CSS, JS, data, and static assets are organized into named subdirectories. Do not move HTML files into subdirectories, or rename/remove existing directories. This structure is required for:
 
 1. **External Links**: NWS, RepeaterBook, and ham radio forums link directly to HTML file paths
-2. **Legacy Redirects**: The `wx4ptc/` and `www/` directories handle old URLs still in use
+2. **Legacy Redirects**: `_redirects` handles the old `/wx4ptc/` URL, which NWS still links to
 3. **Static Hosting**: Deployment configuration depends on HTML files being in root
 
 See [CLAUDE.md](CLAUDE.md) for detailed documentation.

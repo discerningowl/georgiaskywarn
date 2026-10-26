@@ -2,6 +2,11 @@
 
 Moved out of `CLAUDE.md` on 2026-10-25 so it is not loaded into every session. Newest first. The public changelog is `data/changelog.json`.
 
+### 2026-10-26 — `wx4ptc/` folder removed; `_redirects` does its job
+
+- PR #101's `_redirects` was confirmed on the live site: `/wx4ptc/` and `/wx4ptc/index.html` each return one 301 to `/wx4ptc`. The `wx4ptc/` folder (a meta-refresh stub plus a ReadMe) was the old host's way to keep NWS's link working, so it is gone. `CLAUDE.md`, `README.md` and `ADMIN_GUIDE.md` now say to keep the `/wx4ptc/` rules in `_redirects` instead.
+- `ADMIN_GUIDE.md`'s deployment sections (Apache, `public_html`, manual uploads, "How Apache Maps URLs") still describe the old host. They need rewriting for Cloudflare Pages; left for a separate pass.
+
 ### 2026-10-26 — 404 page, `_redirects`, and the old host's `www/` folder removed
 
 - The site moved from Apache to Cloudflare Pages (DNS cut over the same day; `www` 301s to the apex via a Cloudflare redirect rule). With no `404.html`, Pages treated the site as a single-page app and answered every unknown URL with `index.html` and a 200. Added `404.html`: Pages now serves it, with a real 404, for any missing URL. It is a radar scope that finds no echo, in the site's header, footer and theme. `<base href="/">` keeps its links, stylesheet and scripts working at any depth (`/a/b/c`). `noindex`, and not in `sitemap.xml`. Styles are at the end of `css/style.css` (`.notfound-*`, `.radar-*`); the sweep and pings stop under `prefers-reduced-motion`. Known quirk: the footer's "last updated" `HEAD` request returns 404 here, logging one console error; the footer falls back to "recently".
