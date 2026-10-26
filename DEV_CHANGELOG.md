@@ -2,6 +2,12 @@
 
 Moved out of `CLAUDE.md` on 2026-10-25 so it is not loaded into every session. Newest first. The public changelog is `data/changelog.json`.
 
+### 2026-10-26 — `ADMIN_GUIDE.md` rewritten for Cloudflare Pages (v1.6)
+
+- The guide still described the Apache host: SFTP uploads to `public_html/`, a root `index.html` for `www`, "How Apache Maps URLs", and the georgiaskywarn.org nightly sync. Replaced "Server File Placement & Deployment" with "Publishing & Hosting (Cloudflare Pages)": merging to `main` publishes; every PR gets a `*.georgiaskywarn.pages.dev` preview; how to verify (`APP_VERSION` live vs pages.dev) and roll back (Revert PR, or Cloudflare → Deployments → Rollback); the address table (www → apex 301 rule, extensionless URLs, `/wx4ptc/` → `/wx4ptc`, `404.html`); `_redirects` rules (targets without `.html`, which loops); DNS, Namecheap/Cloudflare, null-mail records, who holds the logins.
+- georgiaskywarn.org: as of today it has Cloudflare nameservers (Namecheap, expires 2027-04-12) but no DNS records and does not resolve. The guide says so and says not to treat it as a backup. What to do with the name is undecided.
+- Also updated: Prerequisites (Cloudflare access, not SFTP), the GitHub "your changes are live" step, the Local Testing note (the local server ignores `_redirects` and `404.html`), "Changes Not Showing After Merging", the contacts' roles, the file listing, and the version and dates.
+
 ### 2026-10-26 — `wx4ptc/` folder removed; `_redirects` does its job
 
 - PR #101's `_redirects` was confirmed on the live site: `/wx4ptc/` and `/wx4ptc/index.html` each return one 301 to `/wx4ptc`. The `wx4ptc/` folder (a meta-refresh stub plus a ReadMe) was the old host's way to keep NWS's link working, so it is gone. `CLAUDE.md`, `README.md` and `ADMIN_GUIDE.md` now say to keep the `/wx4ptc/` rules in `_redirects` instead.
