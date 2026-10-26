@@ -1,0 +1,36 @@
+# Cloudflare Pages custom headers.
+#
+# When several rules match one path, Pages MERGES their values for the same
+# header (it does not override), so each Cache-Control rule below covers its
+# own folder and nothing else.
+
+# Every page and file.
+# The pages' <meta> CSP cannot carry frame-ancestors, so it is sent here too;
+# browsers enforce both policies together. nosniff and Referrer-Policy are
+# already added by Cloudflare; they are repeated so they survive a change there.
+/*
+  Content-Security-Policy: frame-ancestors 'none'; object-src 'none'
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# Scripts, styles and data are asked for under names that don't change
+# (/js/version.js, /js/loader.js and the first /css/style.css request carry no
+# ?v= stamp). Cloudflare's default kept them in the browser for 4 hours, so a
+# new APP_VERSION could go unseen and a page could load new HTML with old CSS.
+# no-cache means "keep a copy, but ask first": an unchanged file is a tiny
+# 304 reply.
+/js/*
+  Cache-Control: no-cache
+/css/*
+  Cache-Control: no-cache
+/data/*
+  Cache-Control: no-cache
+
+# Keep Cloudflare's own copies of the site (georgiaskywarn.pages.dev and the
+# per-branch preview addresses) out of search results. The real domain does
+# not match these patterns.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex

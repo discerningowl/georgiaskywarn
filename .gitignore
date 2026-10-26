@@ -15,4 +15,6 @@ config.local.json
 .claude/
 
 # Local-only tooling — never upload
-scripts/
+# (except serve.py: the local server the docs tell everyone to use)
+scripts/*
+!scripts/serve.py

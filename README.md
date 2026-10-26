@@ -110,7 +110,9 @@ georgiaskywarn/
 ├── ADMIN_GUIDE.md          # Administrator's guide for non-technical users
 ├── README.md               # This file - project overview
 ├── 404.html                # Not-found page (Cloudflare Pages serves it with a 404)
-└── _redirects              # Cloudflare Pages redirects (keep the /wx4ptc/ rules)
+├── _redirects              # Cloudflare Pages redirects (keep the /wx4ptc/ rules)
+├── _headers                # Cloudflare Pages headers (security, caching)
+└── scripts/serve.py        # Local server that behaves like Pages
 ```
 
 ### ⚠️ Important: Directory Structure
@@ -293,9 +295,9 @@ The file is ordered alphabetically by `location.city`, with repeaters tagged `WX
 
 **Unified Spotter Dashboard** ✅
 - Consolidated alerts into comprehensive dashboard
-- HWO integration with 4-hour cache
+- HWO integration (spotter activation status), refreshed every 2 minutes
 - Quick access to 6 essential weather and situational awareness maps
-- Real-time alerts refresh every 5 minutes
+- Real-time alerts refresh every minute
 
 ### December 30, 2025 - Component-Based Architecture
 
@@ -323,11 +325,9 @@ The file is ordered alphabetically by `location.city`, with repeaters tagged `WX
 git clone https://github.com/discerningowl/georgiaskywarn.git
 cd georgiaskywarn
 
-# Start a local web server (Python example)
-python3 -m http.server 8000
-
-# Or use Node.js http-server
-npx http-server -p 8000
+# Start a local web server that behaves like Cloudflare Pages
+# (short URLs like /about, _redirects, and the 404 page)
+python3 scripts/serve.py
 
 # Open browser to http://localhost:8000
 ```
@@ -350,7 +350,7 @@ npx http-server -p 8000
 - [ ] Keyboard navigation
 - [ ] Screen reader compatibility
 - [ ] NWS API responses
-- [ ] Cache expiration (5 minutes)
+- [ ] Alert refresh (every 60 seconds) and a failed refresh keeping the alerts on screen
 - [ ] Print layout
 
 ---
