@@ -2,8 +2,8 @@
 
 **Quick Start Guide for Website Administrators**
 
-**Version**: 1.4
-**Last Updated**: July 1, 2026
+**Version**: 1.6
+**Last Updated**: October 26, 2026
 **Maintained By**: Georgia SKYWARN Website Team
 - Jim Lynch (K4GVO) - Site Administrator
 - Robert Burton (KD4YDC) - Content Moderator & SKYWARN EC
@@ -19,7 +19,7 @@
 4. [Understanding the Website Structure](#understanding-the-website-structure)
 5. [Getting Started with GitHub](#getting-started-with-github)
 6. [Common Administrative Tasks](#common-administrative-tasks)
-7. [Server File Placement & Deployment](#server-file-placement--deployment)
+7. [Publishing & Hosting (Cloudflare Pages)](#publishing--hosting-cloudflare-pages)
 8. [Testing Your Changes](#testing-your-changes)
 9. [Troubleshooting](#troubleshooting)
 10. [Getting Help](#getting-help)
@@ -43,7 +43,7 @@ This guide will walk you through common website maintenance tasks for the Georgi
 
 This guide focuses on non-technical administration. For additional documentation:
 
-- **[README.md](README.md)** - Project overview, features, deployment options, and production status
+- **[README.md](README.md)** - Project overview, features, and production status
 - **[CLAUDE.md](CLAUDE.md)** - Comprehensive technical documentation including:
   - Complete file structure and architecture
   - CSS/JavaScript patterns and conventions
@@ -100,10 +100,11 @@ You'll need a program to edit HTML files. Good free options:
 - Chrome, Firefox, Safari, or Edge (updated to the latest version)
 - Used for testing your changes
 
-### 4. Server Access (if deploying)
+### 4. Cloudflare access (only for domain and hosting tasks)
 
-- SFTP credentials for the web server
-- You'll need these from the current webmaster or hosting provider
+- Publishing the site needs only GitHub: merging a pull request publishes it
+- Cloudflare is where the domain, DNS records and redirects are managed. You only need it for those jobs, and the Website Administrator (Jack Parks, KQ4JP) holds the login
+- Never share account passwords. Ask Jack to make the change, or to add you to the account
 
 ---
 
@@ -384,7 +385,7 @@ This method works entirely in your web browser - no software to install!
 2. Ask someone to review if you're not sure
 3. If everything looks good, click "Merge pull request"
 4. Click "Confirm merge"
-5. Your changes are now live!
+5. Cloudflare Pages rebuilds the site automatically, and your changes go live at georgiaskywarn.com in a minute or two. See [Publishing & Hosting](#publishing--hosting-cloudflare-pages) for how to check, and how to undo a change.
 
 ### Method 2: GitHub Desktop (Better for Multiple Changes)
 
@@ -604,258 +605,113 @@ This is more advanced. Refer to [CLAUDE.md](CLAUDE.md) section "Adding a New Pag
 
 ---
 
-## Server File Placement & Deployment
+## Publishing & Hosting (Cloudflare Pages)
 
-### Legacy Directory Requirements
+**The short version: merging a change into the `main` branch on GitHub publishes it.** There is no server to upload to. Nobody copies files by hand.
 
-**⚠️ IMPORTANT**: Due to external links from NWS, RepeaterBook, and other amateur radio sites, certain files and folders MUST remain at specific locations on the server.
+*(Until October 26, 2026 the site ran on an Apache web server and was published by SFTP, with a separate `www` folder. That is all gone. If an older note, email or video tells you to upload to `public_html/`, ignore it.)*
 
-### Understanding the Server Directory Structure
-
-The Georgia SKYWARN website uses a **two-folder structure** on the server due to Apache configuration that maps `www` and non-`www` URLs to different locations.
-
-#### Server Directory Layout
+### How a change reaches the live site
 
 ```
-georgiaskywarn/                    ← Root directory on server
-├── index.html                     ← Redirect file (points to non-www version)
-│
-└── public_html/                   ← MAIN WEBSITE FOLDER
-    ├── index.html                 ← Actual homepage / spotter dashboard
-    ├── spotters.html
-    ├── repeaters.html
-    ├── nwsffclinks.html
-    ├── wx4ptc.html
-    ├── about.html
-    ├── photoarchive.html
-    ├── css/
-    │   └── style.css
-    ├── js/
-    │   ├── version.js
-    │   ├── loader.js
-    │   ├── core.js
-    │   ├── components.js
-    │   ├── scripts.js
-    │   ├── nws-api.js
-    │   ├── changelog.js
-    │   └── cwa-map.js
-    ├── data/
-    │   ├── repeaters.json
-    │   ├── changelog.json
-    │   ├── ffc-counties.json
-    │   ├── gsp-counties.json
-    │   ├── cae-counties.json
-    │   ├── chs-counties.json
-    │   ├── jax-counties.json
-    │   └── tae-counties.json
-    ├── assets/
-    │   ├── favicon.ico
-    │   ├── georgiaskywarnlogo.png
-    │   ├── nws.gif
-    │   └── archive/
-    │       └── WX4PTC*.jpg
-    └── wx4ptc/                    ← Legacy redirect folder
-        ├── index.html             ← Points to main site
-        └── ReadMe.md
+You edit a file on GitHub
+        ↓
+Pull request (a preview copy of the whole site is built for it automatically)
+        ↓
+You check the preview, then click "Merge pull request"
+        ↓
+Cloudflare Pages rebuilds the site from `main`
+        ↓
+georgiaskywarn.com shows the change (usually within a minute or two)
 ```
 
-#### How Apache Maps URLs
+- **Every pull request gets its own preview site.** Open the pull request on GitHub and look at the "Cloudflare Pages" check near the bottom. Click **Details** to open the preview. The preview address looks like `https://<branch-name>.georgiaskywarn.pages.dev` (slashes in the branch name become hyphens).
+- **Merging is publishing.** Treat "Merge pull request" the way you used to treat "upload to the server."
+- **Nothing is ever lost.** GitHub keeps every version, and Cloudflare keeps every build.
 
-```
-User Types:                      Server Shows:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-www.georgiaskywarn.com    →      georgiaskywarn/index.html
-                                 (redirect file)
-                                      ↓
-                                 Redirects to:
-                                 georgiaskywarn.com (no www)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-georgiaskywarn.com        →      georgiaskywarn/public_html/
-(no www)                         (actual website)
-```
+### Publishing a change, step by step
 
-**Summary:**
-- **www.georgiaskywarn.com** → `georgiaskywarn/` (root directory)
-  - Displays the redirect `index.html` that sends visitors to the non-www version
+1. Make your change in a pull request (see [Getting Started with GitHub](#getting-started-with-github)).
+2. Wait for the **Cloudflare Pages** check on the pull request to turn green. If it turns red, click **Details** to read why. Do not merge.
+3. Open the preview and test it (see the [checklist](#pre-publish-checklist) below).
+4. Click **Merge pull request**, then **Confirm merge**.
+5. Wait a minute or two, then open **georgiaskywarn.com** and press Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac) to bypass your browser's saved copy.
+6. **Check that it really went out.** Open `https://georgiaskywarn.com/js/version.js` and compare the `APP_VERSION` line with the same file on `https://georgiaskywarn.pages.dev/js/version.js`. If they match, the live site has the latest build.
 
-- **georgiaskywarn.com** (no www) → `georgiaskywarn/public_html/`
-  - Displays the actual website content
+### If something goes wrong after publishing
 
-#### Critical Path Requirements
+- **Quickest fix:** on GitHub, open the pull request you merged and click **Revert**. That makes a new pull request that undoes it. Merge that one.
+- **Fastest rollback (needs the Cloudflare login):** Cloudflare dashboard → Workers & Pages → **georgiaskywarn** → **Deployments**. Find the last good deployment, click the **⋯** menu and choose **Rollback to this deployment**. Then fix the problem properly in GitHub.
 
-**Root Directory (`georgiaskywarn/`):**
-- Must contain ONLY the redirect `index.html` file
-- This file is located in the `www/` folder in GitHub
-- **MUST be manually copied** from `www/index.html` (GitHub) to `georgiaskywarn/index.html` (server root)
+### Web addresses and redirects
 
-**Main Directory (`georgiaskywarn/public_html/`):**
-- Contains ALL website files from GitHub (HTML, JS, CSS, images)
-- Includes the `wx4ptc/` folder with its redirect files
-- Copy everything from GitHub root EXCEPT the `www/` folder
+| Address someone types | What they get |
+|---|---|
+| `georgiaskywarn.com` | The site. This is the real address. |
+| `www.georgiaskywarn.com` | Redirected (permanently, with the page kept) to `georgiaskywarn.com`. `www.georgiaskywarn.com/spotters.html` goes to `georgiaskywarn.com/spotters`. |
+| `georgiaskywarn.com/spotters.html` or `/spotters` | The same page either way. Cloudflare shows the shorter address without `.html`. |
+| `georgiaskywarn.com/wx4ptc/` | Redirected to `georgiaskywarn.com/wx4ptc` (the WX4PTC page). The NWS SKYWARN page still links to this old address, so the rule must stay. |
+| Any address that doesn't exist | The "Page not found" page (`404.html`), with a real 404 status so search engines don't index it. |
+| `georgiaskywarn.pages.dev` | The same site at Cloudflare's own address. Fine to use for checking; not for sharing. |
 
-**Legacy Redirect (`public_html/wx4ptc/`):**
-- Handles old external links from NWS and amateur radio sites
-- Contains a redirect that points to the main website
-- Automatically handled when you copy files - no special action needed
-- **DO NOT delete this folder**
+Two files in the repository control this. Do not delete either one:
 
-### Deployment Process
+- **`_redirects`**: the list of redirects handled by Cloudflare Pages. Right now it holds the two `/wx4ptc/` rules. To add one, add a line: `/old-address   /new-address   301`. Write the new address **without `.html`**. If you write `/new-page.html`, Cloudflare sends the visitor back to `/new-page` and the redirect loops.
+- **`404.html`**: the "Page not found" page.
 
-**Step-by-Step SFTP Deployment**
+The `www` redirect is **not** in the repository. It is a rule in the Cloudflare dashboard (Rules → Redirect Rules → "Redirect www to apex").
 
-This is the standard deployment method for the Georgia SKYWARN website.
+### Domain, DNS and email (as of October 26, 2026)
 
-**Important**: You MUST use SFTP (Secure File Transfer Protocol) to upload files. Regular FTP is not supported.
+These live in the Cloudflare account, not on GitHub. You only need them to change the domain setup. **Jack Parks (KQ4JP) holds the Cloudflare and Namecheap logins.** Ask him rather than sharing passwords.
 
-#### Step 1: Connect to the Server
+| Item | Setting |
+|---|---|
+| **Registrar** | Namecheap. georgiaskywarn.com expires **May 23, 2027**. |
+| **Nameservers** | Cloudflare (`anton.ns.cloudflare.com`, `novalee.ns.cloudflare.com`). DNS records are edited in Cloudflare, not Namecheap. |
+| **SSL certificate** | Automatic. Cloudflare issues and renews it. |
+| **`georgiaskywarn.com`** | CNAME to `georgiaskywarn.pages.dev`, proxied (orange cloud). |
+| **`www`** | CNAME to `georgiaskywarn.pages.dev`, proxied. It has to stay proxied for the redirect rule to work. |
+| **Email** | **This domain sends and receives no email.** Four records say so, which stops others from forging mail that appears to come from `@georgiaskywarn.com`: a null MX record, an SPF record (`v=spf1 -all`), a DMARC record (`p=reject`) and an empty wildcard DKIM record. If someone ever wants a `@georgiaskywarn.com` address, those records have to be replaced first. Ask Jack. |
 
-1. Open your SFTP client (FileZilla, Cyberduck, WinSCP, etc.)
-2. Connect using your credentials:
-   - **Protocol**: SFTP (SSH File Transfer Protocol)
-   - **Host**: [provided by hosting provider]
-   - **Username**: [your SFTP username]
-   - **Password**: [your SFTP password]
-   - **Port**: 22
+**Domain tasks, and where they are done**
 
-#### Step 2: Upload Main Website Files to `public_html/`
+- **Renewing the domain:** Namecheap (auto-renew should stay on). Renew well before May 2027.
+- **Changing a DNS record:** Cloudflare → georgiaskywarn.com → DNS → Records.
+- **Seeing the redirect rule:** Cloudflare → georgiaskywarn.com → Rules → Redirect Rules.
+- **Adding or removing a custom domain on the site:** Cloudflare → Workers & Pages → georgiaskywarn → Custom domains.
+- **Clearing Cloudflare's saved copy of a file:** Cloudflare → georgiaskywarn.com → Caching → Configuration → Purge Cache → Custom Purge (enter the full address).
 
-1. On the server, navigate to `georgiaskywarn/public_html/`
-2. From your local GitHub folder, select all files and folders **EXCEPT**:
-   - ❌ `www/` folder (this goes to root - see Step 3)
-   - ❌ `.git/` folder (if present)
-   - ❌ `CLAUDE.md`, `README.md`, `ADMIN_GUIDE.md` (documentation files)
-3. Upload the selected files to `public_html/`
-4. **IMPORTANT**: Make sure to include:
-   - ✅ All HTML files (index.html, spotters.html, repeaters.html, etc.)
-   - ✅ `css/` folder (style.css)
-   - ✅ `js/` folder with all JavaScript files
-   - ✅ `data/` folder with all JSON data files
-   - ✅ `assets/` folder (favicon, logo, nws.gif, archive/ photos)
-   - ✅ `wx4ptc/` folder with redirect files
-5. Verify the upload completed successfully (no errors)
+### The old backup site (georgiaskywarn.org)
 
-#### Step 3: Upload WWW Redirect to Root
+The old setup copied the site to a backup at **georgiaskywarn.org** every day. As of October 26, 2026 that no longer happens. The domain is registered (Namecheap, expires April 12, 2027) and its nameservers point to Cloudflare, but it has no DNS records and shows nothing. **Do not rely on it as a backup.** The backup now is GitHub (every version of every file) plus Cloudflare's deployment history. The decision on what to do with the `.org` name, such as redirecting it to georgiaskywarn.com, is Jack's and the Site Administrator's.
 
-1. On the server, navigate UP one level to `georgiaskywarn/` (the root)
-2. From your local GitHub folder, go into the `www/` folder
-3. Copy the `index.html` file from `www/` folder
-4. Upload it to `georgiaskywarn/` root (NOT to `public_html/`)
-5. This file redirects `www.georgiaskywarn.com` to the non-www version
+### Good to know
 
-**Visual Guide:**
-```
-GitHub Folder → Server Location
+- **A change can take a minute or two** to appear. If it still isn't there after five minutes, see [Changes Not Showing After Merging](#problem-changes-not-showing-after-merging).
+- **Browsers keep saved copies.** The site's scripts and styles are stamped with a version number (`js/version.js`) so browsers fetch fresh copies. When you change a JavaScript or CSS file, also change `APP_VERSION` in `js/version.js`. [CLAUDE.md](CLAUDE.md) explains the format.
+- **Site-wide files only change through GitHub.** Don't edit anything in the Cloudflare dashboard except the domain tasks above.
 
-/index.html              → georgiaskywarn/public_html/index.html
-/spotters.html           → georgiaskywarn/public_html/spotters.html
-/css/style.css           → georgiaskywarn/public_html/css/style.css
-/js/core.js              → georgiaskywarn/public_html/js/core.js
-/js/nws-api.js           → georgiaskywarn/public_html/js/nws-api.js
-/js/cwa-map.js           → georgiaskywarn/public_html/js/cwa-map.js
-/data/changelog.json     → georgiaskywarn/public_html/data/changelog.json
-/data/ffc-counties.json  → georgiaskywarn/public_html/data/ffc-counties.json
-/assets/archive/*.jpg    → georgiaskywarn/public_html/assets/archive/*.jpg
-/wx4ptc/index.html       → georgiaskywarn/public_html/wx4ptc/index.html
-/www/index.html          → georgiaskywarn/index.html (ROOT!)
-```
+### Pre-publish checklist
 
-#### Step 4: Verify File Permissions
+Before clicking **Merge pull request**:
 
-Set the following permissions (if your SFTP client supports it):
-- Files: `644` (read/write for owner, read-only for others)
-- Folders: `755` (read/write/execute for owner, read/execute for others)
-
-Most hosting providers set these automatically.
-
-#### Step 5: Test the Live Site
-
-1. Visit **www.georgiaskywarn.com** (with www)
-   - Should redirect to georgiaskywarn.com
-2. Visit **georgiaskywarn.com** (without www)
-   - Should show the main website
-3. Test a few pages to ensure everything works
-4. Check weather alerts load correctly
-5. Test mobile menu and navigation
-
-#### Common Deployment Mistakes
-
-- ❌ **Uploading `www/` folder to `public_html/`** - Don't do this! The `www/index.html` goes to root.
-- ❌ **Forgetting to upload the root redirect** - `www.georgiaskywarn.com` won't work
-- ❌ **Deleting `wx4ptc/` folder** - Breaks old external links
-- ❌ **Uploading to wrong directory** - Double-check you're in `public_html/` for main files
-- ❌ **Overwriting server-only files** - Be careful not to delete `.htaccess` or server config files
-
-### Pre-Deployment Checklist
-
-Before uploading to the live server:
-
-- [ ] All changes tested locally
+- [ ] The Cloudflare Pages check on the pull request is green
+- [ ] Changes tested on the preview (all pages you touched)
 - [ ] Mobile view tested (phone or browser dev tools)
 - [ ] Links checked (no broken links)
 - [ ] Contact information verified
 - [ ] Spelling and grammar checked
 - [ ] Light and dark modes tested
-- [ ] Changes committed to GitHub
+- [ ] If you changed JavaScript or CSS: `APP_VERSION` in `js/version.js` updated
 
-### Backup Site Information
+### Common mistakes
 
-**georgiaskywarn.org - Automated Backup Site**
-
-The Georgia SKYWARN website has a backup site that provides redundancy and reliability:
-
-- **Primary Site**: georgiaskywarn.com
-- **Backup Site**: georgiaskywarn.org
-
-**How the Backup Works**:
-- The backup site is hosted on a separate server from the primary site
-- An automated daily script syncs content from georgiaskywarn.com to georgiaskywarn.org
-- This provides failover capability if the primary site experiences downtime
-- No manual intervention required - the sync happens automatically
-
-**What This Means for Administrators**:
-- ✅ **Only update georgiaskywarn.com** - Changes will automatically sync to the backup
-- ✅ **No need to deploy to both sites** - The sync script handles this
-- ✅ **The backup provides redundancy** - If the primary site is down, visitors can access the backup
-- ✅ **Both sites have identical content** - Any change to the primary appears on the backup within 24 hours
-
-**Important Notes**:
-- Changes made to georgiaskywarn.com will appear on georgiaskywarn.org after the next sync (daily)
-- Do not attempt to manually update georgiaskywarn.org - it will be overwritten by the sync
-- If urgent changes are needed on both sites immediately, contact the Site Administrator (K4GVO)
-
-### Domain Registrar Management
-
-**Managing georgiaskywarn.com and georgiaskywarn.org Domain Names**
-
-[**NOTE**: This section will be completed with domain registrar information and procedures]
-
-**To be documented**:
-- Domain registrar name and login information
-- Domain renewal procedures and timeline
-- DNS settings and nameserver configuration
-- Domain transfer procedures (if needed)
-- Contact information update procedures
-- Auto-renewal settings
-- Domain privacy/WHOIS protection settings
-- Instructions for updating DNS records
-- Troubleshooting domain-related issues
-
-**Important Domain Information**:
-- **Primary Domain**: georgiaskywarn.com
-- **Backup Domain**: georgiaskywarn.org
-- **Registrar**: [to be specified]
-- **Renewal Date**: [to be specified]
-- **Nameservers**: [to be specified]
-
-**Common Domain Tasks** (to be documented):
-- Renewing domain registration
-- Updating DNS records (A, CNAME, MX, TXT)
-- Verifying domain ownership
-- Managing domain forwarding/redirects
-- SSL certificate management
-
-**Who to Contact for Domain Issues**:
-- **Site Administrator**: Jim Lynch (K4GVO) - Overall domain management
+- ❌ **Merging while the Cloudflare Pages check is red or still running.** Wait for green.
+- ❌ **Deleting `_redirects` or `404.html`.** The first keeps an NWS link working. The second is the "Page not found" page.
+- ❌ **Writing a redirect that ends in `.html`.** It loops. Leave the `.html` off.
+- ❌ **Turning off the orange cloud (proxy) on `www`.** The redirect to `georgiaskywarn.com` stops working.
+- ❌ **Editing DNS records without asking.** A wrong record can take the site, or its security settings, offline.
 
 ---
 
@@ -863,7 +719,9 @@ The Georgia SKYWARN website has a backup site that provides redundancy and relia
 
 ### Local Testing (Before Going Live)
 
-**You MUST test changes on your computer before uploading to the server.**
+**Test your changes before you merge them.** You have two ways: the preview site that Cloudflare builds for every pull request (see [Publishing & Hosting](#publishing--hosting-cloudflare-pages)), or a copy running on your own computer, described below.
+
+**One difference to know about:** the local server below does not read `_redirects` or `404.html`, so redirects and the "Page not found" page only work on the preview or the live site.
 
 #### Step 1: Start a Local Web Server
 
@@ -1008,27 +866,31 @@ document.documentElement.setAttribute('data-theme', 'light');
    - Sometimes desktop browser mobile simulators have issues
    - Test on your actual phone to verify
 
-### Problem: Changes Not Showing After Upload
+### Problem: Changes Not Showing After Merging
 
-**Symptoms**: Uploaded new files but website still shows old content
+**Symptoms**: You merged a pull request but georgiaskywarn.com still shows the old content
 
 **Causes & Fixes**:
 
-1. **Browser cache**
+1. **The build hasn't finished**
+   - Wait two minutes. Open the merged pull request on GitHub and look at the "Cloudflare Pages" check: it must be green
+   - If it is red, click **Details** to see the error. Fix it in a new pull request
+
+2. **Browser cache**
    - Hard refresh: Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac)
-   - Or clear browser cache completely
+   - Or open the site in a private window
 
-2. **Wrong file uploaded**
-   - Verify you uploaded the correct file
-   - Check the file modification date on the server
+3. **Check what is actually live**
+   - Open `https://georgiaskywarn.com/js/version.js` and compare `APP_VERSION` with `https://georgiaskywarn.pages.dev/js/version.js`
+   - If they differ, the live site is behind. Ask Jack to look at the deployments in Cloudflare
+   - If they match but the page is still wrong, your change may not have been in the merge. Check the file on GitHub's `main` branch
 
-3. **Uploaded to wrong directory**
-   - Verify you're uploading to the correct folder (usually `public_html/`)
-   - Check that files are in the root, not a subfolder
+4. **Cloudflare is serving a saved copy of one file**
+   - Rare, and usually for a file that was changed or deleted. Add `?x=1` to the end of the address to see whether the newest version loads
+   - Ask Jack to purge that file in Cloudflare (Caching → Configuration → Purge Cache → Custom Purge)
 
-4. **Server cache** (if using CDN or caching)
-   - Wait 5-10 minutes for server cache to clear
-   - Or contact hosting support to manually clear cache
+5. **A JavaScript or CSS change doesn't show for some people**
+   - Did you update `APP_VERSION` in `js/version.js`? Without that, browsers may keep using the old file
 
 ### Problem: Dark Mode Not Working
 
@@ -1092,7 +954,7 @@ document.documentElement.setAttribute('data-theme', 'light');
 **Georgia SKYWARN Website Team**:
 
 - **Site Administrator**: Jim Lynch (K4GVO)
-  - Overall site administration and server management
+  - Overall site administration
 
 - **Content Moderator & SKYWARN Emergency Coordinator**: Robert Burton (KD4YDC) - kd4ydc@gmail.com
   - Content updates and repeater information
@@ -1167,6 +1029,14 @@ If you want to learn more:
 
 ## Changelog
 
+### Version 1.6 (October 26, 2026)
+- Rewrote the hosting and publishing sections for **Cloudflare Pages**. The site moved from an Apache web server (SFTP uploads, a `public_html` folder and a separate `www` folder) to Cloudflare Pages. Merging a pull request into `main` now publishes the site; there is nothing to upload
+- Replaced "Server File Placement & Deployment" with "Publishing & Hosting (Cloudflare Pages)": how a change goes live, previews on every pull request, how to check and roll back, the web addresses and redirects (`www` → apex, `/wx4ptc/`), `_redirects` and `404.html`, the domain, DNS and email setup, and a pre-publish checklist
+- Removed the old SFTP, `public_html`, `www/` and `wx4ptc/` folder instructions and the georgiaskywarn.org automatic-backup description (that sync no longer runs)
+- Replaced "Changes Not Showing After Upload" with "Changes Not Showing After Merging"
+- Updated Prerequisites: Cloudflare access instead of SFTP credentials
+- Added `404.html` and `_redirects` to the file listing; removed `www/` and `wx4ptc/`
+
 ### Version 1.5 (October 7, 2026)
 - Repeater `location` is now an object with `city`, `county`, and an optional `site`, instead of a single text line; the old top-level `county` field no longer exists
 - Rewrote "Understanding JSON Files" and "Task 1: Adding a New Repeater" for the current single-file layout (`data/repeaters.json`): full field list in required order, the five valid tags, the three-source `validation` object, `active` / `statusNote`, and the new ordering rule (alphabetical by city, `WX4PTC System` repeaters first)
@@ -1208,12 +1078,12 @@ If you want to learn more:
 
 If you have ideas for improving this guide, please contact:
 
-- **Technical/Website Issues**: Jack Parks (KQ4JP) - kq4jp@pm.me
+- **Technical/Website Issues, hosting and domain**: Jack Parks (KQ4JP) - kq4jp@pm.me
 - **Content/SKYWARN Operations**: Robert Burton (KD4YDC) - kd4ydc@gmail.com
-- **Server/Administration**: Jim Lynch (K4GVO)
+- **Site Administration**: Jim Lynch (K4GVO)
 
 ---
 
-**Last Updated**: October 7, 2026
-**Document Version**: 1.5
+**Last Updated**: October 26, 2026
+**Document Version**: 1.6
 **Website Version**: See [README.md](README.md) for current production status
