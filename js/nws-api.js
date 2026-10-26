@@ -331,6 +331,16 @@
   let alertDataCache = [];
   const AUTO_REFRESH = window.CONFIG.UI.AUTO_REFRESH_INTERVAL;
 
+  // Newest data that rendered, kept in memory so a failed refresh (or a filter
+  // click after the 1-minute cache expired) never blanks alerts that were
+  // already on screen. *FetchAt is when NWS last answered, not when we redrew.
+  let lastAlertData = null;
+  let lastAlertFetchAt = 0;
+  let lastHwoFetchAt = 0;
+  let alertsInFlight = false;
+  let hwoInFlight = false;
+  const STALE_AFTER_TICKS = 3; // flag data older than this many refresh intervals
+
   /**
    * Sanitize HTML to prevent XSS
    * Uses UTILS.sanitizeHTML with newline conversion
@@ -819,8 +829,6 @@
         })
       : uniqueFeatures;
 
-    updateAlertsTimestamp();
-
     // Nothing active (after the county filter): nothing to count or hide.
     if (countyFeatures.length === 0) {
       const msg = activeCountyFilter.size > 0
@@ -924,10 +932,23 @@
   }
 
   /**
-   * Update alerts timestamp (uses UTILS.updateTimestampElement)
+   * Show when NWS last answered, and flag it when that is too long ago.
+   * The time is the fetch time, not the redraw time: a filter click or a
+   * render from the saved copy must not make old data look fresh.
+   * @param {string} elementId
+   * @param {number} fetchedAt - ms since epoch
+   * @param {number} interval - refresh interval in ms
    */
+  function stampFreshness(elementId, fetchedAt, interval) {
+    const el = document.getElementById(elementId);
+    if (!el || !fetchedAt) return;
+    const stale = Date.now() - fetchedAt > STALE_AFTER_TICKS * interval;
+    window.UTILS.updateTimestampElement(elementId, stale ? '\u26A0 Not updated since: ' : 'Updated: ', new Date(fetchedAt));
+    el.classList.toggle('is-stale', stale);
+  }
+
   function updateAlertsTimestamp() {
-    window.UTILS.updateTimestampElement('alert-last-update');
+    stampFreshness('alert-last-update', lastAlertFetchAt, CACHE_TTL.ALERTS);
   }
 
   /**
@@ -950,29 +971,29 @@
   /**
    * Load and display alerts
    * Updates both alert content and card header color based on highest severity
+   * @param {boolean} force - true on the refresh timers: always ask NWS. false on
+   *   page load: a copy fetched under a minute ago (by this or another tab) is fine.
    */
-  async function loadAlerts() {
+  async function loadAlerts(force = false) {
     const container = document.getElementById('alerts-container');
     const loading = document.getElementById('alerts-loading');
 
     if (!container || !loading) return;
+    if (alertsInFlight) return;
+    alertsInFlight = true;
 
     try {
-      // Check cache first
-      const cached = alertsCache.get();
-      if (cached) {
-        loading.style.display = 'none';
-        const result = renderAllAlerts(cached);
-        container.innerHTML = result.html;
-        updateAlertHeaderColor(result.severity);
-        updateAlertCountSummary(result.counts);
-        attachAlertClickHandlers();
-        return;
+      let data = force ? null : alertsCache.get();
+      let fetchedAt;
+      if (data) {
+        fetchedAt = alertsCache.getTimestamp();
+      } else {
+        data = await fetchAlerts();
+        alertsCache.set(data);
+        fetchedAt = Date.now();
       }
-
-      // Fetch fresh data
-      const data = await fetchAlerts();
-      alertsCache.set(data);
+      lastAlertData = data;
+      lastAlertFetchAt = fetchedAt;
 
       loading.style.display = 'none';
       const result = renderAllAlerts(data);
@@ -980,10 +1001,17 @@
       updateAlertHeaderColor(result.severity);
       updateAlertCountSummary(result.counts);
       attachAlertClickHandlers();
+      updateAlertsTimestamp();
 
     } catch (err) {
       console.error('[Dashboard] Alerts load error:', err);
       loading.style.display = 'none';
+      if (lastAlertData) {
+        // Keep the alerts already on screen; the time above them now reads
+        // "Not updated since" once they are 3 refreshes old.
+        updateAlertsTimestamp();
+        return;
+      }
       container.innerHTML = `
         <div class="callout warning">
           <p class="center">
@@ -995,28 +1023,28 @@
       `;
       // Set header to gray/neutral on error
       updateAlertHeaderColor('blue');
+    } finally {
+      alertsInFlight = false;
     }
   }
 
   /**
-   * Load and display dashboard
+   * Load and display dashboard (spotter activation status from the HWO)
+   * @param {boolean} force - true on the refresh timers: always ask NWS.
    */
-  async function loadDashboard() {
-    try {
-      // Check cache first
-      const cached = dashboardCache.get();
-      if (cached) {
-        currentOutlookData = cached;
-        const activationInfo = parseSpotterActivation(cached.productText);
-        displayActivationStatus(activationInfo, cached.issuanceTime);
-        hideLoading();
-        updateTimestamp();
-        return;
-      }
+  async function loadDashboard(force = false) {
+    if (hwoInFlight) return;
+    hwoInFlight = true;
 
-      // Fetch fresh data
-      const outlook = await fetchHazardousOutlook();
-      dashboardCache.set(outlook);
+    try {
+      let outlook = force ? null : dashboardCache.get();
+      if (outlook) {
+        lastHwoFetchAt = dashboardCache.getTimestamp();
+      } else {
+        outlook = await fetchHazardousOutlook();
+        dashboardCache.set(outlook);
+        lastHwoFetchAt = Date.now();
+      }
       currentOutlookData = outlook;
 
       const activationInfo = parseSpotterActivation(outlook.productText);
@@ -1028,7 +1056,14 @@
     } catch (err) {
       console.error('[Dashboard] Load error:', err);
       hideLoading();
+      if (currentOutlookData) {
+        // A failed refresh must not replace a status that is already showing.
+        updateTimestamp();
+        return;
+      }
       displayError(err.message || 'Unable to load Hazardous Weather Outlook');
+    } finally {
+      hwoInFlight = false;
     }
   }
 
@@ -1046,7 +1081,7 @@
    * Update timestamp display (uses UTILS.updateTimestampElement)
    */
   function updateTimestamp() {
-    window.UTILS.updateTimestampElement('dashboard-last-update');
+    stampFreshness('dashboard-last-update', lastHwoFetchAt, CACHE_TTL.HWO);
   }
 
   /**
@@ -1266,7 +1301,7 @@
   function reRenderAlerts() {
     const container = document.getElementById('alerts-container');
     if (!container) return;
-    const cached = alertsCache.get();
+    const cached = lastAlertData || alertsCache.get();
     if (!cached) return; // data not loaded yet; loadAlerts() applies filter when it runs
 
     const result = renderAllAlerts(cached);
@@ -1277,11 +1312,12 @@
   }
 
   /**
-   * Re-apply filters after a toggle. Falls back to a full load if the 5-minute
-   * alert cache expired between refresh ticks, so a click is never a no-op.
+   * Re-apply filters after a toggle. Uses the data already in memory, so it
+   * never waits on (or triggers) a fetch; falls back to a load only if nothing
+   * has loaded yet, so a click is never a no-op.
    */
   function refreshAlertView() {
-    if (alertsCache.get()) reRenderAlerts();
+    if (lastAlertData || alertsCache.get()) reRenderAlerts();
     else loadAlerts();
   }
 
@@ -1410,18 +1446,34 @@
       })();
     }
 
-    // Separate auto-refresh timers for alerts and HWO
-    // Alerts: Refresh every 5 minutes (time-sensitive)
+    // Separate auto-refresh timers for alerts and the HWO (spotter activation).
+    // Both force a fetch: the timers used to call the cached loaders, which
+    // found a copy a few hundred ms short of expiring and skipped the fetch,
+    // so alerts really refreshed every 10 minutes and the HWO every 30.
+    // A hidden tab skips its tick (browsers throttle them anyway, and NWS
+    // doesn't need the traffic); it catches up the moment the tab is shown.
     setInterval(() => {
+      if (document.hidden) return;
       console.log('[Dashboard] Auto-refreshing alerts...');
-      loadAlerts();
+      loadAlerts(true);
     }, CACHE_TTL.ALERTS);
 
-    // HWO: Refresh every 15 minutes (slower-changing)
     setInterval(() => {
+      if (document.hidden) return;
       console.log('[Dashboard] Auto-refreshing HWO...');
-      loadDashboard();
+      loadDashboard(true);
     }, CACHE_TTL.HWO);
+
+    // Back on the tab, or back online: refresh anything that is due now
+    // instead of waiting out the rest of an interval.
+    const refreshIfDue = () => {
+      if (document.hidden) return;
+      if (Date.now() - lastAlertFetchAt >= CACHE_TTL.ALERTS) loadAlerts(true);
+      if (Date.now() - lastHwoFetchAt >= CACHE_TTL.HWO) loadDashboard(true);
+    };
+    document.addEventListener('visibilitychange', refreshIfDue);
+    window.addEventListener('online', refreshIfDue);
+    window.addEventListener('focus', refreshIfDue);
   }
 
   // ========================================================================

@@ -2747,6 +2747,14 @@ a:hover, a:focus-visible {
   font-weight: 500;
 }
 
+/* The data on screen is 3+ refreshes old (NWS unreachable): bold, with the
+   warning sign in the text, so colour is not the only signal. */
+.alert-status-time.is-stale {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--accent-red);
+}
+
 .pulse {
   display: inline-block;
   width: 6px;

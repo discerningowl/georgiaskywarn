@@ -178,7 +178,7 @@ Page nav (`.page-nav`) is written directly in each page's HTML (not injected); i
 3. **localStorage Caching**:
    ```javascript
    const CACHE_KEY = 'ffc-all-watches-warnings';
-   const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+   const CACHE_TTL = 60 * 1000; // alerts: 1 minute (HWO: 2 minutes), in core.js
    ```
 
 ### NWS Weather API Integration
@@ -193,7 +193,7 @@ const USER_AGENT = 'GeorgiaSKYWARN-Site (kq4jp@pm.me)';
 fetch(url, { headers: { 'User-Agent': USER_AGENT } });
 ```
 
-Alerts are filtered to `senderName` containing "NWS Peachtree City"; responses are cached 5 minutes (HWO 4 hours).
+Alerts are filtered to `senderName` containing "NWS Peachtree City"; alerts refresh every 60 seconds and the HWO (spotter activation) every 2 minutes, matching NWS's own cache (`alerts/active` sends `max-age=5`, the HWO list `max-age=120`). **These must stay real-time**: the refresh timers call `loadAlerts(true)` / `loadDashboard(true)`, which skip the saved copy (the saved copy only speeds up page load and shares data between tabs). Never make a timer call the cached path: it did once, found a copy a few hundred ms short of expiring, and skipped the fetch, so alerts really refreshed every 10 minutes and the HWO every 30. A failed refresh keeps the alerts already on screen and flags them "Not updated since" after 3 missed refreshes. `_headers` never touches this data (it is fetched from api.weather.gov with `cache: 'reload'`).
 
 **Alert Classification**:
 - **WARNING** (Red): Contains "warning" in `event` field

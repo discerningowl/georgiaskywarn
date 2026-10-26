@@ -295,9 +295,9 @@ The file is ordered alphabetically by `location.city`, with repeaters tagged `WX
 
 **Unified Spotter Dashboard** ✅
 - Consolidated alerts into comprehensive dashboard
-- HWO integration with 4-hour cache
+- HWO integration (spotter activation status), refreshed every 2 minutes
 - Quick access to 6 essential weather and situational awareness maps
-- Real-time alerts refresh every 5 minutes
+- Real-time alerts refresh every minute
 
 ### December 30, 2025 - Component-Based Architecture
 
@@ -350,7 +350,7 @@ python3 scripts/serve.py
 - [ ] Keyboard navigation
 - [ ] Screen reader compatibility
 - [ ] NWS API responses
-- [ ] Cache expiration (5 minutes)
+- [ ] Alert refresh (every 60 seconds) and a failed refresh keeping the alerts on screen
 - [ ] Print layout
 
 ---

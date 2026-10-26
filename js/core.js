@@ -23,8 +23,11 @@
 
   // Cache TTL values (in milliseconds)
   const CACHE_TTL = {
-    ALERTS: 5 * 60 * 1000,        // 5 minutes
-    HWO: 15 * 60 * 1000,          // 15 minutes
+    // These are also the auto-refresh intervals on the dashboard (nws-api.js),
+    // matched to how often NWS refreshes its own copies: alerts/active sends
+    // max-age=5, the HWO list max-age=120 (checked 2026-10-26).
+    ALERTS: 60 * 1000,            // 1 minute
+    HWO: 2 * 60 * 1000,           // 2 minutes (spotter activation comes from the HWO)
     REPEATERS: 24 * 60 * 60 * 1000 // 24 hours (future use)
   };
 
@@ -165,6 +168,16 @@
         } catch (err) {
           console.error(`Cache get error for ${cacheKey}:`, err);
           return null;
+        }
+      },
+
+      // When the data was fetched (ms since epoch), or 0 if nothing is saved.
+      getTimestamp: () => {
+        try {
+          const cached = localStorage.getItem(cacheKey);
+          return cached ? (JSON.parse(cached).timestamp || 0) : 0;
+        } catch (err) {
+          return 0;
         }
       },
 
@@ -464,10 +477,10 @@
    * @param {string} elementId - ID of the element to update
    * @param {string} prefix - Optional prefix text (default: 'Updated: ')
    */
-  function updateTimestampElement(elementId, prefix = 'Updated: ') {
+  function updateTimestampElement(elementId, prefix = 'Updated: ', when = new Date()) {
     const element = document.getElementById(elementId);
     if (element) {
-      const now = new Date().toLocaleTimeString('en-US', {
+      const now = when.toLocaleTimeString('en-US', {
         hour: 'numeric',
         minute: '2-digit',
         second: '2-digit'

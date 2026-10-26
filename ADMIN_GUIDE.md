@@ -542,8 +542,8 @@ Update a link in about.html:
 
 **How Weather Alerts and Dashboard Work**:
 - The site automatically fetches live weather alerts from the National Weather Service API
-- Alerts refresh every 5 minutes with a local cache
-- HWO (Hazardous Weather Outlook) on dashboard refreshes every 4 hours
+- Alerts refresh every minute, and the HWO (Hazardous Weather Outlook, which sets the spotter activation status) every 2 minutes, matching how often NWS updates them
+- If the site can't reach NWS for a few minutes, the alerts already on screen stay, and the "Updated" time turns red with a warning sign ("Not updated since ...") so nobody mistakes old alerts for current ones
 - The system filters for NWS Peachtree City (FFC) warnings, watches, and advisories
 - No manual intervention is needed - alerts appear and disappear automatically
 
