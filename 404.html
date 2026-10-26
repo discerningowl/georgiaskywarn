@@ -1,0 +1,88 @@
+<!--
+  ──────────────────────────────────────────────────────────────
+  File:   404.html
+  Author: Georgia SKYWARN Development Team
+  Purpose: Not-found page. Cloudflare Pages serves this file, with a real
+           404 status, for any URL that does not exist. Without it Pages
+           falls back to index.html with a 200.
+  Notes:   Pages serves it at the requested URL (/a/b/c), so <base href="/">
+           keeps every relative link, stylesheet and script working at any
+           depth. noindex, and not in sitemap.xml, on purpose.
+  ──────────────────────────────────────────────────────────────
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <base href="/">
+  <title>Georgia SKYWARN - Page not found</title>
+  <meta name="description" content="That page is not on the Georgia SKYWARN site. Head back to the dashboard, repeaters or spotter resources.">
+  <meta name="robots" content="noindex">
+  <meta name="author" content="Jack Parks (KQ4JP)">
+
+  <!-- Security headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-eeVXfdf7yPkDfRd1jtfsOW0DJLIGnyYfwI5V0q/A/Yk='; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://services.arcgis.com https://tigerweb.geo.census.gov; font-src 'self'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- Saved Dark/Light theme, applied before the stylesheet so the page never
+       flashes the other theme. Its sha256 is allowed in the CSP. -->
+  <script>(() => { try { const t = localStorage.getItem('theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); } catch (e) {} })();</script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <!-- Header and all scripts loaded via js/loader.js at bottom of page -->
+
+  <main class="site-main" role="main">
+    <section class="card notfound" aria-labelledby="notfound-title">
+      <header class="card-header"><h2 id="notfound-title">Page not found</h2></header>
+      <div class="card-body">
+        <div class="notfound-layout">
+
+          <div class="radar-scope" role="img" aria-label="A weather radar scope sweeping the area and finding no echo">
+            <span class="radar-ring radar-ring--outer"></span>
+            <span class="radar-ring radar-ring--mid"></span>
+            <span class="radar-ring radar-ring--inner"></span>
+            <span class="radar-cross radar-cross--h"></span>
+            <span class="radar-cross radar-cross--v"></span>
+            <span class="radar-sweep"></span>
+            <span class="radar-blip radar-blip--green"></span>
+            <span class="radar-blip radar-blip--yellow"></span>
+            <span class="radar-blip radar-blip--red"></span>
+            <span class="radar-target"><span class="radar-target-mark">?</span></span>
+          </div>
+
+          <div class="notfound-copy">
+            <p class="notfound-code" aria-hidden="true">404</p>
+            <p class="notfound-lead">No echo returned.</p>
+            <p>
+              We swept the whole site and found nothing at that address. The page may have moved,
+              or the link may have a typo in it. Spotters have been known to mis-hear a frequency too.
+            </p>
+            <div class="notfound-actions">
+              <a class="btn btn-blue" href="index.html">Dashboard</a>
+              <a class="btn btn-blue" href="repeaters.html">Repeaters</a>
+              <a class="btn btn-blue" href="spotters.html">Spotter Resources</a>
+              <a class="btn btn-blue" href="wx4ptc.html">WX4PTC</a>
+            </div>
+            <p class="notfound-note">
+              Looking for the forecast? Try the
+              <a href="https://www.weather.gov/ffc/" target="_blank" rel="noopener noreferrer">NWS Peachtree City page&nbsp;↗</a>.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+  </main>
+
+<!-- Centralized script loading - to update cache, only edit js/version.js -->
+<script src="js/version.js"></script>
+<script src="js/loader.js"></script>
+
+</body>
+</html>

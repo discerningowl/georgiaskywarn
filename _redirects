@@ -1,0 +1,7 @@
+# Cloudflare Pages redirects. Processed before static files.
+#
+# Old WX4PTC URL that NWS and other pages still link to. The target has no
+# .html on purpose: Pages answers /wx4ptc.html with a 308 back to /wx4ptc,
+# so pointing a rule at /wx4ptc.html would loop.
+/wx4ptc/             /wx4ptc  301
+/wx4ptc/index.html   /wx4ptc  301

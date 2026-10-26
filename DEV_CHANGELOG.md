@@ -2,6 +2,13 @@
 
 Moved out of `CLAUDE.md` on 2026-10-25 so it is not loaded into every session. Newest first. The public changelog is `data/changelog.json`.
 
+### 2026-10-26 — 404 page, `_redirects`, and the old host's `www/` folder removed
+
+- The site moved from Apache to Cloudflare Pages (DNS cut over the same day; `www` 301s to the apex via a Cloudflare redirect rule). With no `404.html`, Pages treated the site as a single-page app and answered every unknown URL with `index.html` and a 200. Added `404.html`: Pages now serves it, with a real 404, for any missing URL. It is a radar scope that finds no echo, in the site's header, footer and theme. `<base href="/">` keeps its links, stylesheet and scripts working at any depth (`/a/b/c`). `noindex`, and not in `sitemap.xml`. Styles are at the end of `css/style.css` (`.notfound-*`, `.radar-*`); the sweep and pings stop under `prefers-reduced-motion`. Known quirk: the footer's "last updated" `HEAD` request returns 404 here, logging one console error; the footer falls back to "recently".
+- Added `_redirects`: `/wx4ptc/` and `/wx4ptc/index.html` 301 to `/wx4ptc`. The target has no `.html` on purpose: Pages answers `/wx4ptc.html` with a 308 back to `/wx4ptc`, so a rule to `/wx4ptc.html` would loop. NWS and other pages still link to the old `/wx4ptc/` URL and will not change it. The `wx4ptc/` folder stays until the rule is confirmed on a deploy.
+- Removed `www/`. On the old host `www.georgiaskywarn.com` and `georgiaskywarn.com` were two separate document roots, and `www/index.html` was the redirect for one of them. Cloudflare does that with a rule now, and nothing links to `/www/`. `CLAUDE.md` no longer lists it as protected.
+- `APP_VERSION` → `20261026` (stamps the new CSS).
+
 ### 2026-10-25 — 18px card titles and a visible table stripe, shared with the dashboard; repeater tags stay in their columns
 
 - Jack wanted the two apps' cards and tables to look more alike: the site's card titles smaller, like the dashboard's, and the dashboard's tables rounded and striped, like the site's. The shared rules are in `../DESIGN.md` ("Cards, tabs, tables, fields and dialogs") and `../skeleton.css`; the dashboard side is a separate wx4ptc-transwx PR.

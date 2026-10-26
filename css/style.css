@@ -3589,3 +3589,116 @@ a:hover, a:focus-visible {
   font-weight: 700;
   fill: var(--text-primary);
 }
+
+/* ---------- 404 page (404.html, 2026-10-26) ----------
+   A radar scope that finds no echo. The scope is dark in both themes, like a
+   real one, so its colours come from theme-constant tokens. The sweep and the
+   pings stop under prefers-reduced-motion (the global rule above). */
+.notfound-layout {
+  display: grid;
+  gap: 1.75rem;
+  align-items: center;
+  justify-items: center;
+}
+.radar-scope {
+  --scope-bg: var(--brand-ink);
+  --scope-line: color-mix(in oklch, var(--blue-400) 38%, transparent);
+  --scope-sweep: var(--green-500);
+  position: relative;
+  width: min(20rem, 78vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, color-mix(in oklch, var(--scope-sweep) 14%, transparent), transparent 70%),
+    var(--scope-bg);
+  border: 2px solid var(--scope-line);
+  box-shadow: var(--glow), inset 0 0 2.5rem rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+.radar-ring,
+.radar-cross,
+.radar-blip,
+.radar-target {
+  position: absolute;
+}
+.radar-ring {
+  inset: 0;
+  margin: auto;
+  border: 1px solid var(--scope-line);
+  border-radius: 50%;
+}
+.radar-ring--outer { width: 82%; height: 82%; }
+.radar-ring--mid   { width: 54%; height: 54%; }
+.radar-ring--inner { width: 26%; height: 26%; }
+.radar-cross--h { left: 0; right: 0; top: 50%; height: 1px; background: var(--scope-line); }
+.radar-cross--v { top: 0; bottom: 0; left: 50%; width: 1px; background: var(--scope-line); }
+.radar-sweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg,
+    transparent 0deg,
+    transparent 282deg,
+    color-mix(in oklch, var(--scope-sweep) 10%, transparent) 318deg,
+    color-mix(in oklch, var(--scope-sweep) 70%, transparent) 360deg);
+  animation: radar-spin 4.5s linear infinite;
+}
+.radar-blip {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  opacity: 0.25;
+  animation: radar-ping 4.5s ease-out infinite;
+}
+.radar-blip--green  { top: 22%; left: 63%; background: var(--green-500);     box-shadow: 0 0 10px var(--green-500);     animation-delay: -0.6s; }
+.radar-blip--yellow { top: 68%; left: 24%; background: var(--accent-yellow); box-shadow: 0 0 10px var(--accent-yellow); animation-delay: -2.4s; }
+.radar-blip--red    { top: 71%; left: 70%; background: var(--accent-red);    box-shadow: 0 0 10px var(--accent-red);    animation-delay: -3.5s; }
+.radar-target {
+  inset: 0;
+  margin: auto;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  border: 2px dashed var(--accent-yellow);
+  border-radius: 50%;
+  color: var(--accent-yellow);
+  font: 700 1.35rem/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  background: color-mix(in oklch, var(--scope-bg) 80%, transparent);
+}
+@keyframes radar-spin { to { transform: rotate(360deg); } }
+@keyframes radar-ping {
+  0%   { opacity: 1;    transform: scale(1.5); }
+  35%  { opacity: 0.25; transform: scale(1); }
+  100% { opacity: 0.25; transform: scale(1); }
+}
+.notfound-copy { text-align: center; max-width: 34rem; }
+.notfound-code {
+  margin: 0;
+  font: 800 clamp(4rem, 16vw, 7rem)/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  letter-spacing: 0.04em;
+  color: var(--brand-blue);
+  background: linear-gradient(135deg, var(--brand-blue), var(--accent-lightblue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.notfound-lead {
+  margin: 0.25rem 0 0.75rem;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.notfound-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin: 1.25rem 0 1rem;
+}
+.notfound-note { font-size: var(--text-sm); color: var(--text-secondary); }
+@media (min-width: 52rem) {
+  .notfound-layout { grid-template-columns: auto 1fr; gap: 3rem; justify-items: start; padding: 0.5rem 1rem; }
+  .notfound-copy { text-align: left; }
+  .notfound-actions { justify-content: flex-start; }
+}
