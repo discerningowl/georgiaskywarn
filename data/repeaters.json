@@ -1544,6 +1544,13 @@
         "linksToFreq": "146.805+",
         "linksToLoc": "Jasper",
         "linksToCall": "KC4AQS"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "allstar",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "W4PSZ"
       }
     ]
   },
