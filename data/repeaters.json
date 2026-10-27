@@ -464,7 +464,7 @@
     "tags": [
       "SE Linked Repeater"
     ],
-    "description": "Full-time link to Clermont/Wauka Mountain 145.310- (KA3JIJ). Together these repeaters provide thorough coverage of northeast Georgia. Covers Banks and Jackson counties with partial coverage of Madison, Clarke, and Barrow counties. Generator backup. AllStar connected. 30-mile radius.",
+    "description": "Full-time link to Clermont/Wauka Mountain 145.310- (KA3JIJ). Together these repeaters provide thorough coverage of northeast Georgia. Covers Banks and Jackson counties with partial coverage of Madison, Clarke, and Barrow counties. Generator backup. AllStar node 61727 joins the WX4PTC system on demand, and Clermont comes along over the full-time link. 30-mile radius.",
     "callsign": "KF4DGN",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=23184",
     "linked": true,
@@ -497,6 +497,13 @@
         "linksToFreq": "146.805+",
         "linksToLoc": "Jasper",
         "linksToCall": "KC4AQS"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "allstar",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "W4PSZ"
       }
     ]
   },
@@ -509,7 +516,7 @@
     "frequency": "145.390-",
     "tone": "110.9 Hz",
     "tags": [],
-    "description": "Links to 444.600+ WX4PTC hub on demand. Covers Pike, Lamar, Monroe, and surrounding central Georgia counties. AllStar node 46796.",
+    "description": "Links to the WX4PTC system on demand, over AllStar through the Woodbury hub node (473360, KN4FE 146.985-) or by radio to 444.600+. Covers Pike, Lamar, Monroe, and surrounding central Georgia counties. AllStar node 46796.",
     "callsign": "WB4GWA",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=137",
     "linked": true,
@@ -529,6 +536,13 @@
       }
     ],
     "repeaterLinks": [
+      {
+        "linkType": "full-time",
+        "linkMethod": "allstar",
+        "linksToFreq": "146.985-",
+        "linksToLoc": "Warm Springs",
+        "linksToCall": "KN4FE"
+      },
       {
         "linkType": "on-demand",
         "linkMethod": "rf",
@@ -1987,7 +2001,7 @@
     "frequency": "146.985-",
     "tone": "110.9 Hz",
     "tags": [],
-    "description": "Full-time link to Woodbury 443.800+ (WB4GWA). AllStar node 473360 permanently connected. Covers Meriwether County and Warm Springs/FDR area southwest of Atlanta.",
+    "description": "Full-time link to Woodbury 443.800+ (WB4GWA). AllStar node 473360 is the Woodbury hub node, permanently connected to the Concord 145.390- and Woodbury 443.800+ repeaters. It is also the one node that joins that group to the WX4PTC system, on demand over AllStar. Covers Meriwether County and Warm Springs/FDR area southwest of Atlanta.",
     "callsign": "KN4FE",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=234",
     "linked": true,
@@ -2019,6 +2033,20 @@
         "linksToFreq": "443.800+",
         "linksToLoc": "Woodbury",
         "linksToCall": "WB4GWA"
+      },
+      {
+        "linkType": "full-time",
+        "linkMethod": "allstar",
+        "linksToFreq": "145.390-",
+        "linksToLoc": "Concord",
+        "linksToCall": "WB4GWA"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "allstar",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "W4PSZ"
       }
     ]
   },
@@ -2159,7 +2187,7 @@
     "frequency": "443.800+",
     "tone": "110.9 Hz",
     "tags": [],
-    "description": "Links to 444.600+ WX4PTC hub. AllStar node 48225 (links on demand). Full-time link to Warm Springs 146.985- (KN4FE). Covers Meriwether County west of metro Atlanta.",
+    "description": "Links to the WX4PTC system through the Woodbury hub node (AllStar 473360) or by radio to 444.600+. AllStar node 48225 (links on demand). Full-time link to Warm Springs 146.985- (KN4FE). Covers Meriwether County west of metro Atlanta.",
     "callsign": "WB4GWA",
     "refurl": "https://www.repeaterbook.com/repeaters/details.php?state_id=13&ID=18030",
     "linked": true,

@@ -2,6 +2,13 @@
 
 Moved out of `CLAUDE.md` on 2026-10-25 so it is not loaded into every session. Newest first. The public changelog is `data/changelog.json`.
 
+### 2026-10-26 — Woodbury hub, Commerce and Covington on AllStar (data only)
+
+- From Robert's email: Woodbury hub node 473360 (KN4FE 146.985-) is the one node that joins the Concord 145.390- (46796), Woodbury 443.800+ (48225) and KN4FE's 443.375 (473361) and 442.400 (473363) repeaters to us; connecting those separately would loop. Commerce: link 61727 only (full-time link to Clermont). Covington: 29795 (already listed).
+- `repeaters.json`: KN4FE-146.985 gains `allstar` repeaterLinks to Concord 145.390 (full-time) and W4PSZ (on-demand); WB4GWA-145.390 gains a full-time `allstar` link to 146.985; KF4DGN-146.850 gains an on-demand `allstar` link to W4PSZ. Descriptions updated. The RF links of Concord and Woodbury to 444.600 were left in place: not confirmed gone.
+- **Not added** (Jack, 2026-10-26): KN4FE 443.375 (473361) and 442.400 (473363). They need tone, county and a RepeaterBook URL first.
+- No JS change, so `APP_VERSION` stays. The transcriber's Links page lists 473360, 61727 and 29795 as linkable nodes.
+
 ### 2026-10-26 — `_headers`, and the site's own URLs lose `.html`
 
 - **Why `_headers`**: live, `css/`, `js/` and images came back with `Cache-Control: public, max-age=14400` (4 hours), a Cloudflare zone default (Pages itself sends `max-age=0, must-revalidate`; HTML and JSON were fine). `js/version.js` and `js/loader.js` are plain `<script src>` with no `?v=`, and `style.css` is first requested without one too, so after a deploy a browser could keep the old `version.js` for 4 hours, never see the new `APP_VERSION`, and so keep stale `?v=` URLs for everything else. That is what produced an unstyled 404 page on the live site right after #101. New `_headers`: `no-cache` on `/js/*`, `/css/*`, `/data/*` (a saved copy, but ask first; an unchanged file is a 304); `frame-ancestors 'none'` and `object-src 'none'` in a header CSP (the pages' `<meta>` CSPs can't carry `frame-ancestors`; both policies apply); `Permissions-Policy` for geolocation, microphone and camera; `X-Content-Type-Options` and `Referrer-Policy` (Cloudflare already sends the last two); and `X-Robots-Tag: noindex` on `*.pages.dev` and the per-branch preview hosts. Pages merges header values when rules overlap, so no two rules set the same header on one path. No HSTS (a Cloudflare dashboard setting, and it would apply to every subdomain).
