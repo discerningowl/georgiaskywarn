@@ -549,6 +549,13 @@
         "linksToFreq": "444.600+",
         "linksToLoc": "WX4PTC System",
         "linksToCall": "W4PSZ"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "allstar",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "W4PSZ"
       }
     ]
   },
@@ -2217,6 +2224,13 @@
       {
         "linkType": "on-demand",
         "linkMethod": "rf",
+        "linksToFreq": "444.600+",
+        "linksToLoc": "WX4PTC System",
+        "linksToCall": "W4PSZ"
+      },
+      {
+        "linkType": "on-demand",
+        "linkMethod": "allstar",
         "linksToFreq": "444.600+",
         "linksToLoc": "WX4PTC System",
         "linksToCall": "W4PSZ"
