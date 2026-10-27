@@ -3,6 +3,17 @@
     {
       "month": "October",
       "year": 2026,
+      "date": "2026-10-26",
+      "items": [
+        {
+          "title": "Woodbury, Commerce and Covington Join Over AllStar",
+          "description": "The Woodbury hub node (AllStar 473360, KN4FE 146.985-) now joins the WX4PTC system as the single link for the Concord 145.390- and Woodbury 443.800+ repeaters, which are already tied to it. Linking them separately would loop the audio. Commerce 146.850- joins through AllStar node 61727 and brings Clermont 145.310- with it over their full-time link. Covington 146.925- joins through node 29795. The repeater tables and network map show these as AllStar links."
+        }
+      ]
+    },
+    {
+      "month": "October",
+      "year": 2026,
       "date": "2026-10-07",
       "items": [
         {
