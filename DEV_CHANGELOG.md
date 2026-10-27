@@ -2,6 +2,10 @@
 
 Moved out of `CLAUDE.md` on 2026-10-25 so it is not loaded into every session. Newest first. The public changelog is `data/changelog.json`.
 
+### 2026-10-27 — AllStar access also shows as a hub link (data only)
+
+- Jack's rule: a repeater with an AllStar node can be reached from the internet (`userAccess`) and can also be linked on demand to the WX4PTC hub over AllStar, which belongs under Repeater Linking (`repeaterLinks`, `allstar`, on-demand, to W4PSZ 444.600+). Added that row to WB4GWA 145.390 and 443.800 (Commerce, Woodbury hub and Covington already had it). W4GTA 145.350 (node 46331) has AllStar access but no hub link in the data; left alone, not confirmed.
+
 ### 2026-10-26 — Woodbury hub, Commerce and Covington on AllStar (data only)
 
 - From Robert's email: Woodbury hub node 473360 (KN4FE 146.985-) is the one node that joins the Concord 145.390- (46796), Woodbury 443.800+ (48225) and KN4FE's 443.375 (473361) and 442.400 (473363) repeaters to us; connecting those separately would loop. Commerce: link 61727 only (full-time link to Clermont). Covington: 29795 (already listed).
