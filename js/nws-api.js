@@ -891,7 +891,7 @@
              role="button"
              tabindex="0"
              aria-label="Click for full alert details">
-          <div class="alert-header">${headline} – <strong>${type}</strong></div>
+          <div class="alert-header">${headline} <strong class="status-pill">${type}</strong></div>
           <div class="alert-description">${shortDesc}</div>
           <div class="alert-meta">
             <small><strong>Areas:</strong> ${areaDesc}<br><strong>Expires:</strong> ${formatRelativeExpiry(p.expires)}</small>
