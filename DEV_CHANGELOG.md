@@ -2,9 +2,9 @@
 
 Moved out of `CLAUDE.md` on 2026-10-25 so it is not loaded into every session. Newest first. The public changelog is `data/changelog.json`.
 
-### 2026-10-28 — Page width capped at 1440px (CSS only)
+### 2026-10-28 — Page width capped at 1600px (CSS only)
 
-- `--page-width: 1440px`, shared with the dashboard (it was 1600px there, uncapped here). `body` is now `max-width: calc(var(--page-width) + 2rem)` and centred, so header, page-nav, main and footer are one column and line up. Wide screens get more page colour either side; paragraphs no longer run 1000px+ per line.
+- `--page-width: 1600px` (tried 1440px first, Jack preferred 1600), shared with the dashboard (it was 1600px there, uncapped here). `body` is now `max-width: calc(var(--page-width) + 2rem)` and centred, so header, page-nav, main and footer are one column and line up. Wide screens get more page colour either side; paragraphs no longer run 1000px+ per line.
 - No JS change, so `APP_VERSION` stays.
 
 ### 2026-10-28 — Shared design pass with the dashboard (CSS only)
