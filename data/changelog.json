@@ -6,43 +6,20 @@
       "date": "2026-10-26",
       "items": [
         {
-          "title": "Woodbury, Commerce and Covington Join Over AllStar",
-          "description": "The Woodbury hub node (AllStar 473360, KN4FE 146.985-) now joins the WX4PTC system as the single link for the Concord 145.390- and Woodbury 443.800+ repeaters, which are already tied to it. Linking them separately would loop the audio. Commerce 146.850- joins through AllStar node 61727 and brings Clermont 145.310- with it over their full-time link. Covington 146.925- joins through node 29795. The repeater tables and network map show these as AllStar links."
-        }
-      ]
-    },
-    {
-      "month": "October",
-      "year": 2026,
-      "date": "2026-10-07",
-      "items": [
-        {
-          "title": "Repeater Locations Restructured",
-          "description": "Every repeater's location is now stored as a city, a county, and, where it helps, a separate landmark or community name, instead of a single line of text. The repeater tables, detail popups (which now show the county on its own line), network map, and radio-programming CSV exports all read from the new structure, and the repeater list is now in alphabetical order by city with the WX4PTC system repeaters first."
+          "title": "Repeater Directory",
+          "description": "Each location is now stored as a city, a county and, where it helps, a landmark name. County-only placeholders were replaced with real cities, and the list is alphabetical by city with the WX4PTC system repeaters first. The Concord repeater was corrected to Pike County. The Linked and Non-Linked tables now share the same column widths."
         },
         {
-          "title": "City, County, and Site Cleanup",
-          "description": "Replaced county-only placeholders such as \"Walton County\" and \"Butts County\" with the actual city each repeater is in. Landmark and community names (Biskey Mtn, Sawnee Mtn, Pine Mountain, Round Oak, Cedar Grove, and Sun City) now appear alongside their city, so the names you're used to seeing are still there. Also corrected the Concord repeater (145.390) to Pike County and listed Warm Springs as the city for the Pine Mountain repeater (145.190)."
+          "title": "Alerts",
+          "description": "The Warnings, Watches and Advisories counts are now buttons that hide or show each type. A note appears when a type is hidden, and the filter resets on every page load."
         },
         {
-          "title": "Repeater Table Column Alignment",
-          "description": "The Linked and Non-Linked repeater tables on the Repeaters page now share identical column widths, so Location, Frequency, County, Tags, Internet Links, and Radio Links line up the same way in both. Previously each table sized its columns to its own content, which made them look uneven and different from each other."
+          "title": "Look and Theme",
+          "description": "The site's colours now come from the logo: a deep navy header and logo blue for buttons and links. The theme button has Auto (the default, follows your device), Dark and Light, and your choice is remembered without a flash of the wrong theme."
         },
         {
-          "title": "Filter Alerts by Type",
-          "description": "On the dashboard, the Warnings, Watches, and Advisories counts above the Active Area Alerts list are now buttons. Tap one to hide or show that type, for example to see only Warnings during an event. The counts and the card's header color always reflect everything that's active for your selected counties, and a note appears whenever a type is hidden so you can't miss an alert by accident. The type filter resets every time the page loads. The blue group is now labeled \"Advisories\" instead of \"Alerts.\""
-        },
-        {
-          "title": "Updated Colors and Theme Setting",
-          "description": "The site's colors now come from the Georgia SKYWARN logo. The header is the logo's deep navy, so the logo sits cleanly on it, and buttons and links use the blue of its rings. Dark mode is now a deeper navy, and blue buttons and banners are easier to read in it. The theme button in the header now has three settings: Auto, the default, follows your device's light or dark setting; Dark and Light override it. Your choice is remembered (a choice you made before is kept) and is applied as each page loads, so pages no longer flash the other theme first."
-        },
-        {
-          "title": "Covington Repeater Links In Over AllStar",
-          "description": "The WA4ASI Covington repeater (146.925-) now joins the WX4PTC system over AllStar when needed, instead of by radio. Its owner lost the fire tower site that held the old radio link. Since repeaters can now link to each other over AllStar as well as by radio, the repeater tables' \"Radio Links\" column is now \"Repeater Links\" and \"Internet Links\" is now \"Internet Access\". In a repeater's details, the sections are \"Connect from the Internet\" (EchoLink, AllStar and other ways to get on that repeater) and \"Repeater Linking\", whose Method column shows radio, AllStar, or direct for two repeaters at the same site."
-        },
-        {
-          "title": "Repeater Changes Show Up Right Away",
-          "description": "When the repeater list changes, the Repeaters page now shows the update on your next visit. Before, your browser could keep showing the old list for a day or two."
+          "title": "Smaller Changes",
+          "description": "Changes to the repeater data now show up right away."
         }
       ]
     },
