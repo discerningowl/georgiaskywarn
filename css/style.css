@@ -181,6 +181,18 @@
   --radius-pill: 999px;    /* badges, status pills, round buttons */
   --card-gap: 12px;        /* between stacked cards */
   --page-width: 1600px;    /* the page column, shared with the dashboard (2026-10-28) */
+  /* Status pills (2026-10-28), the same values as the dashboard's --ok-*,
+     --pending-*, --error-*, --tag-free-*: one colour, one meaning in both apps. */
+  --pill-ok-bg:      light-dark(#d4edda, #173a24);
+  --pill-ok-fg:      light-dark(#155724, #a6dfb5);
+  --pill-pending-bg: light-dark(#fff3cd, #3a3010);
+  --pill-pending-fg: light-dark(#856404, #f0d27a);
+  --pill-danger-bg:  light-dark(#f8d7da, #3d1a1f);
+  --pill-danger-fg:  light-dark(#721c24, #f5b5bc);
+  --pill-info-bg:    light-dark(#dbe9fb, #1c3556);
+  --pill-info-fg:    light-dark(#0a4aa6, #a9c8f5);
+  --pill-neutral-bg: light-dark(#e6ebf0, #223246);
+  --pill-neutral-fg: light-dark(#3f5263, #b8c7d6);
   /* T1.1 (2026-05-16): property-specific transition alias — replaces the old
      `all 0.3s ease` token. Covers the common animatable properties without
      recomputing layout for unrelated changes (e.g. dark-mode toggle, font swaps).
@@ -2530,6 +2542,47 @@ a:hover, a:focus-visible {
   box-shadow: var(--shadow-md);
 }
 
+/* Status pill (2026-10-28), shared with the dashboard: tinted, fully round,
+   a dot and text in the darker shade of the same colour. */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  vertical-align: middle;
+  background: var(--pill-neutral-bg);
+  color: var(--pill-neutral-fg);
+}
+.status-pill::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.status-pill--ok      { background: var(--pill-ok-bg);      color: var(--pill-ok-fg); }
+.status-pill--pending { background: var(--pill-pending-bg); color: var(--pill-pending-fg); }
+.status-pill--danger  { background: var(--pill-danger-bg);  color: var(--pill-danger-fg); }
+.status-pill--info    { background: var(--pill-info-bg);    color: var(--pill-info-fg); }
+.alert-warning .alert-header .status-pill { background: var(--pill-danger-bg);  color: var(--pill-danger-fg); }
+.alert-watch   .alert-header .status-pill { background: var(--pill-pending-bg); color: var(--pill-pending-fg); }
+.alert-other   .alert-header .status-pill { background: var(--pill-info-bg);    color: var(--pill-info-fg); }
+.alert-header .status-pill { margin-left: 6px; }
+
+/* Field labels (2026-10-28), shared with the dashboard: the table-header
+   recipe, 11px bold uppercase, in front of a value. */
+.alert-meta strong {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
 .alert-more {
   margin-top: 0.75rem;
   font-size: 0.875rem;
@@ -2666,8 +2719,13 @@ a:hover, a:focus-visible {
   color: var(--text-primary);
   background: color-mix(in oklch, var(--accent-blue) 10%, var(--card-bg));
   border: 1px solid color-mix(in oklch, var(--accent-blue) 45%, var(--card-border));
-  border-radius: var(--radius-pill);
-  padding: 0.3rem 0.8rem;
+  /* The shared filter chip shape (2026-10-28): 8px corners, 36px tall, 14px
+     semibold, as the dashboard's report tabs. Pressed is a tint here (several
+     can be on at once); the dashboard's current tab is a solid fill. */
+  border-radius: var(--radius-control);
+  min-height: 36px;
+  padding: 6px 14px;
+  font-size: 14px;
   cursor: pointer;
   transition: var(--t-fast);
 }

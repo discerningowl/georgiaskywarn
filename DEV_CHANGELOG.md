@@ -2,6 +2,11 @@
 
 Moved out of `CLAUDE.md` on 2026-10-25 so it is not loaded into every session. Newest first. The public changelog is `data/changelog.json`.
 
+### 2026-10-28 — Shared Weather Reports elements (CSS, one JS template line)
+
+- With the dashboard (see `../DESIGN.md`): `.alert-type-toggle` is the shared filter chip (8px, 36px, 14px; pressed stays a tint). New `.status-pill` plus `--pill-*` tokens; alert items show the alert type as a coloured pill instead of "– Warning", coloured by the existing `.alert-warning/-watch/-other`. `.alert-meta strong` ("Areas", "Expires") use the 11px uppercase field-label recipe.
+- JS: one template line in `js/nws-api.js` (`<strong class="status-pill">`); `APP_VERSION` → `20261028a`.
+
 ### 2026-10-28 — Public changelog: October rewritten as one entry (data only)
 
 - `data/changelog.json`: the two October groups (10-07 and the 10-26 AllStar one) are now a single October 2026 entry with four bullets (Repeater Directory, Alerts, Look and Theme, Smaller Changes), in Jack's wording. The AllStar item is left out of the public list on purpose (Jack, 2026-10-28). The Recent Site Updates card now reaches one month further back.
