@@ -180,7 +180,7 @@
   --radius-control: 8px;   /* buttons, fields, nav links, the logo (2026-10-28, shared with the dashboard) */
   --radius-pill: 999px;    /* badges, status pills, round buttons */
   --card-gap: 12px;        /* between stacked cards */
-  --page-width: 1440px;    /* the page column, shared with the dashboard (2026-10-28) */
+  --page-width: 1600px;    /* the page column, shared with the dashboard (2026-10-28) */
   /* T1.1 (2026-05-16): property-specific transition alias — replaces the old
      `all 0.3s ease` token. Covers the common animatable properties without
      recomputing layout for unrelated changes (e.g. dark-mode toggle, font swaps).
