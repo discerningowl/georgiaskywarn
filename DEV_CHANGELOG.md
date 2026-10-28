@@ -2,6 +2,16 @@
 
 Moved out of `CLAUDE.md` on 2026-10-25 so it is not loaded into every session. Newest first. The public changelog is `data/changelog.json`.
 
+### 2026-10-28 — Shared design pass with the dashboard (CSS only)
+
+- Done with the transcriber's matching PR; the rules are in `../DESIGN.md` (not in git).
+- **Tables**: the header row is now a pale tint with navy text (`--table-head-bg/-fg/-line`, `#e3ebf4` / `#1f3753` dark), 13px bold uppercase, so it no longer clashes with the gradient card bar. The dashboard uses the same header.
+- **Cards**: stacked cards sit `--card-gap` (12px) apart via `.card + .card`. Colour-modified bars (red, blue, green, yellow) are untouched.
+- **Shared tokens**: `--radius-control` 8px, `--radius-pill` 999px, `--card-gap`, `--shadow-float` and `--shadow-pop` (skip link, Back to top and modal, tooltip, county drop-down shadows now use them). Matching `border-radius` literals swapped for tokens.
+- **Buttons**: `.btn` is 14px semibold, `8px 16px`, 36px tall (44px on phones); `.action-buttons .btn` lost its larger size.
+- **Accessibility**: `--text-muted` is `#a3b1c1` in dark (was 3.4:1). New text-only `--text-red/-indigo/-green/-orange/-yellow` tokens for the places the accents were used as text (the changelog month headings were 1.6 to 2.2:1 on white). Removed the late `max-width: 767px` rule that shrank the phone menu's links.
+- No JS change, so `APP_VERSION` stays.
+
 ### 2026-10-27 — AllStar access also shows as a hub link (data only)
 
 - Jack's rule: a repeater with an AllStar node can be reached from the internet (`userAccess`) and can also be linked on demand to the WX4PTC hub over AllStar, which belongs under Repeater Linking (`repeaterLinks`, `allstar`, on-demand, to W4PSZ 444.600+). Added that row to WB4GWA 145.390 and 443.800 (Commerce, Woodbury hub and Covington already had it). W4GTA 145.350 (node 46331) has AllStar access but no hub link in the data; left alone, not confirmed.
