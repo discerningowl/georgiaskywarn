@@ -558,7 +558,7 @@
       const nonLinked = allRepeaters.filter(r => r.linked === false && r.active !== false);
       nonLinkedContainer.innerHTML = nonLinked.length > 0
         ? nonLinked.map(r => renderRepeaterRow(r)).join('')
-        : '<tr><td colspan="6">No non-linked repeaters available.</td></tr>';
+        : '<tr><td colspan="6">No county-only repeaters available.</td></tr>';
     }
 
     // Set up modal click handlers for all repeater rows
