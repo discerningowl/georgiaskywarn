@@ -85,37 +85,52 @@
   }
 
   // ========================================================================
-  // PAGE LAST-UPDATED DATE (all pages except repeaters.html)
+  // PAGE LAST-UPDATED DATE (all pages)
   // ========================================================================
+  // Cloudflare Pages sends no Last-Modified header, so the dates come from
+  // data/page-dates.json, which the pre-commit hook keeps current (see
+  // scripts/update_page_dates.py). Keyed by file name: /about -> about.html.
+  let pageDatesPromise = null;
+  function loadPageDates() {
+    if (!pageDatesPromise) {
+      pageDatesPromise = fetch('/data/page-dates.json', { cache: 'no-cache' })
+        .then(response => {
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+          return response.json();
+        });
+    }
+    return pageDatesPromise;
+  }
+
+  /** "2026-11-01" -> "November 1st, 2026" */
+  function formatPageDate(isoDate) {
+    const [year, month, day] = isoDate.split('-').map(Number);
+    const date = new Date(year, month - 1, day);
+    const formatted = new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }).format(date);
+    const suffix = ['th', 'st', 'nd', 'rd'][
+      (day % 100 > 10 && day % 100 < 14) ? 0 : (day % 10 < 4) ? day % 10 : 0
+    ];
+    return formatted.replace(/\d+/, `${day}${suffix}`);
+  }
+
   async function updatePageLastUpdated() {
     const dateElement = document.getElementById('page-last-updated');
     if (!dateElement) return;
 
+    // No date is better than a vague or wrong one: hide the line if it fails.
+    const line = document.getElementById('page-last-updated-date');
     try {
-      const response = await fetch(window.location.pathname, { method: 'HEAD' });
-      const lastModified = response.headers.get('Last-Modified');
-
-      if (lastModified) {
-        const date = new Date(lastModified);
-        const formatter = new Intl.DateTimeFormat('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        });
-
-        let formattedDate = formatter.format(date);
-        const day = date.getDate();
-        const suffix = ['th', 'st', 'nd', 'rd'][
-          (day % 100 > 10 && day % 100 < 14) ? 0 : (day % 10 < 4) ? day % 10 : 0
-        ];
-        formattedDate = formattedDate.replace(/\d+/, `${day}${suffix}`);
-        dateElement.textContent = formattedDate;
-      } else {
-        dateElement.textContent = 'recently';
-      }
+      const dates = await loadPageDates();
+      const file = (window.location.pathname.replace(/^\//, '').replace(/\.html$/, '') || 'index') + '.html';
+      if (!dates[file]) throw new Error('no date for ' + file);
+      dateElement.textContent = formatPageDate(dates[file]);
     } catch (error) {
-      console.error('Error fetching page last-updated date:', error);
-      dateElement.textContent = 'recently';
+      console.error('Error loading page last-updated date:', error);
+      if (line) line.hidden = true;
     }
   }
 
@@ -242,59 +257,22 @@
   }
 
   /**
-   * Updates the repeater validation date display with last modified date of repeaters.json
+   * Updates the repeater validation date display from data/page-dates.json
+   * (the date data/repeaters.json last changed). Hidden if it can't be read,
+   * rather than guessing a date.
    */
   async function updateRepeaterValidationDate() {
     const dateElement = document.getElementById('repeater-last-updated');
     if (!dateElement) return;
 
     try {
-      const response = await fetch('data/repeaters.json', { cache: 'no-cache' });
-
-      // Get Last-Modified header from response
-      const lastModified = response.headers.get('Last-Modified');
-
-      if (lastModified) {
-        const date = new Date(lastModified);
-
-        // Format as "January 9th, 2026"
-        const formatter = new Intl.DateTimeFormat('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        });
-
-        let formattedDate = formatter.format(date);
-
-        // Add ordinal suffix (st, nd, rd, th)
-        const day = date.getDate();
-        const suffix = ['th', 'st', 'nd', 'rd'][
-          (day % 100 > 10 && day % 100 < 14) ? 0 : (day % 10 < 4) ? day % 10 : 0
-        ];
-
-        // Replace day number with day + suffix
-        formattedDate = formattedDate.replace(/\d+/, `${day}${suffix}`);
-
-        dateElement.textContent = formattedDate;
-      } else {
-        // Fallback: use current date if no Last-Modified header
-        const today = new Date();
-        const formatter = new Intl.DateTimeFormat('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        });
-        const day = today.getDate();
-        const suffix = ['th', 'st', 'nd', 'rd'][
-          (day % 100 > 10 && day % 100 < 14) ? 0 : (day % 10 < 4) ? day % 10 : 0
-        ];
-        let formattedDate = formatter.format(today);
-        formattedDate = formattedDate.replace(/\d+/, `${day}${suffix}`);
-        dateElement.textContent = formattedDate;
-      }
+      const dates = await loadPageDates();
+      if (!dates['data/repeaters.json']) throw new Error('no date for data/repeaters.json');
+      dateElement.textContent = formatPageDate(dates['data/repeaters.json']);
     } catch (error) {
-      console.error('Error fetching repeater validation date:', error);
-      dateElement.textContent = 'recently';
+      console.error('Error loading repeater validation date:', error);
+      const heading = document.getElementById('repeater-validation-date');
+      if (heading) heading.hidden = true;
     }
   }
 
