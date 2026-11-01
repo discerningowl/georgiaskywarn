@@ -1,0 +1,5 @@
+#!/bin/sh
+# Record today's date for each page staged in this commit (data/page-dates.json),
+# and stage that file with it. Turn on with: git config core.hooksPath .githooks
+python3 scripts/update_page_dates.py || exit 1
+git add data/page-dates.json

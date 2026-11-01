@@ -18,3 +18,4 @@ config.local.json
 # (except serve.py: the local server the docs tell everyone to use)
 scripts/*
 !scripts/serve.py
+!scripts/update_page_dates.py
