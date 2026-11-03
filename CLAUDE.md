@@ -4,9 +4,7 @@
 
 The **Georgia SKYWARN** website (`georgiaskywarn.com`) is a static HTML/CSS website that provides resources for amateur radio weather spotters in North and Central Georgia. The site facilitates severe weather reporting through the Georgia SKYWARN linked repeater system and coordinates with the National Weather Service (NWS) office in Peachtree City, Georgia (call sign: WX4PTC).
 
-**Author**: Jack Parks (KQ4JP) <kq4jp@pm.me>
 **Primary Purpose**: SKYWARN volunteer coordination, weather alert distribution, and amateur radio repeater network information
-**Tech Stack**: HTML5, CSS3, Vanilla JavaScript, NWS Weather API
 **Design Philosophy**: Mobile-first, accessible, responsive, minimal dependencies
 
 ---
@@ -159,28 +157,7 @@ Page nav (`.page-nav`) is written directly in each page's HTML (not injected); i
 
 ## JavaScript Patterns
 
-### Common Patterns Used
-
-1. **IIFE (Immediately Invoked Function Expression)**:
-   ```javascript
-   (function () {
-     // Code here doesn't pollute global scope
-   })();
-   ```
-
-2. **Async/Await for API Calls**:
-   ```javascript
-   (async () => {
-     const data = await fetchAlerts();
-     render(data);
-   })();
-   ```
-
-3. **localStorage Caching**:
-   ```javascript
-   const CACHE_KEY = 'ffc-all-watches-warnings';
-   const CACHE_TTL = 60 * 1000; // alerts: 1 minute (HWO: 2 minutes), in core.js
-   ```
+Alerts are cached in `localStorage` under `ffc-all-watches-warnings` (TTL in `core.js`).
 
 ### NWS Weather API Integration
 
@@ -309,60 +286,7 @@ Alerts are filtered to `senderName` containing "NWS Peachtree City"; alerts refr
 
 **Repeater data** (`data/repeaters.json` schema, field order, validation tiers, RepeaterBook checks): see `REPEATER_DATA.md`. Read it before adding, editing or validating a repeater.
 
-### Updating NWS Contact Information
-
-**File**: `about.html`
-
-1. Search for `<section id="contactcard">`
-2. Update email addresses or names
-3. Use HTML entities for spam protection:
-   - Replace `@` with `&#64;`
-   - Replace `.` with `&#46;`
-4. Verify with NWS Atlanta website
-5. Test mailto links
-
-**For detailed non-technical instructions**, see [ADMIN_GUIDE.md](ADMIN_GUIDE.md) Task 2.
-
-### Adding a New Page
-
-1. Copy an existing page structure (e.g., `about.html`) — keep it in the **root directory**
-2. Update the `<title>` tag, and the `canonical`, `og:url` and JSON-LD URLs (no `.html`: `https://georgiaskywarn.com/newpage`). Add a `<loc>` for it to `sitemap.xml`
-3. Add the new page to **both nav lists** in `js/components.js` `loadHeader()`:
-   ```html
-   <!-- Add to BOTH #desktopNav and #mobileNav blocks -->
-   <a href="/newpage">New Page</a>
-   ```
-4. If the page has multiple sections, add a `.page-nav` directly in the HTML (below the component-injected header):
-   ```html
-   <nav class="page-nav" aria-label="Page navigation">
-     <button class="page-nav-toggle" aria-expanded="false">☰ PAGE</button>
-     <ul id="page-nav-list" class="nav-list">
-       <li><a href="#section1">Section 1</a></li>
-       <li><a href="#section2">Section 2</a></li>
-     </ul>
-   </nav>
-   ```
-5. Ensure `<div id="footer-placeholder"></div>` is present at the bottom of `<main>` for the footer
-6. Test footer loading and navigation on both desktop and mobile
-
-### Adding a Changelog Year
-
-`changelog.html` groups history into one `.card` per year, rendered by `js/changelog.js` into static container `<div>`s. The page-nav and containers are **static HTML, not JS-generated** — `scripts.js` wires up the sticky page-nav (mobile toggle + scroll-spy highlighting) before `changelog.js` runs, so the target elements must already exist in the DOM when `scripts.js` initializes. When the first entry of a new year is added to `data/changelog.json`:
-
-1. Open `changelog.html`
-2. Add a new `<li>` to `#page-nav-list`, newest year first:
-   ```html
-   <li><a href="#y2027">2027</a></li>
-   ```
-3. Add a matching empty container div above the existing ones, newest year first:
-   ```html
-   <div id="changelogHistory">
-     <div id="y2027"></div>
-     <div id="y2026"></div>
-     <div id="y2025"></div>
-   </div>
-   ```
-4. No JS changes needed — `renderFullHistory()` in `js/changelog.js` groups `data/changelog.json` entries by `year` and looks up `#y{year}` automatically; it logs a console warning if a year's container is missing.
+Recipes for updating NWS contact information, adding a page, and adding a changelog year: see `SITE_TASKS.md`. Read it before doing any of those.
 
 ---
 
@@ -388,16 +312,6 @@ Patterns are checked in order RED → YELLOW → GREEN → default GREEN, agains
 
 ## AI Assistant Quick Reference
 
-### Before Making Changes
-
-1. **READ THE DIRECTORY STRUCTURE REQUIREMENTS** (the Directory Structure Requirements section near the top)
-2. Read this entire CLAUDE.md file
-3. Verify you will NOT move, rename, or reorganize any files or directories
-4. Understand the mobile-first CSS approach
-5. Review existing code patterns (IIFE, BEM, semantic HTML)
-6. Test in multiple viewports (mobile, tablet, desktop)
-7. Verify light and dark modes
-
 ### After Completing Session Work
 
 When a user indicates the session is ending (e.g., "this session is over", "wrap up", "finalize documentation"), always:
@@ -418,11 +332,7 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 
 ### Common Pitfalls to Avoid
 
-- ❌ **MOST IMPORTANT**: Don't move HTML files out of root
-- ❌ Don't move `css/style.css` back to root or rename the `css/` directory
-- ❌ Don't move assets out of `assets/` back to root
 - ❌ Don't create extra top-level directories beyond `css/`, `js/`, `data/`, `assets/`
-- ❌ Don't remove the `/wx4ptc/` rules from `_redirects`
 - ❌ Don't add external libraries (jQuery, Bootstrap, etc.)
 - ❌ Don't create new CSS files (use `style.css`); new JS files are fine but must be registered in `js/loader.js`
 - ❌ Don't hardcode colors (use CSS custom properties)
@@ -433,12 +343,3 @@ When a user indicates the session is ending (e.g., "this session is over", "wrap
 - ❌ Don't write site navigation HTML manually — it's injected by `components.js`
 - ❌ Don't forget to update BOTH `#desktopNav` and `#mobileNav` in `components.js` when adding a page
 - ❌ Don't add `.nav-btn-alert` or `.nav-btn-link` classes to site nav links — those classes no longer exist
-
-### When in Doubt
-
-1. Follow existing patterns in the codebase
-2. Maintain consistency with surrounding code
-3. Prioritize accessibility and mobile-first design
-4. Test thoroughly before committing
-5. Ask for clarification if requirements are unclear
-
