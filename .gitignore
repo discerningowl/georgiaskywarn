@@ -15,7 +15,10 @@ config.local.json
 .claude/
 
 # Local-only tooling — never upload
-# (except serve.py: the local server the docs tell everyone to use)
+# (except serve.py: the local server the docs tell everyone to use,
+# update_page_dates.py for the pre-commit hook, and test_activation.js,
+# the spotter-activation check; all three hold nothing private)
 scripts/*
 !scripts/serve.py
 !scripts/update_page_dates.py
+!scripts/test_activation.js

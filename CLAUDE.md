@@ -306,7 +306,7 @@ The developer changelog is in `DEV_CHANGELOG.md` (not loaded automatically; read
 
 ## Spotter-activation detection (`js/nws-api.js`)
 
-Patterns are checked in order RED → YELLOW → GREEN → default GREEN, against the `.SPOTTER INFORMATION STATEMENT...` section of the HWO. Every RED and YELLOW pattern carries a negative lookahead `(?!NOT\s+)`, so "will NOT be needed" never reads as RED or YELLOW. No activation language defaults to GREEN. When you change a pattern, re-check that "MAY BE NEEDED" matches only YELLOW, "IS REQUESTED" only RED, and "will not be needed through tonight" is GREEN (it once read RED).
+Patterns are checked in order RED → YELLOW → GREEN → default GREEN, against the `.SPOTTER INFORMATION STATEMENT...` section of the HWO. Every RED and YELLOW pattern stays inside one sentence (`[^.]*`, never `.*`) and keeps its negation check right next to the word it negates; a broad `.*` once ran past the "not" (2026-11-06). No activation language defaults to GREEN. **After any pattern change, run `node scripts/test_activation.js`** (FFC's real sentences plus the known traps); add new FFC wording to it.
 
 ---
 
