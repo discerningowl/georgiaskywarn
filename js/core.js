@@ -66,32 +66,41 @@
 
   // SKYWARN activation detection patterns (three-level urgency system)
   // Based on actual NWS Hazardous Weather Outlook language patterns
-  // NOTE: Patterns use negative lookahead to exclude "NOT" (e.g., "will NOT be needed")
   const ACTIVATION_PATTERNS = {
+    // Each pattern stays inside one sentence ([^.]*, never .*): a broad .*
+    // once ran past the "not" to the next sentence, so "may NOT be needed",
+    // "Do not activate spotters" and "not expected. Storms are possible" read
+    // as activation (2026-11-06 review). Negations sit right next to the word
+    // they negate, as a lookahead after it or a lookbehind before it.
+    // scripts/test_activation.js runs every sentence below; run it after any
+    // change (node scripts/test_activation.js).
+
     // RED - Activation requested or definitely needed (highest urgency)
-    // Explicitly exclude "NOT" using negative lookahead in the right position
     RED: [
       /SPOTTER\s+ACTIVATION\s+IS\s+(?!NOT\s+)REQUESTED/i,
       /SKYWARN\s+(?:SPOTTER\s+)?ACTIVATION\s+IS\s+(?!NOT\s+)REQUESTED/i,
       /SPOTTER\s+ACTIVATION\s+WILL\s+(?!NOT\s+)(?:LIKELY\s+)?BE\s+NEEDED/i,
       /SKYWARN\s+(?:SPOTTER\s+)?ACTIVATION\s+WILL\s+(?!NOT\s+)(?:LIKELY\s+)?BE\s+NEEDED/i,
-      /(?!.*\bNOT\b.*ACTIVATE)ACTIVATE.*(?:SKYWARN|SPOTTER)/i,
-      /(?:SKYWARN|SPOTTER).*ACTIVATION\s+(?:IS\s+|WILL\s+(?:LIKELY\s+)?BE\s+)?(?!NOT\s+)(?:REQUESTED|NEEDED)/i
+      // "activate SKYWARN spotters", but not "do not / don't / no need to activate"
+      /(?<!\b(?:NOT|DON'T|NO\s+NEED\s+TO)\s+)\bACTIVATE\s+(?:THE\s+)?(?:SKYWARN|SPOTTER)/i,
+      /(?:SKYWARN|SPOTTER)[^.]*\bACTIVATION\s+(?:IS\s+|WILL\s+(?:LIKELY\s+)?BE\s+)?(?:REQUESTED|NEEDED)\b/i
     ],
 
     // YELLOW - Monitor conditions, activation may be needed (medium urgency)
-    // Also exclude "NOT" to prevent false positives (e.g., "may NOT be needed")
     YELLOW: [
-      /SPOTTER\s+ACTIVATION\s+MAY\s+(?!NOT\s+)BE\s+NEEDED/i,
-      /SKYWARN\s+(?:SPOTTER\s+)?ACTIVATION\s+MAY\s+(?!NOT\s+)BE\s+NEEDED/i,
-      /(?:SPOTTER|SKYWARN).*(?:REPORTS?\s+)?(?!NOT\s+)(?:ENCOURAGED|POSSIBLE)/i,
-      /(?:SPOTTER|SKYWARN).*ACTIVATION.*(?!NOT\s+)(?:POSSIBLE|MAY)/i
+      /SPOTTER\s+ACTIVATION\s+MAY\s+(?!NOT\s+)BE\s+(?:NEEDED|REQUESTED)/i,
+      /SKYWARN\s+(?:SPOTTER\s+)?ACTIVATION\s+MAY\s+(?!NOT\s+)BE\s+(?:NEEDED|REQUESTED)/i,
+      // "spotters are encouraged to report", not "spotters are not encouraged"
+      /(?:SPOTTER|SKYWARN)[^.]*?(?<!\bNOT\s+)\bENCOURAGED\b/i,
+      // "spotter activation is possible", not a stray "possible" later on
+      /(?:SPOTTER|SKYWARN)\s+ACTIVATION\s+(?:IS\s+|WILL\s+BE\s+|MAY\s+BE\s+|REMAINS\s+)?POSSIBLE/i,
+      /POSSIBLE\s+(?:SKYWARN\s+)?SPOTTER\s+ACTIVATION/i
     ],
 
     // GREEN - Stand down, activation not needed (low urgency)
     GREEN: [
-      /SPOTTER\s+ACTIVATION\s+(?:IS\s+)?NOT\s+(?:EXPECTED|NEEDED|ANTICIPATED)/i,
-      /SKYWARN\s+(?:SPOTTER\s+)?ACTIVATION\s+(?:IS\s+)?NOT\s+(?:EXPECTED|NEEDED|ANTICIPATED)/i,
+      /SPOTTER\s+ACTIVATION\s+(?:IS\s+)?NOT\s+(?:EXPECTED|NEEDED|ANTICIPATED|REQUESTED)/i,
+      /SKYWARN\s+(?:SPOTTER\s+)?ACTIVATION\s+(?:IS\s+)?NOT\s+(?:EXPECTED|NEEDED|ANTICIPATED|REQUESTED)/i,
       /SPOTTER\s+ACTIVATION\s+WILL\s+NOT\s+BE\s+NEEDED/i,
       /SKYWARN\s+(?:SPOTTER\s+)?ACTIVATION\s+WILL\s+NOT\s+BE\s+NEEDED/i,
       /NO\s+(?:SPOTTER\s+)?ACTION\s+NEEDED/i

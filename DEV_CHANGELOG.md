@@ -2,6 +2,19 @@
 
 Moved out of `CLAUDE.md` on 2026-10-25 so it is not loaded into every session. Newest first. The public changelog is `data/changelog.json`.
 
+### 2026-11-06 — Code review fixes: activation wording, county filter, radio CSVs
+
+From an outside code review of `main` (`4aa780e`); every finding was confirmed before fixing.
+
+- **Spotter activation** (`js/core.js` `ACTIVATION_PATTERNS`): two broad RED and two broad YELLOW patterns used `.*`, which ran past the "not", so "may not be needed" and "spotters are not encouraged" read YELLOW, "Do not activate SKYWARN spotters" read RED, and "not expected. Severe thunderstorms are possible." read YELLOW on the next sentence's "possible". Broad patterns now stay inside one sentence (`[^.]*`), and each negation sits right next to its word (a lookbehind for "not/don't/no need to activate", "not encouraged"). "Possible" counts only as "activation (is) possible" or "possible spotter activation". GREEN gains "not requested" (FFC's own sentence, which was green only by default). YELLOW's "may be needed" also takes "may be requested".
+- **New `scripts/test_activation.js`** (`node scripts/test_activation.js`): runs the real `parseSpotterActivation()` (now on `window.NWSAPI`) from `core.js` + `nws-api.js` in a stub page, over FFC's three current sentences, the callouts that must stay red/yellow, and the stand-downs above. The old patterns fail six of its cases. Run it after any pattern change; add any new FFC wording to it.
+- **County filter no longer saved** (`js/nws-api.js`): with a county restored from an earlier visit and no alert in it, the alerts card went green ("No active alerts for the selected counties") while a warning was up elsewhere in the area. It now starts empty on every load, like the Warnings/Watches/Advisories toggles (2026-10-12); the old `county-filter` key is removed on load.
+- **Split-zone names** (`areaNameToCounty()`): the `areaDesc` fallback compared exact county names, so "North Fulton", "Coastal Chatham" or "Western Charlton" never matched. It now drops a leading direction/Inland/Coastal word (the 18 Georgia split zones in `api.weather.gov/zones`). No miss today: those zones already match by code.
+- **Radio CSVs** (`js/scripts.js`): both exports programmed tone squelch (CHIRP `TSQL`, RT Systems `T Sql`), which mutes the radio on a repeater that doesn't send the tone back. They now only send the tone (CHIRP `Tone`, RT Systems `Tone`), since the data has one tone, the one the repeater needs. A DCS tone ("D411 DCS") is exported as DCS 411 (CHIRP `DTCS`), not 411 Hz. A repeater with no usable tone is left out (console warning) instead of getting a guessed 88.5. Every field is CSV-quoted when needed, so a comment with two tags ("WX4PTC System, SE Linked Repeater") stays one column.
+- **Export notes** (`repeaters.html`): the CHIRP note said the CSV lists every repeater, linked and county-only, and the RT Systems note said "All Georgia SKYWARN repeaters"; both exports have only ever held the linked, active ones. Both notes now say so and mention the Tone setting; the two buttons' `aria-label`s say "linked" as their visible text already did.
+- **Alert card starts navy** (`index.html`): its header was `card-header--red` in the HTML, so it showed red (warning) if `nws-api.js` never ran.
+- `APP_VERSION` → `20261106`.
+
 ### 2026-10-28 — Shared Weather Reports elements (CSS, one JS template line)
 
 - With the dashboard (see `../DESIGN.md`): `.alert-type-toggle` is the shared filter chip (8px, 36px, 14px; pressed stays a tint). New `.status-pill` plus `--pill-*` tokens; alert items show the alert type as a coloured pill instead of "– Warning", coloured by the existing `.alert-warning/-watch/-other`. `.alert-meta strong` ("Areas", "Expires") use the 11px uppercase field-label recipe.

@@ -837,14 +837,44 @@
   }
 
   /**
-   * Parses tone string to extract numeric value
-   * @param {string} toneStr - Tone string like "77.0 Hz" or null
-   * @returns {string} - Numeric tone value or default "88.5"
+   * Reads a repeater's access tone. The JSON has one field, the tone the
+   * repeater needs to hear, so the radio files only ENCODE it (CHIRP "Tone",
+   * RT Systems "Tone"): tone squelch would mute the radio on a repeater that
+   * doesn't send the tone back (2026-11-06 review).
+   * @param {string} toneStr - "77.0 Hz", "D411 DCS", or null
+   * @returns {{kind: 'ctcss', freq: string}|{kind: 'dcs', code: string}|null}
+   *   null when there is no usable tone; the caller leaves that repeater out
+   *   rather than guess one.
    */
-  function parseTone(toneStr) {
-    if (!toneStr) return '88.5';
-    const match = toneStr.match(/[\d.]+/);
-    return match ? match[0] : '88.5';
+  function parseToneSetting(toneStr) {
+    if (!toneStr) return null;
+    const dcs = toneStr.match(/^\s*D?(\d{3})\s*DCS\b/i) || toneStr.match(/^\s*D(\d{3})\b/i);
+    if (dcs) return { kind: 'dcs', code: dcs[1] };
+    const hz = toneStr.match(/^\s*(\d{2,3}\.\d)\s*(?:Hz)?\s*$/i);
+    return hz ? { kind: 'ctcss', freq: hz[1] } : null;
+  }
+
+  /**
+   * One CSV field: quoted when it holds a comma, quote or newline, so a
+   * comment like "Atlanta - WX4PTC System, SE Linked Repeater" stays one column.
+   */
+  function csvField(value) {
+    const s = value == null ? '' : String(value);
+    return /[",\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  }
+
+  /**
+   * The linked, active repeaters a radio file can program, in file order.
+   * Ones without a usable tone are left out and logged.
+   */
+  function exportableRepeaters(allRepeaters) {
+    return allRepeaters
+      .filter(r => r.linked === true && r.active !== false)
+      .filter(r => {
+        if (parseToneSetting(r.tone)) return true;
+        console.warn(`[CSV] Left out ${r.callsign} ${r.frequency}: no usable tone (${r.tone})`);
+        return false;
+      });
   }
 
   /**
@@ -855,7 +885,8 @@
    */
   function repeaterToChirpRow(repeater, index) {
     const freq = parseFrequency(repeater.frequency);
-    const tone = parseTone(repeater.tone);
+    const tone = parseToneSetting(repeater.tone);
+    const dcs = tone.kind === 'dcs';
 
     // Generate name (callsign + location, max ~20 chars for radio compatibility)
     // Callsign first so truncation keeps callsign visible
@@ -881,12 +912,12 @@
       freq.frequency,           // Frequency
       freq.duplex,              // Duplex
       freq.offset,              // Offset
-      'TSQL',                   // Tone (Tone Squelch)
-      tone,                     // rToneFreq (transmit tone)
-      tone,                     // cToneFreq (receive tone)
-      '023',                    // DtcsCode
+      dcs ? 'DTCS' : 'Tone',    // Tone: encode only (see parseToneSetting)
+      dcs ? '88.5' : tone.freq, // rToneFreq (transmit tone)
+      dcs ? '88.5' : tone.freq, // cToneFreq (unused in Tone mode)
+      dcs ? tone.code : '023',  // DtcsCode
       'NN',                     // DtcsPolarity
-      '023',                    // RxDtcsCode
+      dcs ? tone.code : '023',  // RxDtcsCode
       'Tone->Tone',             // CrossMode
       'FM',                     // Mode
       '5.00',                   // TStep
@@ -897,7 +928,7 @@
       '',                       // RPT1CALL
       '',                       // RPT2CALL
       ''                        // DVCODE
-    ].join(',');
+    ].map(csvField).join(',');
   }
 
   /**
@@ -907,7 +938,7 @@
     try {
       // Fetch all repeaters and filter for active linked repeaters only
       const allRepeaters = await fetchRepeaterData();
-      const linkedRepeaters = allRepeaters.filter(r => r.linked === true && r.active !== false);
+      const linkedRepeaters = exportableRepeaters(allRepeaters);
 
       if (linkedRepeaters.length === 0) {
         alert('No linked repeaters found to export.');
@@ -1040,7 +1071,8 @@
    */
   function repeaterToRTSystemsRow(repeater, channelNum, bankChNum) {
     const freqs = calculateTxRxFrequencies(repeater.frequency);
-    const tone = parseTone(repeater.tone);
+    const tone = parseToneSetting(repeater.tone);
+    const dcs = tone.kind === 'dcs';
     const baseFreq = parseFloat(freqs.rxFreq);
 
     // Generate name (callsign + location, max 16 chars for most radios)
@@ -1075,10 +1107,10 @@
       freqs.offsetDir,                    // Offset Direction
       getOperatingMode(baseFreq),         // Operating Mode
       name,                               // Name
-      'T Sql',                            // Tone Mode (Tone Squelch)
-      `${tone} Hz`,                       // CTCSS (transmit tone with Hz)
-      `${tone} Hz`,                       // Rx CTCSS (receive tone with Hz)
-      '023',                              // DCS
+      dcs ? 'DCS' : 'Tone',               // Tone Mode: encode only (see parseToneSetting)
+      dcs ? '88.5 Hz' : `${tone.freq} Hz`, // CTCSS (transmit tone)
+      dcs ? '88.5 Hz' : `${tone.freq} Hz`, // Rx CTCSS (unused in Tone mode)
+      dcs ? tone.code : '023',            // DCS
       'Both N',                           // DCS Polarity
       'Off',                              // Skip
       getStepSize(baseFreq),              // Step
@@ -1088,7 +1120,7 @@
       '',                                 // Rpt-1 CallSign
       '',                                 // Rpt-2 CallSign
       comment                             // Comment
-    ].join(',');
+    ].map(csvField).join(',');
   }
 
   /**
@@ -1098,7 +1130,7 @@
     try {
       // Fetch all repeaters and filter for active linked repeaters only
       const allRepeaters = await fetchRepeaterData();
-      const linkedRepeaters = allRepeaters.filter(r => r.linked === true && r.active !== false);
+      const linkedRepeaters = exportableRepeaters(allRepeaters);
 
       if (linkedRepeaters.length === 0) {
         alert('No linked repeaters found to export.');

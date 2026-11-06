@@ -163,8 +163,9 @@
     { key: 'advisory', countKey: 'advisories', colorClass: 'legend-blue',   singular: 'Advisory', plural: 'Advisories' }
   ];
   // Types currently shown. All on by default. Intentionally NOT persisted to
-  // localStorage (unlike the county filter): it resets on every page load so a
-  // forgotten filter can never hide a Warning from a spotter mid-event.
+  // localStorage (nor is the county filter, since 2026-11-06): it resets on
+  // every page load so a forgotten filter can never hide a Warning from a
+  // spotter mid-event.
   const activeTypeFilter = new Set(ALERT_TYPES.map(t => t.key));
 
   // NOTE: data/ffc-counties.json (and the other 5 CWA county files) are keyed
@@ -767,6 +768,17 @@
   }
 
   /**
+   * One areaDesc entry as a lowercase county name. Split zones carry a
+   * direction or Inland/Coastal in front of the county (all 18 Georgia ones,
+   * checked against api.weather.gov/zones 2026-11-06); a county name itself
+   * never starts with one of these words.
+   */
+  const ZONE_PREFIX = /^(?:north|south|east|west|northern|southern|eastern|western|northeastern|northwestern|southeastern|southwestern|central|inland|coastal)\s+/;
+  function areaNameToCounty(name) {
+    return name.trim().toLowerCase().replace(ZONE_PREFIX, '');
+  }
+
+  /**
    * Render all alerts for dashboard
    * Filters to show only NWS Peachtree City (FFC) alerts
    * Handles both "NWS Peachtree City" and "NWS Peachtree City GA" sender names
@@ -803,7 +815,9 @@
     //      because forecasters write it directly into the product. Kept as a
     //      final fallback for the handful of counties where a GAZ code isn't
     //      yet on file (data/*-counties.json ships an empty `gaz` array for
-    //      those rather than a guessed value).
+    //      those rather than a guessed value). Zone products name split
+    //      zones ("North Fulton", "Coastal Chatham", "Western Charlton"), so
+    //      areaNameToCounty() drops that leading part before comparing.
     const activeSameCodes = activeCountyFilter.size > 0
       ? new Set([...activeCountyFilter].map(code => ffcCountyData[code]?.same).filter(Boolean))
       : null;
@@ -823,7 +837,7 @@
           const sameMatch = (geocode.SAME || []).some(code => activeSameCodes.has(code));
           const areaMatch = (p.areaDesc || '')
             .split(';')
-            .map(name => name.trim().toLowerCase())
+            .map(name => areaNameToCounty(name))
             .some(name => activeCountyNames.has(name));
           return ugcMatch || gazMatch || sameMatch || areaMatch;
         })
@@ -1216,7 +1230,6 @@
     input.setSelectionRange(len, len);
     validateAndFilter(input.value);
     updateClearButton(input.value);
-    localStorage.setItem('county-filter', input.value);
   }
 
   /**
@@ -1375,20 +1388,18 @@
       document.body.appendChild(list);
     }
 
-    // Restore persisted filter
-    const saved = localStorage.getItem('county-filter');
-    if (saved) {
-      input.value = saved;
-      updateClearButton(saved);
-      validateAndFilter(saved);
-    }
+    // Not restored (2026-11-06): like the type toggles, the county filter
+    // starts empty on every page load. A county saved from an earlier net
+    // turned the card green ("No active alerts for the selected counties")
+    // while a warning was up elsewhere in the area. Drop any value older
+    // versions saved.
+    try { localStorage.removeItem('county-filter'); } catch (e) { /* storage blocked */ }
 
     input.addEventListener('input', () => {
       const val = input.value;
       updateClearButton(val);
       showAutocomplete(val);
       validateAndFilter(val);
-      localStorage.setItem('county-filter', val);
     });
 
     input.addEventListener('keydown', e => {
@@ -1514,6 +1525,7 @@
     // API Functions
     fetchAlerts,
     fetchHazardousOutlook,
+    parseSpotterActivation,   // also run by scripts/test_activation.js
 
     // Dashboard Functions
     initDashboard,
